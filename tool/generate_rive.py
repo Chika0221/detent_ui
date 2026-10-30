@@ -1,4 +1,4 @@
-"""Author Detent's native Rive mechanisms; Flutter retains text and input.
+"""Author processing-only Rive displays; interactive controls use Flutter motion.
 Build: python3 tool/generate_rive.py && rive rive/detent --verify
 """
 import json
@@ -9,7 +9,7 @@ from xml.etree.ElementTree import Element, SubElement, indent, tostring
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / 'rive/detent'
 OUT.mkdir(parents=True, exist_ok=True)
-(OUT / 'rive.yaml').write_text('name: detent\nmain: Button\noutput:\n  dir: ../../assets/rive\n')
+(OUT / 'rive.yaml').write_text('name: detent\nmain: Progress\noutput:\n  dir: ../../assets/rive\n')
 TOKENS = json.loads((ROOT / 'design_tokens.resolved.json').read_text())
 def color(role):
     return 'FF' + ''.join(f'{round(x*255):02X}' for x in TOKENS['semantic.light.color.'+role]['$value']['components'])
@@ -120,97 +120,11 @@ class Board:
             el(vi,'ViewModelInstance'+typ,viewModelPropertyId=pid,propertyValue=value)
         MANIFEST[-1]['animations']=self.animations
 
-for name,width,height in [('Button',144,42),('FlatButton',144,42),('IconButton',40,42),('ToggleButton',48,42),('Keycap',40,34)]:
-    b=Board(name,width,height)
-    face,path=b.shape('Operation face',0,0,width,height-2)
-    path.set('originX','0');path.set('originY','0')
-    b.bind(path,20,'width');b.bind(path,21,'height',b.mapper(-2,998,0,1000))
-    b.toggle('Press','pressed',[(face,'y',0,2)],60)
-    if name!='FlatButton':
-        outline,outlinepath=b.shape('Control outline',0,0,width,height-2,'borderColor',stroke=1)
-        outlinepath.set('originX','0');outlinepath.set('originY','0')
-        b.bind(outlinepath,20,'width');b.bind(outlinepath,21,'height',b.mapper(-2,998,0,1000))
-        b.node.remove(outline);b.node.insert(1,outline)
-        b.toggle('Outline press','pressed',[(outline,'y',0,2)],60)
-    # A restrained edge glow, rather than a scale that moves neighbouring controls.
-    edge,edgepath=b.shape('Hover edge',0,0,width,height-2,'accentColor',stroke=1)
-    edgepath.set('originX','0');edgepath.set('originY','0');b.bind(edgepath,20,'width');b.bind(edgepath,21,'height',b.mapper(-2,998,0,1000))
-    # Earlier shapes draw on top; insert edge before the face.
-    b.node.remove(edge);b.node.insert(1,edge)
-    b.toggle('Hover','hovered',[(edge,'opacity',0,.5)],90)
-    b.toggle('Edge press','pressed',[(edge,'y',0,2)],60)
-    if name!='FlatButton':
-        base,basepath=b.shape('Physical base',0,2,width,height-2,'borderColor')
-        basepath.set('originX','0');basepath.set('originY','0');b.bind(basepath,20,'width');b.bind(basepath,21,'height',b.mapper(-2,998,0,1000))
-    b.finish()
-
-for name in ['Checkbox','RadioGroup','Switch']:
-    b=Board(name,48 if name=='Switch' else 24,28 if name=='Switch' else 24)
-    if name=='Switch':
-        thumb,_=b.shape('Sliding thumb',13,14,20,20,'inkColor',ellipse=True)
-        b.toggle('Selection','selected',[(thumb,'x',13,35)],160)
-        b.toggle('Press feedback','pressed',[(thumb,'scaleX',1,.9),(thumb,'scaleY',1,.9)],60)
-        b.shape('Track outline',24,14,48,26,'borderColor',radius=13,stroke=1)
-        b.shape('Track',24,14,48,26,'surfaceColor',radius=13)
-    elif name=='Checkbox':
-        check,_=b.line('Check',[(6,12),(10,16),(18,8)],'inverseColor',2)
-        mixed,_=b.line('Mixed',[(6,12),(18,12)],'inverseColor',2)
-        fill,_=b.shape('Selected face',12,12,20,20,'inkColor',radius=3)
-        b.toggle('Selection','selected',[(check,'opacity',0,1),(check,'scaleX',.7,1),(check,'scaleY',.7,1),(fill,'opacity',0,1)],120)
-        # selectionState 2 is explicitly mixed, independent of checked.
-        off,on=uid(),uid();b.timeline(off,'Mixed hidden',[(mixed,'opacity',[(0,0)])]);b.timeline(on,'Mixed visible',[(mixed,'opacity',[(0,1)]),(check,'opacity',[(0,0)])])
-        b.layer('Mixed state',[(off,'selectionState',0),(off,'selectionState',1),(on,'selectionState',2)],120)
-        b.shape('Control outline',12,12,20,20,'borderColor',radius=4,stroke=1)
-    else:
-        dot,_=b.shape('Selected dot',12,12,10,10,'inkColor',ellipse=True)
-        b.toggle('Selection','selected',[(dot,'opacity',0,1),(dot,'scaleX',.6,1),(dot,'scaleY',.6,1)],160)
-        b.shape('Control outline',12,12,20,20,'borderColor',ellipse=True,stroke=1)
-    b.finish()
-
-for name in ['SegmentedControl','Tabs']:
-    b=Board(name,288,50)
-    carriage=b.group('Travelling selection',48,25)
-    b.bind(carriage,13,'position',b.smooth(.22));b.bind(carriage,14,'centerY')
-    for label,y,role,stroke in [('Selection face',0,'accentColor',None),('Selection outline',0,'borderColor',1),('Selection base',2,'borderColor',None)]:
-        selection,path=b.shape(label,0,y,88,40,role,stroke=stroke,parent=carriage)
-        b.bind(path,20,'segmentWidth');b.bind(path,21,'height',b.mapper(-10,990,0,1000))
-        if name=='Tabs':path.set('height','2')
-    b.finish()
-
-b=Board('TabIndicator',120,2)
-underline,_=b.shape('Selection underline',60,1,120,2,'accentColor',radius=0)
-b.toggle('Selection','selected',[(underline,'scaleX',0,1),(underline,'opacity',0,1)],160)
-b.finish()
-
-for name in ['Slider','RangeSlider']:
-    b=Board(name,240,64)
-    for i,prop in enumerate(['position','secondaryPosition'] if name=='RangeSlider' else ['position']):
-        thumb,path=b.shape('Thumb'+str(i),24,32,18,24,'surfaceColor',radius=4)
-        b.bind(thumb,13,prop);b.bind(thumb,14,'centerY')
-        border,_=b.shape('Thumb outline'+str(i),24,32,18,24,'borderColor',radius=4,stroke=1)
-        b.bind(border,13,prop);b.bind(border,14,'centerY')
-        b.toggle('Thumb press'+str(i),'pressed',[(thumb,'scaleY',1,.9),(border,'scaleY',1,.9)],60)
-    active,path=b.shape('Active track',24,32,130,5,'inkColor',radius=2);path.set('originX','0')
-    b.bind(active,13,'activeStart');b.bind(active,14,'centerY');b.bind(path,20,'activeWidth')
-    track,path=b.shape('Track',24,32,192,5,'lineColor',radius=2);path.set('originX','0');b.bind(path,20,'trackWidth');b.bind(track,14,'centerY')
-    for j in range(21):
-        tick,_=b.shape('Tick'+str(j),24+j*192/20,52,1,8 if j%5==0 else 4,'borderColor',radius=0)
-        b.bind(tick,13,'width',b.mapper(24-48*j/20,24-48*j/20+1000*j/20,0,1000))
-        b.bind(tick,14,'centerY',b.mapper(20,1020,0,1000))
-    b.finish()
-
-b=Board('RotaryKnob',96,96)
-marker,_=b.shape('Value pointer',48,48,5,5,'inkColor',ellipse=True)
-marker.find('Ellipse').set('y','-30');b.bind(marker,15,'value',b.mapper(-math.pi*.75,math.pi*.75))
-b.toggle('Grab','pressed',[(marker,'scaleX',1,1.2),(marker,'scaleY',1,1.2)],60)
-for j in range(31):
-    a=math.pi*.75+j/30*math.pi*1.5
-    b.shape('Tick'+str(j),48+math.cos(a)*44,48+math.sin(a)*44,1,2,'borderColor',radius=0)
-b.shape('Inner ring',48,48,60,60,'borderColor',ellipse=True,stroke=1)
-b.shape('Face',48,48,72,72,'surfaceColor',ellipse=True)
-b.shape('Base',48,50,76,76,'borderColor',ellipse=True);b.finish()
-
 b=Board('Progress',240,4)
+shine,path=b.shape('Measured activity',0,2,160,4,'inverseColor',radius=1);path.set('originX','0');b.bind(path,20,'extent')
+a,busy=uid(),uid();b.timeline(a,'Measured still',[(shine,'opacity',[(0,0)])])
+b.timeline(busy,'Measured pulse',[(shine,'opacity',[(0,0),(60,.16),(120,0)])],120,True)
+b.layer('Measured activity',[(a,'taskState',0),(busy,'taskState',1)],0)
 fill,path=b.shape('Measured progress',0,2,160,4,'inkColor',radius=1);path.set('originX','0');b.bind(path,20,'extent')
 band,_=b.shape('Indeterminate band',-64,2,64,4,'inkColor',radius=1)
 rest,run=uid(),uid();b.timeline(rest,'Measured',[(fill,'opacity',[(0,1)]),(band,'opacity',[(0,0)])])
@@ -228,16 +142,24 @@ for name in ['CircularProgress','Spinner']:
     b.layer('Activity',[(rest,'indeterminate',False),(run,'indeterminate',True)],0);b.finish()
 
 b=Board('Meter',240,40)
+shine,path=b.shape('Live sheen',0,20,160,32,'inverseColor',radius=0);path.set('originX','0');b.bind(path,20,'extent')
+a,busy=uid(),uid();b.timeline(a,'Meter still',[(shine,'opacity',[(0,0)])])
+b.timeline(busy,'Meter live',[(shine,'opacity',[(0,0),(48,.14),(96,0)])],96,True)
+b.layer('Live signal',[(a,'indeterminate',False),(busy,'indeterminate',True)],0)
 for j in range(32):
     segment,_=b.shape('Segment'+str(j),(j+.5)*240/32,20,240/32-2,32,'accentColor',radius=0)
     b.bind(segment,18,'progress',b.mapper(.16,1,j/32,(j+1)/32))
 b.finish()
 
 b=Board('TaskStatus',56,28)
+dots=[]
 for j in range(32):
-    dot,_=b.shape('Dot'+str(j),3.5+(j%8)*7,3.5+(j//8)*7,3,3,'accentColor',ellipse=True)
-    b.bind(dot,18,'progress',b.mapper(.18,1,j/32,(j+1)/32))
-b.finish()
+    mask=b.group('Measured dot mask'+str(j));b.bind(mask,18,'progress',b.mapper(.18,1,j/32,(j+1)/32))
+    dot,_=b.shape('Dot'+str(j),3.5+(j%8)*7,3.5+(j//8)*7,3,3,'accentColor',ellipse=True,parent=mask)
+    dots.append(dot)
+a,busy=uid(),uid();b.timeline(a,'Task still',[(dot,'opacity',[(0,1)]) for dot in dots])
+b.timeline(busy,'Task wave',[(dot,'opacity',[(0,.35),(j%8*6,.35),(j%8*6+18,1),(j%8*6+36,.35),(96,.35)]) for j,dot in enumerate(dots)],96,True)
+b.layer('Processing only',[(a,'indeterminate',False),(busy,'indeterminate',True)],0);b.finish()
 
 b=Board('TaskGlyph',32,32)
 idle,_=b.shape('Idle',16,16,10,10,'borderColor',ellipse=True,stroke=2)
@@ -260,12 +182,6 @@ for state,label in enumerate(['Idle','Running','Success','Error','Canceled','Can
     b.timeline(aid,label,keys,72 if state in [1,5] else 12,state in [1,5]);states.append((aid,'taskState',state))
 b.layer('Task lifecycle',states,80);b.finish()
 
-b=Board('Chevron',24,24)
-chevron,_=b.line('Chevron path',[(-3,-6),(3,0),(-3,6)],'inkColor',1.5)
-chevron.set('x','12');chevron.set('y','12')
-b.toggle('Expand','selected',[(chevron,'rotation',0,math.pi/2)],120)
-b.finish()
-
 b=Board('Skeleton',240,12)
 band,_=b.shape('Loading sweep',-60,6,60,12,'surfaceColor',radius=2)
 rest,run=uid(),uid();b.timeline(rest,'Static',[(band,'opacity',[(0,0)])])
@@ -273,45 +189,6 @@ b.timeline(run,'Loading',[(band,'opacity',[(0,.35)]),(band,'x',[(0,-60),(90,300)
 b.layer('Loading policy',[(rest,'indeterminate',False),(run,'indeterminate',True)],0)
 b.shape('Placeholder',120,6,240,12,'borderColor',radius=2);b.finish()
 
-b=Board('EmptyState',48,48)
-lid,_=b.line('Tray rim',[(8,25),(17,25),(20,30),(28,30),(31,25),(40,25)],'inkColor',2)
-b.line('Tray base',[(8,25),(8,38),(40,38),(40,25)],'inkColor',2)
-b.line('Tray sides',[(8,25),(13,12),(35,12),(40,25)],'borderColor',2)
-aid=uid();b.timeline(aid,'Arrive',[(lid,'y',[(0,-4),(13,0)]),(lid,'opacity',[(0,.2),(13,1)])],13)
-b.layer('First appearance',[(aid,None,None)]);b.finish()
-
-# Numeric glyphs are separate artboards, so variable text is never a fixed 68%.
-GLYPHS={
-'0':['01110','10001','10011','10101','11001','10001','01110'],
-'1':['00100','01100','00100','00100','00100','00100','01110'],
-'2':['01110','10001','00001','00010','00100','01000','11111'],
-'3':['11110','00001','00001','01110','00001','00001','11110'],
-'4':['00010','00110','01010','10010','11111','00010','00010'],
-'5':['11111','10000','10000','11110','00001','00001','11110'],
-'6':['01110','10000','10000','11110','10001','10001','01110'],
-'7':['11111','00001','00010','00100','01000','01000','01000'],
-'8':['01110','10001','10001','01110','10001','10001','01110'],
-'9':['01110','10001','10001','01111','00001','00001','01110'],
-'Percent':['11001','11010','00010','00100','01000','01011','10011'],
-'Dot':['00000','00000','00000','00000','00000','00110','00110'],
-'Colon':['00000','00100','00100','00000','00100','00100','00000'],
-'Minus':['00000','00000','00000','11111','00000','00000','00000'],
-'Space':['00000']*7}
-for name,grid in GLYPHS.items():
-    b=Board('Digit'+name,28.8,33.6)
-    node=b.group('Glyph')
-    for y,row in enumerate(grid):
-        for x,filled in enumerate(row):
-            if filled=='1':b.shape(f'Dot{x}_{y}',(x+.5)*4.8,(y+.5)*4.8,3,3,'inkColor',ellipse=True,parent=node)
-    aid=uid();b.timeline(aid,'Reveal',[(node,'opacity',[(0,.15),(10,1)])],10);b.layer('Arrival',[(aid,None,None)])
-    b.finish()
-
-# Retain the original preview artboard name, with a truthful manifest note.
-b=Board('DotMatrix',28.8,33.6)
-for y,row in enumerate(GLYPHS['8']):
-    for x,filled in enumerate(row):
-        if filled=='1':b.shape(f'Dot{x}_{y}',(x+.5)*4.8,(y+.5)*4.8,3,3,'inkColor',ellipse=True)
-b.finish();MANIFEST[-1]['usage']='Standalone numeral preview; NuiDotMatrix composes Digit* artboards.'
 indent(ROOT_XML,space='  ')
 (OUT/'scene.rml').write_text(tostring(ROOT_XML,encoding='unicode')+'\n')
 (ROOT/'assets/rive/manifest.json').write_text(json.dumps({'version':2,'cli':'1.8.0','scripts':False,

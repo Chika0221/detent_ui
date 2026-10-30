@@ -5,8 +5,6 @@ import 'package:forui_lucide/forui_lucide.dart';
 
 import '../controls/controls.dart';
 import '../inputs/inputs.dart';
-import '../rive/artwork.dart';
-import '../rive/skin.dart';
 
 @immutable
 class NuiTab<T> {
@@ -151,14 +149,14 @@ class _NuiAnimatedTab extends StatelessWidget {
         right: 12,
         bottom: 7,
         height: 3,
-        child: NuiRiveArtwork(
-          artboard: 'TabIndicator',
-          stretch: true,
-          state: NuiSkinState(selected: selected),
-          fallback: ColoredBox(
+        child: AnimatedContainer(
+          duration: NuiTheme.of(context).duration(context, 160),
+          curve: const Cubic(.2, 0, .2, 1),
+          decoration: BoxDecoration(
             color: selected
                 ? NuiTheme.of(context).accent
                 : NuiColors.transparent,
+            borderRadius: BorderRadius.circular(1),
           ),
         ),
       ),
