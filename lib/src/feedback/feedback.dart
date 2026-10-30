@@ -98,14 +98,20 @@ class NuiProgress extends StatelessWidget {
     if (t.reduceMotion(context) && v == null) {
       return Semantics(
         liveRegion: true,
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const Icon(FLucideIcons.loader, size: 16),
-            const SizedBox(width: 8),
-            Text(label),
-          ],
-        ),
+        label: variant == NuiProgressVariant.circular ? label : null,
+        child: variant == NuiProgressVariant.circular
+            ? SizedBox.square(
+                dimension: 28,
+                child: Icon(FLucideIcons.loader, size: 16, color: color),
+              )
+            : Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(FLucideIcons.loader, size: 16, color: color),
+                  const SizedBox(width: 8),
+                  Text(label),
+                ],
+              ),
       );
     }
     final fallback = variant == NuiProgressVariant.linear

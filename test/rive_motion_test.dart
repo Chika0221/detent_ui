@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'dart:async';
+import 'dart:ui' as ui;
 
 import 'package:flutter/widgets.dart';
 import 'package:flutter/rendering.dart';
@@ -329,34 +330,40 @@ void main() {
         await File('assets/rive/detent.riv').readAsBytes(),
         riveFactory: rive.Factory.flutter,
       );
-      for (final entry in {
-        'TaskStatus': 'Dot0',
-        'Meter': 'Live sheen',
-        'Progress': 'Measured activity',
-      }.entries) {
+      for (final name in ['TaskStatus', 'Meter', 'Progress']) {
         final c = rive.RiveWidgetController(
           file!,
-          artboardSelector: rive.ArtboardSelector.byName(entry.key),
+          artboardSelector: rive.ArtboardSelector.byName(name),
         );
+        Future<List<int>> pixels() async {
+          final recorder = ui.PictureRecorder();
+          c.artboard.draw(rive.Renderer.make(ui.Canvas(recorder)));
+          final picture = recorder.endRecording();
+          final image = await picture.toImage(240, 40);
+          final bytes = await image.toByteData();
+          final result = bytes!.buffer.asUint8List().toList();
+          image.dispose();
+          picture.dispose();
+          return result;
+        }
+
         final vm = c.dataBind(rive.DataBind.auto());
         vm.number('progress')!.value = .68;
         vm.boolean('indeterminate')!.value = true;
         vm.number('taskState')!.value = 1;
         c.advance(0);
         c.advance(.05);
-        final node = c.artboard.component(entry.value)!;
-        final first = node.opacity;
+        final first = await pixels();
         c.advance(.4);
-        expect(node.opacity, isNot(closeTo(first, .001)), reason: entry.key);
+        expect(await pixels(), isNot(equals(first)), reason: name);
         expect(vm.number('progress')!.value, closeTo(.68, .001));
         vm.boolean('indeterminate')!.value = false;
         vm.number('taskState')!.value = 0;
         c.advance(0);
         c.advance(1);
-        final stopped = node.opacity;
+        final stopped = await pixels();
         c.advance(.4);
-        expect(node.opacity, closeTo(stopped, .001));
-        node.dispose();
+        expect(await pixels(), equals(stopped), reason: '$name stopped');
         c.dispose();
         vm.dispose();
       }

@@ -113,7 +113,7 @@ void main() {
       );
       for (
         var i = 0;
-        i < 40 && find.byType(rive.RiveWidget).evaluate().length < 1;
+        i < 40 && find.byType(rive.RiveWidget).evaluate().isEmpty;
         i++
       ) {
         await t.runAsync(

@@ -86,7 +86,7 @@ class _DetentGalleryState extends State<DetentGallery> {
           children: [
             Text('48 components'),
             Spacer(),
-            Text('Detent Design System / 0.7'),
+            Text('Detent Design System / 0.8'),
           ],
         ),
       ),
@@ -787,12 +787,12 @@ class _GalleryBodyState extends State<GalleryBody> {
             ),
             const SizedBox(height: 32),
             NuiPanel(
-              header: const Text('Rive / 操作と状態の連動'),
+              header: const Text('操作と処理表示'),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const Text(
-                    'ボタンを長押し・TabでフォーカスしてSpace・スイッチの切り替え・ノブのドラッグを試せます。RiveをオフにするとFlutter描画と比較できます。',
+                    'ボタン・スイッチ・ノブなどの操作はFlutterのアニメーションです。Riveは進捗・メーター・読み込み・タスク状態に使用し、上部のRive切替で表示を比較できます。',
                   ),
                   const SizedBox(height: 16),
                   NuiTaskStatus(
@@ -846,11 +846,13 @@ class _GalleryBodyState extends State<GalleryBody> {
               runSpacing: 16,
               children: [
                 for (final artboard in [
-                  'Button',
-                  'Switch',
-                  'RotaryKnob',
                   'Progress',
+                  'CircularProgress',
+                  'Spinner',
                   'Meter',
+                  'TaskStatus',
+                  'TaskGlyph',
+                  'Skeleton',
                 ])
                   SizedBox(
                     width: 240,
@@ -861,9 +863,9 @@ class _GalleryBodyState extends State<GalleryBody> {
                         child: NuiRiveArtwork(
                           artboard: artboard,
                           state: NuiSkinState(
-                            selected: toggle,
-                            value: value / 100,
                             progress: value / 100,
+                            indeterminate: true,
+                            taskState: 1,
                           ),
                           fallback: Text('$artboard / static'),
                         ),

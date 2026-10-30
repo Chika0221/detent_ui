@@ -83,6 +83,30 @@ void main() {
       );
       await t.pump(const Duration(seconds: 1));
       expect(t.takeException(), isNull, reason: 'width=$width');
+      // Interactive components must not allocate Rive graphics, even with
+      // Rive enabled for processing feedback elsewhere in this gallery.
+      for (final type in [
+        NuiIconButton,
+        NuiToggleButton,
+        NuiKeycap,
+        NuiCheckbox,
+        NuiSwitch,
+        NuiSlider,
+        NuiRangeSlider,
+        NuiRotaryKnob,
+        NuiSegmentedControl<int>,
+        NuiRadioGroup<int>,
+        NuiTabs<String>,
+        NuiTreeView<String>,
+      ]) {
+        final control = find.byType(type);
+        expect(control, findsWidgets, reason: '$type is covered');
+        expect(
+          find.descendant(of: control, matching: find.byType(NuiRiveArtwork)),
+          findsNothing,
+          reason: '$type uses Flutter motion',
+        );
+      }
       if (width == 1440) {
         Future<void> capture(String name) async {
           await t.runAsync(

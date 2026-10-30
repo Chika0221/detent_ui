@@ -193,4 +193,4 @@ indent(ROOT_XML,space='  ')
 (OUT/'scene.rml').write_text(tostring(ROOT_XML,encoding='unicode')+'\n')
 (ROOT/'assets/rive/manifest.json').write_text(json.dumps({'version':2,'cli':'1.8.0','scripts':False,
     'license':'Project-owned geometric artwork','skins':MANIFEST},indent=2)+'\n')
-print(f'Generated {len(MANIFEST)} artboards with state-driven mechanisms and numeric glyphs.')
+print(f'Generated {len(MANIFEST)} processing feedback artboards; controls use Flutter motion.')
