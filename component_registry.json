@@ -1,6 +1,6 @@
 {
   "version": "0.4",
-  "scope": "Design artifacts; no runtime widgets or Rive assets implemented",
+  "scope": "48 Flutter widgets; design remains v0.4; 16 local Rive artboards; OS verification pending",
   "reviewSets": [
     {
       "id": "C01",
@@ -8,10 +8,12 @@
       "nodeId": "n00219",
       "kind": "state_review_set",
       "designStatus": "draft_visual_checked",
-      "implementationStatus": "not_started",
+      "implementationStatus": "implemented_initial",
       "widget": "NuiButton",
       "priority": "P0",
-      "rive": "A"
+      "rive": "A",
+      "implementationSource": "lib/src/controls/controls.dart",
+      "verificationStatus": "automated_tests_and_gallery; OS verification pending"
     },
     {
       "id": "C02",
@@ -19,10 +21,12 @@
       "nodeId": "n00247",
       "kind": "state_review_set",
       "designStatus": "draft_visual_checked",
-      "implementationStatus": "not_started",
+      "implementationStatus": "implemented_initial",
       "widget": "NuiIconButton",
       "priority": "P0",
-      "rive": "A"
+      "rive": "A",
+      "implementationSource": "lib/src/controls/controls.dart",
+      "verificationStatus": "automated_tests_and_gallery; OS verification pending"
     },
     {
       "id": "C03",
@@ -30,10 +34,12 @@
       "nodeId": "n00262",
       "kind": "state_review_set",
       "designStatus": "draft_visual_checked",
-      "implementationStatus": "not_started",
+      "implementationStatus": "implemented_initial",
       "widget": "NuiToggleButton",
       "priority": "P0",
-      "rive": "A"
+      "rive": "A",
+      "implementationSource": "lib/src/controls/controls.dart",
+      "verificationStatus": "automated_tests_and_gallery; OS verification pending"
     },
     {
       "id": "C04",
@@ -41,10 +47,12 @@
       "nodeId": "n00273",
       "kind": "state_review_set",
       "designStatus": "draft_visual_checked",
-      "implementationStatus": "not_started",
+      "implementationStatus": "implemented_initial",
       "widget": "NuiKeycap",
       "priority": "P1",
-      "rive": "A"
+      "rive": "A",
+      "implementationSource": "lib/src/controls/controls.dart",
+      "verificationStatus": "automated_tests_and_gallery; OS verification pending"
     },
     {
       "id": "C05",
@@ -52,10 +60,12 @@
       "nodeId": "n00288",
       "kind": "state_review_set",
       "designStatus": "draft_visual_checked",
-      "implementationStatus": "not_started",
+      "implementationStatus": "implemented_initial",
       "widget": "NuiSegmentedControl",
       "priority": "P0",
-      "rive": "A"
+      "rive": "A",
+      "implementationSource": "lib/src/controls/controls.dart",
+      "verificationStatus": "automated_tests_and_gallery; OS verification pending"
     },
     {
       "id": "C06",
@@ -63,10 +73,12 @@
       "nodeId": "n00298",
       "kind": "state_review_set",
       "designStatus": "draft_visual_checked",
-      "implementationStatus": "not_started",
+      "implementationStatus": "implemented_initial",
       "widget": "NuiCheckbox",
       "priority": "P0",
-      "rive": "A"
+      "rive": "A",
+      "implementationSource": "lib/src/controls/controls.dart",
+      "verificationStatus": "automated_tests_and_gallery; OS verification pending"
     },
     {
       "id": "C07",
@@ -74,10 +86,12 @@
       "nodeId": "n00306",
       "kind": "state_review_set",
       "designStatus": "draft_visual_checked",
-      "implementationStatus": "not_started",
+      "implementationStatus": "implemented_initial",
       "widget": "NuiRadioGroup",
       "priority": "P0",
-      "rive": "A"
+      "rive": "A",
+      "implementationSource": "lib/src/controls/controls.dart",
+      "verificationStatus": "automated_tests_and_gallery; OS verification pending"
     },
     {
       "id": "C08",
@@ -85,10 +99,12 @@
       "nodeId": "n00313",
       "kind": "state_review_set",
       "designStatus": "draft_visual_checked",
-      "implementationStatus": "not_started",
+      "implementationStatus": "implemented_initial",
       "widget": "NuiSwitch",
       "priority": "P0",
-      "rive": "A"
+      "rive": "A",
+      "implementationSource": "lib/src/controls/controls.dart",
+      "verificationStatus": "automated_tests_and_gallery; OS verification pending"
     },
     {
       "id": "C09",
@@ -96,10 +112,12 @@
       "nodeId": "n00321",
       "kind": "state_review_set",
       "designStatus": "draft_visual_checked",
-      "implementationStatus": "not_started",
+      "implementationStatus": "implemented_initial",
       "widget": "NuiSlider",
       "priority": "P0",
-      "rive": "A"
+      "rive": "A",
+      "implementationSource": "lib/src/controls/controls.dart",
+      "verificationStatus": "automated_tests_and_gallery; OS verification pending"
     },
     {
       "id": "C10",
@@ -107,10 +125,12 @@
       "nodeId": "n00350",
       "kind": "state_review_set",
       "designStatus": "draft_visual_checked",
-      "implementationStatus": "not_started",
+      "implementationStatus": "implemented_initial",
       "widget": "NuiRangeSlider",
       "priority": "P2",
-      "rive": "A"
+      "rive": "A",
+      "implementationSource": "lib/src/controls/controls.dart",
+      "verificationStatus": "automated_tests_and_gallery; OS verification pending"
     },
     {
       "id": "C11",
@@ -118,10 +138,12 @@
       "nodeId": "n00379",
       "kind": "state_review_set",
       "designStatus": "draft_visual_checked",
-      "implementationStatus": "not_started",
+      "implementationStatus": "implemented_initial",
       "widget": "NuiRotaryKnob",
       "priority": "P1",
-      "rive": "A"
+      "rive": "A",
+      "implementationSource": "lib/src/controls/controls.dart",
+      "verificationStatus": "automated_tests_and_gallery; OS verification pending"
     },
     {
       "id": "C12",
@@ -129,10 +151,12 @@
       "nodeId": "n00412",
       "kind": "state_review_set",
       "designStatus": "draft_visual_checked",
-      "implementationStatus": "not_started",
+      "implementationStatus": "implemented_initial",
       "widget": "NuiNumberStepper",
       "priority": "P0",
-      "rive": "F"
+      "rive": "F",
+      "implementationSource": "lib/src/inputs/inputs.dart",
+      "verificationStatus": "automated_tests_and_gallery; OS verification pending"
     },
     {
       "id": "C13",
@@ -140,10 +164,12 @@
       "nodeId": "n00434",
       "kind": "state_review_set",
       "designStatus": "draft_visual_checked",
-      "implementationStatus": "not_started",
+      "implementationStatus": "implemented_initial",
       "widget": "NuiTextField",
       "priority": "P0",
-      "rive": "F"
+      "rive": "F",
+      "implementationSource": "lib/src/inputs/inputs.dart",
+      "verificationStatus": "automated_tests_and_gallery; OS verification pending"
     },
     {
       "id": "C14",
@@ -151,10 +177,12 @@
       "nodeId": "n00440",
       "kind": "state_review_set",
       "designStatus": "draft_visual_checked",
-      "implementationStatus": "not_started",
+      "implementationStatus": "implemented_initial",
       "widget": "NuiTextArea",
       "priority": "P0",
-      "rive": "F"
+      "rive": "F",
+      "implementationSource": "lib/src/inputs/inputs.dart",
+      "verificationStatus": "automated_tests_and_gallery; OS verification pending"
     },
     {
       "id": "C15",
@@ -162,10 +190,12 @@
       "nodeId": "n00445",
       "kind": "state_review_set",
       "designStatus": "draft_visual_checked",
-      "implementationStatus": "not_started",
+      "implementationStatus": "implemented_initial",
       "widget": "NuiSearchField",
       "priority": "P0",
-      "rive": "F"
+      "rive": "F",
+      "implementationSource": "lib/src/inputs/inputs.dart",
+      "verificationStatus": "automated_tests_and_gallery; OS verification pending"
     },
     {
       "id": "C16",
@@ -173,10 +203,12 @@
       "nodeId": "n00451",
       "kind": "state_review_set",
       "designStatus": "draft_visual_checked",
-      "implementationStatus": "not_started",
+      "implementationStatus": "implemented_initial",
       "widget": "NuiSelect",
       "priority": "P0",
-      "rive": "F"
+      "rive": "F",
+      "implementationSource": "lib/src/inputs/inputs.dart",
+      "verificationStatus": "automated_tests_and_gallery; OS verification pending"
     },
     {
       "id": "C17",
@@ -184,10 +216,12 @@
       "nodeId": "n00457",
       "kind": "state_review_set",
       "designStatus": "draft_visual_checked",
-      "implementationStatus": "not_started",
+      "implementationStatus": "implemented_initial",
       "widget": "NuiComboBox",
       "priority": "P1",
-      "rive": "F"
+      "rive": "F",
+      "implementationSource": "lib/src/inputs/inputs.dart",
+      "verificationStatus": "automated_tests_and_gallery; OS verification pending"
     },
     {
       "id": "C18",
@@ -195,10 +229,12 @@
       "nodeId": "n00466",
       "kind": "state_review_set",
       "designStatus": "draft_visual_checked",
-      "implementationStatus": "not_started",
+      "implementationStatus": "implemented_initial",
       "widget": "NuiShortcutRecorder",
       "priority": "P1",
-      "rive": "F"
+      "rive": "F",
+      "implementationSource": "lib/src/inputs/inputs.dart",
+      "verificationStatus": "automated_tests_and_gallery; OS verification pending"
     },
     {
       "id": "C19",
@@ -206,10 +242,12 @@
       "nodeId": "n00474",
       "kind": "state_review_set",
       "designStatus": "draft_visual_checked",
-      "implementationStatus": "not_started",
+      "implementationStatus": "implemented_initial",
       "widget": "NuiFormField",
       "priority": "P0",
-      "rive": "F"
+      "rive": "F",
+      "implementationSource": "lib/src/inputs/inputs.dart",
+      "verificationStatus": "automated_tests_and_gallery; OS verification pending"
     },
     {
       "id": "C20",
@@ -217,10 +255,12 @@
       "nodeId": "n00488",
       "kind": "state_review_set",
       "designStatus": "draft_visual_checked",
-      "implementationStatus": "not_started",
+      "implementationStatus": "implemented_initial",
       "widget": "NuiTabs",
       "priority": "P0",
-      "rive": "A"
+      "rive": "A",
+      "implementationSource": "lib/src/navigation/navigation.dart",
+      "verificationStatus": "automated_tests_and_gallery; OS verification pending"
     },
     {
       "id": "C21",
@@ -228,10 +268,12 @@
       "nodeId": "n00497",
       "kind": "state_review_set",
       "designStatus": "draft_visual_checked",
-      "implementationStatus": "not_started",
+      "implementationStatus": "implemented_initial",
       "widget": "NuiNavigationRail",
       "priority": "P1",
-      "rive": "B"
+      "rive": "B",
+      "implementationSource": "lib/src/navigation/navigation.dart",
+      "verificationStatus": "automated_tests_and_gallery; OS verification pending"
     },
     {
       "id": "C22",
@@ -239,10 +281,12 @@
       "nodeId": "n00516",
       "kind": "state_review_set",
       "designStatus": "draft_visual_checked",
-      "implementationStatus": "not_started",
+      "implementationStatus": "implemented_initial",
       "widget": "NuiSidebarItem",
       "priority": "P0",
-      "rive": "B"
+      "rive": "B",
+      "implementationSource": "lib/src/navigation/navigation.dart",
+      "verificationStatus": "automated_tests_and_gallery; OS verification pending"
     },
     {
       "id": "C23",
@@ -250,10 +294,12 @@
       "nodeId": "n00523",
       "kind": "state_review_set",
       "designStatus": "draft_visual_checked",
-      "implementationStatus": "not_started",
+      "implementationStatus": "implemented_initial",
       "widget": "NuiBreadcrumb",
       "priority": "P1",
-      "rive": "F"
+      "rive": "F",
+      "implementationSource": "lib/src/navigation/navigation.dart",
+      "verificationStatus": "automated_tests_and_gallery; OS verification pending"
     },
     {
       "id": "C24",
@@ -261,10 +307,12 @@
       "nodeId": "n00527",
       "kind": "state_review_set",
       "designStatus": "draft_visual_checked",
-      "implementationStatus": "not_started",
+      "implementationStatus": "implemented_initial",
       "widget": "NuiMenuBar",
       "priority": "P1",
-      "rive": "F"
+      "rive": "F",
+      "implementationSource": "lib/src/navigation/navigation.dart",
+      "verificationStatus": "automated_tests_and_gallery; OS verification pending"
     },
     {
       "id": "C25",
@@ -272,10 +320,12 @@
       "nodeId": "n00531",
       "kind": "state_review_set",
       "designStatus": "draft_visual_checked",
-      "implementationStatus": "not_started",
+      "implementationStatus": "implemented_initial",
       "widget": "NuiDropdownMenu",
       "priority": "P0",
-      "rive": "F"
+      "rive": "F",
+      "implementationSource": "lib/src/navigation/navigation.dart",
+      "verificationStatus": "automated_tests_and_gallery; OS verification pending"
     },
     {
       "id": "C26",
@@ -283,10 +333,12 @@
       "nodeId": "n00542",
       "kind": "state_review_set",
       "designStatus": "draft_visual_checked",
-      "implementationStatus": "not_started",
+      "implementationStatus": "implemented_initial",
       "widget": "NuiContextMenu",
       "priority": "P1",
-      "rive": "F"
+      "rive": "F",
+      "implementationSource": "lib/src/navigation/navigation.dart",
+      "verificationStatus": "automated_tests_and_gallery; OS verification pending"
     },
     {
       "id": "C27",
@@ -294,10 +346,12 @@
       "nodeId": "n00549",
       "kind": "state_review_set",
       "designStatus": "draft_visual_checked",
-      "implementationStatus": "not_started",
+      "implementationStatus": "implemented_initial",
       "widget": "NuiCommandPalette",
       "priority": "P1",
-      "rive": "B"
+      "rive": "B",
+      "implementationSource": "lib/src/navigation/navigation.dart",
+      "verificationStatus": "automated_tests_and_gallery; OS verification pending"
     },
     {
       "id": "C28",
@@ -305,10 +359,12 @@
       "nodeId": "n00566",
       "kind": "state_review_set",
       "designStatus": "draft_visual_checked",
-      "implementationStatus": "not_started",
+      "implementationStatus": "implemented_initial",
       "widget": "NuiAppShell",
       "priority": "P0",
-      "rive": "F"
+      "rive": "F",
+      "implementationSource": "lib/src/layout/layout.dart",
+      "verificationStatus": "automated_tests_and_gallery; OS verification pending"
     },
     {
       "id": "C34",
@@ -316,10 +372,12 @@
       "nodeId": "n00574",
       "kind": "state_review_set",
       "designStatus": "draft_visual_checked",
-      "implementationStatus": "not_started",
+      "implementationStatus": "implemented_initial",
       "widget": "NuiTreeView",
       "priority": "P1",
-      "rive": "B"
+      "rive": "B",
+      "implementationSource": "lib/src/data/data.dart",
+      "verificationStatus": "automated_tests_and_gallery; OS verification pending"
     },
     {
       "id": "C31",
@@ -327,10 +385,12 @@
       "nodeId": "n00585",
       "kind": "state_review_set",
       "designStatus": "draft_visual_checked",
-      "implementationStatus": "not_started",
+      "implementationStatus": "implemented_initial",
       "widget": "NuiSplitView",
       "priority": "P1",
-      "rive": "F"
+      "rive": "F",
+      "implementationSource": "lib/src/layout/layout.dart",
+      "verificationStatus": "automated_tests_and_gallery; OS verification pending"
     },
     {
       "id": "C30",
@@ -338,10 +398,12 @@
       "nodeId": "n00588",
       "kind": "state_review_set",
       "designStatus": "draft_visual_checked",
-      "implementationStatus": "not_started",
+      "implementationStatus": "implemented_initial",
       "widget": "NuiToolbar",
       "priority": "P0",
-      "rive": "F"
+      "rive": "F",
+      "implementationSource": "lib/src/layout/layout.dart",
+      "verificationStatus": "automated_tests_and_gallery; OS verification pending"
     },
     {
       "id": "C29",
@@ -349,10 +411,12 @@
       "nodeId": "n00598",
       "kind": "state_review_set",
       "designStatus": "draft_visual_checked",
-      "implementationStatus": "not_started",
+      "implementationStatus": "implemented_initial",
       "widget": "NuiPanel",
       "priority": "P0",
-      "rive": "F"
+      "rive": "F",
+      "implementationSource": "lib/src/layout/layout.dart",
+      "verificationStatus": "automated_tests_and_gallery; OS verification pending"
     },
     {
       "id": "C35",
@@ -360,10 +424,12 @@
       "nodeId": "n00638",
       "kind": "state_review_set",
       "designStatus": "draft_visual_checked",
-      "implementationStatus": "not_started",
+      "implementationStatus": "implemented_initial",
       "widget": "NuiDataTable",
       "priority": "P1",
-      "rive": "F"
+      "rive": "F",
+      "implementationSource": "lib/src/data/data.dart",
+      "verificationStatus": "automated_tests_and_gallery; OS verification pending"
     },
     {
       "id": "C33",
@@ -371,10 +437,12 @@
       "nodeId": "n00671",
       "kind": "state_review_set",
       "designStatus": "draft_visual_checked",
-      "implementationStatus": "not_started",
+      "implementationStatus": "implemented_initial",
       "widget": "NuiListRow",
       "priority": "P0",
-      "rive": "F"
+      "rive": "F",
+      "implementationSource": "lib/src/data/data.dart",
+      "verificationStatus": "automated_tests_and_gallery; OS verification pending"
     },
     {
       "id": "C48",
@@ -382,10 +450,12 @@
       "nodeId": "n00676",
       "kind": "state_review_set",
       "designStatus": "draft_visual_checked",
-      "implementationStatus": "not_started",
+      "implementationStatus": "implemented_initial",
       "widget": "NuiScrollArea",
       "priority": "P0",
-      "rive": "F"
+      "rive": "F",
+      "implementationSource": "lib/src/layout/layout.dart",
+      "verificationStatus": "automated_tests_and_gallery; OS verification pending"
     },
     {
       "id": "C32",
@@ -393,10 +463,12 @@
       "nodeId": "n00679",
       "kind": "state_review_set",
       "designStatus": "draft_visual_checked",
-      "implementationStatus": "not_started",
+      "implementationStatus": "implemented_initial",
       "widget": "NuiStatusBar",
       "priority": "P1",
-      "rive": "B"
+      "rive": "B",
+      "implementationSource": "lib/src/layout/layout.dart",
+      "verificationStatus": "automated_tests_and_gallery; OS verification pending"
     },
     {
       "id": "C36",
@@ -404,10 +476,12 @@
       "nodeId": "n00694",
       "kind": "state_review_set",
       "designStatus": "draft_visual_checked",
-      "implementationStatus": "not_started",
+      "implementationStatus": "implemented_initial",
       "widget": "NuiBadge",
       "priority": "P0",
-      "rive": "F"
+      "rive": "F",
+      "implementationSource": "lib/src/feedback/feedback.dart",
+      "verificationStatus": "automated_tests_and_gallery; OS verification pending"
     },
     {
       "id": "C37",
@@ -415,10 +489,12 @@
       "nodeId": "n00703",
       "kind": "state_review_set",
       "designStatus": "draft_visual_checked",
-      "implementationStatus": "not_started",
+      "implementationStatus": "implemented_initial",
       "widget": "NuiTooltip",
       "priority": "P0",
-      "rive": "F"
+      "rive": "F",
+      "implementationSource": "lib/src/feedback/feedback.dart",
+      "verificationStatus": "automated_tests_and_gallery; OS verification pending"
     },
     {
       "id": "C38",
@@ -426,10 +502,12 @@
       "nodeId": "n00708",
       "kind": "state_review_set",
       "designStatus": "draft_visual_checked",
-      "implementationStatus": "not_started",
+      "implementationStatus": "implemented_initial",
       "widget": "NuiProgress",
       "priority": "P0",
-      "rive": "A"
+      "rive": "A",
+      "implementationSource": "lib/src/feedback/feedback.dart",
+      "verificationStatus": "automated_tests_and_gallery; OS verification pending"
     },
     {
       "id": "C39",
@@ -437,10 +515,12 @@
       "nodeId": "n00714",
       "kind": "state_review_set",
       "designStatus": "draft_visual_checked",
-      "implementationStatus": "not_started",
+      "implementationStatus": "implemented_initial",
       "widget": "NuiDotMatrix",
       "priority": "P1",
-      "rive": "A"
+      "rive": "A",
+      "implementationSource": "lib/src/feedback/feedback.dart",
+      "verificationStatus": "automated_tests_and_gallery; OS verification pending"
     },
     {
       "id": "C40",
@@ -448,10 +528,12 @@
       "nodeId": "n00765",
       "kind": "state_review_set",
       "designStatus": "draft_visual_checked",
-      "implementationStatus": "not_started",
+      "implementationStatus": "implemented_initial",
       "widget": "NuiMeter",
       "priority": "P2",
-      "rive": "A"
+      "rive": "A",
+      "implementationSource": "lib/src/feedback/feedback.dart",
+      "verificationStatus": "automated_tests_and_gallery; OS verification pending"
     },
     {
       "id": "C41",
@@ -459,10 +541,12 @@
       "nodeId": "n00807",
       "kind": "state_review_set",
       "designStatus": "draft_visual_checked",
-      "implementationStatus": "not_started",
+      "implementationStatus": "implemented_initial",
       "widget": "NuiToast",
       "priority": "P0",
-      "rive": "B"
+      "rive": "B",
+      "implementationSource": "lib/src/feedback/feedback.dart",
+      "verificationStatus": "automated_tests_and_gallery; OS verification pending"
     },
     {
       "id": "C42",
@@ -470,10 +554,12 @@
       "nodeId": "n00814",
       "kind": "state_review_set",
       "designStatus": "draft_visual_checked",
-      "implementationStatus": "not_started",
+      "implementationStatus": "implemented_initial",
       "widget": "NuiInlineAlert",
       "priority": "P0",
-      "rive": "F"
+      "rive": "F",
+      "implementationSource": "lib/src/feedback/feedback.dart",
+      "verificationStatus": "automated_tests_and_gallery; OS verification pending"
     },
     {
       "id": "C43",
@@ -481,10 +567,12 @@
       "nodeId": "n00819",
       "kind": "state_review_set",
       "designStatus": "draft_visual_checked",
-      "implementationStatus": "not_started",
+      "implementationStatus": "implemented_initial",
       "widget": "NuiDialog",
       "priority": "P0",
-      "rive": "B"
+      "rive": "B",
+      "implementationSource": "lib/src/feedback/feedback.dart",
+      "verificationStatus": "automated_tests_and_gallery; OS verification pending"
     },
     {
       "id": "C44",
@@ -492,10 +580,12 @@
       "nodeId": "n00832",
       "kind": "state_review_set",
       "designStatus": "draft_visual_checked",
-      "implementationStatus": "not_started",
+      "implementationStatus": "implemented_initial",
       "widget": "NuiPopover",
       "priority": "P0",
-      "rive": "F"
+      "rive": "F",
+      "implementationSource": "lib/src/feedback/feedback.dart",
+      "verificationStatus": "automated_tests_and_gallery; OS verification pending"
     },
     {
       "id": "C45",
@@ -503,10 +593,12 @@
       "nodeId": "n00839",
       "kind": "state_review_set",
       "designStatus": "draft_visual_checked",
-      "implementationStatus": "not_started",
+      "implementationStatus": "implemented_initial",
       "widget": "NuiEmptyState",
       "priority": "P0",
-      "rive": "B"
+      "rive": "B",
+      "implementationSource": "lib/src/feedback/feedback.dart",
+      "verificationStatus": "automated_tests_and_gallery; OS verification pending"
     },
     {
       "id": "C46",
@@ -514,10 +606,12 @@
       "nodeId": "n00847",
       "kind": "state_review_set",
       "designStatus": "draft_visual_checked",
-      "implementationStatus": "not_started",
+      "implementationStatus": "implemented_initial",
       "widget": "NuiSkeleton",
       "priority": "P1",
-      "rive": "F"
+      "rive": "F",
+      "implementationSource": "lib/src/feedback/feedback.dart",
+      "verificationStatus": "automated_tests_and_gallery; OS verification pending"
     },
     {
       "id": "C47",
@@ -525,10 +619,12 @@
       "nodeId": "n00852",
       "kind": "state_review_set",
       "designStatus": "draft_visual_checked",
-      "implementationStatus": "not_started",
+      "implementationStatus": "implemented_initial",
       "widget": "NuiTaskStatus",
       "priority": "P1",
-      "rive": "A"
+      "rive": "A",
+      "implementationSource": "lib/src/feedback/feedback.dart",
+      "verificationStatus": "automated_tests_and_gallery; OS verification pending"
     }
   ],
   "symbols": [
@@ -824,5 +920,6 @@
     }
   ],
   "systemName": "Detent Design System",
-  "packageName": "detent_ui"
+  "packageName": "detent_ui",
+  "implementationVersion": "0.5.0"
 }
