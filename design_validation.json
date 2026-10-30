@@ -1,0 +1,23 @@
+{
+  "schemaVersion": "2.21",
+  "boards": 17,
+  "reviewSets": 48,
+  "singleStateSymbols": 24,
+  "referenceInstances": 45,
+  "unresolvedReferences": 0,
+  "duplicateIds": 0,
+  "nodes": 1623,
+  "scope": "Native layout and schema; runtime accessibility and Rive are not implemented",
+  "nativeClippingIssues": 0,
+  "schemaTypeErrors": 0,
+  "contrastPairsPassed": 32,
+  "tokens": 271,
+  "focusColors": {
+    "light": "#5F6765",
+    "dark": "#C4CBC7",
+    "highLight": "#000000",
+    "highDark": "#FFFFFF"
+  },
+  "elevationStableStacks": 3,
+  "buttonLayoutHeight": 50
+}

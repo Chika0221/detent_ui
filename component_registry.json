@@ -1,0 +1,828 @@
+{
+  "version": "0.4",
+  "scope": "Design artifacts; no runtime widgets or Rive assets implemented",
+  "reviewSets": [
+    {
+      "id": "C01",
+      "name": "NuiButton",
+      "nodeId": "n00219",
+      "kind": "state_review_set",
+      "designStatus": "draft_visual_checked",
+      "implementationStatus": "not_started",
+      "widget": "NuiButton",
+      "priority": "P0",
+      "rive": "A"
+    },
+    {
+      "id": "C02",
+      "name": "NuiIconButton",
+      "nodeId": "n00247",
+      "kind": "state_review_set",
+      "designStatus": "draft_visual_checked",
+      "implementationStatus": "not_started",
+      "widget": "NuiIconButton",
+      "priority": "P0",
+      "rive": "A"
+    },
+    {
+      "id": "C03",
+      "name": "NuiToggleButton",
+      "nodeId": "n00262",
+      "kind": "state_review_set",
+      "designStatus": "draft_visual_checked",
+      "implementationStatus": "not_started",
+      "widget": "NuiToggleButton",
+      "priority": "P0",
+      "rive": "A"
+    },
+    {
+      "id": "C04",
+      "name": "NuiKeycap",
+      "nodeId": "n00273",
+      "kind": "state_review_set",
+      "designStatus": "draft_visual_checked",
+      "implementationStatus": "not_started",
+      "widget": "NuiKeycap",
+      "priority": "P1",
+      "rive": "A"
+    },
+    {
+      "id": "C05",
+      "name": "NuiSegmentedControl",
+      "nodeId": "n00288",
+      "kind": "state_review_set",
+      "designStatus": "draft_visual_checked",
+      "implementationStatus": "not_started",
+      "widget": "NuiSegmentedControl",
+      "priority": "P0",
+      "rive": "A"
+    },
+    {
+      "id": "C06",
+      "name": "NuiCheckbox",
+      "nodeId": "n00298",
+      "kind": "state_review_set",
+      "designStatus": "draft_visual_checked",
+      "implementationStatus": "not_started",
+      "widget": "NuiCheckbox",
+      "priority": "P0",
+      "rive": "A"
+    },
+    {
+      "id": "C07",
+      "name": "NuiRadioGroup",
+      "nodeId": "n00306",
+      "kind": "state_review_set",
+      "designStatus": "draft_visual_checked",
+      "implementationStatus": "not_started",
+      "widget": "NuiRadioGroup",
+      "priority": "P0",
+      "rive": "A"
+    },
+    {
+      "id": "C08",
+      "name": "NuiSwitch",
+      "nodeId": "n00313",
+      "kind": "state_review_set",
+      "designStatus": "draft_visual_checked",
+      "implementationStatus": "not_started",
+      "widget": "NuiSwitch",
+      "priority": "P0",
+      "rive": "A"
+    },
+    {
+      "id": "C09",
+      "name": "NuiSlider",
+      "nodeId": "n00321",
+      "kind": "state_review_set",
+      "designStatus": "draft_visual_checked",
+      "implementationStatus": "not_started",
+      "widget": "NuiSlider",
+      "priority": "P0",
+      "rive": "A"
+    },
+    {
+      "id": "C10",
+      "name": "NuiRangeSlider",
+      "nodeId": "n00350",
+      "kind": "state_review_set",
+      "designStatus": "draft_visual_checked",
+      "implementationStatus": "not_started",
+      "widget": "NuiRangeSlider",
+      "priority": "P2",
+      "rive": "A"
+    },
+    {
+      "id": "C11",
+      "name": "NuiRotaryKnob",
+      "nodeId": "n00379",
+      "kind": "state_review_set",
+      "designStatus": "draft_visual_checked",
+      "implementationStatus": "not_started",
+      "widget": "NuiRotaryKnob",
+      "priority": "P1",
+      "rive": "A"
+    },
+    {
+      "id": "C12",
+      "name": "NuiNumberStepper",
+      "nodeId": "n00412",
+      "kind": "state_review_set",
+      "designStatus": "draft_visual_checked",
+      "implementationStatus": "not_started",
+      "widget": "NuiNumberStepper",
+      "priority": "P0",
+      "rive": "F"
+    },
+    {
+      "id": "C13",
+      "name": "NuiTextField",
+      "nodeId": "n00434",
+      "kind": "state_review_set",
+      "designStatus": "draft_visual_checked",
+      "implementationStatus": "not_started",
+      "widget": "NuiTextField",
+      "priority": "P0",
+      "rive": "F"
+    },
+    {
+      "id": "C14",
+      "name": "NuiTextArea",
+      "nodeId": "n00440",
+      "kind": "state_review_set",
+      "designStatus": "draft_visual_checked",
+      "implementationStatus": "not_started",
+      "widget": "NuiTextArea",
+      "priority": "P0",
+      "rive": "F"
+    },
+    {
+      "id": "C15",
+      "name": "NuiSearchField",
+      "nodeId": "n00445",
+      "kind": "state_review_set",
+      "designStatus": "draft_visual_checked",
+      "implementationStatus": "not_started",
+      "widget": "NuiSearchField",
+      "priority": "P0",
+      "rive": "F"
+    },
+    {
+      "id": "C16",
+      "name": "NuiSelect",
+      "nodeId": "n00451",
+      "kind": "state_review_set",
+      "designStatus": "draft_visual_checked",
+      "implementationStatus": "not_started",
+      "widget": "NuiSelect",
+      "priority": "P0",
+      "rive": "F"
+    },
+    {
+      "id": "C17",
+      "name": "NuiComboBox",
+      "nodeId": "n00457",
+      "kind": "state_review_set",
+      "designStatus": "draft_visual_checked",
+      "implementationStatus": "not_started",
+      "widget": "NuiComboBox",
+      "priority": "P1",
+      "rive": "F"
+    },
+    {
+      "id": "C18",
+      "name": "NuiShortcutRecorder",
+      "nodeId": "n00466",
+      "kind": "state_review_set",
+      "designStatus": "draft_visual_checked",
+      "implementationStatus": "not_started",
+      "widget": "NuiShortcutRecorder",
+      "priority": "P1",
+      "rive": "F"
+    },
+    {
+      "id": "C19",
+      "name": "NuiFormField",
+      "nodeId": "n00474",
+      "kind": "state_review_set",
+      "designStatus": "draft_visual_checked",
+      "implementationStatus": "not_started",
+      "widget": "NuiFormField",
+      "priority": "P0",
+      "rive": "F"
+    },
+    {
+      "id": "C20",
+      "name": "NuiTabs",
+      "nodeId": "n00488",
+      "kind": "state_review_set",
+      "designStatus": "draft_visual_checked",
+      "implementationStatus": "not_started",
+      "widget": "NuiTabs",
+      "priority": "P0",
+      "rive": "A"
+    },
+    {
+      "id": "C21",
+      "name": "NuiNavigationRail",
+      "nodeId": "n00497",
+      "kind": "state_review_set",
+      "designStatus": "draft_visual_checked",
+      "implementationStatus": "not_started",
+      "widget": "NuiNavigationRail",
+      "priority": "P1",
+      "rive": "B"
+    },
+    {
+      "id": "C22",
+      "name": "NuiSidebarItem",
+      "nodeId": "n00516",
+      "kind": "state_review_set",
+      "designStatus": "draft_visual_checked",
+      "implementationStatus": "not_started",
+      "widget": "NuiSidebarItem",
+      "priority": "P0",
+      "rive": "B"
+    },
+    {
+      "id": "C23",
+      "name": "NuiBreadcrumb",
+      "nodeId": "n00523",
+      "kind": "state_review_set",
+      "designStatus": "draft_visual_checked",
+      "implementationStatus": "not_started",
+      "widget": "NuiBreadcrumb",
+      "priority": "P1",
+      "rive": "F"
+    },
+    {
+      "id": "C24",
+      "name": "NuiMenuBar",
+      "nodeId": "n00527",
+      "kind": "state_review_set",
+      "designStatus": "draft_visual_checked",
+      "implementationStatus": "not_started",
+      "widget": "NuiMenuBar",
+      "priority": "P1",
+      "rive": "F"
+    },
+    {
+      "id": "C25",
+      "name": "NuiDropdownMenu",
+      "nodeId": "n00531",
+      "kind": "state_review_set",
+      "designStatus": "draft_visual_checked",
+      "implementationStatus": "not_started",
+      "widget": "NuiDropdownMenu",
+      "priority": "P0",
+      "rive": "F"
+    },
+    {
+      "id": "C26",
+      "name": "NuiContextMenu",
+      "nodeId": "n00542",
+      "kind": "state_review_set",
+      "designStatus": "draft_visual_checked",
+      "implementationStatus": "not_started",
+      "widget": "NuiContextMenu",
+      "priority": "P1",
+      "rive": "F"
+    },
+    {
+      "id": "C27",
+      "name": "NuiCommandPalette",
+      "nodeId": "n00549",
+      "kind": "state_review_set",
+      "designStatus": "draft_visual_checked",
+      "implementationStatus": "not_started",
+      "widget": "NuiCommandPalette",
+      "priority": "P1",
+      "rive": "B"
+    },
+    {
+      "id": "C28",
+      "name": "NuiAppShell",
+      "nodeId": "n00566",
+      "kind": "state_review_set",
+      "designStatus": "draft_visual_checked",
+      "implementationStatus": "not_started",
+      "widget": "NuiAppShell",
+      "priority": "P0",
+      "rive": "F"
+    },
+    {
+      "id": "C34",
+      "name": "NuiTreeView",
+      "nodeId": "n00574",
+      "kind": "state_review_set",
+      "designStatus": "draft_visual_checked",
+      "implementationStatus": "not_started",
+      "widget": "NuiTreeView",
+      "priority": "P1",
+      "rive": "B"
+    },
+    {
+      "id": "C31",
+      "name": "NuiSplitView",
+      "nodeId": "n00585",
+      "kind": "state_review_set",
+      "designStatus": "draft_visual_checked",
+      "implementationStatus": "not_started",
+      "widget": "NuiSplitView",
+      "priority": "P1",
+      "rive": "F"
+    },
+    {
+      "id": "C30",
+      "name": "NuiToolbar",
+      "nodeId": "n00588",
+      "kind": "state_review_set",
+      "designStatus": "draft_visual_checked",
+      "implementationStatus": "not_started",
+      "widget": "NuiToolbar",
+      "priority": "P0",
+      "rive": "F"
+    },
+    {
+      "id": "C29",
+      "name": "NuiPanel",
+      "nodeId": "n00598",
+      "kind": "state_review_set",
+      "designStatus": "draft_visual_checked",
+      "implementationStatus": "not_started",
+      "widget": "NuiPanel",
+      "priority": "P0",
+      "rive": "F"
+    },
+    {
+      "id": "C35",
+      "name": "NuiDataTable",
+      "nodeId": "n00638",
+      "kind": "state_review_set",
+      "designStatus": "draft_visual_checked",
+      "implementationStatus": "not_started",
+      "widget": "NuiDataTable",
+      "priority": "P1",
+      "rive": "F"
+    },
+    {
+      "id": "C33",
+      "name": "NuiListRow",
+      "nodeId": "n00671",
+      "kind": "state_review_set",
+      "designStatus": "draft_visual_checked",
+      "implementationStatus": "not_started",
+      "widget": "NuiListRow",
+      "priority": "P0",
+      "rive": "F"
+    },
+    {
+      "id": "C48",
+      "name": "NuiScrollArea",
+      "nodeId": "n00676",
+      "kind": "state_review_set",
+      "designStatus": "draft_visual_checked",
+      "implementationStatus": "not_started",
+      "widget": "NuiScrollArea",
+      "priority": "P0",
+      "rive": "F"
+    },
+    {
+      "id": "C32",
+      "name": "NuiStatusBar",
+      "nodeId": "n00679",
+      "kind": "state_review_set",
+      "designStatus": "draft_visual_checked",
+      "implementationStatus": "not_started",
+      "widget": "NuiStatusBar",
+      "priority": "P1",
+      "rive": "B"
+    },
+    {
+      "id": "C36",
+      "name": "NuiBadge",
+      "nodeId": "n00694",
+      "kind": "state_review_set",
+      "designStatus": "draft_visual_checked",
+      "implementationStatus": "not_started",
+      "widget": "NuiBadge",
+      "priority": "P0",
+      "rive": "F"
+    },
+    {
+      "id": "C37",
+      "name": "NuiTooltip",
+      "nodeId": "n00703",
+      "kind": "state_review_set",
+      "designStatus": "draft_visual_checked",
+      "implementationStatus": "not_started",
+      "widget": "NuiTooltip",
+      "priority": "P0",
+      "rive": "F"
+    },
+    {
+      "id": "C38",
+      "name": "NuiProgress",
+      "nodeId": "n00708",
+      "kind": "state_review_set",
+      "designStatus": "draft_visual_checked",
+      "implementationStatus": "not_started",
+      "widget": "NuiProgress",
+      "priority": "P0",
+      "rive": "A"
+    },
+    {
+      "id": "C39",
+      "name": "NuiDotMatrix",
+      "nodeId": "n00714",
+      "kind": "state_review_set",
+      "designStatus": "draft_visual_checked",
+      "implementationStatus": "not_started",
+      "widget": "NuiDotMatrix",
+      "priority": "P1",
+      "rive": "A"
+    },
+    {
+      "id": "C40",
+      "name": "NuiMeter",
+      "nodeId": "n00765",
+      "kind": "state_review_set",
+      "designStatus": "draft_visual_checked",
+      "implementationStatus": "not_started",
+      "widget": "NuiMeter",
+      "priority": "P2",
+      "rive": "A"
+    },
+    {
+      "id": "C41",
+      "name": "NuiToast",
+      "nodeId": "n00807",
+      "kind": "state_review_set",
+      "designStatus": "draft_visual_checked",
+      "implementationStatus": "not_started",
+      "widget": "NuiToast",
+      "priority": "P0",
+      "rive": "B"
+    },
+    {
+      "id": "C42",
+      "name": "NuiInlineAlert",
+      "nodeId": "n00814",
+      "kind": "state_review_set",
+      "designStatus": "draft_visual_checked",
+      "implementationStatus": "not_started",
+      "widget": "NuiInlineAlert",
+      "priority": "P0",
+      "rive": "F"
+    },
+    {
+      "id": "C43",
+      "name": "NuiDialog",
+      "nodeId": "n00819",
+      "kind": "state_review_set",
+      "designStatus": "draft_visual_checked",
+      "implementationStatus": "not_started",
+      "widget": "NuiDialog",
+      "priority": "P0",
+      "rive": "B"
+    },
+    {
+      "id": "C44",
+      "name": "NuiPopover",
+      "nodeId": "n00832",
+      "kind": "state_review_set",
+      "designStatus": "draft_visual_checked",
+      "implementationStatus": "not_started",
+      "widget": "NuiPopover",
+      "priority": "P0",
+      "rive": "F"
+    },
+    {
+      "id": "C45",
+      "name": "NuiEmptyState",
+      "nodeId": "n00839",
+      "kind": "state_review_set",
+      "designStatus": "draft_visual_checked",
+      "implementationStatus": "not_started",
+      "widget": "NuiEmptyState",
+      "priority": "P0",
+      "rive": "B"
+    },
+    {
+      "id": "C46",
+      "name": "NuiSkeleton",
+      "nodeId": "n00847",
+      "kind": "state_review_set",
+      "designStatus": "draft_visual_checked",
+      "implementationStatus": "not_started",
+      "widget": "NuiSkeleton",
+      "priority": "P1",
+      "rive": "F"
+    },
+    {
+      "id": "C47",
+      "name": "NuiTaskStatus",
+      "nodeId": "n00852",
+      "kind": "state_review_set",
+      "designStatus": "draft_visual_checked",
+      "implementationStatus": "not_started",
+      "widget": "NuiTaskStatus",
+      "priority": "P1",
+      "rive": "A"
+    }
+  ],
+  "symbols": [
+    {
+      "key": "bPrimary",
+      "name": "DS/Button/Primary",
+      "nodeId": "X076u8",
+      "kind": "single_state_symbol",
+      "designStatus": "draft_visual_checked",
+      "implementationStatus": "not_started",
+      "tokenNamespace": "component.light",
+      "slotNodeIds": []
+    },
+    {
+      "key": "bSecondary",
+      "name": "DS/Button/Secondary",
+      "nodeId": "lvPEN",
+      "kind": "single_state_symbol",
+      "designStatus": "draft_visual_checked",
+      "implementationStatus": "not_started",
+      "tokenNamespace": "component.light",
+      "slotNodeIds": []
+    },
+    {
+      "key": "bQuiet",
+      "name": "DS/Button/Quiet",
+      "nodeId": "LjvXM",
+      "kind": "single_state_symbol",
+      "designStatus": "draft_visual_checked",
+      "implementationStatus": "not_started",
+      "tokenNamespace": "component.light",
+      "slotNodeIds": []
+    },
+    {
+      "key": "bDanger",
+      "name": "DS/Button/Danger",
+      "nodeId": "X8BOr",
+      "kind": "single_state_symbol",
+      "designStatus": "draft_visual_checked",
+      "implementationStatus": "not_started",
+      "tokenNamespace": "component.light",
+      "slotNodeIds": []
+    },
+    {
+      "key": "bDisabled",
+      "name": "DS/Button/Disabled",
+      "nodeId": "hI6vY",
+      "kind": "single_state_symbol",
+      "designStatus": "draft_visual_checked",
+      "implementationStatus": "not_started",
+      "tokenNamespace": "component.light",
+      "slotNodeIds": []
+    },
+    {
+      "key": "bIcon",
+      "name": "DS/Button/Icon",
+      "nodeId": "ewBvV",
+      "kind": "single_state_symbol",
+      "designStatus": "draft_visual_checked",
+      "implementationStatus": "not_started",
+      "tokenNamespace": "component.light",
+      "slotNodeIds": []
+    },
+    {
+      "key": "fieldNormal",
+      "name": "DS/Input/Default",
+      "nodeId": "x9Tys",
+      "kind": "single_state_symbol",
+      "designStatus": "draft_visual_checked",
+      "implementationStatus": "not_started",
+      "tokenNamespace": "component.light",
+      "slotNodeIds": []
+    },
+    {
+      "key": "fieldFocus",
+      "name": "DS/Input/Focus",
+      "nodeId": "Y5ZTCY",
+      "kind": "single_state_symbol",
+      "designStatus": "draft_visual_checked",
+      "implementationStatus": "not_started",
+      "tokenNamespace": "component.light",
+      "slotNodeIds": []
+    },
+    {
+      "key": "fieldError",
+      "name": "DS/Input/Error",
+      "nodeId": "qzWzP",
+      "kind": "single_state_symbol",
+      "designStatus": "draft_visual_checked",
+      "implementationStatus": "not_started",
+      "tokenNamespace": "component.light",
+      "slotNodeIds": []
+    },
+    {
+      "key": "fieldDisabled",
+      "name": "DS/Input/Disabled",
+      "nodeId": "JHQvb",
+      "kind": "single_state_symbol",
+      "designStatus": "draft_visual_checked",
+      "implementationStatus": "not_started",
+      "tokenNamespace": "component.light",
+      "slotNodeIds": []
+    },
+    {
+      "key": "switchOff",
+      "name": "DS/Switch/Off",
+      "nodeId": "GlK0U",
+      "kind": "single_state_symbol",
+      "designStatus": "draft_visual_checked",
+      "implementationStatus": "not_started",
+      "tokenNamespace": "component.light",
+      "slotNodeIds": []
+    },
+    {
+      "key": "switchOn",
+      "name": "DS/Switch/On",
+      "nodeId": "V2PRo",
+      "kind": "single_state_symbol",
+      "designStatus": "draft_visual_checked",
+      "implementationStatus": "not_started",
+      "tokenNamespace": "component.light",
+      "slotNodeIds": []
+    },
+    {
+      "key": "checkOff",
+      "name": "DS/Checkbox/Off",
+      "nodeId": "yR1LK",
+      "kind": "single_state_symbol",
+      "designStatus": "draft_visual_checked",
+      "implementationStatus": "not_started",
+      "tokenNamespace": "component.light",
+      "slotNodeIds": []
+    },
+    {
+      "key": "checkOn",
+      "name": "DS/Checkbox/On",
+      "nodeId": "xhxTc",
+      "kind": "single_state_symbol",
+      "designStatus": "draft_visual_checked",
+      "implementationStatus": "not_started",
+      "tokenNamespace": "component.light",
+      "slotNodeIds": []
+    },
+    {
+      "key": "checkMixed",
+      "name": "DS/Checkbox/Mixed",
+      "nodeId": "cOlzO",
+      "kind": "single_state_symbol",
+      "designStatus": "draft_visual_checked",
+      "implementationStatus": "not_started",
+      "tokenNamespace": "component.light",
+      "slotNodeIds": []
+    },
+    {
+      "key": "badgeSuccess",
+      "name": "DS/Badge/Success",
+      "nodeId": "fzr4a",
+      "kind": "single_state_symbol",
+      "designStatus": "draft_visual_checked",
+      "implementationStatus": "not_started",
+      "tokenNamespace": "component.light",
+      "slotNodeIds": []
+    },
+    {
+      "key": "badgeError",
+      "name": "DS/Badge/Error",
+      "nodeId": "Loowc",
+      "kind": "single_state_symbol",
+      "designStatus": "draft_visual_checked",
+      "implementationStatus": "not_started",
+      "tokenNamespace": "component.light",
+      "slotNodeIds": []
+    },
+    {
+      "key": "tabSelected",
+      "name": "DS/Tab/Selected",
+      "nodeId": "UGpa0",
+      "kind": "single_state_symbol",
+      "designStatus": "draft_visual_checked",
+      "implementationStatus": "not_started",
+      "tokenNamespace": "component.light",
+      "slotNodeIds": []
+    },
+    {
+      "key": "navItem",
+      "name": "DS/Navigation/Item",
+      "nodeId": "vGOG6",
+      "kind": "single_state_symbol",
+      "designStatus": "draft_visual_checked",
+      "implementationStatus": "not_started",
+      "tokenNamespace": "component.light",
+      "slotNodeIds": []
+    },
+    {
+      "key": "listRow",
+      "name": "DS/List/Row",
+      "nodeId": "Xg7kF",
+      "kind": "single_state_symbol",
+      "designStatus": "draft_visual_checked",
+      "implementationStatus": "not_started",
+      "tokenNamespace": "component.light",
+      "slotNodeIds": []
+    },
+    {
+      "key": "alert",
+      "name": "DS/Feedback/Inline alert",
+      "nodeId": "r3prY3",
+      "kind": "single_state_symbol",
+      "designStatus": "draft_visual_checked",
+      "implementationStatus": "not_started",
+      "tokenNamespace": "component.light",
+      "slotNodeIds": []
+    },
+    {
+      "key": "panel",
+      "name": "DS/Surface/Panel",
+      "nodeId": "t64Kt",
+      "kind": "single_state_symbol",
+      "designStatus": "draft_visual_checked",
+      "implementationStatus": "not_started",
+      "tokenNamespace": "component.light",
+      "slotNodeIds": [
+        "Kiffj"
+      ]
+    },
+    {
+      "key": "task",
+      "name": "DS/Feedback/Task",
+      "nodeId": "HiX8R",
+      "kind": "single_state_symbol",
+      "designStatus": "draft_visual_checked",
+      "implementationStatus": "not_started",
+      "tokenNamespace": "component.light",
+      "slotNodeIds": []
+    },
+    {
+      "key": "tooltip",
+      "name": "DS/Feedback/Tooltip",
+      "nodeId": "uePhP",
+      "kind": "single_state_symbol",
+      "designStatus": "draft_visual_checked",
+      "implementationStatus": "not_started",
+      "tokenNamespace": "component.light",
+      "slotNodeIds": []
+    }
+  ],
+  "patterns": [
+    {
+      "key": "settings",
+      "nodeId": "EuQZb",
+      "status": "design_draft",
+      "implementationStatus": "not_started",
+      "contracts": [
+        "form validation",
+        "unsaved changes",
+        "save/cancel",
+        "keyboard focus"
+      ]
+    },
+    {
+      "key": "master_detail",
+      "nodeId": "a3MSS",
+      "status": "design_draft",
+      "implementationStatus": "not_started",
+      "contracts": [
+        "stable selection",
+        "empty/loading/error",
+        "resize",
+        "long running tasks"
+      ]
+    }
+  ],
+  "geometryContract": {
+    "buttonSurfaceHeight": 40,
+    "buttonDepth": 2,
+    "buttonPhysicalHeight": 42,
+    "focusClearancePerSide": 4,
+    "buttonLayoutHeight": 50,
+    "paddingMeasuredFrom": "layout_bounds",
+    "stateChangesLayoutSize": false
+  },
+  "validationCases": [
+    {
+      "key": "elevation_stack",
+      "nodeId": "rnJIb",
+      "states": [
+        "rest",
+        "pressed",
+        "focus"
+      ],
+      "gap": 8,
+      "status": "native_geometry_checked"
+    }
+  ],
+  "systemName": "Detent Design System",
+  "packageName": "detent_ui"
+}

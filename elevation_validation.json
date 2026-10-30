@@ -1,0 +1,115 @@
+{
+  "buttonFaceHeight": 40,
+  "bodyDepth": 2,
+  "physicalHeight": 42,
+  "focusStroke": 2,
+  "focusOffset": 2,
+  "focusClearance": 4,
+  "layoutHeight": 50,
+  "gap": 8,
+  "states": [
+    "rest",
+    "pressed",
+    "focus"
+  ],
+  "stableStackPositions": true,
+  "groups": {
+    "Elevation stack / rest": [
+      {
+        "name": "Stack field / 上のコンポーネント",
+        "parent": "Elevation stack / rest",
+        "bounds": {
+          "x": 8,
+          "y": 8,
+          "width": 320,
+          "height": 40
+        }
+      },
+      {
+        "name": "Stack raised button / rest",
+        "parent": "Elevation stack / rest",
+        "bounds": {
+          "x": 8,
+          "y": 56,
+          "width": 152,
+          "height": 50
+        }
+      },
+      {
+        "name": "Stack field / 下のコンポーネント",
+        "parent": "Elevation stack / rest",
+        "bounds": {
+          "x": 8,
+          "y": 114,
+          "width": 320,
+          "height": 40
+        }
+      }
+    ],
+    "Elevation stack / pressed": [
+      {
+        "name": "Stack field / 上のコンポーネント",
+        "parent": "Elevation stack / pressed",
+        "bounds": {
+          "x": 8,
+          "y": 8,
+          "width": 320,
+          "height": 40
+        }
+      },
+      {
+        "name": "Stack raised button / pressed",
+        "parent": "Elevation stack / pressed",
+        "bounds": {
+          "x": 8,
+          "y": 56,
+          "width": 152,
+          "height": 50
+        }
+      },
+      {
+        "name": "Stack field / 下のコンポーネント",
+        "parent": "Elevation stack / pressed",
+        "bounds": {
+          "x": 8,
+          "y": 114,
+          "width": 320,
+          "height": 40
+        }
+      }
+    ],
+    "Elevation stack / focus": [
+      {
+        "name": "Stack field / 上のコンポーネント",
+        "parent": "Elevation stack / focus",
+        "bounds": {
+          "x": 8,
+          "y": 8,
+          "width": 320,
+          "height": 40
+        }
+      },
+      {
+        "name": "Stack raised button / focus",
+        "parent": "Elevation stack / focus",
+        "bounds": {
+          "x": 8,
+          "y": 56,
+          "width": 152,
+          "height": 50
+        }
+      },
+      {
+        "name": "Stack field / 下のコンポーネント",
+        "parent": "Elevation stack / focus",
+        "bounds": {
+          "x": 8,
+          "y": 114,
+          "width": 320,
+          "height": 40
+        }
+      }
+    ]
+  },
+  "scope": "Native pen.dev layout; Flutter runtime is not implemented."
+}

@@ -1,0 +1,1777 @@
+{
+  "primitive": {
+    "color": {
+      "canvas": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.9529411764705882,
+            0.9529411764705882,
+            0.9450980392156862
+          ],
+          "alpha": 1
+        }
+      },
+      "shell": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.8980392156862745,
+            0.9019607843137255,
+            0.8901960784313725
+          ],
+          "alpha": 1
+        }
+      },
+      "key": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.9803921568627451,
+            0.9803921568627451,
+            0.9725490196078431
+          ],
+          "alpha": 1
+        }
+      },
+      "ink": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.12549019607843137,
+            0.1411764705882353,
+            0.14901960784313725
+          ],
+          "alpha": 1
+        }
+      },
+      "muted": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.37254901960784315,
+            0.403921568627451,
+            0.396078431372549
+          ],
+          "alpha": 1
+        }
+      },
+      "line": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.7686274509803922,
+            0.788235294117647,
+            0.7725490196078432
+          ],
+          "alpha": 1
+        }
+      },
+      "controlBorder": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.4392156862745098,
+            0.4745098039215686,
+            0.4549019607843137
+          ],
+          "alpha": 1
+        }
+      },
+      "yellow": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.9137254901960784,
+            0.8117647058823529,
+            0.2823529411764706
+          ],
+          "alpha": 1
+        }
+      },
+      "yellowHover": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.9607843137254902,
+            0.8627450980392157,
+            0.36470588235294116
+          ],
+          "alpha": 1
+        }
+      },
+      "red": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.7215686274509804,
+            0.19607843137254902,
+            0.2196078431372549
+          ],
+          "alpha": 1
+        }
+      },
+      "green": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.1803921568627451,
+            0.4196078431372549,
+            0.3137254901960784
+          ],
+          "alpha": 1
+        }
+      },
+      "focus": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.37254901960784315,
+            0.403921568627451,
+            0.396078431372549
+          ],
+          "alpha": 1
+        }
+      },
+      "darkCanvas": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.08235294117647059,
+            0.09019607843137255,
+            0.09803921568627451
+          ],
+          "alpha": 1
+        }
+      },
+      "darkShell": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.1411764705882353,
+            0.15294117647058825,
+            0.16470588235294117
+          ],
+          "alpha": 1
+        }
+      },
+      "darkKey": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.20784313725490197,
+            0.22745098039215686,
+            0.24313725490196078
+          ],
+          "alpha": 1
+        }
+      },
+      "darkDisplay": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.043137254901960784,
+            0.050980392156862744,
+            0.058823529411764705
+          ],
+          "alpha": 1
+        }
+      },
+      "darkInk": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.9490196078431372,
+            0.9568627450980393,
+            0.9450980392156862
+          ],
+          "alpha": 1
+        }
+      },
+      "darkMuted": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.6784313725490196,
+            0.7137254901960784,
+            0.7372549019607844
+          ],
+          "alpha": 1
+        }
+      },
+      "darkBorder": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.5411764705882353,
+            0.5843137254901961,
+            0.6039215686274509
+          ],
+          "alpha": 1
+        }
+      },
+      "darkLine": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.3333333333333333,
+            0.36470588235294116,
+            0.3843137254901961
+          ],
+          "alpha": 1
+        }
+      },
+      "darkRed": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            1.0,
+            0.5215686274509804,
+            0.5411764705882353
+          ],
+          "alpha": 1
+        }
+      },
+      "darkGreen": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.5529411764705883,
+            0.8235294117647058,
+            0.6705882352941176
+          ],
+          "alpha": 1
+        }
+      },
+      "darkFocus": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.7686274509803922,
+            0.796078431372549,
+            0.7803921568627451
+          ],
+          "alpha": 1
+        }
+      },
+      "white": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "alpha": 1
+        }
+      },
+      "black": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "alpha": 1
+        }
+      },
+      "display": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.09019607843137255,
+            0.10196078431372549,
+            0.10980392156862745
+          ],
+          "alpha": 1
+        }
+      }
+    },
+    "space": {
+      "s0": {
+        "$type": "dimension",
+        "$value": {
+          "value": 0,
+          "unit": "px"
+        }
+      },
+      "s4": {
+        "$type": "dimension",
+        "$value": {
+          "value": 4,
+          "unit": "px"
+        }
+      },
+      "s8": {
+        "$type": "dimension",
+        "$value": {
+          "value": 8,
+          "unit": "px"
+        }
+      },
+      "s16": {
+        "$type": "dimension",
+        "$value": {
+          "value": 16,
+          "unit": "px"
+        }
+      },
+      "s24": {
+        "$type": "dimension",
+        "$value": {
+          "value": 24,
+          "unit": "px"
+        }
+      },
+      "s32": {
+        "$type": "dimension",
+        "$value": {
+          "value": 32,
+          "unit": "px"
+        }
+      },
+      "s40": {
+        "$type": "dimension",
+        "$value": {
+          "value": 40,
+          "unit": "px"
+        }
+      },
+      "s48": {
+        "$type": "dimension",
+        "$value": {
+          "value": 48,
+          "unit": "px"
+        }
+      },
+      "s64": {
+        "$type": "dimension",
+        "$value": {
+          "value": 64,
+          "unit": "px"
+        }
+      }
+    },
+    "radius": {
+      "input": {
+        "$type": "dimension",
+        "$value": {
+          "value": 6,
+          "unit": "px"
+        }
+      },
+      "button": {
+        "$type": "dimension",
+        "$value": {
+          "value": 6,
+          "unit": "px"
+        }
+      },
+      "menu": {
+        "$type": "dimension",
+        "$value": {
+          "value": 8,
+          "unit": "px"
+        }
+      },
+      "panel": {
+        "$type": "dimension",
+        "$value": {
+          "value": 10,
+          "unit": "px"
+        }
+      },
+      "shell": {
+        "$type": "dimension",
+        "$value": {
+          "value": 14,
+          "unit": "px"
+        }
+      },
+      "pill": {
+        "$type": "dimension",
+        "$value": {
+          "value": 999,
+          "unit": "px"
+        }
+      }
+    },
+    "stroke": {
+      "hairline": {
+        "$type": "dimension",
+        "$value": {
+          "value": 1,
+          "unit": "px"
+        }
+      },
+      "focus": {
+        "$type": "dimension",
+        "$value": {
+          "value": 2,
+          "unit": "px"
+        }
+      },
+      "keyDepth": {
+        "$type": "dimension",
+        "$value": {
+          "value": 2,
+          "unit": "px"
+        }
+      }
+    },
+    "font": {
+      "latin": {
+        "$type": "fontFamily",
+        "$value": "Manrope"
+      },
+      "japanese": {
+        "$type": "fontFamily",
+        "$value": "IBM Plex Sans JP"
+      }
+    },
+    "typeSize": {
+      "caption": {
+        "$type": "dimension",
+        "$value": {
+          "value": 12,
+          "unit": "px"
+        }
+      },
+      "body": {
+        "$type": "dimension",
+        "$value": {
+          "value": 14,
+          "unit": "px"
+        }
+      },
+      "section": {
+        "$type": "dimension",
+        "$value": {
+          "value": 20,
+          "unit": "px"
+        }
+      },
+      "page": {
+        "$type": "dimension",
+        "$value": {
+          "value": 32,
+          "unit": "px"
+        }
+      },
+      "display": {
+        "$type": "dimension",
+        "$value": {
+          "value": 48,
+          "unit": "px"
+        }
+      }
+    },
+    "weight": {
+      "regular": {
+        "$type": "fontWeight",
+        "$value": 400
+      },
+      "medium": {
+        "$type": "fontWeight",
+        "$value": 500
+      },
+      "semibold": {
+        "$type": "fontWeight",
+        "$value": 600
+      }
+    },
+    "lineHeight": {
+      "caption": {
+        "$type": "number",
+        "$value": 1.5
+      },
+      "body": {
+        "$type": "number",
+        "$value": 1.4
+      },
+      "control": {
+        "$type": "number",
+        "$value": 1.35
+      },
+      "heading": {
+        "$type": "number",
+        "$value": 1.25
+      }
+    },
+    "duration": {
+      "instant": {
+        "$type": "duration",
+        "$value": {
+          "value": 0,
+          "unit": "ms"
+        }
+      },
+      "press": {
+        "$type": "duration",
+        "$value": {
+          "value": 60,
+          "unit": "ms"
+        }
+      },
+      "hover": {
+        "$type": "duration",
+        "$value": {
+          "value": 90,
+          "unit": "ms"
+        }
+      },
+      "release": {
+        "$type": "duration",
+        "$value": {
+          "value": 120,
+          "unit": "ms"
+        }
+      },
+      "selection": {
+        "$type": "duration",
+        "$value": {
+          "value": 160,
+          "unit": "ms"
+        }
+      },
+      "overlay": {
+        "$type": "duration",
+        "$value": {
+          "value": 140,
+          "unit": "ms"
+        }
+      },
+      "complete": {
+        "$type": "duration",
+        "$value": {
+          "value": 220,
+          "unit": "ms"
+        }
+      }
+    },
+    "easing": {
+      "standard": {
+        "$type": "cubicBezier",
+        "$value": [
+          0.2,
+          0,
+          0.2,
+          1
+        ]
+      },
+      "exit": {
+        "$type": "cubicBezier",
+        "$value": [
+          0.4,
+          0,
+          1,
+          1
+        ]
+      }
+    },
+    "elevation": {
+      "keyDepth": {
+        "$type": "dimension",
+        "$value": "{primitive.stroke.keyDepth}"
+      },
+      "knobDepth": {
+        "$type": "dimension",
+        "$value": {
+          "value": 4,
+          "unit": "px"
+        }
+      },
+      "focusClearance": {
+        "$type": "dimension",
+        "$value": {
+          "value": 4,
+          "unit": "px"
+        },
+        "$description": "Focus stroke 2px + offset 2px, per side; reserved in every state."
+      }
+    }
+  },
+  "semantic": {
+    "light": {
+      "color": {
+        "bg": {
+          "canvas": {
+            "$type": "color",
+            "$value": "{primitive.color.canvas}"
+          },
+          "surface": {
+            "$type": "color",
+            "$value": "{primitive.color.shell}"
+          },
+          "raised": {
+            "$type": "color",
+            "$value": "{primitive.color.key}"
+          },
+          "display": {
+            "$type": "color",
+            "$value": "{primitive.color.display}"
+          }
+        },
+        "text": {
+          "primary": {
+            "$type": "color",
+            "$value": "{primitive.color.ink}"
+          },
+          "secondary": {
+            "$type": "color",
+            "$value": "{primitive.color.muted}"
+          },
+          "inverse": {
+            "$type": "color",
+            "$value": "{primitive.color.darkInk}"
+          }
+        },
+        "border": {
+          "subtle": {
+            "$type": "color",
+            "$value": "{primitive.color.line}"
+          },
+          "control": {
+            "$type": "color",
+            "$value": "{primitive.color.controlBorder}"
+          }
+        },
+        "action": {
+          "primary": {
+            "$type": "color",
+            "$value": "{primitive.color.yellow}"
+          },
+          "primaryHover": {
+            "$type": "color",
+            "$value": "{primitive.color.yellowHover}"
+          },
+          "onPrimary": {
+            "$type": "color",
+            "$value": "{primitive.color.ink}"
+          }
+        },
+        "focus": {
+          "ring": {
+            "$type": "color",
+            "$value": "{primitive.color.focus}"
+          }
+        },
+        "status": {
+          "danger": {
+            "$type": "color",
+            "$value": "{primitive.color.red}"
+          },
+          "success": {
+            "$type": "color",
+            "$value": "{primitive.color.green}"
+          }
+        }
+      },
+      "dimension": {
+        "control": {
+          "height": {
+            "$type": "dimension",
+            "$value": {
+              "value": 40,
+              "unit": "px"
+            }
+          },
+          "padding": {
+            "$type": "dimension",
+            "$value": {
+              "value": 8,
+              "unit": "px"
+            }
+          },
+          "gap": {
+            "$type": "dimension",
+            "$value": {
+              "value": 8,
+              "unit": "px"
+            }
+          },
+          "surfaceHeight": {
+            "$type": "dimension",
+            "$value": {
+              "value": 40,
+              "unit": "px"
+            }
+          },
+          "physicalHeight": {
+            "$type": "dimension",
+            "$value": {
+              "value": 42,
+              "unit": "px"
+            }
+          },
+          "layoutHeight": {
+            "$type": "dimension",
+            "$value": {
+              "value": 50,
+              "unit": "px"
+            }
+          },
+          "focusReserve": {
+            "$type": "dimension",
+            "$value": {
+              "value": 4,
+              "unit": "px"
+            }
+          }
+        },
+        "row": {
+          "height": {
+            "$type": "dimension",
+            "$value": {
+              "value": 40,
+              "unit": "px"
+            }
+          }
+        },
+        "layout": {
+          "sectionGap": {
+            "$type": "dimension",
+            "$value": {
+              "value": 24,
+              "unit": "px"
+            }
+          },
+          "pageInset": {
+            "$type": "dimension",
+            "$value": {
+              "value": 24,
+              "unit": "px"
+            }
+          },
+          "panelGap": {
+            "$type": "dimension",
+            "$value": {
+              "value": 16,
+              "unit": "px"
+            }
+          }
+        },
+        "focus": {
+          "width": {
+            "$type": "dimension",
+            "$value": {
+              "value": 2,
+              "unit": "px"
+            }
+          },
+          "offset": {
+            "$type": "dimension",
+            "$value": {
+              "value": 2,
+              "unit": "px"
+            }
+          }
+        }
+      }
+    },
+    "dark": {
+      "color": {
+        "bg": {
+          "canvas": {
+            "$type": "color",
+            "$value": "{primitive.color.darkCanvas}"
+          },
+          "surface": {
+            "$type": "color",
+            "$value": "{primitive.color.darkShell}"
+          },
+          "raised": {
+            "$type": "color",
+            "$value": "{primitive.color.darkKey}"
+          },
+          "display": {
+            "$type": "color",
+            "$value": "{primitive.color.darkDisplay}"
+          }
+        },
+        "text": {
+          "primary": {
+            "$type": "color",
+            "$value": "{primitive.color.darkInk}"
+          },
+          "secondary": {
+            "$type": "color",
+            "$value": "{primitive.color.darkMuted}"
+          },
+          "inverse": {
+            "$type": "color",
+            "$value": "{primitive.color.darkInk}"
+          }
+        },
+        "border": {
+          "subtle": {
+            "$type": "color",
+            "$value": "{primitive.color.darkLine}"
+          },
+          "control": {
+            "$type": "color",
+            "$value": "{primitive.color.darkBorder}"
+          }
+        },
+        "action": {
+          "primary": {
+            "$type": "color",
+            "$value": "{primitive.color.yellow}"
+          },
+          "primaryHover": {
+            "$type": "color",
+            "$value": "{primitive.color.yellowHover}"
+          },
+          "onPrimary": {
+            "$type": "color",
+            "$value": "{primitive.color.ink}"
+          }
+        },
+        "focus": {
+          "ring": {
+            "$type": "color",
+            "$value": "{primitive.color.darkFocus}"
+          }
+        },
+        "status": {
+          "danger": {
+            "$type": "color",
+            "$value": "{primitive.color.darkRed}"
+          },
+          "success": {
+            "$type": "color",
+            "$value": "{primitive.color.darkGreen}"
+          }
+        }
+      },
+      "dimension": {
+        "control": {
+          "height": {
+            "$type": "dimension",
+            "$value": {
+              "value": 40,
+              "unit": "px"
+            }
+          },
+          "padding": {
+            "$type": "dimension",
+            "$value": {
+              "value": 8,
+              "unit": "px"
+            }
+          },
+          "gap": {
+            "$type": "dimension",
+            "$value": {
+              "value": 8,
+              "unit": "px"
+            }
+          },
+          "surfaceHeight": {
+            "$type": "dimension",
+            "$value": {
+              "value": 40,
+              "unit": "px"
+            }
+          },
+          "physicalHeight": {
+            "$type": "dimension",
+            "$value": {
+              "value": 42,
+              "unit": "px"
+            }
+          },
+          "layoutHeight": {
+            "$type": "dimension",
+            "$value": {
+              "value": 50,
+              "unit": "px"
+            }
+          },
+          "focusReserve": {
+            "$type": "dimension",
+            "$value": {
+              "value": 4,
+              "unit": "px"
+            }
+          }
+        },
+        "row": {
+          "height": {
+            "$type": "dimension",
+            "$value": {
+              "value": 40,
+              "unit": "px"
+            }
+          }
+        },
+        "layout": {
+          "sectionGap": {
+            "$type": "dimension",
+            "$value": {
+              "value": 24,
+              "unit": "px"
+            }
+          },
+          "pageInset": {
+            "$type": "dimension",
+            "$value": {
+              "value": 24,
+              "unit": "px"
+            }
+          },
+          "panelGap": {
+            "$type": "dimension",
+            "$value": {
+              "value": 16,
+              "unit": "px"
+            }
+          }
+        },
+        "focus": {
+          "width": {
+            "$type": "dimension",
+            "$value": {
+              "value": 2,
+              "unit": "px"
+            }
+          },
+          "offset": {
+            "$type": "dimension",
+            "$value": {
+              "value": 2,
+              "unit": "px"
+            }
+          }
+        }
+      }
+    },
+    "highLight": {
+      "color": {
+        "bg": {
+          "canvas": {
+            "$type": "color",
+            "$value": "{primitive.color.white}"
+          },
+          "surface": {
+            "$type": "color",
+            "$value": "{primitive.color.white}"
+          },
+          "raised": {
+            "$type": "color",
+            "$value": "{primitive.color.white}"
+          },
+          "display": {
+            "$type": "color",
+            "$value": "{primitive.color.display}"
+          }
+        },
+        "text": {
+          "primary": {
+            "$type": "color",
+            "$value": "{primitive.color.black}"
+          },
+          "secondary": {
+            "$type": "color",
+            "$value": "{primitive.color.black}"
+          },
+          "inverse": {
+            "$type": "color",
+            "$value": "{primitive.color.darkInk}"
+          }
+        },
+        "border": {
+          "subtle": {
+            "$type": "color",
+            "$value": "{primitive.color.black}"
+          },
+          "control": {
+            "$type": "color",
+            "$value": "{primitive.color.black}"
+          }
+        },
+        "action": {
+          "primary": {
+            "$type": "color",
+            "$value": "{primitive.color.yellow}"
+          },
+          "primaryHover": {
+            "$type": "color",
+            "$value": "{primitive.color.yellowHover}"
+          },
+          "onPrimary": {
+            "$type": "color",
+            "$value": "{primitive.color.ink}"
+          }
+        },
+        "focus": {
+          "ring": {
+            "$type": "color",
+            "$value": "{primitive.color.black}"
+          }
+        },
+        "status": {
+          "danger": {
+            "$type": "color",
+            "$value": "{primitive.color.red}"
+          },
+          "success": {
+            "$type": "color",
+            "$value": "{primitive.color.green}"
+          }
+        }
+      },
+      "dimension": {
+        "control": {
+          "height": {
+            "$type": "dimension",
+            "$value": {
+              "value": 40,
+              "unit": "px"
+            }
+          },
+          "padding": {
+            "$type": "dimension",
+            "$value": {
+              "value": 8,
+              "unit": "px"
+            }
+          },
+          "gap": {
+            "$type": "dimension",
+            "$value": {
+              "value": 8,
+              "unit": "px"
+            }
+          },
+          "surfaceHeight": {
+            "$type": "dimension",
+            "$value": {
+              "value": 40,
+              "unit": "px"
+            }
+          },
+          "physicalHeight": {
+            "$type": "dimension",
+            "$value": {
+              "value": 42,
+              "unit": "px"
+            }
+          },
+          "layoutHeight": {
+            "$type": "dimension",
+            "$value": {
+              "value": 50,
+              "unit": "px"
+            }
+          },
+          "focusReserve": {
+            "$type": "dimension",
+            "$value": {
+              "value": 4,
+              "unit": "px"
+            }
+          }
+        },
+        "row": {
+          "height": {
+            "$type": "dimension",
+            "$value": {
+              "value": 40,
+              "unit": "px"
+            }
+          }
+        },
+        "layout": {
+          "sectionGap": {
+            "$type": "dimension",
+            "$value": {
+              "value": 24,
+              "unit": "px"
+            }
+          },
+          "pageInset": {
+            "$type": "dimension",
+            "$value": {
+              "value": 24,
+              "unit": "px"
+            }
+          },
+          "panelGap": {
+            "$type": "dimension",
+            "$value": {
+              "value": 16,
+              "unit": "px"
+            }
+          }
+        },
+        "focus": {
+          "width": {
+            "$type": "dimension",
+            "$value": {
+              "value": 2,
+              "unit": "px"
+            }
+          },
+          "offset": {
+            "$type": "dimension",
+            "$value": {
+              "value": 2,
+              "unit": "px"
+            }
+          }
+        }
+      }
+    },
+    "highDark": {
+      "color": {
+        "bg": {
+          "canvas": {
+            "$type": "color",
+            "$value": "{primitive.color.black}"
+          },
+          "surface": {
+            "$type": "color",
+            "$value": "{primitive.color.black}"
+          },
+          "raised": {
+            "$type": "color",
+            "$value": "{primitive.color.black}"
+          },
+          "display": {
+            "$type": "color",
+            "$value": "{primitive.color.black}"
+          }
+        },
+        "text": {
+          "primary": {
+            "$type": "color",
+            "$value": "{primitive.color.white}"
+          },
+          "secondary": {
+            "$type": "color",
+            "$value": "{primitive.color.white}"
+          },
+          "inverse": {
+            "$type": "color",
+            "$value": "{primitive.color.darkInk}"
+          }
+        },
+        "border": {
+          "subtle": {
+            "$type": "color",
+            "$value": "{primitive.color.white}"
+          },
+          "control": {
+            "$type": "color",
+            "$value": "{primitive.color.white}"
+          }
+        },
+        "action": {
+          "primary": {
+            "$type": "color",
+            "$value": "{primitive.color.yellow}"
+          },
+          "primaryHover": {
+            "$type": "color",
+            "$value": "{primitive.color.yellowHover}"
+          },
+          "onPrimary": {
+            "$type": "color",
+            "$value": "{primitive.color.ink}"
+          }
+        },
+        "focus": {
+          "ring": {
+            "$type": "color",
+            "$value": "{primitive.color.white}"
+          }
+        },
+        "status": {
+          "danger": {
+            "$type": "color",
+            "$value": "{primitive.color.darkRed}"
+          },
+          "success": {
+            "$type": "color",
+            "$value": "{primitive.color.darkGreen}"
+          }
+        }
+      },
+      "dimension": {
+        "control": {
+          "height": {
+            "$type": "dimension",
+            "$value": {
+              "value": 40,
+              "unit": "px"
+            }
+          },
+          "padding": {
+            "$type": "dimension",
+            "$value": {
+              "value": 8,
+              "unit": "px"
+            }
+          },
+          "gap": {
+            "$type": "dimension",
+            "$value": {
+              "value": 8,
+              "unit": "px"
+            }
+          },
+          "surfaceHeight": {
+            "$type": "dimension",
+            "$value": {
+              "value": 40,
+              "unit": "px"
+            }
+          },
+          "physicalHeight": {
+            "$type": "dimension",
+            "$value": {
+              "value": 42,
+              "unit": "px"
+            }
+          },
+          "layoutHeight": {
+            "$type": "dimension",
+            "$value": {
+              "value": 50,
+              "unit": "px"
+            }
+          },
+          "focusReserve": {
+            "$type": "dimension",
+            "$value": {
+              "value": 4,
+              "unit": "px"
+            }
+          }
+        },
+        "row": {
+          "height": {
+            "$type": "dimension",
+            "$value": {
+              "value": 40,
+              "unit": "px"
+            }
+          }
+        },
+        "layout": {
+          "sectionGap": {
+            "$type": "dimension",
+            "$value": {
+              "value": 24,
+              "unit": "px"
+            }
+          },
+          "pageInset": {
+            "$type": "dimension",
+            "$value": {
+              "value": 24,
+              "unit": "px"
+            }
+          },
+          "panelGap": {
+            "$type": "dimension",
+            "$value": {
+              "value": 16,
+              "unit": "px"
+            }
+          }
+        },
+        "focus": {
+          "width": {
+            "$type": "dimension",
+            "$value": {
+              "value": 2,
+              "unit": "px"
+            }
+          },
+          "offset": {
+            "$type": "dimension",
+            "$value": {
+              "value": 2,
+              "unit": "px"
+            }
+          }
+        }
+      }
+    }
+  },
+  "component": {
+    "light": {
+      "button": {
+        "primary": {
+          "background": {
+            "$type": "color",
+            "$value": "{semantic.light.color.action.primary}"
+          },
+          "foreground": {
+            "$type": "color",
+            "$value": "{semantic.light.color.action.onPrimary}"
+          }
+        },
+        "secondary": {
+          "background": {
+            "$type": "color",
+            "$value": "{semantic.light.color.bg.raised}"
+          },
+          "foreground": {
+            "$type": "color",
+            "$value": "{semantic.light.color.text.primary}"
+          }
+        },
+        "danger": {
+          "background": {
+            "$type": "color",
+            "$value": "{semantic.light.color.status.danger}"
+          },
+          "foreground": {
+            "$type": "color",
+            "$value": "{primitive.color.white}"
+          }
+        },
+        "height": {
+          "$type": "dimension",
+          "$value": "{semantic.light.dimension.control.layoutHeight}",
+          "$description": "Total occupied height, including depth and reserved focus clearance."
+        },
+        "padding": {
+          "$type": "dimension",
+          "$value": "{semantic.light.dimension.control.padding}"
+        },
+        "gap": {
+          "$type": "dimension",
+          "$value": "{semantic.light.dimension.control.gap}"
+        },
+        "surfaceHeight": {
+          "$type": "dimension",
+          "$value": "{semantic.light.dimension.control.surfaceHeight}"
+        },
+        "physicalHeight": {
+          "$type": "dimension",
+          "$value": "{semantic.light.dimension.control.physicalHeight}"
+        },
+        "focusReserve": {
+          "$type": "dimension",
+          "$value": "{semantic.light.dimension.control.focusReserve}"
+        }
+      },
+      "input": {
+        "background": {
+          "$type": "color",
+          "$value": "{semantic.light.color.bg.raised}"
+        },
+        "foreground": {
+          "$type": "color",
+          "$value": "{semantic.light.color.text.primary}"
+        },
+        "border": {
+          "$type": "color",
+          "$value": "{semantic.light.color.border.control}"
+        },
+        "height": {
+          "$type": "dimension",
+          "$value": "{semantic.light.dimension.control.height}"
+        },
+        "padding": {
+          "$type": "dimension",
+          "$value": "{semantic.light.dimension.control.padding}"
+        }
+      },
+      "surface": {
+        "background": {
+          "$type": "color",
+          "$value": "{semantic.light.color.bg.surface}"
+        },
+        "border": {
+          "$type": "color",
+          "$value": "{semantic.light.color.border.subtle}"
+        }
+      }
+    },
+    "dark": {
+      "button": {
+        "primary": {
+          "background": {
+            "$type": "color",
+            "$value": "{semantic.dark.color.action.primary}"
+          },
+          "foreground": {
+            "$type": "color",
+            "$value": "{semantic.dark.color.action.onPrimary}"
+          }
+        },
+        "secondary": {
+          "background": {
+            "$type": "color",
+            "$value": "{semantic.dark.color.bg.raised}"
+          },
+          "foreground": {
+            "$type": "color",
+            "$value": "{semantic.dark.color.text.primary}"
+          }
+        },
+        "danger": {
+          "background": {
+            "$type": "color",
+            "$value": "{semantic.dark.color.status.danger}"
+          },
+          "foreground": {
+            "$type": "color",
+            "$value": "{primitive.color.ink}"
+          }
+        },
+        "height": {
+          "$type": "dimension",
+          "$value": "{semantic.dark.dimension.control.layoutHeight}",
+          "$description": "Total occupied height, including depth and reserved focus clearance."
+        },
+        "padding": {
+          "$type": "dimension",
+          "$value": "{semantic.dark.dimension.control.padding}"
+        },
+        "gap": {
+          "$type": "dimension",
+          "$value": "{semantic.dark.dimension.control.gap}"
+        },
+        "surfaceHeight": {
+          "$type": "dimension",
+          "$value": "{semantic.dark.dimension.control.surfaceHeight}"
+        },
+        "physicalHeight": {
+          "$type": "dimension",
+          "$value": "{semantic.dark.dimension.control.physicalHeight}"
+        },
+        "focusReserve": {
+          "$type": "dimension",
+          "$value": "{semantic.dark.dimension.control.focusReserve}"
+        }
+      },
+      "input": {
+        "background": {
+          "$type": "color",
+          "$value": "{semantic.dark.color.bg.raised}"
+        },
+        "foreground": {
+          "$type": "color",
+          "$value": "{semantic.dark.color.text.primary}"
+        },
+        "border": {
+          "$type": "color",
+          "$value": "{semantic.dark.color.border.control}"
+        },
+        "height": {
+          "$type": "dimension",
+          "$value": "{semantic.dark.dimension.control.height}"
+        },
+        "padding": {
+          "$type": "dimension",
+          "$value": "{semantic.dark.dimension.control.padding}"
+        }
+      },
+      "surface": {
+        "background": {
+          "$type": "color",
+          "$value": "{semantic.dark.color.bg.surface}"
+        },
+        "border": {
+          "$type": "color",
+          "$value": "{semantic.dark.color.border.subtle}"
+        }
+      }
+    },
+    "highLight": {
+      "button": {
+        "primary": {
+          "background": {
+            "$type": "color",
+            "$value": "{semantic.highLight.color.action.primary}"
+          },
+          "foreground": {
+            "$type": "color",
+            "$value": "{semantic.highLight.color.action.onPrimary}"
+          }
+        },
+        "secondary": {
+          "background": {
+            "$type": "color",
+            "$value": "{semantic.highLight.color.bg.raised}"
+          },
+          "foreground": {
+            "$type": "color",
+            "$value": "{semantic.highLight.color.text.primary}"
+          }
+        },
+        "danger": {
+          "background": {
+            "$type": "color",
+            "$value": "{semantic.highLight.color.status.danger}"
+          },
+          "foreground": {
+            "$type": "color",
+            "$value": "{primitive.color.white}"
+          }
+        },
+        "height": {
+          "$type": "dimension",
+          "$value": "{semantic.highLight.dimension.control.layoutHeight}",
+          "$description": "Total occupied height, including depth and reserved focus clearance."
+        },
+        "padding": {
+          "$type": "dimension",
+          "$value": "{semantic.highLight.dimension.control.padding}"
+        },
+        "gap": {
+          "$type": "dimension",
+          "$value": "{semantic.highLight.dimension.control.gap}"
+        },
+        "surfaceHeight": {
+          "$type": "dimension",
+          "$value": "{semantic.highLight.dimension.control.surfaceHeight}"
+        },
+        "physicalHeight": {
+          "$type": "dimension",
+          "$value": "{semantic.highLight.dimension.control.physicalHeight}"
+        },
+        "focusReserve": {
+          "$type": "dimension",
+          "$value": "{semantic.highLight.dimension.control.focusReserve}"
+        }
+      },
+      "input": {
+        "background": {
+          "$type": "color",
+          "$value": "{semantic.highLight.color.bg.raised}"
+        },
+        "foreground": {
+          "$type": "color",
+          "$value": "{semantic.highLight.color.text.primary}"
+        },
+        "border": {
+          "$type": "color",
+          "$value": "{semantic.highLight.color.border.control}"
+        },
+        "height": {
+          "$type": "dimension",
+          "$value": "{semantic.highLight.dimension.control.height}"
+        },
+        "padding": {
+          "$type": "dimension",
+          "$value": "{semantic.highLight.dimension.control.padding}"
+        }
+      },
+      "surface": {
+        "background": {
+          "$type": "color",
+          "$value": "{semantic.highLight.color.bg.surface}"
+        },
+        "border": {
+          "$type": "color",
+          "$value": "{semantic.highLight.color.border.subtle}"
+        }
+      }
+    },
+    "highDark": {
+      "button": {
+        "primary": {
+          "background": {
+            "$type": "color",
+            "$value": "{semantic.highDark.color.action.primary}"
+          },
+          "foreground": {
+            "$type": "color",
+            "$value": "{semantic.highDark.color.action.onPrimary}"
+          }
+        },
+        "secondary": {
+          "background": {
+            "$type": "color",
+            "$value": "{semantic.highDark.color.bg.raised}"
+          },
+          "foreground": {
+            "$type": "color",
+            "$value": "{semantic.highDark.color.text.primary}"
+          }
+        },
+        "danger": {
+          "background": {
+            "$type": "color",
+            "$value": "{semantic.highDark.color.status.danger}"
+          },
+          "foreground": {
+            "$type": "color",
+            "$value": "{primitive.color.ink}"
+          }
+        },
+        "height": {
+          "$type": "dimension",
+          "$value": "{semantic.highDark.dimension.control.layoutHeight}",
+          "$description": "Total occupied height, including depth and reserved focus clearance."
+        },
+        "padding": {
+          "$type": "dimension",
+          "$value": "{semantic.highDark.dimension.control.padding}"
+        },
+        "gap": {
+          "$type": "dimension",
+          "$value": "{semantic.highDark.dimension.control.gap}"
+        },
+        "surfaceHeight": {
+          "$type": "dimension",
+          "$value": "{semantic.highDark.dimension.control.surfaceHeight}"
+        },
+        "physicalHeight": {
+          "$type": "dimension",
+          "$value": "{semantic.highDark.dimension.control.physicalHeight}"
+        },
+        "focusReserve": {
+          "$type": "dimension",
+          "$value": "{semantic.highDark.dimension.control.focusReserve}"
+        }
+      },
+      "input": {
+        "background": {
+          "$type": "color",
+          "$value": "{semantic.highDark.color.bg.raised}"
+        },
+        "foreground": {
+          "$type": "color",
+          "$value": "{semantic.highDark.color.text.primary}"
+        },
+        "border": {
+          "$type": "color",
+          "$value": "{semantic.highDark.color.border.control}"
+        },
+        "height": {
+          "$type": "dimension",
+          "$value": "{semantic.highDark.dimension.control.height}"
+        },
+        "padding": {
+          "$type": "dimension",
+          "$value": "{semantic.highDark.dimension.control.padding}"
+        }
+      },
+      "surface": {
+        "background": {
+          "$type": "color",
+          "$value": "{semantic.highDark.color.bg.surface}"
+        },
+        "border": {
+          "$type": "color",
+          "$value": "{semantic.highDark.color.border.subtle}"
+        }
+      }
+    }
+  },
+  "density": {
+    "standard": {
+      "controlHeight": {
+        "$type": "dimension",
+        "$value": {
+          "value": 40,
+          "unit": "px"
+        }
+      }
+    },
+    "compact": {
+      "controlHeight": {
+        "$type": "dimension",
+        "$value": {
+          "value": 32,
+          "unit": "px"
+        }
+      }
+    },
+    "comfortable": {
+      "controlHeight": {
+        "$type": "dimension",
+        "$value": {
+          "value": 44,
+          "unit": "px"
+        }
+      }
+    }
+  },
+  "motion": {
+    "reduced": {
+      "duration": {
+        "$type": "duration",
+        "$value": "{primitive.duration.instant}"
+      },
+      "loop": {
+        "$type": "number",
+        "$value": 0,
+        "$description": "0 = stop loops; 1 = allow loops"
+      }
+    },
+    "full": {
+      "loopWhenVisible": {
+        "$type": "number",
+        "$value": 1,
+        "$description": "0 = stop loops; 1 = allow loops while visible"
+      }
+    }
+  },
+  "layer": {
+    "base": {
+      "$type": "number",
+      "$value": 0
+    },
+    "sticky": {
+      "$type": "number",
+      "$value": 10
+    },
+    "popover": {
+      "$type": "number",
+      "$value": 20
+    },
+    "menu": {
+      "$type": "number",
+      "$value": 30
+    },
+    "dialog": {
+      "$type": "number",
+      "$value": 40
+    },
+    "toast": {
+      "$type": "number",
+      "$value": 50
+    },
+    "tooltip": {
+      "$type": "number",
+      "$value": 60
+    }
+  },
+  "$description": "Detent Design System 0.4: DTCG 2025.10 vocabulary; explicit semantic mode groups, not an implicit theme resolver."
+}

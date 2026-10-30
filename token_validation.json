@@ -1,0 +1,270 @@
+{
+  "tokens": 271,
+  "aliases": 138,
+  "unresolvedAliases": 0,
+  "cycles": 0,
+  "contrastPairs": [
+    {
+      "mode": "light",
+      "foreground": "text.primary",
+      "background": "bg.canvas",
+      "ratio": 14.087,
+      "minimum": 4.5,
+      "pass": true
+    },
+    {
+      "mode": "light",
+      "foreground": "text.secondary",
+      "background": "bg.surface",
+      "ratio": 4.637,
+      "minimum": 4.5,
+      "pass": true
+    },
+    {
+      "mode": "light",
+      "foreground": "text.primary",
+      "background": "bg.raised",
+      "ratio": 14.976,
+      "minimum": 4.5,
+      "pass": true
+    },
+    {
+      "mode": "light",
+      "foreground": "action.onPrimary",
+      "background": "action.primary",
+      "ratio": 10.049,
+      "minimum": 4.5,
+      "pass": true
+    },
+    {
+      "mode": "light",
+      "foreground": "border.control",
+      "background": "bg.raised",
+      "ratio": 4.297,
+      "minimum": 3,
+      "pass": true
+    },
+    {
+      "mode": "light",
+      "foreground": "border.control",
+      "background": "bg.surface",
+      "ratio": 3.584,
+      "minimum": 3,
+      "pass": true
+    },
+    {
+      "mode": "light",
+      "foreground": "focus.ring",
+      "background": "bg.raised",
+      "ratio": 5.559,
+      "minimum": 3,
+      "pass": true
+    },
+    {
+      "mode": "light",
+      "foreground": "status.danger",
+      "background": "bg.raised",
+      "ratio": 5.658,
+      "minimum": 4.5,
+      "pass": true
+    },
+    {
+      "mode": "dark",
+      "foreground": "text.primary",
+      "background": "bg.canvas",
+      "ratio": 16.248,
+      "minimum": 4.5,
+      "pass": true
+    },
+    {
+      "mode": "dark",
+      "foreground": "text.secondary",
+      "background": "bg.surface",
+      "ratio": 7.289,
+      "minimum": 4.5,
+      "pass": true
+    },
+    {
+      "mode": "dark",
+      "foreground": "text.primary",
+      "background": "bg.raised",
+      "ratio": 10.397,
+      "minimum": 4.5,
+      "pass": true
+    },
+    {
+      "mode": "dark",
+      "foreground": "action.onPrimary",
+      "background": "action.primary",
+      "ratio": 10.049,
+      "minimum": 4.5,
+      "pass": true
+    },
+    {
+      "mode": "dark",
+      "foreground": "border.control",
+      "background": "bg.raised",
+      "ratio": 3.749,
+      "minimum": 3,
+      "pass": true
+    },
+    {
+      "mode": "dark",
+      "foreground": "border.control",
+      "background": "bg.surface",
+      "ratio": 4.895,
+      "minimum": 3,
+      "pass": true
+    },
+    {
+      "mode": "dark",
+      "foreground": "focus.ring",
+      "background": "bg.raised",
+      "ratio": 6.962,
+      "minimum": 3,
+      "pass": true
+    },
+    {
+      "mode": "dark",
+      "foreground": "status.danger",
+      "background": "bg.raised",
+      "ratio": 4.914,
+      "minimum": 4.5,
+      "pass": true
+    },
+    {
+      "mode": "highLight",
+      "foreground": "text.primary",
+      "background": "bg.canvas",
+      "ratio": 21.0,
+      "minimum": 4.5,
+      "pass": true
+    },
+    {
+      "mode": "highLight",
+      "foreground": "text.secondary",
+      "background": "bg.surface",
+      "ratio": 21.0,
+      "minimum": 4.5,
+      "pass": true
+    },
+    {
+      "mode": "highLight",
+      "foreground": "text.primary",
+      "background": "bg.raised",
+      "ratio": 21.0,
+      "minimum": 4.5,
+      "pass": true
+    },
+    {
+      "mode": "highLight",
+      "foreground": "action.onPrimary",
+      "background": "action.primary",
+      "ratio": 10.049,
+      "minimum": 4.5,
+      "pass": true
+    },
+    {
+      "mode": "highLight",
+      "foreground": "border.control",
+      "background": "bg.raised",
+      "ratio": 21.0,
+      "minimum": 3,
+      "pass": true
+    },
+    {
+      "mode": "highLight",
+      "foreground": "border.control",
+      "background": "bg.surface",
+      "ratio": 21.0,
+      "minimum": 3,
+      "pass": true
+    },
+    {
+      "mode": "highLight",
+      "foreground": "focus.ring",
+      "background": "bg.raised",
+      "ratio": 21.0,
+      "minimum": 3,
+      "pass": true
+    },
+    {
+      "mode": "highLight",
+      "foreground": "status.danger",
+      "background": "bg.raised",
+      "ratio": 5.913,
+      "minimum": 4.5,
+      "pass": true
+    },
+    {
+      "mode": "highDark",
+      "foreground": "text.primary",
+      "background": "bg.canvas",
+      "ratio": 21.0,
+      "minimum": 4.5,
+      "pass": true
+    },
+    {
+      "mode": "highDark",
+      "foreground": "text.secondary",
+      "background": "bg.surface",
+      "ratio": 21.0,
+      "minimum": 4.5,
+      "pass": true
+    },
+    {
+      "mode": "highDark",
+      "foreground": "text.primary",
+      "background": "bg.raised",
+      "ratio": 21.0,
+      "minimum": 4.5,
+      "pass": true
+    },
+    {
+      "mode": "highDark",
+      "foreground": "action.onPrimary",
+      "background": "action.primary",
+      "ratio": 10.049,
+      "minimum": 4.5,
+      "pass": true
+    },
+    {
+      "mode": "highDark",
+      "foreground": "border.control",
+      "background": "bg.raised",
+      "ratio": 21.0,
+      "minimum": 3,
+      "pass": true
+    },
+    {
+      "mode": "highDark",
+      "foreground": "border.control",
+      "background": "bg.surface",
+      "ratio": 21.0,
+      "minimum": 3,
+      "pass": true
+    },
+    {
+      "mode": "highDark",
+      "foreground": "focus.ring",
+      "background": "bg.raised",
+      "ratio": 21.0,
+      "minimum": 3,
+      "pass": true
+    },
+    {
+      "mode": "highDark",
+      "foreground": "status.danger",
+      "background": "bg.raised",
+      "ratio": 8.974,
+      "minimum": 4.5,
+      "pass": true
+    }
+  ],
+  "scope": "Selected color pairs only; not full accessibility certification.",
+  "elevationFormulaChecks": 4,
+  "buttonSurfaceHeight": 40,
+  "buttonPhysicalHeight": 42,
+  "buttonLayoutHeight": 50,
+  "focusClearancePerSide": 4
+}
