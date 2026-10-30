@@ -13,8 +13,8 @@
   "tokens": 271,
   "riveArtboards": 39,
   "analyze": "passed; no issues",
-  "widgetAndRuntimeTests": 35,
-  "galleryTests": 2,
+  "widgetAndRuntimeTests": 38,
+  "galleryTests": 3,
   "galleryConfigurations": {
     "themes": [
       "light",
@@ -39,7 +39,9 @@
     "example/screenshots/static.png",
     "example/screenshots/select.png",
     "example/screenshots/combobox.png",
-    "example/screenshots/navigation.png"
+    "example/screenshots/navigation.png",
+    "example/screenshots/component-detail.png",
+    "example/screenshots/segment-slide.gif"
   ],
   "limitations": [
     "OS-device IME, screen reader, DPI and profile performance certification not performed",
@@ -127,9 +129,15 @@
       "filled status dots and 12px badge corners",
       "toast separated from inline alert, subtle 42px frame",
       "tinted inline alert surface and tone-colored title",
-      "full-width menu bar and rounded 96px dot display preview"
+      "full-width menu bar and rounded 96px dot display preview",
+      "IconButton content centred on operation face, not shrink-wrapped edge",
+      "document tabs 230px / inset 3px underline / 46px face",
+      "TaskStatus 82px display with 8x4 data-driven Rive dot matrix, separate actions",
+      "220ms single-carriage Rive selection slide and fallback slide; mid-transition reversal",
+      "initial Rive layout settled before first paint to avoid load-position jump"
     ],
     "browser": "local Flutter Web gallery; Rive on/off; fresh reload; popup opened",
     "automated": "37 total tests; 4 themes, 200% text, widths 1024/1440/1920; Rive/fallback occupied geometry regression"
-  }
+  },
+  "performanceValidation": "performance_validation.json"
 }

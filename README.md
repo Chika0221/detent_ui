@@ -47,6 +47,12 @@ Flutter デスクトップ向けの UI パッケージ。`ui_design.pen` の48�
 
 ![Riveによるボタン押下とスイッチ切り替えのアニメーション](example/screenshots/rive-motion.gif)
 
+選択面・輪郭・底面をまとめて動かす SegmentedControl。実際の Widget を撮影し、途中で方向を反転させています。
+
+![選択面のスライドと途中反転](example/screenshots/segment-slide.gif)
+
+![IconButton・Tabs・TaskStatus の形と配置](example/screenshots/component-detail.png)
+
 ## 基本的な使い方
 
 ```dart
@@ -155,7 +161,7 @@ ATELIER-STUDIO側の既存UIの置き換えは行っていません。
 |---|---|
 | Button / IconButton / ToggleButton / Keycap | 押下60ms・復帰120ms、hover輪郭90ms。ラベルはFlutter側で保持 |
 | Checkbox / RadioGroup / Switch | 選択120–160ms、mixed状態、スイッチのつまみ移動、押下フィードバック |
-| SegmentedControl / Tabs | 選択面の追従160ms、タブの選択下線 |
+| SegmentedControl / Tabs | 選択面は220msのスライド・途中反転、タブの選択下線 |
 | Slider / RangeSlider / RotaryKnob | 実際の値へ即時追従、操作中のつまみの反応 |
 | Progress / Button loading | 実進捗、進捗不明時だけ動く帯・回転弧 |
 | DotMatrix | 可変の数字・小数点・%等をDigitアートボードで構成、字形の出現 |
@@ -224,3 +230,16 @@ flutter test example/test/gallery_test.dart
 OS実機のIME・スクリーンリーダー・DPI・性能測定は別途必要で、Verified認定ではありません。
 
 設計の根拠: `DESIGN_SYSTEM.md`、`SPECIFICATION.md`、`ui_design.pen`、`component_registry.json`。
+
+### 動きの負荷を確認する
+
+ギャラリーのデバッグ実行には開発用の負荷が含まれます。性能の確認は profile ビルドで行います。
+
+```sh
+cd example
+flutter run --profile -d web-server --web-port 48732 --dart-define=DETENT_PERF=true
+```
+
+`DETENT_FRAME` に5秒区間のフレーム数、Flutter build / raster の中央値と95パーセンタイルを出力します。
+同じ表示位置で Rive を切り替えて比較してください。通常の起動では計測しません。
+Rive の描画を再描画境界で分離し、画面外の代替進捗アニメーションも TickerMode で停止します。
