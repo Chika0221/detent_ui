@@ -1,14 +1,12 @@
-// Keep compatibility with Flutter's Material re-export during SDK extraction.
-// ignore: deprecated_member_use
-import 'package:flutter/material.dart';
+import '../foundation/primitives.dart';
+
 import 'package:flutter/services.dart';
 import 'package:forui_lucide/forui_lucide.dart';
 import 'package:intl/intl.dart';
 
 import '../controls/controls.dart';
-import '../foundation/theme.dart';
 
-class NuiTextField extends StatelessWidget {
+class NuiTextField extends StatefulWidget {
   const NuiTextField({
     super.key,
     this.controller,
@@ -23,11 +21,13 @@ class NuiTextField extends StatelessWidget {
     this.autofocus = false,
     this.obscureText = false,
     this.maxLines = 1,
+    this.minLines,
     this.maxLength,
     this.errorText,
     this.semanticLabel,
     this.keyboardType,
     this.inputFormatters,
+    this.onTap,
   });
   final TextEditingController? controller;
   final FocusNode? focusNode;
@@ -35,37 +35,227 @@ class NuiTextField extends StatelessWidget {
   final String? hintText, errorText, semanticLabel;
   final Widget? prefix, suffix;
   final bool enabled, readOnly, autofocus, obscureText;
-  final int? maxLines, maxLength;
+  final int? maxLines, minLines, maxLength;
   final TextInputType? keyboardType;
   final List<TextInputFormatter>? inputFormatters;
+  final VoidCallback? onTap;
   @override
-  Widget build(BuildContext context) => Semantics(
-    label: semanticLabel,
-    child: TextField(
-      controller: controller,
-      focusNode: focusNode,
-      onChanged: onChanged,
-      onSubmitted: onSubmitted,
-      enabled: enabled,
-      readOnly: readOnly,
-      autofocus: autofocus,
-      obscureText: obscureText,
-      maxLines: maxLines,
-      maxLength: maxLength,
-      keyboardType: keyboardType,
-      inputFormatters: inputFormatters,
-      style: Theme.of(context).textTheme.bodyMedium,
-      decoration: InputDecoration(
-        hintText: hintText,
-        prefixIcon: prefix,
-        suffixIcon: suffix,
-        errorText: errorText,
-        constraints: BoxConstraints(
-          minHeight: NuiTheme.of(context).controlHeight,
+  State<NuiTextField> createState() => _NuiTextFieldState();
+}
+
+class _NuiTextFieldState extends State<NuiTextField>
+    implements TextSelectionGestureDetectorBuilderDelegate {
+  @override
+  GlobalKey<EditableTextState> get editableTextKey => edit;
+  @override
+  bool get forcePressEnabled => false;
+  @override
+  bool get selectionEnabled => widget.enabled && !widget.readOnly;
+  late final selectionGestures = TextSelectionGestureDetectorBuilder(
+    delegate: this,
+  );
+  final own = TextEditingController(), ownFocus = FocusNode();
+  final edit = GlobalKey<EditableTextState>();
+  TextEditingController get controller => widget.controller ?? own;
+  FocusNode get focus => widget.focusNode ?? ownFocus;
+  @override
+  void dispose() {
+    own.dispose();
+    ownFocus.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final w = widget, t = NuiTheme.of(context);
+    return Semantics(
+      label: w.semanticLabel,
+      enabled: w.enabled,
+      child: ListenableBuilder(
+        listenable: Listenable.merge([controller, focus]),
+        builder: (ctx, _) => Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            TextFieldTapRegion(
+              child: Focus(
+                descendantsAreFocusable: w.enabled,
+                canRequestFocus: false,
+                skipTraversal: true,
+                child: IgnorePointer(
+                  ignoring: !w.enabled,
+                  child: Listener(
+                    onPointerDown: (e) {
+                      if ((e.buttons & 1) != 0) {
+                        focus.requestFocus();
+                      }
+                    },
+                    child: selectionGestures.buildGestureDetector(
+                      behavior: HitTestBehavior.opaque,
+                      child: Container(
+                        constraints: BoxConstraints(minHeight: t.controlHeight),
+                        padding: EdgeInsets.symmetric(
+                          horizontal: focus.hasFocus ? 7 : 8,
+                          vertical: focus.hasFocus ? 4 : 5,
+                        ),
+                        decoration: BoxDecoration(
+                          color: t.raised,
+                          borderRadius: BorderRadius.circular(6),
+                          border: Border.all(
+                            color: w.errorText != null
+                                ? t.danger
+                                : focus.hasFocus
+                                ? t.focus
+                                : t.controlBorder,
+                            width: focus.hasFocus ? 2 : 1,
+                          ),
+                        ),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            if (w.prefix != null) ...[
+                              w.prefix!,
+                              const SizedBox(width: 8),
+                            ],
+                            Expanded(
+                              child: Listener(
+                                onPointerDown: (e) {
+                                  if ((e.buttons & 1) != 0) w.onTap?.call();
+                                },
+                                child: Stack(
+                                  alignment: w.maxLines == 1
+                                      ? AlignmentDirectional.centerStart
+                                      : AlignmentDirectional.topStart,
+                                  children: [
+                                    if (controller.text.isEmpty &&
+                                        w.hintText != null)
+                                      IgnorePointer(
+                                        child: Text(
+                                          w.hintText!,
+                                          style: t.textTheme.bodyMedium
+                                              .copyWith(color: t.muted),
+                                        ),
+                                      ),
+                                    EditableText(
+                                      key: edit,
+                                      controller: controller,
+                                      focusNode: focus,
+                                      autofocus: w.autofocus,
+                                      rendererIgnoresPointer: true,
+                                      style: t.textTheme.bodyMedium,
+                                      cursorColor: t.ink,
+                                      backgroundCursorColor: t.border,
+                                      selectionColor: t.accent.withValues(
+                                        alpha: .35,
+                                      ),
+                                      readOnly: w.readOnly || !w.enabled,
+                                      showCursor: !w.readOnly && w.enabled,
+                                      enableInteractiveSelection: !w.readOnly,
+                                      obscureText: w.obscureText,
+                                      maxLines: w.maxLines,
+                                      minLines: w.minLines,
+                                      keyboardType: w.keyboardType,
+                                      textInputAction: w.maxLines == 1
+                                          ? TextInputAction.done
+                                          : TextInputAction.newline,
+                                      inputFormatters: [
+                                        ...?w.inputFormatters,
+                                        if (w.maxLength != null)
+                                          LengthLimitingTextInputFormatter(
+                                            w.maxLength,
+                                          ),
+                                      ],
+                                      onChanged: w.onChanged,
+                                      onSubmitted: w.onSubmitted,
+                                      onTapOutside: (_) => focus.unfocus(),
+                                      contextMenuBuilder: (ctx, state) => CustomSingleChildLayout(
+                                        delegate:
+                                            TextSelectionToolbarLayoutDelegate(
+                                              anchorAbove: state
+                                                  .contextMenuAnchors
+                                                  .primaryAnchor,
+                                              anchorBelow:
+                                                  state
+                                                      .contextMenuAnchors
+                                                      .secondaryAnchor ??
+                                                  state
+                                                      .contextMenuAnchors
+                                                      .primaryAnchor,
+                                            ),
+                                        child: NuiSurface(
+                                          elevation: 4,
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(8),
+                                            child: Column(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                for (final item
+                                                    in state
+                                                        .contextMenuButtonItems)
+                                                  NuiPlainButton(
+                                                    onPressed: item.onPressed,
+                                                    child: Text(
+                                                      item.label ??
+                                                          switch (item.type) {
+                                                            ContextMenuButtonType
+                                                                .cut =>
+                                                              '切り取り',
+                                                            ContextMenuButtonType
+                                                                .copy =>
+                                                              'コピー',
+                                                            ContextMenuButtonType
+                                                                .paste =>
+                                                              '貼り付け',
+                                                            ContextMenuButtonType
+                                                                .selectAll =>
+                                                              'すべて選択',
+                                                            _ => '操作',
+                                                          },
+                                                    ),
+                                                  ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            if (w.suffix != null) ...[
+                              const SizedBox(width: 8),
+                              w.suffix!,
+                            ],
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            if (w.errorText != null)
+              Padding(
+                padding: const EdgeInsets.only(top: 8),
+                child: Semantics(
+                  liveRegion: true,
+                  child: Text(w.errorText!, style: TextStyle(color: t.danger)),
+                ),
+              ),
+            if (w.maxLength != null)
+              Align(
+                alignment: AlignmentDirectional.centerEnd,
+                child: Text(
+                  '${controller.text.characters.length} / ${w.maxLength}',
+                  style: t.textTheme.bodySmall.copyWith(color: t.muted),
+                ),
+              ),
+          ],
         ),
       ),
-    ),
-  );
+    );
+  }
 }
 
 class NuiTextArea extends StatelessWidget {
@@ -75,7 +265,7 @@ class NuiTextArea extends StatelessWidget {
     this.onChanged,
     this.hintText,
     this.maxLength,
-    this.minLines = 3,
+    this.minLines = 6,
     this.maxLines = 8,
     this.readOnly = false,
   });
@@ -86,14 +276,14 @@ class NuiTextArea extends StatelessWidget {
   final int minLines, maxLines;
   final bool readOnly;
   @override
-  Widget build(BuildContext context) => TextField(
+  Widget build(BuildContext context) => NuiTextField(
     controller: controller,
     onChanged: onChanged,
+    hintText: hintText,
+    maxLength: maxLength,
     minLines: minLines,
     maxLines: maxLines,
-    maxLength: maxLength,
     readOnly: readOnly,
-    decoration: InputDecoration(hintText: hintText),
   );
 }
 
@@ -141,7 +331,7 @@ class _NuiSearchFieldState extends State<NuiSearchField> {
           semanticLabel: widget.hintText,
           prefix: const Icon(FLucideIcons.search),
           suffix: value.text.isNotEmpty
-              ? IconButton(
+              ? NuiIconAction(
                   tooltip: '検索をクリア',
                   icon: const Icon(FLucideIcons.x),
                   onPressed: () {
@@ -175,21 +365,13 @@ class NuiSelect<T> extends StatelessWidget {
   final ValueChanged<T?>? onChanged;
   final String? hintText;
   @override
-  Widget build(BuildContext context) => DropdownButtonFormField<T>(
-    initialValue: value,
-    key: ValueKey(value),
-    isExpanded: true,
-    hint: hintText == null ? null : Text(hintText!),
-    onChanged: onChanged,
-    items: [
-      for (final o in options)
-        DropdownMenuItem<T>(
-          value: o.value,
-          enabled: o.enabled,
-          child: Text(o.label),
-        ),
-    ],
-    icon: const Icon(FLucideIcons.chevronDown, size: 16),
+  Widget build(BuildContext context) => _NuiOptionPicker<T>(
+    options: options,
+    value: value,
+    editable: false,
+    enabled: onChanged != null,
+    onPick: onChanged,
+    hintText: hintText ?? '選択してください',
   );
 }
 
@@ -209,55 +391,372 @@ class NuiComboBox<T extends Object> extends StatelessWidget {
   final String initialText, hintText;
   final bool loading;
   @override
-  Widget build(BuildContext context) => Autocomplete<NuiOption<T>>(
-    initialValue: TextEditingValue(text: initialText),
-    displayStringForOption: (o) => o.label,
-    optionsBuilder: (v) => loading
-        ? const Iterable.empty()
-        : options.where(
-            (o) =>
-                o.enabled &&
-                o.label.toLowerCase().contains(v.text.toLowerCase()),
-          ),
-    onSelected: (o) => onSelected?.call(o.value),
-    fieldViewBuilder: (ctx, c, f, submit) => NuiTextField(
-      controller: c,
-      focusNode: f,
-      onChanged: onChanged,
-      hintText: hintText,
-      onSubmitted: (_) => submit(),
-      suffix: loading
-          ? const Padding(
-              padding: EdgeInsets.all(8),
-              child: Icon(FLucideIcons.loader),
-            )
-          : null,
-    ),
-    optionsViewBuilder: (ctx, select, values) => Align(
-      alignment: Alignment.topLeft,
-      child: Material(
-        elevation: 4,
-        borderRadius: BorderRadius.circular(8),
-        child: ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 400, maxHeight: 240),
-          child: ListView.builder(
-            padding: const EdgeInsets.all(8),
-            shrinkWrap: true,
-            itemCount: values.length,
-            itemBuilder: (ctx, i) {
-              final o = values.elementAt(i);
-              final highlight = AutocompleteHighlightedOption.of(ctx) == i;
-              return ListTile(
-                selected: highlight,
-                title: Text(o.label),
-                onTap: () => select(o),
-              );
-            },
-          ),
-        ),
-      ),
-    ),
+  Widget build(BuildContext context) => _NuiOptionPicker<T>(
+    options: options,
+    editable: true,
+    initialText: initialText,
+    loading: loading,
+    hintText: hintText,
+    onPick: onSelected,
+    onChanged: onChanged,
   );
+}
+
+/// Both controls share their anchor, field decoration, list and row states.
+/// A Select has a host-owned value; a ComboBox retains native text editing.
+class _NuiOptionPicker<T> extends StatefulWidget {
+  const _NuiOptionPicker({
+    required this.options,
+    required this.editable,
+    required this.hintText,
+    this.enabled = true,
+    this.value,
+    this.onPick,
+    this.onChanged,
+    this.initialText = '',
+    this.loading = false,
+  });
+  final List<NuiOption<T>> options;
+  final bool editable, enabled, loading;
+  final T? value;
+  final ValueChanged<T>? onPick;
+  final ValueChanged<String>? onChanged;
+  final String hintText, initialText;
+  @override
+  State<_NuiOptionPicker<T>> createState() => _NuiOptionPickerState<T>();
+}
+
+class _NuiOptionPickerState<T> extends State<_NuiOptionPicker<T>> {
+  final menu = NuiPopupController(),
+      focus = FocusNode(),
+      scroll = ScrollController();
+  late final text = TextEditingController(
+    text: widget.editable ? widget.initialText : selected?.label ?? '',
+  );
+  NuiOption<T>? picked;
+  int highlighted = -1;
+  NuiOption<T>? get selected {
+    if (widget.editable) return picked?.label == text.text ? picked : null;
+    for (final o in widget.options) {
+      if (o.value == widget.value) return o;
+    }
+    return null;
+  }
+
+  List<NuiOption<T>> get candidates => widget.loading
+      ? []
+      : widget.options
+            .where(
+              (o) =>
+                  !widget.editable ||
+                  o.label.toLowerCase().contains(text.text.toLowerCase()),
+            )
+            .toList();
+  @override
+  void initState() {
+    super.initState();
+    focus.addListener(onFocus);
+  }
+
+  void onFocus() {
+    if (!focus.hasFocus && menu.isOpen) menu.close();
+  }
+
+  @override
+  void didUpdateWidget(_NuiOptionPicker<T> old) {
+    super.didUpdateWidget(old);
+    if (!widget.editable) {
+      final label = selected?.label ?? '';
+      if (text.text != label) text.text = label;
+    }
+    if (!widget.enabled && menu.isOpen) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) menu.close();
+      });
+    }
+    final rows = candidates;
+    if (highlighted >= rows.length) {
+      highlighted = rows.indexWhere((o) => o.enabled);
+    }
+  }
+
+  @override
+  void dispose() {
+    focus.removeListener(onFocus);
+    focus.dispose();
+    text.dispose();
+    scroll.dispose();
+    super.dispose();
+  }
+
+  double rowHeight(BuildContext context) {
+    final scaled = MediaQuery.textScalerOf(context).scale(14) * 1.5 + 8;
+    final minimum = NuiTheme.of(context).controlHeight - 4;
+    return scaled > minimum ? scaled : minimum;
+  }
+
+  void open() {
+    if (!widget.enabled) return;
+    final rows = candidates;
+    final current = selected;
+    highlighted = current == null
+        ? -1
+        : rows.indexWhere((o) => o.value == current.value && o.enabled);
+    if (highlighted < 0) highlighted = rows.indexWhere((o) => o.enabled);
+    focus.requestFocus();
+    menu.open();
+    reveal();
+  }
+
+  void reveal() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted && scroll.hasClients && highlighted >= 0) {
+        final height = rowHeight(context),
+            top = highlighted * rowHeight(context);
+        final bottom = top + height,
+            offset = scroll.offset,
+            viewport = scroll.position.viewportDimension;
+        if (top < offset) {
+          scroll.jumpTo(top.clamp(0.0, scroll.position.maxScrollExtent));
+        } else if (bottom > offset + viewport) {
+          scroll.jumpTo(
+            (bottom - viewport).clamp(0.0, scroll.position.maxScrollExtent),
+          );
+        }
+      }
+    });
+  }
+
+  void move(int direction, {bool boundary = false}) {
+    final rows = candidates;
+    if (rows.isEmpty) return;
+    var next = boundary ? (direction > 0 ? rows.length - 1 : 0) : highlighted;
+    for (var i = 0; i < rows.length; i++) {
+      if (!boundary || i > 0) next = (next + direction) % rows.length;
+      if (rows[next].enabled) {
+        setState(() => highlighted = next);
+        reveal();
+        return;
+      }
+    }
+  }
+
+  void choose(NuiOption<T> option) {
+    if (!widget.enabled || !option.enabled) return;
+    if (widget.editable) {
+      picked = option;
+      text.value = TextEditingValue(
+        text: option.label,
+        selection: TextSelection.collapsed(offset: option.label.length),
+      );
+    }
+    menu.close();
+    focus.requestFocus();
+    widget.onPick?.call(option.value);
+  }
+
+  KeyEventResult key(FocusNode node, KeyEvent event) {
+    if (!widget.enabled ||
+        event is KeyUpEvent ||
+        (text.value.composing.isValid && !text.value.composing.isCollapsed)) {
+      return KeyEventResult.ignored;
+    }
+    final k = event.logicalKey;
+    if (k == LogicalKeyboardKey.arrowDown || k == LogicalKeyboardKey.arrowUp) {
+      if (menu.isOpen) {
+        move(k == LogicalKeyboardKey.arrowDown ? 1 : -1);
+      } else {
+        open();
+      }
+      return KeyEventResult.handled;
+    }
+    if (menu.isOpen &&
+        (k == LogicalKeyboardKey.home || k == LogicalKeyboardKey.end)) {
+      move(k == LogicalKeyboardKey.end ? 1 : -1, boundary: true);
+      return KeyEventResult.handled;
+    }
+    if (k == LogicalKeyboardKey.escape && menu.isOpen) {
+      menu.close();
+      focus.requestFocus();
+      return KeyEventResult.handled;
+    }
+    if (k == LogicalKeyboardKey.tab) {
+      if (menu.isOpen) menu.close();
+      return KeyEventResult.ignored;
+    }
+    if (k == LogicalKeyboardKey.enter ||
+        (!widget.editable && k == LogicalKeyboardKey.space)) {
+      if (!menu.isOpen) {
+        if (!widget.editable) {
+          open();
+          return KeyEventResult.handled;
+        }
+        return KeyEventResult.ignored;
+      }
+      final rows = candidates;
+      if (highlighted >= 0 && highlighted < rows.length) {
+        choose(rows[highlighted]);
+      }
+      return KeyEventResult.handled;
+    }
+    return KeyEventResult.ignored;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = NuiTheme.of(context), rows = candidates;
+    return LayoutBuilder(
+      builder: (context, bounds) {
+        final width = bounds.hasBoundedWidth ? bounds.maxWidth : 320.0;
+        return Focus(
+          canRequestFocus: false,
+          skipTraversal: true,
+          onKeyEvent: key,
+          child: NuiPopupAnchor(
+            controller: menu,
+            childFocusNode: focus,
+            alignmentOffset: const Offset(0, 8),
+            radius: 6,
+            padding: EdgeInsets.zero,
+            menuChildren: [
+              TextFieldTapRegion(
+                child: SizedBox(
+                  width: width,
+                  height: rows.isEmpty
+                      ? rowHeight(context) + 16
+                      : (rows.length * rowHeight(context) + 16).clamp(
+                          0.0,
+                          256.0,
+                        ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8),
+                    child: ConstrainedBox(
+                      constraints: const BoxConstraints(maxHeight: 240),
+                      child: rows.isEmpty
+                          ? Padding(
+                              padding: const EdgeInsets.all(8),
+                              child: Text(
+                                widget.loading ? '読み込み中' : '候補がありません',
+                                style: TextStyle(color: theme.muted),
+                              ),
+                            )
+                          : RawScrollbar(
+                              controller: scroll,
+                              child: ListView.builder(
+                                controller: scroll,
+                                padding: EdgeInsets.zero,
+                                itemExtent: rowHeight(context),
+                                itemCount: rows.length,
+                                itemBuilder: (context, i) {
+                                  final option = rows[i],
+                                      isSelected =
+                                          selected?.value == option.value;
+                                  return MouseRegion(
+                                    onEnter: (_) {
+                                      if (option.enabled) {
+                                        setState(() => highlighted = i);
+                                      }
+                                    },
+                                    child: ExcludeFocus(
+                                      child: NuiTile(
+                                        dense: true,
+                                        enabled: option.enabled,
+                                        selected: isSelected,
+                                        contentPadding:
+                                            const EdgeInsets.symmetric(
+                                              horizontal: 8,
+                                            ),
+                                        tileColor: highlighted == i
+                                            ? theme.surface
+                                            : theme.raised,
+                                        selectedTileColor: highlighted == i
+                                            ? theme.surface
+                                            : theme.raised,
+                                        selectedColor: theme.ink,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(
+                                            4,
+                                          ),
+                                        ),
+                                        title: NuiHint(
+                                          message: option.label,
+                                          excludeFromSemantics: true,
+                                          child: Text(
+                                            option.label,
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: NuiTheme.of(context)
+                                                .textTheme
+                                                .bodyMedium
+                                                .copyWith(
+                                                  color: option.enabled
+                                                      ? theme.ink
+                                                      : theme.muted,
+                                                ),
+                                          ),
+                                        ),
+                                        trailing: isSelected
+                                            ? Icon(
+                                                FLucideIcons.check,
+                                                size: 16,
+                                                color: theme.ink,
+                                              )
+                                            : const SizedBox(width: 16),
+                                        onTap: option.enabled
+                                            ? () => choose(option)
+                                            : null,
+                                      ),
+                                    ),
+                                  );
+                                },
+                              ),
+                            ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+            builder: (context, controller, _) => NuiTextField(
+              controller: text,
+              focusNode: focus,
+              enabled: widget.enabled,
+              readOnly: !widget.editable,
+              onTap: open,
+              hintText: widget.hintText,
+              onChanged: widget.editable
+                  ? (value) {
+                      picked = null;
+                      highlighted = candidates.indexWhere((o) => o.enabled);
+                      setState(() {});
+                      if (!menu.isOpen) menu.open();
+                      widget.onChanged?.call(value);
+                    }
+                  : null,
+              suffix: NuiIconAction(
+                tooltip: widget.loading ? '読み込み中' : '候補を表示',
+                padding: const EdgeInsets.all(4),
+                icon: Icon(
+                  widget.loading
+                      ? FLucideIcons.loader
+                      : FLucideIcons.chevronDown,
+                  size: 16,
+                ),
+                onPressed: widget.enabled
+                    ? () {
+                        if (controller.isOpen) {
+                          controller.close();
+                        } else {
+                          open();
+                        }
+                      }
+                    : null,
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
 }
 
 class NuiFormField extends StatelessWidget {

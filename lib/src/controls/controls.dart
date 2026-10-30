@@ -1,12 +1,14 @@
 import 'dart:math' as math;
 
-// Keep compatibility with Flutter's Material re-export during SDK extraction.
-// ignore: deprecated_member_use
-import 'package:flutter/material.dart';
+import '../foundation/primitives.dart';
+import '../inputs/inputs.dart';
+
 import 'package:flutter/services.dart';
 import 'package:forui_lucide/forui_lucide.dart';
 
-import '../foundation/theme.dart';
+import '../rive/artwork.dart';
+import '../rive/skin.dart';
+import '../rive/control_skin.dart';
 
 enum NuiButtonVariant { primary, secondary, quiet, danger }
 
@@ -36,124 +38,233 @@ class NuiButton extends StatefulWidget {
 
 class _NuiButtonState extends State<NuiButton> {
   bool pressed = false, hovered = false, focused = false;
+  LogicalKeyboardKey? keyboardPress;
+  final ownFocus = FocusNode();
+  FocusNode get node => widget.focusNode ?? ownFocus;
   bool get enabled => widget.onPressed != null && !widget.loading;
+  void performAction() {
+    if (enabled) widget.onPressed!();
+  }
+
+  @override
+  void dispose() {
+    ownFocus.dispose();
+    super.dispose();
+  }
+
+  @override
+  void didUpdateWidget(NuiButton old) {
+    super.didUpdateWidget(old);
+    if (!enabled) {
+      pressed = false;
+      keyboardPress = null;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final t = NuiTheme.of(context);
     final bg = switch (widget.variant) {
       NuiButtonVariant.primary => hovered ? t.accentHover : t.accent,
       NuiButtonVariant.danger => t.danger,
-      NuiButtonVariant.quiet => hovered ? t.surface : t.canvas,
+      NuiButtonVariant.quiet => hovered ? t.surface : NuiColors.transparent,
       NuiButtonVariant.secondary => hovered ? t.surface : t.raised,
     };
     final fg = widget.variant == NuiButtonVariant.primary
         ? t.accentInk
         : widget.variant == NuiButtonVariant.danger
-        ? (t.dark ? Colors.black : Colors.white)
+        ? (t.dark ? NuiColors.black : NuiColors.white)
         : t.ink;
-    void activate() {
-      if (enabled) widget.onPressed!();
-    }
-
+    final curve = const Cubic(.2, 0, .2, 1);
+    Widget face(Widget child) => AnimatedContainer(
+      duration: t.duration(context, pressed ? 60 : 120),
+      curve: curve,
+      transform: Matrix4.translationValues(0, pressed ? 2 : 0, 0),
+      child: child,
+    );
+    final fallback = Stack(
+      children: [
+        if (widget.variant != NuiButtonVariant.quiet && !t.highContrast)
+          Positioned.fill(
+            top: 2,
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                color: t.controlBorder,
+                borderRadius: BorderRadius.circular(6),
+              ),
+            ),
+          ),
+        Positioned.fill(
+          bottom: 2,
+          child: face(
+            DecoratedBox(
+              decoration: BoxDecoration(
+                color: bg,
+                borderRadius: BorderRadius.circular(6),
+                border: Border.all(
+                  color: widget.variant == NuiButtonVariant.quiet
+                      ? NuiColors.transparent
+                      : t.controlBorder,
+                ),
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+    final content = Padding(
+      padding: const EdgeInsets.only(bottom: 2),
+      child: face(
+        ConstrainedBox(
+          constraints: BoxConstraints(minHeight: t.controlHeight, minWidth: 28),
+          child: Padding(
+            padding: const EdgeInsets.all(8),
+            child: IconTheme(
+              data: IconThemeData(color: fg, size: 16),
+              child: DefaultTextStyle(
+                style: NuiTheme.of(context).textTheme.labelLarge
+                    .copyWith(color: fg),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    if (widget.icon != null) Icon(widget.icon),
+                    if (widget.icon != null && widget.label.isNotEmpty)
+                      const SizedBox(width: 8),
+                    if (widget.label.isNotEmpty || widget.loading)
+                      Flexible(
+                        child: Stack(
+                          alignment: Alignment.center,
+                          children: [
+                            Opacity(
+                              opacity: widget.loading ? 0 : 1,
+                              child: Text(
+                                widget.label,
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                            if (widget.loading)
+                              SizedBox.square(
+                                dimension: 16,
+                                child: NuiRiveArtwork(
+                                  artboard: 'Spinner',
+                                  state: NuiSkinState(
+                                    indeterminate: true,
+                                    progress: .24,
+                                    inkColor: fg,
+                                  ),
+                                  fallback: const Icon(
+                                    FLucideIcons.loader,
+                                    semanticLabel: '処理中',
+                                  ),
+                                ),
+                              ),
+                          ],
+                        ),
+                      ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
     return Semantics(
       button: true,
       excludeSemantics: true,
-      onTap: enabled ? activate : null,
-      value: widget.loading ? '処理中' : null,
       enabled: enabled,
+      onTap: enabled ? performAction : null,
       label: widget.semanticLabel ?? widget.label,
-      child: FocusableActionDetector(
-        focusNode: widget.focusNode,
-        autofocus: widget.autofocus,
-        enabled: enabled,
-        mouseCursor: enabled
-            ? SystemMouseCursors.click
-            : SystemMouseCursors.basic,
-        onShowFocusHighlight: (v) => setState(() => focused = v),
-        onShowHoverHighlight: (v) => setState(() => hovered = v),
-        shortcuts: const {
-          SingleActivator(LogicalKeyboardKey.enter): ActivateIntent(),
-          SingleActivator(LogicalKeyboardKey.space): ActivateIntent(),
+      value: widget.loading ? '処理中' : null,
+      child: Focus(
+        skipTraversal: true,
+        canRequestFocus: false,
+        onKeyEvent: (_, e) {
+          if (!enabled) return KeyEventResult.ignored;
+          final key = e.logicalKey;
+          if (key == LogicalKeyboardKey.escape && keyboardPress != null) {
+            setState(() {
+              pressed = false;
+              keyboardPress = null;
+            });
+            return KeyEventResult.handled;
+          }
+          if (key != LogicalKeyboardKey.space &&
+              key != LogicalKeyboardKey.enter) {
+            return KeyEventResult.ignored;
+          }
+          if (e is KeyDownEvent) {
+            keyboardPress = key;
+            setState(() => pressed = true);
+          }
+          if (e is KeyUpEvent && keyboardPress == key) {
+            keyboardPress = null;
+            setState(() => pressed = false);
+            performAction();
+          }
+          return KeyEventResult.handled;
         },
-        actions: {
-          ActivateIntent: CallbackAction<ActivateIntent>(
-            onInvoke: (_) {
-              activate();
-              return null;
-            },
-          ),
-        },
-        child: GestureDetector(
-          onTap: enabled ? activate : null,
-          onTapDown: enabled ? (_) => setState(() => pressed = true) : null,
-          onTapCancel: () => setState(() => pressed = false),
-          onTapUp: (_) => setState(() => pressed = false),
-          child: Opacity(
-            opacity: enabled || widget.loading ? 1 : .45,
-            child: NuiFocusRing(
-              focused: focused,
-              child: Padding(
-                padding: const EdgeInsets.only(bottom: 2),
-                child: AnimatedContainer(
-                  duration: t.duration(context, pressed ? 60 : 120),
-                  transform: Matrix4.translationValues(0, pressed ? 2 : 0, 0),
-                  constraints: BoxConstraints(
-                    minHeight: t.controlHeight,
-                    minWidth: 28,
-                  ),
-                  padding: const EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    color: bg,
-                    borderRadius: BorderRadius.circular(6),
-                    border: Border.all(color: t.controlBorder),
-                    boxShadow:
-                        t.highContrast ||
-                            pressed ||
-                            widget.variant == NuiButtonVariant.quiet
-                        ? const []
-                        : [
-                            BoxShadow(
-                              color: t.controlBorder,
-                              offset: const Offset(0, 2),
-                            ),
-                          ],
-                  ),
-                  child: IconTheme(
-                    data: IconThemeData(color: fg, size: 16),
-                    child: DefaultTextStyle(
-                      style: Theme.of(context).textTheme.labelLarge!
-                          .copyWith(color: fg),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          if (widget.icon != null) Icon(widget.icon),
-                          if (widget.icon != null && widget.label.isNotEmpty)
-                            const SizedBox(width: 8),
-                          if (widget.label.isNotEmpty || widget.loading)
-                            Flexible(
-                              child: Stack(
-                                alignment: Alignment.center,
-                                children: [
-                                  Opacity(
-                                    opacity: widget.loading ? 0 : 1,
-                                    child: Text(
-                                      widget.label,
-                                      textAlign: TextAlign.center,
-                                    ),
-                                  ),
-                                  if (widget.loading)
-                                    Icon(
-                                      FLucideIcons.loader,
-                                      semanticLabel: '処理中',
-                                    ),
-                                ],
-                              ),
-                            ),
-                        ],
+        child: FocusableActionDetector(
+          focusNode: node,
+          autofocus: widget.autofocus,
+          enabled: enabled,
+          onFocusChange: (v) {
+            if (!v && pressed) {
+              setState(() {
+                pressed = false;
+                keyboardPress = null;
+              });
+            }
+          },
+          onShowFocusHighlight: (v) => setState(() => focused = v),
+          onShowHoverHighlight: (v) => setState(() => hovered = v),
+          mouseCursor: enabled
+              ? SystemMouseCursors.click
+              : SystemMouseCursors.basic,
+          actions: {
+            ActivateIntent: CallbackAction<ActivateIntent>(
+              onInvoke: (_) {
+                performAction();
+                return null;
+              },
+            ),
+          },
+          child: GestureDetector(
+            onTap: enabled ? performAction : null,
+            onTapDown: enabled
+                ? (_) {
+                    node.requestFocus();
+                    setState(() => pressed = true);
+                  }
+                : null,
+            onTapCancel: () => setState(() => pressed = false),
+            onTapUp: (_) => setState(() => pressed = false),
+            child: Opacity(
+              opacity: enabled || widget.loading ? 1 : .45,
+              child: NuiFocusRing(
+                focused: focused,
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    Positioned.fill(
+                      child: NuiRiveArtwork(
+                        artboard: widget.variant == NuiButtonVariant.quiet
+                            ? 'FlatButton'
+                            : 'Button',
+                        resize: true,
+                        state: NuiSkinState(
+                          pressed: pressed,
+                          hovered: hovered,
+                          focused: focused,
+                          enabled: enabled,
+                          surfaceColor: bg,
+                        ),
+                        fallback: fallback,
                       ),
                     ),
-                  ),
+                    content,
+                  ],
                 ),
               ),
             ),
@@ -179,19 +290,22 @@ class NuiIconButton extends StatelessWidget {
   final bool selected;
   final FocusNode? focusNode;
   @override
-  Widget build(BuildContext context) => Tooltip(
+  Widget build(BuildContext context) => NuiHint(
     message: tooltip,
     child: Semantics(
       toggled: selected,
-      child: NuiButton(
-        label: '',
-        semanticLabel: tooltip,
-        icon: icon,
-        onPressed: onPressed,
-        focusNode: focusNode,
-        variant: selected
-            ? NuiButtonVariant.primary
-            : NuiButtonVariant.secondary,
+      child: SizedBox(
+        width: NuiTheme.of(context).controlHeight + 10,
+        child: NuiButton(
+          label: '',
+          semanticLabel: tooltip,
+          icon: icon,
+          onPressed: onPressed,
+          focusNode: focusNode,
+          variant: selected
+              ? NuiButtonVariant.primary
+              : NuiButtonVariant.secondary,
+        ),
       ),
     ),
   );
@@ -221,26 +335,91 @@ class NuiToggleButton extends StatelessWidget {
   );
 }
 
+/// Keyboard width in units of the key pitch. A standard 1u face is 40px;
+/// the 8px inter-key gap makes 1.5u = 64px, 2u = 88px and 6.25u = 292px.
 class NuiKeycap extends StatelessWidget {
-  const NuiKeycap({super.key, required this.label, this.pressed = false});
+  const NuiKeycap({
+    super.key,
+    required this.label,
+    this.pressed = false,
+    this.units = 1,
+  }) : assert(units >= .5 && units < double.infinity);
   final String label;
   final bool pressed;
+  final double units;
   @override
   Widget build(BuildContext context) {
-    final t = NuiTheme.of(context);
-    return Container(
-      padding: const EdgeInsets.all(8),
-      decoration: BoxDecoration(
-        color: pressed ? t.accent : t.raised,
-        border: Border.all(color: t.controlBorder),
-        borderRadius: BorderRadius.circular(4),
-        boxShadow: pressed || t.highContrast
-            ? []
-            : [BoxShadow(color: t.controlBorder, offset: const Offset(0, 2))],
-      ),
-      child: Text(
-        label,
-        style: TextStyle(color: pressed ? t.accentInk : t.ink, fontSize: 12),
+    final t = NuiTheme.of(context),
+        width = (NuiTheme.of(context).controlHeight + 8) * units - 8;
+    final bg = pressed ? t.accent : t.raised;
+    return Semantics(
+      label: label,
+      value: pressed ? '押下中' : null,
+      excludeSemantics: true,
+      child: SizedBox(
+        width: width,
+        height: t.controlHeight + 2,
+        child: Stack(
+          children: [
+            Positioned.fill(
+              child: NuiRiveArtwork(
+                artboard: 'Keycap',
+                resize: true,
+                state: NuiSkinState(pressed: pressed, surfaceColor: bg),
+                fallback: Stack(
+                  children: [
+                    Positioned.fill(
+                      top: 2,
+                      child: DecoratedBox(
+                        decoration: BoxDecoration(
+                          color: t.controlBorder,
+                          borderRadius: BorderRadius.circular(6),
+                        ),
+                      ),
+                    ),
+                    Positioned.fill(
+                      bottom: 2,
+                      child: Transform.translate(
+                        offset: Offset(0, pressed ? 2 : 0),
+                        child: DecoratedBox(
+                          decoration: BoxDecoration(
+                            color: bg,
+                            border: Border.all(color: t.controlBorder),
+                            borderRadius: BorderRadius.circular(6),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Positioned.fill(
+              child: AnimatedContainer(
+                duration: t.duration(context, pressed ? 60 : 120),
+                curve: const Cubic(.2, 0, .2, 1),
+                transform: Matrix4.translationValues(0, pressed ? 2 : 0, 0),
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 2),
+                  child: Center(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8),
+                      child: Text(
+                        label,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          color: pressed ? t.accentInk : t.ink,
+                          fontSize: 12,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -255,7 +434,7 @@ class NuiOption<T> {
   final bool enabled;
 }
 
-class NuiSegmentedControl<T> extends StatelessWidget {
+class NuiSegmentedControl<T> extends StatefulWidget {
   const NuiSegmentedControl({
     super.key,
     required this.options,
@@ -266,35 +445,133 @@ class NuiSegmentedControl<T> extends StatelessWidget {
   final T value;
   final ValueChanged<T>? onChanged;
   @override
-  Widget build(BuildContext context) => SegmentedButton<T>(
-    segments: [
-      for (final o in options)
-        ButtonSegment<T>(
-          value: o.value,
-          label: Text(o.label),
-          icon: o.icon == null ? null : Icon(o.icon),
-          enabled: o.enabled,
+  State<NuiSegmentedControl<T>> createState() => _NuiSegmentedControlState<T>();
+}
+
+class _NuiSegmentedControlState<T> extends State<NuiSegmentedControl<T>> {
+  final nodes = <T, FocusNode>{};
+  @override
+  void dispose() {
+    for (final n in nodes.values) {
+      n.dispose();
+    }
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final w = widget, t = NuiTheme.of(context);
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        color: t.surface,
+        border: Border.all(color: t.controlBorder),
+        borderRadius: BorderRadius.circular(7),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(8),
+        child: NuiControlSkin(
+          artboard: 'SegmentedControl',
+          resize: true,
+          state: NuiSkinState(
+            value: w.options.length < 2
+                ? 0
+                : w.options.indexWhere((o) => o.value == w.value) /
+                      (w.options.length - 1),
+            selectionCount: w.options.length.toDouble(),
+            enabled: w.onChanged != null,
+          ),
+          inputBuilder: (context, painted) => LayoutBuilder(
+            builder: (ctx, c) {
+              final children = [
+                for (final o in w.options)
+                  Focus(
+                    canRequestFocus: false,
+                    skipTraversal: true,
+                    onKeyEvent: (_, e) {
+                      if (e is KeyUpEvent || w.onChanged == null) {
+                        return KeyEventResult.ignored;
+                      }
+                      final k = e.logicalKey;
+                      if (k != LogicalKeyboardKey.arrowLeft &&
+                          k != LogicalKeyboardKey.arrowRight) {
+                        return KeyEventResult.ignored;
+                      }
+                      final enabled = w.options
+                          .where((o) => o.enabled)
+                          .toList();
+                      if (enabled.isEmpty) return KeyEventResult.handled;
+                      final index =
+                          (enabled.indexOf(o) +
+                              (k == LogicalKeyboardKey.arrowRight ? 1 : -1)) %
+                          enabled.length;
+                      nodes[enabled[index].value]?.requestFocus();
+                      w.onChanged!(enabled[index].value);
+                      return KeyEventResult.handled;
+                    },
+                    child: NuiInk(
+                      focusNode: nodes.putIfAbsent(o.value, FocusNode.new),
+                      selected: o.value == w.value,
+                      onTap: w.onChanged == null || !o.enabled
+                          ? null
+                          : () => w.onChanged!(o.value),
+                      child: ConstrainedBox(
+                        constraints: BoxConstraints(
+                          minHeight: t.controlHeight + 10,
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              if (o.icon != null) ...[
+                                Icon(
+                                  o.icon,
+                                  size: 16,
+                                  color: o.value == w.value
+                                      ? t.accentInk
+                                      : t.ink,
+                                ),
+                                const SizedBox(width: 8),
+                              ],
+                              Flexible(
+                                child: Text(
+                                  o.label,
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    color: !o.enabled
+                                        ? t.muted
+                                        : o.value == w.value
+                                        ? t.accentInk
+                                        : t.ink,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+              ];
+              return c.hasBoundedWidth
+                  ? Row(
+                      children: [
+                        for (final child in children) Expanded(child: child),
+                      ],
+                    )
+                  : IntrinsicWidth(
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: children,
+                      ),
+                    );
+            },
+          ),
         ),
-    ],
-    selected: {value},
-    showSelectedIcon: false,
-    onSelectionChanged: onChanged == null ? null : (v) => onChanged!(v.single),
-    style: ButtonStyle(
-      shape: WidgetStatePropertyAll(
-        RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
       ),
-      backgroundColor: WidgetStateProperty.resolveWith(
-        (s) => s.contains(WidgetState.selected)
-            ? NuiTheme.of(context).accent
-            : NuiTheme.of(context).surface,
-      ),
-      foregroundColor: WidgetStateProperty.resolveWith(
-        (s) => s.contains(WidgetState.selected)
-            ? NuiTheme.of(context).accentInk
-            : NuiTheme.of(context).ink,
-      ),
-    ),
-  );
+    );
+  }
 }
 
 class NuiCheckbox extends StatelessWidget {
@@ -305,29 +582,59 @@ class NuiCheckbox extends StatelessWidget {
     this.label,
     this.tristate = false,
     this.focusNode,
-  });
+  }) : assert(tristate || value != null);
   final bool? value;
   final ValueChanged<bool?>? onChanged;
   final String? label;
   final bool tristate;
   final FocusNode? focusNode;
   @override
-  Widget build(BuildContext context) => Row(
-    mainAxisSize: MainAxisSize.min,
-    children: [
-      Checkbox(
-        value: value,
-        tristate: tristate,
-        onChanged: onChanged,
-        semanticLabel: label,
-        focusNode: focusNode,
+  Widget build(BuildContext context) {
+    void toggle() => onChanged?.call(
+      value == false
+          ? true
+          : value == true && tristate
+          ? null
+          : false,
+    );
+    return Semantics(
+      checked: value == true,
+      mixed: value == null,
+      label: label,
+      enabled: onChanged != null,
+      onTap: onChanged == null ? null : toggle,
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          NuiInk(
+            focusNode: focusNode,
+            onTap: onChanged == null ? null : toggle,
+            child: NuiControlSkin(
+              artboard: 'Checkbox',
+              visualSize: const Size(24, 24),
+              state: NuiSkinState(
+                selected: value != false,
+                selectionState: value == null
+                    ? 2
+                    : value == true
+                    ? 1
+                    : 0,
+                enabled: onChanged != null,
+              ),
+              inputBuilder: (_, _) => const SizedBox(width: 40, height: 40),
+            ),
+          ),
+          if (label != null) ...[
+            const SizedBox(width: 8),
+            Flexible(child: ExcludeSemantics(child: Text(label!))),
+          ],
+        ],
       ),
-      if (label != null) Flexible(child: Text(label!)),
-    ],
-  );
+    );
+  }
 }
 
-class NuiRadioGroup<T> extends StatelessWidget {
+class NuiRadioGroup<T> extends StatefulWidget {
   const NuiRadioGroup({
     super.key,
     required this.options,
@@ -338,25 +645,88 @@ class NuiRadioGroup<T> extends StatelessWidget {
   final T? value;
   final ValueChanged<T>? onChanged;
   @override
-  Widget build(BuildContext context) => RadioGroup<T>(
-    groupValue: value,
-    onChanged: (v) {
-      if (v != null) onChanged?.call(v);
-    },
-    child: Column(
+  State<NuiRadioGroup<T>> createState() => _NuiRadioGroupState<T>();
+}
+
+class _NuiRadioGroupState<T> extends State<NuiRadioGroup<T>> {
+  final nodes = <T, FocusNode>{};
+  @override
+  void dispose() {
+    for (final node in nodes.values) {
+      node.dispose();
+    }
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final w = widget;
+    return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        for (final o in options)
-          Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Radio<T>(value: o.value, enabled: onChanged != null && o.enabled),
-              Flexible(child: Text(o.label)),
-            ],
+        for (final o in w.options)
+          Focus(
+            canRequestFocus: false,
+            skipTraversal: true,
+            onKeyEvent: (_, e) {
+              if (e is KeyUpEvent || w.onChanged == null) {
+                return KeyEventResult.ignored;
+              }
+              final k = e.logicalKey;
+              if (![
+                LogicalKeyboardKey.arrowUp,
+                LogicalKeyboardKey.arrowDown,
+                LogicalKeyboardKey.arrowLeft,
+                LogicalKeyboardKey.arrowRight,
+              ].contains(k)) {
+                return KeyEventResult.ignored;
+              }
+              final enabled = w.options.where((o) => o.enabled).toList();
+              if (enabled.isEmpty) return KeyEventResult.handled;
+              final next =
+                  enabled[(enabled.indexOf(o) +
+                          (k == LogicalKeyboardKey.arrowUp ||
+                                  k == LogicalKeyboardKey.arrowLeft
+                              ? -1
+                              : 1)) %
+                      enabled.length];
+              nodes[next.value]?.requestFocus();
+              w.onChanged!(next.value);
+              return KeyEventResult.handled;
+            },
+            child: Semantics(
+              checked: w.value == o.value,
+              inMutuallyExclusiveGroup: true,
+              label: o.label,
+              enabled: w.onChanged != null && o.enabled,
+              child: NuiInk(
+                focusNode: nodes.putIfAbsent(o.value, FocusNode.new),
+                onTap: w.onChanged == null || !o.enabled
+                    ? null
+                    : () => w.onChanged!(o.value),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    NuiControlSkin(
+                      artboard: 'RadioGroup',
+                      visualSize: const Size(24, 24),
+                      state: NuiSkinState(
+                        selected: w.value == o.value,
+                        enabled: w.onChanged != null && o.enabled,
+                      ),
+                      inputBuilder: (_, _) =>
+                          const SizedBox(width: 40, height: 40),
+                    ),
+                    const SizedBox(width: 8),
+                    Flexible(child: ExcludeSemantics(child: Text(o.label))),
+                  ],
+                ),
+              ),
+            ),
           ),
       ],
-    ),
-  );
+    );
+  }
 }
 
 class NuiSwitch extends StatelessWidget {
@@ -372,15 +742,38 @@ class NuiSwitch extends StatelessWidget {
   final String? label;
   final FocusNode? focusNode;
   @override
-  Widget build(BuildContext context) => Row(
-    mainAxisSize: MainAxisSize.min,
-    children: [
-      Semantics(
-        label: label,
-        child: Switch(value: value, onChanged: onChanged, focusNode: focusNode),
+  Widget build(BuildContext context) => Semantics(
+    toggled: value,
+    label: label,
+    enabled: onChanged != null,
+    child: NuiInk(
+      focusNode: focusNode,
+      onTap: onChanged == null ? null : () => onChanged!(!value),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          NuiControlSkin(
+            artboard: 'Switch',
+            visualSize: const Size(48, 28),
+            state: NuiSkinState(
+              selected: value,
+              enabled: onChanged != null,
+              surfaceColor: value
+                  ? NuiTheme.of(context).display
+                  : NuiTheme.of(context).border,
+              inkColor: value
+                  ? NuiTheme.of(context).accent
+                  : NuiTheme.of(context).raised,
+            ),
+            inputBuilder: (_, _) => const SizedBox(width: 56, height: 40),
+          ),
+          if (label != null) ...[
+            const SizedBox(width: 8),
+            Flexible(child: ExcludeSemantics(child: Text(label!))),
+          ],
+        ],
       ),
-      if (label != null) Flexible(child: Text(label!)),
-    ],
+    ),
   );
 }
 
@@ -410,7 +803,20 @@ double? _adjustValue(
   return null;
 }
 
-class NuiSlider extends StatelessWidget {
+@immutable
+class NuiRangeValues {
+  const NuiRangeValues(this.start, this.end) : assert(start <= end);
+  final double start, end;
+  @override
+  bool operator ==(Object other) =>
+      other is NuiRangeValues && other.start == start && other.end == end;
+  @override
+  int get hashCode => Object.hash(start, end);
+}
+
+typedef RangeValues = NuiRangeValues;
+
+class NuiSlider extends StatefulWidget {
   const NuiSlider({
     super.key,
     required this.value,
@@ -419,42 +825,115 @@ class NuiSlider extends StatelessWidget {
     this.divisions,
     this.onChanged,
     this.label,
-  });
+  }) : assert(min <= max),
+       assert(value >= min && value <= max),
+       assert(divisions == null || divisions > 0);
   final double value, min, max;
   final int? divisions;
   final ValueChanged<double>? onChanged;
   final String? label;
   @override
-  Widget build(BuildContext context) => Focus(
-    skipTraversal: true,
-    canRequestFocus: false,
-    onKeyEvent: (_, e) {
-      if (onChanged == null || e is KeyUpEvent) return KeyEventResult.ignored;
-      final next = _adjustValue(
-        e.logicalKey,
-        value,
-        min,
-        max,
-        (max - min) / (divisions ?? 100),
-      );
-      if (next == null) return KeyEventResult.ignored;
-      onChanged!(next);
-      return KeyEventResult.handled;
-    },
-    child: Semantics(
-      label: label,
-      child: Slider(
-        value: value.clamp(min, max),
-        min: min,
-        max: max,
-        divisions: divisions,
-        onChanged: onChanged,
-        label: value.toStringAsFixed(2),
-        semanticFormatterCallback: (v) =>
-            '${label ?? ''} ${v.toStringAsFixed(2)}',
+  State<NuiSlider> createState() => _NuiSliderState();
+}
+
+class _NuiSliderState extends State<NuiSlider> {
+  final focus = FocusNode();
+  @override
+  void dispose() {
+    focus.dispose();
+    super.dispose();
+  }
+
+  void change(double v) {
+    final w = widget;
+    var next = v.clamp(w.min, w.max);
+    if (w.divisions != null && w.max > w.min) {
+      next =
+          w.min +
+          ((next - w.min) / (w.max - w.min) * w.divisions!).round() /
+              w.divisions! *
+              (w.max - w.min);
+    }
+    w.onChanged?.call(next);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final w = widget, step = (w.max - w.min) / (w.divisions ?? 100);
+    return Semantics(
+      label: w.label,
+      value: '${w.value}',
+      increasedValue: '${(w.value + step).clamp(w.min, w.max)}',
+      decreasedValue: '${(w.value - step).clamp(w.min, w.max)}',
+      onIncrease: w.onChanged == null ? null : () => change(w.value + step),
+      onDecrease: w.onChanged == null ? null : () => change(w.value - step),
+      child: Focus(
+        focusNode: focus,
+        onFocusChange: (_) => setState(() {}),
+        canRequestFocus: w.onChanged != null,
+        onKeyEvent: (_, e) {
+          if (e is KeyUpEvent || w.onChanged == null) {
+            return KeyEventResult.ignored;
+          }
+          final next = _adjustValue(e.logicalKey, w.value, w.min, w.max, step);
+          if (next == null) return KeyEventResult.ignored;
+          change(next);
+          return KeyEventResult.handled;
+        },
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(6),
+            border: Border.all(
+              width: 2,
+              color: focus.hasFocus
+                  ? NuiTheme.of(context).focus
+                  : NuiColors.transparent,
+            ),
+          ),
+          child: LayoutBuilder(
+            builder: (ctx, c) {
+              void point(Offset p) {
+                focus.requestFocus();
+                change(
+                  w.min +
+                      ((p.dx - 24) / math.max(1, c.maxWidth - 48)).clamp(
+                            0.0,
+                            1.0,
+                          ) *
+                          (w.max - w.min),
+                );
+              }
+
+              return GestureDetector(
+                behavior: HitTestBehavior.opaque,
+                onTapUp: w.onChanged == null
+                    ? null
+                    : (e) => point(e.localPosition),
+                onHorizontalDragStart: w.onChanged == null
+                    ? null
+                    : (e) => point(e.localPosition),
+                onHorizontalDragUpdate: w.onChanged == null
+                    ? null
+                    : (e) => point(e.localPosition),
+                child: NuiControlSkin(
+                  artboard: 'Slider',
+                  resize: true,
+                  state: NuiSkinState(
+                    value: w.max == w.min
+                        ? 0
+                        : (w.value - w.min) / (w.max - w.min),
+                    enabled: w.onChanged != null,
+                  ),
+                  inputBuilder: (_, _) =>
+                      const SizedBox(height: 64, width: double.infinity),
+                ),
+              );
+            },
+          ),
+        ),
       ),
-    ),
-  );
+    );
+  }
 }
 
 class NuiRangeSlider extends StatefulWidget {
@@ -466,11 +945,12 @@ class NuiRangeSlider extends StatefulWidget {
     this.divisions,
     this.onChanged,
     this.label,
-  });
-  final RangeValues values;
+  }) : assert(min <= max),
+       assert(divisions == null || divisions > 0);
+  final NuiRangeValues values;
   final double min, max;
   final int? divisions;
-  final ValueChanged<RangeValues>? onChanged;
+  final ValueChanged<NuiRangeValues>? onChanged;
   final String? label;
   @override
   State<NuiRangeSlider> createState() => _NuiRangeSliderState();
@@ -478,6 +958,7 @@ class NuiRangeSlider extends StatefulWidget {
 
 class _NuiRangeSliderState extends State<NuiRangeSlider> {
   final lower = FocusNode(), upper = FocusNode();
+  bool start = true;
   @override
   void dispose() {
     lower.dispose();
@@ -485,44 +966,56 @@ class _NuiRangeSliderState extends State<NuiRangeSlider> {
     super.dispose();
   }
 
+  void change(double v, bool first) {
+    final w = widget;
+    var next = v.clamp(
+      first ? w.min : w.values.start,
+      first ? w.values.end : w.max,
+    );
+    if (w.divisions != null && w.max > w.min) {
+      next =
+          w.min +
+          ((next - w.min) / (w.max - w.min) * w.divisions!).round() /
+              w.divisions! *
+              (w.max - w.min);
+    }
+    w.onChanged?.call(
+      first
+          ? NuiRangeValues(next.clamp(w.min, w.values.end), w.values.end)
+          : NuiRangeValues(w.values.start, next.clamp(w.values.start, w.max)),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final w = widget;
-    Widget target(bool start) {
-      final node = start ? lower : upper;
-      final value = start ? w.values.start : w.values.end;
+    Widget target(bool first) {
+      final value = first ? w.values.start : w.values.end,
+          node = first ? lower : upper;
       return Focus(
         focusNode: node,
         canRequestFocus: w.onChanged != null,
-        includeSemantics: false,
         onFocusChange: (_) => setState(() {}),
         onKeyEvent: (_, e) {
-          if (w.onChanged == null || e is KeyUpEvent) {
+          if (e is KeyUpEvent || w.onChanged == null) {
             return KeyEventResult.ignored;
           }
           final next = _adjustValue(
             e.logicalKey,
             value,
-            start ? w.min : w.values.start,
-            start ? w.values.end : w.max,
+            first ? w.min : w.values.start,
+            first ? w.values.end : w.max,
             (w.max - w.min) / (w.divisions ?? 100),
           );
           if (next == null) return KeyEventResult.ignored;
-          w.onChanged!(
-            start
-                ? RangeValues(next, w.values.end)
-                : RangeValues(w.values.start, next),
-          );
+          change(next, first);
           return KeyEventResult.handled;
         },
-        child: GestureDetector(
-          onTap: w.onChanged == null ? null : node.requestFocus,
-          child: NuiFocusRing(
-            focused: node.hasFocus,
-            child: Text(
-              '${start ? '下限' : '上限'} ${value.toStringAsFixed(1)}',
-              style: const TextStyle(fontSize: 12),
-            ),
+        child: NuiFocusRing(
+          focused: node.hasFocus,
+          child: Text(
+            '${first ? '下限' : '上限'} ${value.toStringAsFixed(1)}',
+            style: const TextStyle(fontSize: 12),
           ),
         ),
       );
@@ -533,15 +1026,47 @@ class _NuiRangeSliderState extends State<NuiRangeSlider> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          ExcludeFocus(
-            child: RangeSlider(
-              values: w.values,
-              min: w.min,
-              max: w.max,
-              divisions: w.divisions,
-              onChanged: w.onChanged,
-              labels: RangeLabels('${w.values.start}', '${w.values.end}'),
-            ),
+          LayoutBuilder(
+            builder: (ctx, c) {
+              double value(Offset p) =>
+                  w.min +
+                  ((p.dx - 24) / math.max(1, c.maxWidth - 48)).clamp(0.0, 1.0) *
+                      (w.max - w.min);
+              void begin(Offset p) {
+                final v = value(p);
+                start = (v - w.values.start).abs() <= (v - w.values.end).abs();
+                (start ? lower : upper).requestFocus();
+                change(v, start);
+              }
+
+              return GestureDetector(
+                behavior: HitTestBehavior.opaque,
+                onTapUp: w.onChanged == null
+                    ? null
+                    : (e) => begin(e.localPosition),
+                onHorizontalDragStart: w.onChanged == null
+                    ? null
+                    : (e) => begin(e.localPosition),
+                onHorizontalDragUpdate: w.onChanged == null
+                    ? null
+                    : (e) => change(value(e.localPosition), start),
+                child: NuiControlSkin(
+                  artboard: 'RangeSlider',
+                  resize: true,
+                  state: NuiSkinState(
+                    value: w.max == w.min
+                        ? 0
+                        : (w.values.start - w.min) / (w.max - w.min),
+                    secondaryValue: w.max == w.min
+                        ? 0
+                        : (w.values.end - w.min) / (w.max - w.min),
+                    enabled: w.onChanged != null,
+                  ),
+                  inputBuilder: (_, _) =>
+                      const SizedBox(height: 64, width: double.infinity),
+                ),
+              );
+            },
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -574,7 +1099,7 @@ class NuiRotaryKnob extends StatefulWidget {
 }
 
 class _NuiRotaryKnobState extends State<NuiRotaryKnob> {
-  bool focused = false;
+  bool focused = false, dragging = false;
   double? drag;
   void set(double v) => widget.onChanged?.call(v.clamp(widget.min, widget.max));
   @override
@@ -619,7 +1144,12 @@ class _NuiRotaryKnobState extends State<NuiRotaryKnob> {
         child: GestureDetector(
           onVerticalDragStart: w.onChanged == null
               ? null
-              : (_) => drag = w.value,
+              : (_) {
+                  drag = w.value;
+                  setState(() => dragging = true);
+                },
+          onVerticalDragEnd: (_) => setState(() => dragging = false),
+          onVerticalDragCancel: () => setState(() => dragging = false),
           onVerticalDragUpdate: w.onChanged == null
               ? null
               : (e) {
@@ -632,7 +1162,7 @@ class _NuiRotaryKnobState extends State<NuiRotaryKnob> {
           onDoubleTap: w.onChanged == null
               ? null
               : () async {
-                  final result = await showDialog<double>(
+                  final result = await showNuiDialog<double>(
                     context: context,
                     builder: (ctx) => _KnobValueDialog(
                       label: w.label,
@@ -648,17 +1178,30 @@ class _NuiRotaryKnobState extends State<NuiRotaryKnob> {
             radius: w.size / 2,
             child: SizedBox.square(
               dimension: w.size,
-              child: CustomPaint(
-                painter: _KnobPainter(t, fraction),
-                child: Center(
-                  child: Text(
-                    w.valueLabel ?? w.value.toStringAsFixed(0),
-                    style: const TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w500,
+              child: Stack(
+                children: [
+                  Positioned.fill(
+                    child: NuiRiveArtwork(
+                      artboard: 'RotaryKnob',
+                      state: NuiSkinState(
+                        value: fraction,
+                        focused: focused,
+                        pressed: dragging,
+                        enabled: w.onChanged != null,
+                      ),
+                      fallback: CustomPaint(painter: _KnobPainter(t, fraction)),
                     ),
                   ),
-                ),
+                  Center(
+                    child: Text(
+                      w.valueLabel ?? w.value.toStringAsFixed(0),
+                      style: const TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
           ),
@@ -740,24 +1283,24 @@ class _KnobValueDialogState extends State<_KnobValueDialog> {
   }
 
   @override
-  Widget build(BuildContext context) => AlertDialog(
+  Widget build(BuildContext context) => NuiDialogFrame(
     title: Text(widget.label),
-    content: TextField(
+    content: NuiTextField(
       controller: c,
       autofocus: true,
       keyboardType: const TextInputType.numberWithOptions(
         decimal: true,
         signed: true,
       ),
-      decoration: InputDecoration(errorText: error),
+      errorText: error,
       onSubmitted: (_) => submit(),
     ),
     actions: [
-      TextButton(
+      NuiPlainButton(
         onPressed: () => Navigator.pop(context),
         child: const Text('キャンセル'),
       ),
-      TextButton(onPressed: submit, child: const Text('適用')),
+      NuiPlainButton(onPressed: submit, child: const Text('適用')),
     ],
   );
 }

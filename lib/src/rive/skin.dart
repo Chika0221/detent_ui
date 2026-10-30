@@ -16,9 +16,36 @@ class NuiSkinState {
     this.progress = 0,
     this.indeterminate = false,
     this.motionScale = 1,
+    this.selectionState = 0,
+    this.selectionCount = 1,
+    this.taskState = 0,
+    this.surfaceColor,
+    this.inkColor,
+    this.accentColor,
   });
   final bool hovered, pressed, focused, enabled, selected, indeterminate;
   final double value, secondaryValue, progress, motionScale;
+  final double selectionState, selectionCount, taskState;
+  final Color? surfaceColor, inkColor, accentColor;
+  NuiSkinState interaction({bool? hovered, bool? pressed, bool? focused}) =>
+      NuiSkinState(
+        hovered: hovered ?? this.hovered,
+        pressed: pressed ?? this.pressed,
+        focused: focused ?? this.focused,
+        enabled: enabled,
+        selected: selected,
+        value: value,
+        secondaryValue: secondaryValue,
+        progress: progress,
+        indeterminate: indeterminate,
+        motionScale: motionScale,
+        selectionState: selectionState,
+        selectionCount: selectionCount,
+        taskState: taskState,
+        surfaceColor: surfaceColor,
+        inkColor: inkColor,
+        accentColor: accentColor,
+      );
 }
 
 typedef NuiSkinBuilder = Widget? Function(

@@ -1,12 +1,12 @@
-// Keep compatibility with Flutter's Material re-export during SDK extraction.
-// ignore: deprecated_member_use
-import 'package:flutter/material.dart';
+import '../foundation/primitives.dart';
+
 import 'package:flutter/services.dart';
 import 'package:forui_lucide/forui_lucide.dart';
 
-import '../foundation/theme.dart';
 import '../controls/controls.dart';
 import '../inputs/inputs.dart';
+import '../rive/artwork.dart';
+import '../rive/skin.dart';
 
 @immutable
 class NuiTab<T> {
@@ -45,70 +45,125 @@ class _NuiTabsState<T> extends State<NuiTabs<T>> {
 
   @override
   Widget build(BuildContext context) {
-    final t = NuiTheme.of(context);
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: Row(
-        children: [
-          for (final tab in widget.tabs)
-            Focus(
-              onKeyEvent: (_, e) {
-                if (e is KeyUpEvent) return KeyEventResult.ignored;
-                final i = widget.tabs.indexOf(tab), k = e.logicalKey;
-                int? next;
-                if (k == LogicalKeyboardKey.arrowRight) {
-                  next = (i + 1) % widget.tabs.length;
-                }
-                if (k == LogicalKeyboardKey.arrowLeft) {
-                  next = (i - 1) % widget.tabs.length;
-                }
-                if (k == LogicalKeyboardKey.home) next = 0;
-                if (k == LogicalKeyboardKey.end) next = widget.tabs.length - 1;
-                if (next == null) return KeyEventResult.ignored;
-                final target = widget.tabs[next];
-                nodes[target.value]?.requestFocus();
-                if (!widget.manualActivation) {
-                  widget.onChanged?.call(target.value);
-                }
-                return KeyEventResult.handled;
-              },
-              child: Semantics(
-                selected: widget.value == tab.value,
-                child: Container(
-                  decoration: BoxDecoration(
-                    border: Border(
-                      bottom: BorderSide(
-                        color: widget.value == tab.value ? t.accent : t.border,
-                        width: 2,
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        border: Border(bottom: BorderSide(color: NuiTheme.of(context).border)),
+      ),
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Row(
+          spacing: 14,
+          children: [
+            for (final tab in widget.tabs)
+              Focus(
+                onKeyEvent: (_, e) {
+                  if (e is KeyUpEvent) return KeyEventResult.ignored;
+                  final i = widget.tabs.indexOf(tab), k = e.logicalKey;
+                  int? next;
+                  if (k == LogicalKeyboardKey.arrowRight) {
+                    next = (i + 1) % widget.tabs.length;
+                  }
+                  if (k == LogicalKeyboardKey.arrowLeft) {
+                    next = (i - 1) % widget.tabs.length;
+                  }
+                  if (k == LogicalKeyboardKey.home) next = 0;
+                  if (k == LogicalKeyboardKey.end) {
+                    next = widget.tabs.length - 1;
+                  }
+                  if (next == null) return KeyEventResult.ignored;
+                  final target = widget.tabs[next];
+                  nodes[target.value]?.requestFocus();
+                  if (!widget.manualActivation) {
+                    widget.onChanged?.call(target.value);
+                  }
+                  return KeyEventResult.handled;
+                },
+                child: Semantics(
+                  selected: widget.value == tab.value,
+                  child: _NuiAnimatedTab(
+                    selected: widget.value == tab.value,
+                    child: NuiInk(
+                      focusNode: nodes.putIfAbsent(tab.value, FocusNode.new),
+                      onTap: widget.onChanged == null
+                          ? null
+                          : () => widget.onChanged!(tab.value),
+                      child: ConstrainedBox(
+                        constraints: BoxConstraints(
+                          minHeight: NuiTheme.of(context).controlHeight + 4,
+                          minWidth: 228,
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 15),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text('${tab.label}${tab.dirty ? ' •' : ''}'),
+                              if (tab.onClose != null) ...[
+                                const SizedBox(width: 8),
+                                NuiIconAction(
+                                  icon: const Icon(FLucideIcons.x, size: 16),
+                                  tooltip: '${tab.label}を閉じる',
+                                  padding: const EdgeInsets.all(2),
+                                  constraints: const BoxConstraints(
+                                    minWidth: 24,
+                                    minHeight: 24,
+                                  ),
+                                  onPressed: tab.onClose,
+                                ),
+                              ],
+                            ],
+                          ),
+                        ),
                       ),
                     ),
                   ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      NuiButton(
-                        label: '${tab.label}${tab.dirty ? ' •' : ''}',
-                        focusNode: nodes.putIfAbsent(tab.value, FocusNode.new),
-                        variant: NuiButtonVariant.quiet,
-                        onPressed: widget.onChanged == null
-                            ? null
-                            : () => widget.onChanged!(tab.value),
-                      ),
-                      if (tab.onClose != null)
-                        NuiIconButton(
-                          icon: FLucideIcons.x,
-                          tooltip: '${tab.label}を閉じる',
-                          onPressed: tab.onClose,
-                        ),
-                    ],
-                  ),
                 ),
               ),
-            ),
-        ],
+          ],
+        ),
       ),
     );
   }
+}
+
+class _NuiAnimatedTab extends StatelessWidget {
+  const _NuiAnimatedTab({required this.selected, required this.child});
+  final bool selected;
+  final Widget child;
+  @override
+  Widget build(BuildContext context) => Stack(
+    children: [
+      Container(
+        margin: const EdgeInsets.only(bottom: 3),
+        decoration: BoxDecoration(
+          color: selected ? NuiTheme.of(context).raised : null,
+          borderRadius: BorderRadius.circular(5),
+          border: Border.all(
+            color: selected
+                ? NuiTheme.of(context).controlBorder
+                : NuiColors.transparent,
+          ),
+        ),
+        child: child,
+      ),
+      Positioned(
+        left: 12,
+        right: 12,
+        bottom: 7,
+        height: 3,
+        child: NuiRiveArtwork(
+          artboard: 'TabIndicator',
+          stretch: true,
+          state: NuiSkinState(selected: selected),
+          fallback: ColoredBox(
+            color: selected
+                ? NuiTheme.of(context).accent
+                : NuiColors.transparent,
+          ),
+        ),
+      ),
+    ],
+  );
 }
 
 class NuiNavigationRail<T> extends StatelessWidget {
@@ -166,9 +221,9 @@ class NuiSidebarItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final t = NuiTheme.of(context);
-    return Material(
-      color: selected ? t.surface : Colors.transparent,
-      child: ListTile(
+    return NuiSurface(
+      color: selected ? t.surface : NuiColors.transparent,
+      child: NuiTile(
         dense: true,
         contentPadding: EdgeInsets.only(left: 8 + depth * 16, right: 8),
         minTileHeight: t.controlHeight,
@@ -205,7 +260,8 @@ class NuiBreadcrumb extends StatelessWidget {
       spacing: 8,
       children: [
         for (var i = 0; i < visible.length; i++) ...[
-          if (i > 0) const Icon(FLucideIcons.chevronRight, size: 16),
+          if (i > 0)
+            Text('/', style: TextStyle(color: NuiTheme.of(context).muted)),
           if (collapse && i == 1)
             NuiDropdownMenu(
               label: '途中の階層',
@@ -214,7 +270,7 @@ class NuiBreadcrumb extends StatelessWidget {
                   NuiMenuItem(label: o.label, onPressed: o.onPressed),
               ],
             ),
-          TextButton(
+          NuiPlainButton(
             onPressed: visible[i].onPressed,
             child: Text(visible[i].label),
           ),
@@ -254,51 +310,91 @@ class NuiMenuItem {
 List<Widget> nuiMenuWidgets(BuildContext context, List<NuiMenuItem> items) => [
   for (final item in items)
     if (item.children.isNotEmpty)
-      SubmenuButton(
-        menuChildren: nuiMenuWidgets(context, item.children),
-        child: Text(item.label),
-      )
+      _NuiSubmenu(label: item.label, items: item.children)
     else
-      MenuItemButton(
-        onPressed: item.onPressed,
-        leadingIcon: item.checked != null
-            ? Icon(
-                item.checked! ? FLucideIcons.check : FLucideIcons.circle,
-                size: 16,
-              )
-            : item.icon == null
-            ? null
-            : Icon(item.icon, size: 16),
-        trailingIcon: item.shortcut == null
-            ? null
-            : Text(
-                item.shortcut!,
-                style: TextStyle(
-                  fontSize: 12,
-                  color: NuiTheme.of(context).muted,
+      Builder(
+        builder: (context) => NuiTile(
+          title: Text(
+            item.label,
+            style: TextStyle(
+              color: item.danger ? NuiTheme.of(context).danger : null,
+            ),
+          ),
+          leading: item.checked != null
+              ? Icon(
+                  item.checked! ? FLucideIcons.check : FLucideIcons.circle,
+                  size: 16,
+                )
+              : item.icon == null
+              ? null
+              : Icon(item.icon, size: 16),
+          trailing: item.shortcut == null
+              ? null
+              : Text(
+                  item.shortcut!,
+                  style: NuiTheme.of(context).textTheme.bodySmall
+                      .copyWith(color: NuiTheme.of(context).muted),
                 ),
-              ),
-        child: Text(
-          item.label,
-          style: item.danger
-              ? TextStyle(color: NuiTheme.of(context).danger)
-              : null,
+          onTap: item.onPressed == null
+              ? null
+              : () {
+                  NuiPopupController.maybeOf(context)?.closeAll();
+                  item.onPressed!();
+                },
         ),
       ),
 ];
+
+class _NuiSubmenu extends StatelessWidget {
+  const _NuiSubmenu({
+    required this.label,
+    required this.items,
+    this.topLevel = false,
+  });
+  final bool topLevel;
+  final String label;
+  final List<NuiMenuItem> items;
+  @override
+  Widget build(BuildContext context) => NuiPopupAnchor(
+    focusMenu: true,
+    menuChildren: nuiMenuWidgets(context, items),
+    builder: (ctx, c, _) => NuiPlainButton(
+      onPressed: () => c.isOpen ? c.close() : c.open(),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(label),
+          if (!topLevel) ...[
+            const SizedBox(width: 8),
+            const Icon(FLucideIcons.chevronRight, size: 16),
+          ],
+        ],
+      ),
+    ),
+  );
+}
 
 class NuiMenuBar extends StatelessWidget {
   const NuiMenuBar({super.key, required this.menus});
   final List<NuiMenuItem> menus;
   @override
-  Widget build(BuildContext context) => MenuBar(
-    children: [
-      for (final m in menus)
-        SubmenuButton(
-          menuChildren: nuiMenuWidgets(context, m.children),
-          child: Text(m.label),
-        ),
-    ],
+  Widget build(BuildContext context) => NuiSurface(
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(4),
+      side: BorderSide(color: NuiTheme.of(context).border),
+    ),
+    child: ConstrainedBox(
+      constraints: BoxConstraints(
+        minHeight: NuiTheme.of(context).controlHeight + 2,
+      ),
+      child: Wrap(
+        spacing: 8,
+        children: [
+          for (final m in menus)
+            _NuiSubmenu(label: m.label, items: m.children, topLevel: true),
+        ],
+      ),
+    ),
   );
 }
 
@@ -325,7 +421,8 @@ class _NuiDropdownMenuState extends State<NuiDropdownMenu> {
   }
 
   @override
-  Widget build(BuildContext context) => MenuAnchor(
+  Widget build(BuildContext context) => NuiPopupAnchor(
+    focusMenu: true,
     childFocusNode: focus,
     menuChildren: nuiMenuWidgets(context, widget.items),
     builder: (context, controller, child) => Focus(
@@ -360,7 +457,7 @@ class NuiContextMenu extends StatefulWidget {
 }
 
 class _NuiContextMenuState extends State<NuiContextMenu> {
-  final controller = MenuController();
+  final controller = NuiPopupController();
   final focus = FocusNode();
   @override
   void dispose() {
@@ -369,8 +466,9 @@ class _NuiContextMenuState extends State<NuiContextMenu> {
   }
 
   @override
-  Widget build(BuildContext context) => MenuAnchor(
+  Widget build(BuildContext context) => NuiPopupAnchor(
     controller: controller,
+    focusMenu: true,
     childFocusNode: focus,
     menuChildren: nuiMenuWidgets(context, widget.items),
     builder: (context, c, _) => Focus(
@@ -419,9 +517,9 @@ class NuiCommandPalette extends StatefulWidget {
   static Future<void> show(
     BuildContext context, {
     required List<NuiCommand> commands,
-  }) => showDialog<void>(
+  }) => showNuiDialog<void>(
     context: context,
-    builder: (ctx) => Dialog(
+    builder: (ctx) => NuiDialogFrame(
       child: SizedBox(
         width: 560,
         height: 420,
@@ -517,7 +615,7 @@ class _NuiCommandPaletteState extends State<NuiCommandPalette> {
                       itemCount: results.length,
                       itemBuilder: (context, i) {
                         final c = results[i];
-                        return ListTile(
+                        return NuiTile(
                           selected: i == selected,
                           selectedTileColor: NuiTheme.of(context).surface,
                           leading: c.icon == null ? null : Icon(c.icon),

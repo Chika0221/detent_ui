@@ -1,5 +1,5 @@
 {
-  "implementationVersion": "0.5.0",
+  "implementationVersion": "0.7.0",
   "designVersion": "0.4",
   "date": "2026-10-30",
   "environment": {
@@ -11,10 +11,10 @@
   },
   "components": 48,
   "tokens": 271,
-  "riveArtboards": 16,
+  "riveArtboards": 39,
   "analyze": "passed; no issues",
-  "widgetAndRuntimeTests": 16,
-  "galleryTests": 2,
+  "widgetAndRuntimeTests": 38,
+  "galleryTests": 3,
   "galleryConfigurations": {
     "themes": [
       "light",
@@ -34,11 +34,110 @@
     "example/screenshots/light.png",
     "example/screenshots/dark.png",
     "example/screenshots/workspace.png",
-    "example/screenshots/feedback.png"
+    "example/screenshots/feedback.png",
+    "example/screenshots/rive-motion.gif",
+    "example/screenshots/static.png",
+    "example/screenshots/select.png",
+    "example/screenshots/combobox.png",
+    "example/screenshots/navigation.png",
+    "example/screenshots/component-detail.png",
+    "example/screenshots/segment-slide.gif"
   ],
   "limitations": [
-    "No OS-device IME, screen reader, DPI or profile performance certification",
-    "Rive artwork is opt-in decoration; Flutter widgets own interaction",
-    "Rive DotMatrix is a fixed 68% sample; NuiDotMatrix supports dynamic numbers"
-  ]
+    "OS-device IME, screen reader, DPI and profile performance certification not performed",
+    "Rive keeps text, focus, semantics and business actions in Flutter",
+    "Custom meter segment counts retain the existing Flutter renderer"
+  ],
+  "riveDefault": true,
+  "riveIntegratedComponents": 20,
+  "motionValidation": [
+    "native component position changes over time",
+    "selection reverses during a transition",
+    "segmented selection interpolates to target",
+    "ordinary controls render actual RiveWidgets",
+    "Space release fires once; Escape cancels",
+    "native focus survives reduced-motion changes",
+    "scroll visibility pauses actual controller",
+    "background lifecycle pauses actual controller",
+    "all 39 artboards decode in pinned runtime"
+  ],
+  "widgetsAppValidation": {
+    "materialImports": 0,
+    "host": "WidgetsApp + NuiTheme",
+    "checks": [
+      "keyboard Select skips disabled options and follows controlled value",
+      "Select and ComboBox share field height and popup geometry",
+      "ComboBox filtering, Enter, Escape, reopening, mouse selection",
+      "viewport bounds at 200 percent text scale",
+      "pointer text selection and copy toolbar",
+      "nested menu actions close all overlays",
+      "modal Escape and outside dismissal",
+      "keycap unit geometry and pressed-state stability",
+      "collapsed slider ranges retain finite geometry"
+    ],
+    "keycapUnits": {
+      "minimum": 0.5,
+      "default": 1,
+      "standardWidths": {
+        "1u": 40,
+        "1.5u": 64,
+        "2u": 88,
+        "6.25u": 292
+      },
+      "formula": "(controlHeight + 8) * units - 8"
+    }
+  },
+  "visualDesignReview": {
+    "source": "ui_design.pen",
+    "components": [
+      "C02",
+      "C05",
+      "C08",
+      "C09",
+      "C10",
+      "C13",
+      "C14",
+      "C16",
+      "C17",
+      "C20",
+      "C24",
+      "C37",
+      "C38",
+      "C43",
+      "C23",
+      "C33",
+      "C36",
+      "C39",
+      "C41",
+      "C42"
+    ],
+    "fixes": [
+      "fallback paint is constrained to occupied widget bounds",
+      "Web Rive initialization awaited and exceptions caught",
+      "compact gallery controls do not stretch to card width",
+      "slider active range, ticks and 18x24 thumb",
+      "segmented control 8px inset and raised selected face",
+      "48x26 switch track with 20px thumb",
+      "1px input border / 2px focus, stable content position",
+      "text area top alignment and six-line default",
+      "shared 36px option rows / 6px radius / 8px popup gap",
+      "tabs integrated close action and 46px target",
+      "menubar no top-level submenu chevrons",
+      "display-colored tooltip / 7px progress / 12px dialog corners",
+      "breadcrumb slash separators",
+      "outlined list rows and 12px secondary text",
+      "filled status dots and 12px badge corners",
+      "toast separated from inline alert, subtle 42px frame",
+      "tinted inline alert surface and tone-colored title",
+      "full-width menu bar and rounded 96px dot display preview",
+      "IconButton content centred on operation face, not shrink-wrapped edge",
+      "document tabs 230px / inset 3px underline / 46px face",
+      "TaskStatus 82px display with 8x4 data-driven Rive dot matrix, separate actions",
+      "220ms single-carriage Rive selection slide and fallback slide; mid-transition reversal",
+      "initial Rive layout settled before first paint to avoid load-position jump"
+    ],
+    "browser": "local Flutter Web gallery; Rive on/off; fresh reload; popup opened",
+    "automated": "37 total tests; 4 themes, 200% text, widths 1024/1440/1920; Rive/fallback occupied geometry regression"
+  },
+  "performanceValidation": "performance_validation.json"
 }

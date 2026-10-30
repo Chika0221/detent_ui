@@ -1,8 +1,7 @@
 import 'dart:io';
 import 'dart:ui' as ui;
 
-// ignore: deprecated_member_use
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -42,8 +41,7 @@ void main() {
           motion: NuiMotion.reduced,
         );
         await t.pumpWidget(
-          MaterialApp(
-            theme: theme.materialTheme,
+          NuiApp(
             home: MediaQuery(
               data: const MediaQueryData(
                 size: Size(1440, 1000),
@@ -51,7 +49,7 @@ void main() {
               ),
               child: NuiTheme(
                 data: theme,
-                child: const Scaffold(body: GalleryBody()),
+                child: const NuiBox(body: GalleryBody()),
               ),
             ),
           ),
@@ -87,6 +85,11 @@ void main() {
       expect(t.takeException(), isNull, reason: 'width=$width');
       if (width == 1440) {
         Future<void> capture(String name) async {
+          await t.runAsync(
+            () => Future<void>.delayed(const Duration(milliseconds: 100)),
+          );
+          await t.pump();
+          await t.pump(const Duration(milliseconds: 400));
           await t.runAsync(() async {
             final render =
                 boundary.currentContext!.findRenderObject()!
@@ -100,6 +103,38 @@ void main() {
         }
 
         await capture('light');
+        await t.tap(find.text('Rive'));
+        await t.pump();
+        await capture('static');
+        await t.tap(find.text('Rive'));
+        await t.pump();
+        await t.ensureVisible(find.text('C16'));
+        await t.pump();
+        await t.tap(
+          find.descendant(
+            of: find.byType(NuiSelect<int>),
+            matching: find.byType(EditableText),
+          ),
+        );
+        await t.pump();
+        await capture('select');
+        await t.sendKeyEvent(LogicalKeyboardKey.escape);
+        await t.pump();
+        await t.tap(
+          find.descendant(
+            of: find.byType(NuiComboBox<int>),
+            matching: find.byType(EditableText),
+          ),
+        );
+        await t.pump();
+        await capture('combobox');
+        await t.sendKeyEvent(LogicalKeyboardKey.escape);
+        await t.pump();
+        await t.ensureVisible(find.text('C20'));
+        await t.pump();
+        await capture('navigation');
+        await t.drag(find.byType(NuiScrollArea).first, const Offset(0, 5000));
+        await t.pump(const Duration(seconds: 1));
         await t.tap(find.text('Dark'));
         await t.pump();
         await t.pump(const Duration(seconds: 1));

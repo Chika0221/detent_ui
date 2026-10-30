@@ -8,6 +8,7 @@ dependencies:
   detent_ui:
     path: ../
 dev_dependencies:
+  rive: 0.14.11
   flutter_lints: ^6.0.0
   flutter_test:
     sdk: flutter

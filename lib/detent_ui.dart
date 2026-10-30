@@ -13,3 +13,13 @@ export 'src/data/data.dart';
 export 'src/feedback/feedback.dart';
 export 'src/rive/skin.dart';
 export 'src/rive/artwork.dart';
+
+export 'src/foundation/primitives.dart'
+    show
+        NuiBox,
+        NuiSurface,
+        NuiPlainButton,
+        NuiIconAction,
+        NuiTile,
+        NuiPopupAnchor,
+        NuiPopupController;

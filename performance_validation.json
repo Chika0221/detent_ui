@@ -1,0 +1,45 @@
+{
+  "date": "2026-10-30",
+  "environment": "Flutter Web profile, local IAB, viewport 1953x900; single session observations",
+  "flutter": "3.50.0-0.3.pre",
+  "measurementTool": "SchedulerBinding.addTimingsCallback; opt-in DETENT_PERF",
+  "repaintIsolation": {
+    "animatedFrames": 12,
+    "staticNeighbourPaintsBefore": 12,
+    "staticNeighbourPaintsAfter": 0
+  },
+  "idleWithoutRive": {
+    "intervalSeconds": 5,
+    "beforeFrames": 499,
+    "afterFrames": [
+      0,
+      0
+    ],
+    "note": "Steady idle intervals, excluding interaction/layout frames"
+  },
+  "riveEnabledSampleBeforeOffscreenFix": {
+    "frames": 505,
+    "intervalSeconds": 5,
+    "buildMedianMs": 4.101,
+    "buildP95Ms": 5.301,
+    "rasterMedianMs": 1.299,
+    "rasterP95Ms": 1.401
+  },
+  "riveEnabledSampleAfterOffscreenFix": {
+    "frames": 492,
+    "intervalSeconds": 5,
+    "buildMedianMs": 1.701,
+    "buildP95Ms": 3.7,
+    "rasterMedianMs": 1.3,
+    "rasterP95Ms": 2.3
+  },
+  "fixes": [
+    "RepaintBoundary around Rive and fallback artwork",
+    "TickerMode stops fallback animation when artwork is offscreen or backgrounded"
+  ],
+  "limitations": [
+    "Local intervals are not a controlled cross-device benchmark",
+    "Rive-on view contains an intentionally looping loading indicator",
+    "Profile app code is separate from debug preview; use matched modes for comparisons"
+  ]
+}

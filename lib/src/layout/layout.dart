@@ -1,9 +1,6 @@
-// Keep compatibility with Flutter's Material re-export during SDK extraction.
-// ignore: deprecated_member_use
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import '../foundation/primitives.dart';
 
-import '../foundation/theme.dart';
+import 'package:flutter/services.dart';
 
 import 'package:forui_lucide/forui_lucide.dart';
 
@@ -20,7 +17,7 @@ class NuiAppShell extends StatelessWidget {
   final Widget body;
   final Widget? menu, navigation, inspector, statusBar, toolbar;
   @override
-  Widget build(BuildContext context) => Scaffold(
+  Widget build(BuildContext context) => NuiBox(
     backgroundColor: NuiTheme.of(context).canvas,
     body: SafeArea(
       child: Column(
@@ -45,13 +42,13 @@ class NuiAppShell extends StatelessWidget {
                       width: 40,
                       child: Align(
                         alignment: Alignment.topCenter,
-                        child: IconButton(
+                        child: NuiIconAction(
                           tooltip: '補助パネルを開く',
                           icon: const Icon(
                             FLucideIcons.slidersHorizontal,
                             size: 16,
                           ),
-                          onPressed: () => showModalBottomSheet<void>(
+                          onPressed: () => showNuiDialog<void>(
                             context: context,
                             builder: (_) =>
                                 SizedBox(height: 440, child: inspector),
@@ -86,7 +83,7 @@ class NuiPanel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final t = NuiTheme.of(context);
-    return Material(
+    return NuiSurface(
       color: inset ? t.canvas : t.surface,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10),
@@ -130,9 +127,9 @@ class NuiToolbar extends StatelessWidget {
       children: [
         ...children,
         if (overflow.isNotEmpty)
-          MenuAnchor(
+          NuiPopupAnchor(
             menuChildren: overflow,
-            builder: (context, c, _) => IconButton(
+            builder: (context, c, _) => NuiIconAction(
               tooltip: 'その他の操作',
               icon: const Icon(FLucideIcons.ellipsis, size: 16),
               onPressed: () => c.isOpen ? c.close() : c.open(),
@@ -315,7 +312,7 @@ class _NuiScrollAreaState extends State<NuiScrollArea> {
   @override
   Widget build(BuildContext context) {
     final c = widget.controller ?? own;
-    return Scrollbar(
+    return RawScrollbar(
       controller: c,
       thumbVisibility: widget.alwaysVisible,
       interactive: true,
