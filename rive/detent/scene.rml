@@ -1,0 +1,2929 @@
+<Rive version="1" kind="fragment">
+  <Artboard id="0:1" name="Button" width="144" height="50" x="0" y="0" styleId="0:2" viewModelId="0:3" viewModelInstanceId="0:4" defaultStateMachineId="0:5">
+    <LayoutComponentStyle id="0:2" name="Artboard Style" />
+    <Shape id="0:21" name="Operation face" x="72.0" y="24.0">
+      <Rectangle name="Path" width="136" height="40" cornerRadiusTL="6" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FFE9CF48">
+          <DataBindContext sourcePathIds="0:3-0:18" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+    </Shape>
+    <Shape id="0:22" name="Physical base" x="72.0" y="26.0">
+      <Rectangle name="Path" width="136" height="40" cornerRadiusTL="6" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FF707974">
+          <DataBindContext sourcePathIds="0:3-0:19" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+    </Shape>
+    <StateMachine id="0:5" name="Detent">
+      <StateMachineLayer id="0:6" name="Mechanism">
+        <EntryState x="0" y="0">
+          <StateTransition stateToId="0:23" />
+        </EntryState>
+        <AnyState x="160" y="-120" />
+        <ExitState x="360" y="-120" />
+        <AnimationState id="0:23" animationId="0:25" x="160" y="0">
+          <StateTransition stateToId="0:24" duration="120">
+            <TransitionViewModelCondition opValue="equal">
+              <TransitionPropertyViewModelComparator>
+                <BindablePropertyBoolean>
+                  <DataBindContext sourcePathIds="0:3-0:7" propertyKey="634" />
+                </BindablePropertyBoolean>
+              </TransitionPropertyViewModelComparator>
+              <TransitionValueBooleanComparator value="true" />
+            </TransitionViewModelCondition>
+          </StateTransition>
+        </AnimationState>
+        <AnimationState id="0:24" animationId="0:26" x="360" y="0">
+          <StateTransition stateToId="0:23" duration="120">
+            <TransitionViewModelCondition opValue="equal">
+              <TransitionPropertyViewModelComparator>
+                <BindablePropertyBoolean>
+                  <DataBindContext sourcePathIds="0:3-0:7" propertyKey="634" />
+                </BindablePropertyBoolean>
+              </TransitionPropertyViewModelComparator>
+              <TransitionValueBooleanComparator value="false" />
+            </TransitionViewModelCondition>
+          </StateTransition>
+        </AnimationState>
+      </StateMachineLayer>
+    </StateMachine>
+    <LinearAnimation id="0:25" name="Rest" duration="1">
+      <KeyedObject objectId="0:21">
+        <KeyedProperty property="y">
+          <KeyFrameDouble value="24.0" />
+        </KeyedProperty>
+      </KeyedObject>
+    </LinearAnimation>
+    <LinearAnimation id="0:26" name="Active" duration="1">
+      <KeyedObject objectId="0:21">
+        <KeyedProperty property="y">
+          <KeyFrameDouble value="26.0" />
+        </KeyedProperty>
+      </KeyedObject>
+    </LinearAnimation>
+  </Artboard>
+  <ViewModel id="0:3" name="Button" defaultInstanceId="0:4">
+    <ViewModelPropertyBoolean id="0:7" name="pressed" />
+    <ViewModelPropertyBoolean id="0:8" name="selected" />
+    <ViewModelPropertyBoolean id="0:9" name="hovered" />
+    <ViewModelPropertyBoolean id="0:10" name="focused" />
+    <ViewModelPropertyBoolean id="0:11" name="enabled" />
+    <ViewModelPropertyNumber id="0:12" name="value" />
+    <ViewModelPropertyNumber id="0:13" name="secondaryValue" />
+    <ViewModelPropertyNumber id="0:14" name="progress" />
+    <ViewModelPropertyNumber id="0:15" name="motionScale" />
+    <ViewModelPropertyColor id="0:16" name="surfaceColor" />
+    <ViewModelPropertyColor id="0:17" name="inkColor" />
+    <ViewModelPropertyColor id="0:18" name="accentColor" />
+    <ViewModelPropertyColor id="0:19" name="borderColor" />
+    <ViewModelPropertyColor id="0:20" name="displayColor" />
+    <ViewModelInstance id="0:4" name="Default" exports="true">
+      <ViewModelInstanceBoolean viewModelPropertyId="0:7" propertyValue="false" />
+      <ViewModelInstanceBoolean viewModelPropertyId="0:8" propertyValue="false" />
+      <ViewModelInstanceBoolean viewModelPropertyId="0:9" propertyValue="false" />
+      <ViewModelInstanceBoolean viewModelPropertyId="0:10" propertyValue="false" />
+      <ViewModelInstanceBoolean viewModelPropertyId="0:11" propertyValue="true" />
+      <ViewModelInstanceNumber viewModelPropertyId="0:12" propertyValue="0.68" />
+      <ViewModelInstanceNumber viewModelPropertyId="0:13" propertyValue="1" />
+      <ViewModelInstanceNumber viewModelPropertyId="0:14" propertyValue="0.68" />
+      <ViewModelInstanceNumber viewModelPropertyId="0:15" propertyValue="1" />
+      <ViewModelInstanceColor viewModelPropertyId="0:16" propertyValue="FFFAFAF8" />
+      <ViewModelInstanceColor viewModelPropertyId="0:17" propertyValue="FF202426" />
+      <ViewModelInstanceColor viewModelPropertyId="0:18" propertyValue="FFE9CF48" />
+      <ViewModelInstanceColor viewModelPropertyId="0:19" propertyValue="FF707974" />
+      <ViewModelInstanceColor viewModelPropertyId="0:20" propertyValue="FF171A1C" />
+    </ViewModelInstance>
+  </ViewModel>
+  <Artboard id="0:27" name="IconButton" width="40" height="50" x="340" y="0" styleId="0:28" viewModelId="0:29" viewModelInstanceId="0:30" defaultStateMachineId="0:31">
+    <LayoutComponentStyle id="0:28" name="Artboard Style" />
+    <Shape id="0:47" name="Operation face" x="20.0" y="24.0">
+      <Rectangle name="Path" width="32" height="40" cornerRadiusTL="6" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FFFAFAF8">
+          <DataBindContext sourcePathIds="0:29-0:42" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+    </Shape>
+    <Shape id="0:48" name="Physical base" x="20.0" y="26.0">
+      <Rectangle name="Path" width="32" height="40" cornerRadiusTL="6" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FF707974">
+          <DataBindContext sourcePathIds="0:29-0:45" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+    </Shape>
+    <StateMachine id="0:31" name="Detent">
+      <StateMachineLayer id="0:32" name="Mechanism">
+        <EntryState x="0" y="0">
+          <StateTransition stateToId="0:49" />
+        </EntryState>
+        <AnyState x="160" y="-120" />
+        <ExitState x="360" y="-120" />
+        <AnimationState id="0:49" animationId="0:51" x="160" y="0">
+          <StateTransition stateToId="0:50" duration="120">
+            <TransitionViewModelCondition opValue="equal">
+              <TransitionPropertyViewModelComparator>
+                <BindablePropertyBoolean>
+                  <DataBindContext sourcePathIds="0:29-0:33" propertyKey="634" />
+                </BindablePropertyBoolean>
+              </TransitionPropertyViewModelComparator>
+              <TransitionValueBooleanComparator value="true" />
+            </TransitionViewModelCondition>
+          </StateTransition>
+        </AnimationState>
+        <AnimationState id="0:50" animationId="0:52" x="360" y="0">
+          <StateTransition stateToId="0:49" duration="120">
+            <TransitionViewModelCondition opValue="equal">
+              <TransitionPropertyViewModelComparator>
+                <BindablePropertyBoolean>
+                  <DataBindContext sourcePathIds="0:29-0:33" propertyKey="634" />
+                </BindablePropertyBoolean>
+              </TransitionPropertyViewModelComparator>
+              <TransitionValueBooleanComparator value="false" />
+            </TransitionViewModelCondition>
+          </StateTransition>
+        </AnimationState>
+      </StateMachineLayer>
+    </StateMachine>
+    <LinearAnimation id="0:51" name="Rest" duration="1">
+      <KeyedObject objectId="0:47">
+        <KeyedProperty property="y">
+          <KeyFrameDouble value="24.0" />
+        </KeyedProperty>
+      </KeyedObject>
+    </LinearAnimation>
+    <LinearAnimation id="0:52" name="Active" duration="1">
+      <KeyedObject objectId="0:47">
+        <KeyedProperty property="y">
+          <KeyFrameDouble value="26.0" />
+        </KeyedProperty>
+      </KeyedObject>
+    </LinearAnimation>
+  </Artboard>
+  <ViewModel id="0:29" name="IconButton" defaultInstanceId="0:30">
+    <ViewModelPropertyBoolean id="0:33" name="pressed" />
+    <ViewModelPropertyBoolean id="0:34" name="selected" />
+    <ViewModelPropertyBoolean id="0:35" name="hovered" />
+    <ViewModelPropertyBoolean id="0:36" name="focused" />
+    <ViewModelPropertyBoolean id="0:37" name="enabled" />
+    <ViewModelPropertyNumber id="0:38" name="value" />
+    <ViewModelPropertyNumber id="0:39" name="secondaryValue" />
+    <ViewModelPropertyNumber id="0:40" name="progress" />
+    <ViewModelPropertyNumber id="0:41" name="motionScale" />
+    <ViewModelPropertyColor id="0:42" name="surfaceColor" />
+    <ViewModelPropertyColor id="0:43" name="inkColor" />
+    <ViewModelPropertyColor id="0:44" name="accentColor" />
+    <ViewModelPropertyColor id="0:45" name="borderColor" />
+    <ViewModelPropertyColor id="0:46" name="displayColor" />
+    <ViewModelInstance id="0:30" name="Default" exports="true">
+      <ViewModelInstanceBoolean viewModelPropertyId="0:33" propertyValue="false" />
+      <ViewModelInstanceBoolean viewModelPropertyId="0:34" propertyValue="false" />
+      <ViewModelInstanceBoolean viewModelPropertyId="0:35" propertyValue="false" />
+      <ViewModelInstanceBoolean viewModelPropertyId="0:36" propertyValue="false" />
+      <ViewModelInstanceBoolean viewModelPropertyId="0:37" propertyValue="true" />
+      <ViewModelInstanceNumber viewModelPropertyId="0:38" propertyValue="0.68" />
+      <ViewModelInstanceNumber viewModelPropertyId="0:39" propertyValue="1" />
+      <ViewModelInstanceNumber viewModelPropertyId="0:40" propertyValue="0.68" />
+      <ViewModelInstanceNumber viewModelPropertyId="0:41" propertyValue="1" />
+      <ViewModelInstanceColor viewModelPropertyId="0:42" propertyValue="FFFAFAF8" />
+      <ViewModelInstanceColor viewModelPropertyId="0:43" propertyValue="FF202426" />
+      <ViewModelInstanceColor viewModelPropertyId="0:44" propertyValue="FFE9CF48" />
+      <ViewModelInstanceColor viewModelPropertyId="0:45" propertyValue="FF707974" />
+      <ViewModelInstanceColor viewModelPropertyId="0:46" propertyValue="FF171A1C" />
+    </ViewModelInstance>
+  </ViewModel>
+  <Artboard id="0:53" name="ToggleButton" width="48" height="50" x="680" y="0" styleId="0:54" viewModelId="0:55" viewModelInstanceId="0:56" defaultStateMachineId="0:57">
+    <LayoutComponentStyle id="0:54" name="Artboard Style" />
+    <Shape id="0:73" name="Operation face" x="24.0" y="24.0">
+      <Rectangle name="Path" width="40" height="40" cornerRadiusTL="6" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FFE9CF48">
+          <DataBindContext sourcePathIds="0:55-0:70" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+    </Shape>
+    <Shape id="0:74" name="Physical base" x="24.0" y="26.0">
+      <Rectangle name="Path" width="40" height="40" cornerRadiusTL="6" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FF707974">
+          <DataBindContext sourcePathIds="0:55-0:71" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+    </Shape>
+    <StateMachine id="0:57" name="Detent">
+      <StateMachineLayer id="0:58" name="Mechanism">
+        <EntryState x="0" y="0">
+          <StateTransition stateToId="0:75" />
+        </EntryState>
+        <AnyState x="160" y="-120" />
+        <ExitState x="360" y="-120" />
+        <AnimationState id="0:75" animationId="0:77" x="160" y="0">
+          <StateTransition stateToId="0:76" duration="120">
+            <TransitionViewModelCondition opValue="equal">
+              <TransitionPropertyViewModelComparator>
+                <BindablePropertyBoolean>
+                  <DataBindContext sourcePathIds="0:55-0:59" propertyKey="634" />
+                </BindablePropertyBoolean>
+              </TransitionPropertyViewModelComparator>
+              <TransitionValueBooleanComparator value="true" />
+            </TransitionViewModelCondition>
+          </StateTransition>
+        </AnimationState>
+        <AnimationState id="0:76" animationId="0:78" x="360" y="0">
+          <StateTransition stateToId="0:75" duration="120">
+            <TransitionViewModelCondition opValue="equal">
+              <TransitionPropertyViewModelComparator>
+                <BindablePropertyBoolean>
+                  <DataBindContext sourcePathIds="0:55-0:59" propertyKey="634" />
+                </BindablePropertyBoolean>
+              </TransitionPropertyViewModelComparator>
+              <TransitionValueBooleanComparator value="false" />
+            </TransitionViewModelCondition>
+          </StateTransition>
+        </AnimationState>
+      </StateMachineLayer>
+    </StateMachine>
+    <LinearAnimation id="0:77" name="Rest" duration="1">
+      <KeyedObject objectId="0:73">
+        <KeyedProperty property="y">
+          <KeyFrameDouble value="24.0" />
+        </KeyedProperty>
+      </KeyedObject>
+    </LinearAnimation>
+    <LinearAnimation id="0:78" name="Active" duration="1">
+      <KeyedObject objectId="0:73">
+        <KeyedProperty property="y">
+          <KeyFrameDouble value="26.0" />
+        </KeyedProperty>
+      </KeyedObject>
+    </LinearAnimation>
+  </Artboard>
+  <ViewModel id="0:55" name="ToggleButton" defaultInstanceId="0:56">
+    <ViewModelPropertyBoolean id="0:59" name="pressed" />
+    <ViewModelPropertyBoolean id="0:60" name="selected" />
+    <ViewModelPropertyBoolean id="0:61" name="hovered" />
+    <ViewModelPropertyBoolean id="0:62" name="focused" />
+    <ViewModelPropertyBoolean id="0:63" name="enabled" />
+    <ViewModelPropertyNumber id="0:64" name="value" />
+    <ViewModelPropertyNumber id="0:65" name="secondaryValue" />
+    <ViewModelPropertyNumber id="0:66" name="progress" />
+    <ViewModelPropertyNumber id="0:67" name="motionScale" />
+    <ViewModelPropertyColor id="0:68" name="surfaceColor" />
+    <ViewModelPropertyColor id="0:69" name="inkColor" />
+    <ViewModelPropertyColor id="0:70" name="accentColor" />
+    <ViewModelPropertyColor id="0:71" name="borderColor" />
+    <ViewModelPropertyColor id="0:72" name="displayColor" />
+    <ViewModelInstance id="0:56" name="Default" exports="true">
+      <ViewModelInstanceBoolean viewModelPropertyId="0:59" propertyValue="false" />
+      <ViewModelInstanceBoolean viewModelPropertyId="0:60" propertyValue="false" />
+      <ViewModelInstanceBoolean viewModelPropertyId="0:61" propertyValue="false" />
+      <ViewModelInstanceBoolean viewModelPropertyId="0:62" propertyValue="false" />
+      <ViewModelInstanceBoolean viewModelPropertyId="0:63" propertyValue="true" />
+      <ViewModelInstanceNumber viewModelPropertyId="0:64" propertyValue="0.68" />
+      <ViewModelInstanceNumber viewModelPropertyId="0:65" propertyValue="1" />
+      <ViewModelInstanceNumber viewModelPropertyId="0:66" propertyValue="0.68" />
+      <ViewModelInstanceNumber viewModelPropertyId="0:67" propertyValue="1" />
+      <ViewModelInstanceColor viewModelPropertyId="0:68" propertyValue="FFFAFAF8" />
+      <ViewModelInstanceColor viewModelPropertyId="0:69" propertyValue="FF202426" />
+      <ViewModelInstanceColor viewModelPropertyId="0:70" propertyValue="FFE9CF48" />
+      <ViewModelInstanceColor viewModelPropertyId="0:71" propertyValue="FF707974" />
+      <ViewModelInstanceColor viewModelPropertyId="0:72" propertyValue="FF171A1C" />
+    </ViewModelInstance>
+  </ViewModel>
+  <Artboard id="0:79" name="Keycap" width="40" height="42" x="1020" y="0" styleId="0:80" viewModelId="0:81" viewModelInstanceId="0:82" defaultStateMachineId="0:83">
+    <LayoutComponentStyle id="0:80" name="Artboard Style" />
+    <Shape id="0:99" name="Operation face" x="20.0" y="20.0">
+      <Rectangle name="Path" width="32" height="32" cornerRadiusTL="6" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FFFAFAF8">
+          <DataBindContext sourcePathIds="0:81-0:94" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+    </Shape>
+    <Shape id="0:100" name="Physical base" x="20.0" y="22.0">
+      <Rectangle name="Path" width="32" height="32" cornerRadiusTL="6" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FF707974">
+          <DataBindContext sourcePathIds="0:81-0:97" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+    </Shape>
+    <StateMachine id="0:83" name="Detent">
+      <StateMachineLayer id="0:84" name="Mechanism">
+        <EntryState x="0" y="0">
+          <StateTransition stateToId="0:101" />
+        </EntryState>
+        <AnyState x="160" y="-120" />
+        <ExitState x="360" y="-120" />
+        <AnimationState id="0:101" animationId="0:103" x="160" y="0">
+          <StateTransition stateToId="0:102" duration="120">
+            <TransitionViewModelCondition opValue="equal">
+              <TransitionPropertyViewModelComparator>
+                <BindablePropertyBoolean>
+                  <DataBindContext sourcePathIds="0:81-0:85" propertyKey="634" />
+                </BindablePropertyBoolean>
+              </TransitionPropertyViewModelComparator>
+              <TransitionValueBooleanComparator value="true" />
+            </TransitionViewModelCondition>
+          </StateTransition>
+        </AnimationState>
+        <AnimationState id="0:102" animationId="0:104" x="360" y="0">
+          <StateTransition stateToId="0:101" duration="120">
+            <TransitionViewModelCondition opValue="equal">
+              <TransitionPropertyViewModelComparator>
+                <BindablePropertyBoolean>
+                  <DataBindContext sourcePathIds="0:81-0:85" propertyKey="634" />
+                </BindablePropertyBoolean>
+              </TransitionPropertyViewModelComparator>
+              <TransitionValueBooleanComparator value="false" />
+            </TransitionViewModelCondition>
+          </StateTransition>
+        </AnimationState>
+      </StateMachineLayer>
+    </StateMachine>
+    <LinearAnimation id="0:103" name="Rest" duration="1">
+      <KeyedObject objectId="0:99">
+        <KeyedProperty property="y">
+          <KeyFrameDouble value="20.0" />
+        </KeyedProperty>
+      </KeyedObject>
+    </LinearAnimation>
+    <LinearAnimation id="0:104" name="Active" duration="1">
+      <KeyedObject objectId="0:99">
+        <KeyedProperty property="y">
+          <KeyFrameDouble value="22.0" />
+        </KeyedProperty>
+      </KeyedObject>
+    </LinearAnimation>
+  </Artboard>
+  <ViewModel id="0:81" name="Keycap" defaultInstanceId="0:82">
+    <ViewModelPropertyBoolean id="0:85" name="pressed" />
+    <ViewModelPropertyBoolean id="0:86" name="selected" />
+    <ViewModelPropertyBoolean id="0:87" name="hovered" />
+    <ViewModelPropertyBoolean id="0:88" name="focused" />
+    <ViewModelPropertyBoolean id="0:89" name="enabled" />
+    <ViewModelPropertyNumber id="0:90" name="value" />
+    <ViewModelPropertyNumber id="0:91" name="secondaryValue" />
+    <ViewModelPropertyNumber id="0:92" name="progress" />
+    <ViewModelPropertyNumber id="0:93" name="motionScale" />
+    <ViewModelPropertyColor id="0:94" name="surfaceColor" />
+    <ViewModelPropertyColor id="0:95" name="inkColor" />
+    <ViewModelPropertyColor id="0:96" name="accentColor" />
+    <ViewModelPropertyColor id="0:97" name="borderColor" />
+    <ViewModelPropertyColor id="0:98" name="displayColor" />
+    <ViewModelInstance id="0:82" name="Default" exports="true">
+      <ViewModelInstanceBoolean viewModelPropertyId="0:85" propertyValue="false" />
+      <ViewModelInstanceBoolean viewModelPropertyId="0:86" propertyValue="false" />
+      <ViewModelInstanceBoolean viewModelPropertyId="0:87" propertyValue="false" />
+      <ViewModelInstanceBoolean viewModelPropertyId="0:88" propertyValue="false" />
+      <ViewModelInstanceBoolean viewModelPropertyId="0:89" propertyValue="true" />
+      <ViewModelInstanceNumber viewModelPropertyId="0:90" propertyValue="0.68" />
+      <ViewModelInstanceNumber viewModelPropertyId="0:91" propertyValue="1" />
+      <ViewModelInstanceNumber viewModelPropertyId="0:92" propertyValue="0.68" />
+      <ViewModelInstanceNumber viewModelPropertyId="0:93" propertyValue="1" />
+      <ViewModelInstanceColor viewModelPropertyId="0:94" propertyValue="FFFAFAF8" />
+      <ViewModelInstanceColor viewModelPropertyId="0:95" propertyValue="FF202426" />
+      <ViewModelInstanceColor viewModelPropertyId="0:96" propertyValue="FFE9CF48" />
+      <ViewModelInstanceColor viewModelPropertyId="0:97" propertyValue="FF707974" />
+      <ViewModelInstanceColor viewModelPropertyId="0:98" propertyValue="FF171A1C" />
+    </ViewModelInstance>
+  </ViewModel>
+  <Artboard id="0:105" name="SegmentedControl" width="288" height="40" x="0" y="150" styleId="0:106" viewModelId="0:107" viewModelInstanceId="0:108" defaultStateMachineId="0:109">
+    <LayoutComponentStyle id="0:106" name="Artboard Style" />
+    <Shape id="0:125" name="Selection" x="48.0" y="20.0">
+      <Rectangle name="Path" width="88.0" height="32" cornerRadiusTL="6" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FFE9CF48">
+          <DataBindContext sourcePathIds="0:107-0:122" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+    </Shape>
+    <Shape id="0:126" name="Track" x="144.0" y="20.0">
+      <Rectangle name="Path" width="288" height="40" cornerRadiusTL="6" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FF707974">
+          <DataBindContext sourcePathIds="0:107-0:123" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+    </Shape>
+    <StateMachine id="0:109" name="Detent">
+      <StateMachineLayer id="0:110" name="Mechanism">
+        <EntryState x="0" y="0">
+          <StateTransition stateToId="0:127" />
+        </EntryState>
+        <AnyState x="160" y="-120" />
+        <ExitState x="360" y="-120" />
+        <AnimationState id="0:127" animationId="0:129" x="160" y="0">
+          <StateTransition stateToId="0:128" duration="120">
+            <TransitionViewModelCondition opValue="equal">
+              <TransitionPropertyViewModelComparator>
+                <BindablePropertyBoolean>
+                  <DataBindContext sourcePathIds="0:107-0:112" propertyKey="634" />
+                </BindablePropertyBoolean>
+              </TransitionPropertyViewModelComparator>
+              <TransitionValueBooleanComparator value="true" />
+            </TransitionViewModelCondition>
+          </StateTransition>
+        </AnimationState>
+        <AnimationState id="0:128" animationId="0:130" x="360" y="0">
+          <StateTransition stateToId="0:127" duration="120">
+            <TransitionViewModelCondition opValue="equal">
+              <TransitionPropertyViewModelComparator>
+                <BindablePropertyBoolean>
+                  <DataBindContext sourcePathIds="0:107-0:112" propertyKey="634" />
+                </BindablePropertyBoolean>
+              </TransitionPropertyViewModelComparator>
+              <TransitionValueBooleanComparator value="false" />
+            </TransitionViewModelCondition>
+          </StateTransition>
+        </AnimationState>
+      </StateMachineLayer>
+    </StateMachine>
+    <LinearAnimation id="0:129" name="Rest" duration="1">
+      <KeyedObject objectId="0:125">
+        <KeyedProperty property="x">
+          <KeyFrameDouble value="48.0" />
+        </KeyedProperty>
+      </KeyedObject>
+    </LinearAnimation>
+    <LinearAnimation id="0:130" name="Active" duration="1">
+      <KeyedObject objectId="0:125">
+        <KeyedProperty property="x">
+          <KeyFrameDouble value="240.0" />
+        </KeyedProperty>
+      </KeyedObject>
+    </LinearAnimation>
+  </Artboard>
+  <ViewModel id="0:107" name="SegmentedControl" defaultInstanceId="0:108">
+    <ViewModelPropertyBoolean id="0:111" name="pressed" />
+    <ViewModelPropertyBoolean id="0:112" name="selected" />
+    <ViewModelPropertyBoolean id="0:113" name="hovered" />
+    <ViewModelPropertyBoolean id="0:114" name="focused" />
+    <ViewModelPropertyBoolean id="0:115" name="enabled" />
+    <ViewModelPropertyNumber id="0:116" name="value" />
+    <ViewModelPropertyNumber id="0:117" name="secondaryValue" />
+    <ViewModelPropertyNumber id="0:118" name="progress" />
+    <ViewModelPropertyNumber id="0:119" name="motionScale" />
+    <ViewModelPropertyColor id="0:120" name="surfaceColor" />
+    <ViewModelPropertyColor id="0:121" name="inkColor" />
+    <ViewModelPropertyColor id="0:122" name="accentColor" />
+    <ViewModelPropertyColor id="0:123" name="borderColor" />
+    <ViewModelPropertyColor id="0:124" name="displayColor" />
+    <ViewModelInstance id="0:108" name="Default" exports="true">
+      <ViewModelInstanceBoolean viewModelPropertyId="0:111" propertyValue="false" />
+      <ViewModelInstanceBoolean viewModelPropertyId="0:112" propertyValue="false" />
+      <ViewModelInstanceBoolean viewModelPropertyId="0:113" propertyValue="false" />
+      <ViewModelInstanceBoolean viewModelPropertyId="0:114" propertyValue="false" />
+      <ViewModelInstanceBoolean viewModelPropertyId="0:115" propertyValue="true" />
+      <ViewModelInstanceNumber viewModelPropertyId="0:116" propertyValue="0.68" />
+      <ViewModelInstanceNumber viewModelPropertyId="0:117" propertyValue="1" />
+      <ViewModelInstanceNumber viewModelPropertyId="0:118" propertyValue="0.68" />
+      <ViewModelInstanceNumber viewModelPropertyId="0:119" propertyValue="1" />
+      <ViewModelInstanceColor viewModelPropertyId="0:120" propertyValue="FFFAFAF8" />
+      <ViewModelInstanceColor viewModelPropertyId="0:121" propertyValue="FF202426" />
+      <ViewModelInstanceColor viewModelPropertyId="0:122" propertyValue="FFE9CF48" />
+      <ViewModelInstanceColor viewModelPropertyId="0:123" propertyValue="FF707974" />
+      <ViewModelInstanceColor viewModelPropertyId="0:124" propertyValue="FF171A1C" />
+    </ViewModelInstance>
+  </ViewModel>
+  <Artboard id="0:131" name="Checkbox" width="24" height="24" x="340" y="150" styleId="0:132" viewModelId="0:133" viewModelInstanceId="0:134" defaultStateMachineId="0:135">
+    <LayoutComponentStyle id="0:132" name="Artboard Style" />
+    <Shape id="0:151" name="Check" x="12" y="12">
+      <Rectangle name="Path" width="10" height="10" cornerRadiusTL="1" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FF202426">
+          <DataBindContext sourcePathIds="0:133-0:147" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+    </Shape>
+    <Shape id="0:152" name="Box" x="12" y="12">
+      <Rectangle name="Path" width="20" height="20" cornerRadiusTL="2" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FFFAFAF8">
+          <DataBindContext sourcePathIds="0:133-0:146" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+    </Shape>
+    <StateMachine id="0:135" name="Detent">
+      <StateMachineLayer id="0:136" name="Mechanism">
+        <EntryState x="0" y="0">
+          <StateTransition stateToId="0:153" />
+        </EntryState>
+        <AnyState x="160" y="-120" />
+        <ExitState x="360" y="-120" />
+        <AnimationState id="0:153" animationId="0:155" x="160" y="0">
+          <StateTransition stateToId="0:154" duration="120">
+            <TransitionViewModelCondition opValue="equal">
+              <TransitionPropertyViewModelComparator>
+                <BindablePropertyBoolean>
+                  <DataBindContext sourcePathIds="0:133-0:138" propertyKey="634" />
+                </BindablePropertyBoolean>
+              </TransitionPropertyViewModelComparator>
+              <TransitionValueBooleanComparator value="true" />
+            </TransitionViewModelCondition>
+          </StateTransition>
+        </AnimationState>
+        <AnimationState id="0:154" animationId="0:156" x="360" y="0">
+          <StateTransition stateToId="0:153" duration="120">
+            <TransitionViewModelCondition opValue="equal">
+              <TransitionPropertyViewModelComparator>
+                <BindablePropertyBoolean>
+                  <DataBindContext sourcePathIds="0:133-0:138" propertyKey="634" />
+                </BindablePropertyBoolean>
+              </TransitionPropertyViewModelComparator>
+              <TransitionValueBooleanComparator value="false" />
+            </TransitionViewModelCondition>
+          </StateTransition>
+        </AnimationState>
+      </StateMachineLayer>
+    </StateMachine>
+    <LinearAnimation id="0:155" name="Rest" duration="1">
+      <KeyedObject objectId="0:151">
+        <KeyedProperty property="opacity">
+          <KeyFrameDouble value="0" />
+        </KeyedProperty>
+      </KeyedObject>
+    </LinearAnimation>
+    <LinearAnimation id="0:156" name="Active" duration="1">
+      <KeyedObject objectId="0:151">
+        <KeyedProperty property="opacity">
+          <KeyFrameDouble value="1" />
+        </KeyedProperty>
+      </KeyedObject>
+    </LinearAnimation>
+  </Artboard>
+  <ViewModel id="0:133" name="Checkbox" defaultInstanceId="0:134">
+    <ViewModelPropertyBoolean id="0:137" name="pressed" />
+    <ViewModelPropertyBoolean id="0:138" name="selected" />
+    <ViewModelPropertyBoolean id="0:139" name="hovered" />
+    <ViewModelPropertyBoolean id="0:140" name="focused" />
+    <ViewModelPropertyBoolean id="0:141" name="enabled" />
+    <ViewModelPropertyNumber id="0:142" name="value" />
+    <ViewModelPropertyNumber id="0:143" name="secondaryValue" />
+    <ViewModelPropertyNumber id="0:144" name="progress" />
+    <ViewModelPropertyNumber id="0:145" name="motionScale" />
+    <ViewModelPropertyColor id="0:146" name="surfaceColor" />
+    <ViewModelPropertyColor id="0:147" name="inkColor" />
+    <ViewModelPropertyColor id="0:148" name="accentColor" />
+    <ViewModelPropertyColor id="0:149" name="borderColor" />
+    <ViewModelPropertyColor id="0:150" name="displayColor" />
+    <ViewModelInstance id="0:134" name="Default" exports="true">
+      <ViewModelInstanceBoolean viewModelPropertyId="0:137" propertyValue="false" />
+      <ViewModelInstanceBoolean viewModelPropertyId="0:138" propertyValue="false" />
+      <ViewModelInstanceBoolean viewModelPropertyId="0:139" propertyValue="false" />
+      <ViewModelInstanceBoolean viewModelPropertyId="0:140" propertyValue="false" />
+      <ViewModelInstanceBoolean viewModelPropertyId="0:141" propertyValue="true" />
+      <ViewModelInstanceNumber viewModelPropertyId="0:142" propertyValue="0.68" />
+      <ViewModelInstanceNumber viewModelPropertyId="0:143" propertyValue="1" />
+      <ViewModelInstanceNumber viewModelPropertyId="0:144" propertyValue="0.68" />
+      <ViewModelInstanceNumber viewModelPropertyId="0:145" propertyValue="1" />
+      <ViewModelInstanceColor viewModelPropertyId="0:146" propertyValue="FFFAFAF8" />
+      <ViewModelInstanceColor viewModelPropertyId="0:147" propertyValue="FF202426" />
+      <ViewModelInstanceColor viewModelPropertyId="0:148" propertyValue="FFE9CF48" />
+      <ViewModelInstanceColor viewModelPropertyId="0:149" propertyValue="FF707974" />
+      <ViewModelInstanceColor viewModelPropertyId="0:150" propertyValue="FF171A1C" />
+    </ViewModelInstance>
+  </ViewModel>
+  <Artboard id="0:157" name="RadioGroup" width="24" height="24" x="680" y="150" styleId="0:158" viewModelId="0:159" viewModelInstanceId="0:160" defaultStateMachineId="0:161">
+    <LayoutComponentStyle id="0:158" name="Artboard Style" />
+    <Shape id="0:177" name="Selected" x="12" y="12">
+      <Ellipse name="Path" width="10" height="10" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FF202426">
+          <DataBindContext sourcePathIds="0:159-0:173" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+    </Shape>
+    <Shape id="0:178" name="Ring" x="12" y="12">
+      <Ellipse name="Path" width="20" height="20" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FF707974">
+          <DataBindContext sourcePathIds="0:159-0:175" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+    </Shape>
+    <StateMachine id="0:161" name="Detent">
+      <StateMachineLayer id="0:162" name="Mechanism">
+        <EntryState x="0" y="0">
+          <StateTransition stateToId="0:179" />
+        </EntryState>
+        <AnyState x="160" y="-120" />
+        <ExitState x="360" y="-120" />
+        <AnimationState id="0:179" animationId="0:181" x="160" y="0">
+          <StateTransition stateToId="0:180" duration="120">
+            <TransitionViewModelCondition opValue="equal">
+              <TransitionPropertyViewModelComparator>
+                <BindablePropertyBoolean>
+                  <DataBindContext sourcePathIds="0:159-0:164" propertyKey="634" />
+                </BindablePropertyBoolean>
+              </TransitionPropertyViewModelComparator>
+              <TransitionValueBooleanComparator value="true" />
+            </TransitionViewModelCondition>
+          </StateTransition>
+        </AnimationState>
+        <AnimationState id="0:180" animationId="0:182" x="360" y="0">
+          <StateTransition stateToId="0:179" duration="120">
+            <TransitionViewModelCondition opValue="equal">
+              <TransitionPropertyViewModelComparator>
+                <BindablePropertyBoolean>
+                  <DataBindContext sourcePathIds="0:159-0:164" propertyKey="634" />
+                </BindablePropertyBoolean>
+              </TransitionPropertyViewModelComparator>
+              <TransitionValueBooleanComparator value="false" />
+            </TransitionViewModelCondition>
+          </StateTransition>
+        </AnimationState>
+      </StateMachineLayer>
+    </StateMachine>
+    <LinearAnimation id="0:181" name="Rest" duration="1">
+      <KeyedObject objectId="0:177">
+        <KeyedProperty property="opacity">
+          <KeyFrameDouble value="0" />
+        </KeyedProperty>
+      </KeyedObject>
+    </LinearAnimation>
+    <LinearAnimation id="0:182" name="Active" duration="1">
+      <KeyedObject objectId="0:177">
+        <KeyedProperty property="opacity">
+          <KeyFrameDouble value="1" />
+        </KeyedProperty>
+      </KeyedObject>
+    </LinearAnimation>
+  </Artboard>
+  <ViewModel id="0:159" name="RadioGroup" defaultInstanceId="0:160">
+    <ViewModelPropertyBoolean id="0:163" name="pressed" />
+    <ViewModelPropertyBoolean id="0:164" name="selected" />
+    <ViewModelPropertyBoolean id="0:165" name="hovered" />
+    <ViewModelPropertyBoolean id="0:166" name="focused" />
+    <ViewModelPropertyBoolean id="0:167" name="enabled" />
+    <ViewModelPropertyNumber id="0:168" name="value" />
+    <ViewModelPropertyNumber id="0:169" name="secondaryValue" />
+    <ViewModelPropertyNumber id="0:170" name="progress" />
+    <ViewModelPropertyNumber id="0:171" name="motionScale" />
+    <ViewModelPropertyColor id="0:172" name="surfaceColor" />
+    <ViewModelPropertyColor id="0:173" name="inkColor" />
+    <ViewModelPropertyColor id="0:174" name="accentColor" />
+    <ViewModelPropertyColor id="0:175" name="borderColor" />
+    <ViewModelPropertyColor id="0:176" name="displayColor" />
+    <ViewModelInstance id="0:160" name="Default" exports="true">
+      <ViewModelInstanceBoolean viewModelPropertyId="0:163" propertyValue="false" />
+      <ViewModelInstanceBoolean viewModelPropertyId="0:164" propertyValue="false" />
+      <ViewModelInstanceBoolean viewModelPropertyId="0:165" propertyValue="false" />
+      <ViewModelInstanceBoolean viewModelPropertyId="0:166" propertyValue="false" />
+      <ViewModelInstanceBoolean viewModelPropertyId="0:167" propertyValue="true" />
+      <ViewModelInstanceNumber viewModelPropertyId="0:168" propertyValue="0.68" />
+      <ViewModelInstanceNumber viewModelPropertyId="0:169" propertyValue="1" />
+      <ViewModelInstanceNumber viewModelPropertyId="0:170" propertyValue="0.68" />
+      <ViewModelInstanceNumber viewModelPropertyId="0:171" propertyValue="1" />
+      <ViewModelInstanceColor viewModelPropertyId="0:172" propertyValue="FFFAFAF8" />
+      <ViewModelInstanceColor viewModelPropertyId="0:173" propertyValue="FF202426" />
+      <ViewModelInstanceColor viewModelPropertyId="0:174" propertyValue="FFE9CF48" />
+      <ViewModelInstanceColor viewModelPropertyId="0:175" propertyValue="FF707974" />
+      <ViewModelInstanceColor viewModelPropertyId="0:176" propertyValue="FF171A1C" />
+    </ViewModelInstance>
+  </ViewModel>
+  <Artboard id="0:183" name="Switch" width="48" height="28" x="1020" y="150" styleId="0:184" viewModelId="0:185" viewModelInstanceId="0:186" defaultStateMachineId="0:187">
+    <LayoutComponentStyle id="0:184" name="Artboard Style" />
+    <Shape id="0:203" name="Thumb" x="13" y="14.0">
+      <Ellipse name="Path" width="16" height="16" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FFE9CF48">
+          <DataBindContext sourcePathIds="0:185-0:200" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+    </Shape>
+    <Shape id="0:204" name="Track" x="24.0" y="14.0">
+      <Rectangle name="Path" width="44" height="22" cornerRadiusTL="11" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FF202426">
+          <DataBindContext sourcePathIds="0:185-0:199" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+    </Shape>
+    <StateMachine id="0:187" name="Detent">
+      <StateMachineLayer id="0:188" name="Mechanism">
+        <EntryState x="0" y="0">
+          <StateTransition stateToId="0:205" />
+        </EntryState>
+        <AnyState x="160" y="-120" />
+        <ExitState x="360" y="-120" />
+        <AnimationState id="0:205" animationId="0:207" x="160" y="0">
+          <StateTransition stateToId="0:206" duration="120">
+            <TransitionViewModelCondition opValue="equal">
+              <TransitionPropertyViewModelComparator>
+                <BindablePropertyBoolean>
+                  <DataBindContext sourcePathIds="0:185-0:190" propertyKey="634" />
+                </BindablePropertyBoolean>
+              </TransitionPropertyViewModelComparator>
+              <TransitionValueBooleanComparator value="true" />
+            </TransitionViewModelCondition>
+          </StateTransition>
+        </AnimationState>
+        <AnimationState id="0:206" animationId="0:208" x="360" y="0">
+          <StateTransition stateToId="0:205" duration="120">
+            <TransitionViewModelCondition opValue="equal">
+              <TransitionPropertyViewModelComparator>
+                <BindablePropertyBoolean>
+                  <DataBindContext sourcePathIds="0:185-0:190" propertyKey="634" />
+                </BindablePropertyBoolean>
+              </TransitionPropertyViewModelComparator>
+              <TransitionValueBooleanComparator value="false" />
+            </TransitionViewModelCondition>
+          </StateTransition>
+        </AnimationState>
+      </StateMachineLayer>
+    </StateMachine>
+    <LinearAnimation id="0:207" name="Rest" duration="1">
+      <KeyedObject objectId="0:203">
+        <KeyedProperty property="x">
+          <KeyFrameDouble value="13" />
+        </KeyedProperty>
+      </KeyedObject>
+    </LinearAnimation>
+    <LinearAnimation id="0:208" name="Active" duration="1">
+      <KeyedObject objectId="0:203">
+        <KeyedProperty property="x">
+          <KeyFrameDouble value="35" />
+        </KeyedProperty>
+      </KeyedObject>
+    </LinearAnimation>
+  </Artboard>
+  <ViewModel id="0:185" name="Switch" defaultInstanceId="0:186">
+    <ViewModelPropertyBoolean id="0:189" name="pressed" />
+    <ViewModelPropertyBoolean id="0:190" name="selected" />
+    <ViewModelPropertyBoolean id="0:191" name="hovered" />
+    <ViewModelPropertyBoolean id="0:192" name="focused" />
+    <ViewModelPropertyBoolean id="0:193" name="enabled" />
+    <ViewModelPropertyNumber id="0:194" name="value" />
+    <ViewModelPropertyNumber id="0:195" name="secondaryValue" />
+    <ViewModelPropertyNumber id="0:196" name="progress" />
+    <ViewModelPropertyNumber id="0:197" name="motionScale" />
+    <ViewModelPropertyColor id="0:198" name="surfaceColor" />
+    <ViewModelPropertyColor id="0:199" name="inkColor" />
+    <ViewModelPropertyColor id="0:200" name="accentColor" />
+    <ViewModelPropertyColor id="0:201" name="borderColor" />
+    <ViewModelPropertyColor id="0:202" name="displayColor" />
+    <ViewModelInstance id="0:186" name="Default" exports="true">
+      <ViewModelInstanceBoolean viewModelPropertyId="0:189" propertyValue="false" />
+      <ViewModelInstanceBoolean viewModelPropertyId="0:190" propertyValue="false" />
+      <ViewModelInstanceBoolean viewModelPropertyId="0:191" propertyValue="false" />
+      <ViewModelInstanceBoolean viewModelPropertyId="0:192" propertyValue="false" />
+      <ViewModelInstanceBoolean viewModelPropertyId="0:193" propertyValue="true" />
+      <ViewModelInstanceNumber viewModelPropertyId="0:194" propertyValue="0.68" />
+      <ViewModelInstanceNumber viewModelPropertyId="0:195" propertyValue="1" />
+      <ViewModelInstanceNumber viewModelPropertyId="0:196" propertyValue="0.68" />
+      <ViewModelInstanceNumber viewModelPropertyId="0:197" propertyValue="1" />
+      <ViewModelInstanceColor viewModelPropertyId="0:198" propertyValue="FFFAFAF8" />
+      <ViewModelInstanceColor viewModelPropertyId="0:199" propertyValue="FF202426" />
+      <ViewModelInstanceColor viewModelPropertyId="0:200" propertyValue="FFE9CF48" />
+      <ViewModelInstanceColor viewModelPropertyId="0:201" propertyValue="FF707974" />
+      <ViewModelInstanceColor viewModelPropertyId="0:202" propertyValue="FF171A1C" />
+    </ViewModelInstance>
+  </ViewModel>
+  <Artboard id="0:209" name="Slider" width="240" height="40" x="0" y="300" styleId="0:210" viewModelId="0:211" viewModelInstanceId="0:212" defaultStateMachineId="0:213">
+    <LayoutComponentStyle id="0:210" name="Artboard Style" />
+    <Shape id="0:229" name="Thumb" x="16" y="20">
+      <Rectangle name="Path" width="12" height="20" cornerRadiusTL="3" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FFFAFAF8">
+          <DataBindContext sourcePathIds="0:211-0:224" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+      <DataBindContext sourcePathIds="0:211-0:220" propertyKey="13" converterId="0:230" />
+    </Shape>
+    <Shape id="0:231" name="Track" x="120.0" y="20">
+      <Rectangle name="Path" width="216" height="3" cornerRadiusTL="1" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FF707974">
+          <DataBindContext sourcePathIds="0:211-0:227" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+    </Shape>
+    <StateMachine id="0:213" name="Detent">
+      <StateMachineLayer id="0:214" name="Mechanism">
+        <EntryState x="0" y="0">
+          <StateTransition stateToId="0:232" />
+        </EntryState>
+        <AnyState x="160" y="-120" />
+        <ExitState x="360" y="-120" />
+        <AnimationState id="0:232" animationId="0:234" x="160" y="0">
+          <StateTransition stateToId="0:233" duration="120">
+            <TransitionViewModelCondition opValue="equal">
+              <TransitionPropertyViewModelComparator>
+                <BindablePropertyBoolean>
+                  <DataBindContext sourcePathIds="0:211-0:215" propertyKey="634" />
+                </BindablePropertyBoolean>
+              </TransitionPropertyViewModelComparator>
+              <TransitionValueBooleanComparator value="true" />
+            </TransitionViewModelCondition>
+          </StateTransition>
+        </AnimationState>
+        <AnimationState id="0:233" animationId="0:235" x="360" y="0">
+          <StateTransition stateToId="0:232" duration="120">
+            <TransitionViewModelCondition opValue="equal">
+              <TransitionPropertyViewModelComparator>
+                <BindablePropertyBoolean>
+                  <DataBindContext sourcePathIds="0:211-0:215" propertyKey="634" />
+                </BindablePropertyBoolean>
+              </TransitionPropertyViewModelComparator>
+              <TransitionValueBooleanComparator value="false" />
+            </TransitionViewModelCondition>
+          </StateTransition>
+        </AnimationState>
+      </StateMachineLayer>
+    </StateMachine>
+    <LinearAnimation id="0:234" name="Rest" duration="1" />
+    <LinearAnimation id="0:235" name="Active" duration="1" />
+  </Artboard>
+  <DataConverterRangeMapper id="0:230" name="SliderRange230" minInput="0" maxInput="1" minOutput="16" maxOutput="224" clampLower="true" clampUpper="true" />
+  <ViewModel id="0:211" name="Slider" defaultInstanceId="0:212">
+    <ViewModelPropertyBoolean id="0:215" name="pressed" />
+    <ViewModelPropertyBoolean id="0:216" name="selected" />
+    <ViewModelPropertyBoolean id="0:217" name="hovered" />
+    <ViewModelPropertyBoolean id="0:218" name="focused" />
+    <ViewModelPropertyBoolean id="0:219" name="enabled" />
+    <ViewModelPropertyNumber id="0:220" name="value" />
+    <ViewModelPropertyNumber id="0:221" name="secondaryValue" />
+    <ViewModelPropertyNumber id="0:222" name="progress" />
+    <ViewModelPropertyNumber id="0:223" name="motionScale" />
+    <ViewModelPropertyColor id="0:224" name="surfaceColor" />
+    <ViewModelPropertyColor id="0:225" name="inkColor" />
+    <ViewModelPropertyColor id="0:226" name="accentColor" />
+    <ViewModelPropertyColor id="0:227" name="borderColor" />
+    <ViewModelPropertyColor id="0:228" name="displayColor" />
+    <ViewModelInstance id="0:212" name="Default" exports="true">
+      <ViewModelInstanceBoolean viewModelPropertyId="0:215" propertyValue="false" />
+      <ViewModelInstanceBoolean viewModelPropertyId="0:216" propertyValue="false" />
+      <ViewModelInstanceBoolean viewModelPropertyId="0:217" propertyValue="false" />
+      <ViewModelInstanceBoolean viewModelPropertyId="0:218" propertyValue="false" />
+      <ViewModelInstanceBoolean viewModelPropertyId="0:219" propertyValue="true" />
+      <ViewModelInstanceNumber viewModelPropertyId="0:220" propertyValue="0.68" />
+      <ViewModelInstanceNumber viewModelPropertyId="0:221" propertyValue="1" />
+      <ViewModelInstanceNumber viewModelPropertyId="0:222" propertyValue="0.68" />
+      <ViewModelInstanceNumber viewModelPropertyId="0:223" propertyValue="1" />
+      <ViewModelInstanceColor viewModelPropertyId="0:224" propertyValue="FFFAFAF8" />
+      <ViewModelInstanceColor viewModelPropertyId="0:225" propertyValue="FF202426" />
+      <ViewModelInstanceColor viewModelPropertyId="0:226" propertyValue="FFE9CF48" />
+      <ViewModelInstanceColor viewModelPropertyId="0:227" propertyValue="FF707974" />
+      <ViewModelInstanceColor viewModelPropertyId="0:228" propertyValue="FF171A1C" />
+    </ViewModelInstance>
+  </ViewModel>
+  <Artboard id="0:236" name="RangeSlider" width="240" height="40" x="340" y="300" styleId="0:237" viewModelId="0:238" viewModelInstanceId="0:239" defaultStateMachineId="0:240">
+    <LayoutComponentStyle id="0:237" name="Artboard Style" />
+    <Shape id="0:256" name="Thumb" x="16" y="20">
+      <Rectangle name="Path" width="12" height="20" cornerRadiusTL="3" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FFFAFAF8">
+          <DataBindContext sourcePathIds="0:238-0:251" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+      <DataBindContext sourcePathIds="0:238-0:247" propertyKey="13" converterId="0:257" />
+    </Shape>
+    <Shape id="0:258" name="Upper thumb" x="224" y="20">
+      <Rectangle name="Path" width="12" height="20" cornerRadiusTL="3" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FFFAFAF8">
+          <DataBindContext sourcePathIds="0:238-0:251" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+      <DataBindContext sourcePathIds="0:238-0:248" propertyKey="13" converterId="0:259" />
+    </Shape>
+    <Shape id="0:260" name="Track" x="120.0" y="20">
+      <Rectangle name="Path" width="216" height="3" cornerRadiusTL="1" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FF707974">
+          <DataBindContext sourcePathIds="0:238-0:254" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+    </Shape>
+    <StateMachine id="0:240" name="Detent">
+      <StateMachineLayer id="0:241" name="Mechanism">
+        <EntryState x="0" y="0">
+          <StateTransition stateToId="0:261" />
+        </EntryState>
+        <AnyState x="160" y="-120" />
+        <ExitState x="360" y="-120" />
+        <AnimationState id="0:261" animationId="0:263" x="160" y="0">
+          <StateTransition stateToId="0:262" duration="120">
+            <TransitionViewModelCondition opValue="equal">
+              <TransitionPropertyViewModelComparator>
+                <BindablePropertyBoolean>
+                  <DataBindContext sourcePathIds="0:238-0:242" propertyKey="634" />
+                </BindablePropertyBoolean>
+              </TransitionPropertyViewModelComparator>
+              <TransitionValueBooleanComparator value="true" />
+            </TransitionViewModelCondition>
+          </StateTransition>
+        </AnimationState>
+        <AnimationState id="0:262" animationId="0:264" x="360" y="0">
+          <StateTransition stateToId="0:261" duration="120">
+            <TransitionViewModelCondition opValue="equal">
+              <TransitionPropertyViewModelComparator>
+                <BindablePropertyBoolean>
+                  <DataBindContext sourcePathIds="0:238-0:242" propertyKey="634" />
+                </BindablePropertyBoolean>
+              </TransitionPropertyViewModelComparator>
+              <TransitionValueBooleanComparator value="false" />
+            </TransitionViewModelCondition>
+          </StateTransition>
+        </AnimationState>
+      </StateMachineLayer>
+    </StateMachine>
+    <LinearAnimation id="0:263" name="Rest" duration="1" />
+    <LinearAnimation id="0:264" name="Active" duration="1" />
+  </Artboard>
+  <DataConverterRangeMapper id="0:257" name="RangeSliderRange257" minInput="0" maxInput="1" minOutput="16" maxOutput="224" clampLower="true" clampUpper="true" />
+  <DataConverterRangeMapper id="0:259" name="RangeSliderRange259" minInput="0" maxInput="1" minOutput="16" maxOutput="224" clampLower="true" clampUpper="true" />
+  <ViewModel id="0:238" name="RangeSlider" defaultInstanceId="0:239">
+    <ViewModelPropertyBoolean id="0:242" name="pressed" />
+    <ViewModelPropertyBoolean id="0:243" name="selected" />
+    <ViewModelPropertyBoolean id="0:244" name="hovered" />
+    <ViewModelPropertyBoolean id="0:245" name="focused" />
+    <ViewModelPropertyBoolean id="0:246" name="enabled" />
+    <ViewModelPropertyNumber id="0:247" name="value" />
+    <ViewModelPropertyNumber id="0:248" name="secondaryValue" />
+    <ViewModelPropertyNumber id="0:249" name="progress" />
+    <ViewModelPropertyNumber id="0:250" name="motionScale" />
+    <ViewModelPropertyColor id="0:251" name="surfaceColor" />
+    <ViewModelPropertyColor id="0:252" name="inkColor" />
+    <ViewModelPropertyColor id="0:253" name="accentColor" />
+    <ViewModelPropertyColor id="0:254" name="borderColor" />
+    <ViewModelPropertyColor id="0:255" name="displayColor" />
+    <ViewModelInstance id="0:239" name="Default" exports="true">
+      <ViewModelInstanceBoolean viewModelPropertyId="0:242" propertyValue="false" />
+      <ViewModelInstanceBoolean viewModelPropertyId="0:243" propertyValue="false" />
+      <ViewModelInstanceBoolean viewModelPropertyId="0:244" propertyValue="false" />
+      <ViewModelInstanceBoolean viewModelPropertyId="0:245" propertyValue="false" />
+      <ViewModelInstanceBoolean viewModelPropertyId="0:246" propertyValue="true" />
+      <ViewModelInstanceNumber viewModelPropertyId="0:247" propertyValue="0.68" />
+      <ViewModelInstanceNumber viewModelPropertyId="0:248" propertyValue="1" />
+      <ViewModelInstanceNumber viewModelPropertyId="0:249" propertyValue="0.68" />
+      <ViewModelInstanceNumber viewModelPropertyId="0:250" propertyValue="1" />
+      <ViewModelInstanceColor viewModelPropertyId="0:251" propertyValue="FFFAFAF8" />
+      <ViewModelInstanceColor viewModelPropertyId="0:252" propertyValue="FF202426" />
+      <ViewModelInstanceColor viewModelPropertyId="0:253" propertyValue="FFE9CF48" />
+      <ViewModelInstanceColor viewModelPropertyId="0:254" propertyValue="FF707974" />
+      <ViewModelInstanceColor viewModelPropertyId="0:255" propertyValue="FF171A1C" />
+    </ViewModelInstance>
+  </ViewModel>
+  <Artboard id="0:265" name="RotaryKnob" width="96" height="96" x="680" y="300" styleId="0:266" viewModelId="0:267" viewModelInstanceId="0:268" defaultStateMachineId="0:269">
+    <LayoutComponentStyle id="0:266" name="Artboard Style" />
+    <Shape id="0:285" name="Tick0" x="16.887301627791913" y="79.11269837220809">
+      <Rectangle name="Path" width="1" height="2" cornerRadiusTL="0" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FF707974">
+          <DataBindContext sourcePathIds="0:267-0:283" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+    </Shape>
+    <Shape id="0:286" name="Tick1" x="12.403252247502316" y="73.86255110086883">
+      <Rectangle name="Path" width="1" height="2" cornerRadiusTL="0" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FF707974">
+          <DataBindContext sourcePathIds="0:267-0:283" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+    </Shape>
+    <Shape id="0:287" name="Tick2" x="8.79571293571182" y="67.97558198854006">
+      <Rectangle name="Path" width="1" height="2" cornerRadiusTL="0" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FF707974">
+          <DataBindContext sourcePathIds="0:267-0:283" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+    </Shape>
+    <Shape id="0:288" name="Tick3" x="6.153513283013247" y="61.59674775249769">
+      <Rectangle name="Path" width="1" height="2" cornerRadiusTL="0" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FF707974">
+          <DataBindContext sourcePathIds="0:267-0:283" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+    </Shape>
+    <Shape id="0:289" name="Tick4" x="4.54171301381394" y="54.883116461770165">
+      <Rectangle name="Path" width="1" height="2" cornerRadiusTL="0" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FF707974">
+          <DataBindContext sourcePathIds="0:267-0:283" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+    </Shape>
+    <Shape id="0:290" name="Tick5" x="4.0" y="48.00000000000001">
+      <Rectangle name="Path" width="1" height="2" cornerRadiusTL="0" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FF707974">
+          <DataBindContext sourcePathIds="0:267-0:283" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+    </Shape>
+    <Shape id="0:291" name="Tick6" x="4.54171301381394" y="41.11688353822985">
+      <Rectangle name="Path" width="1" height="2" cornerRadiusTL="0" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FF707974">
+          <DataBindContext sourcePathIds="0:267-0:283" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+    </Shape>
+    <Shape id="0:292" name="Tick7" x="6.15351328301324" y="34.40325224750232">
+      <Rectangle name="Path" width="1" height="2" cornerRadiusTL="0" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FF707974">
+          <DataBindContext sourcePathIds="0:267-0:283" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+    </Shape>
+    <Shape id="0:293" name="Tick8" x="8.795712935711812" y="28.024418011459947">
+      <Rectangle name="Path" width="1" height="2" cornerRadiusTL="0" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FF707974">
+          <DataBindContext sourcePathIds="0:267-0:283" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+    </Shape>
+    <Shape id="0:294" name="Tick9" x="12.403252247502309" y="22.137448899131186">
+      <Rectangle name="Path" width="1" height="2" cornerRadiusTL="0" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FF707974">
+          <DataBindContext sourcePathIds="0:267-0:283" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+    </Shape>
+    <Shape id="0:295" name="Tick10" x="16.887301627791903" y="16.887301627791913">
+      <Rectangle name="Path" width="1" height="2" cornerRadiusTL="0" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FF707974">
+          <DataBindContext sourcePathIds="0:267-0:283" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+    </Shape>
+    <Shape id="0:296" name="Tick11" x="22.137448899131176" y="12.403252247502316">
+      <Rectangle name="Path" width="1" height="2" cornerRadiusTL="0" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FF707974">
+          <DataBindContext sourcePathIds="0:267-0:283" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+    </Shape>
+    <Shape id="0:297" name="Tick12" x="28.024418011459936" y="8.79571293571182">
+      <Rectangle name="Path" width="1" height="2" cornerRadiusTL="0" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FF707974">
+          <DataBindContext sourcePathIds="0:267-0:283" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+    </Shape>
+    <Shape id="0:298" name="Tick13" x="34.40325224750231" y="6.153513283013247">
+      <Rectangle name="Path" width="1" height="2" cornerRadiusTL="0" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FF707974">
+          <DataBindContext sourcePathIds="0:267-0:283" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+    </Shape>
+    <Shape id="0:299" name="Tick14" x="41.116883538229835" y="4.54171301381394">
+      <Rectangle name="Path" width="1" height="2" cornerRadiusTL="0" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FF707974">
+          <DataBindContext sourcePathIds="0:267-0:283" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+    </Shape>
+    <Shape id="0:300" name="Tick15" x="47.99999999999999" y="4.0">
+      <Rectangle name="Path" width="1" height="2" cornerRadiusTL="0" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FF707974">
+          <DataBindContext sourcePathIds="0:267-0:283" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+    </Shape>
+    <Shape id="0:301" name="Tick16" x="54.88311646177015" y="4.54171301381394">
+      <Rectangle name="Path" width="1" height="2" cornerRadiusTL="0" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FF707974">
+          <DataBindContext sourcePathIds="0:267-0:283" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+    </Shape>
+    <Shape id="0:302" name="Tick17" x="61.59674775249768" y="6.15351328301324">
+      <Rectangle name="Path" width="1" height="2" cornerRadiusTL="0" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FF707974">
+          <DataBindContext sourcePathIds="0:267-0:283" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+    </Shape>
+    <Shape id="0:303" name="Tick18" x="67.97558198854006" y="8.795712935711805">
+      <Rectangle name="Path" width="1" height="2" cornerRadiusTL="0" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FF707974">
+          <DataBindContext sourcePathIds="0:267-0:283" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+    </Shape>
+    <Shape id="0:304" name="Tick19" x="73.86255110086881" y="12.403252247502309">
+      <Rectangle name="Path" width="1" height="2" cornerRadiusTL="0" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FF707974">
+          <DataBindContext sourcePathIds="0:267-0:283" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+    </Shape>
+    <Shape id="0:305" name="Tick20" x="79.11269837220809" y="16.887301627791903">
+      <Rectangle name="Path" width="1" height="2" cornerRadiusTL="0" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FF707974">
+          <DataBindContext sourcePathIds="0:267-0:283" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+    </Shape>
+    <Shape id="0:306" name="Tick21" x="83.59674775249769" y="22.137448899131172">
+      <Rectangle name="Path" width="1" height="2" cornerRadiusTL="0" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FF707974">
+          <DataBindContext sourcePathIds="0:267-0:283" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+    </Shape>
+    <Shape id="0:307" name="Tick22" x="87.20428706428817" y="28.024418011459897">
+      <Rectangle name="Path" width="1" height="2" cornerRadiusTL="0" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FF707974">
+          <DataBindContext sourcePathIds="0:267-0:283" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+    </Shape>
+    <Shape id="0:308" name="Tick23" x="89.84648671698676" y="34.40325224750231">
+      <Rectangle name="Path" width="1" height="2" cornerRadiusTL="0" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FF707974">
+          <DataBindContext sourcePathIds="0:267-0:283" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+    </Shape>
+    <Shape id="0:309" name="Tick24" x="91.45828698618607" y="41.11688353822983">
+      <Rectangle name="Path" width="1" height="2" cornerRadiusTL="0" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FF707974">
+          <DataBindContext sourcePathIds="0:267-0:283" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+    </Shape>
+    <Shape id="0:310" name="Tick25" x="92.0" y="47.999999999999986">
+      <Rectangle name="Path" width="1" height="2" cornerRadiusTL="0" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FF707974">
+          <DataBindContext sourcePathIds="0:267-0:283" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+    </Shape>
+    <Shape id="0:311" name="Tick26" x="91.45828698618607" y="54.88311646177014">
+      <Rectangle name="Path" width="1" height="2" cornerRadiusTL="0" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FF707974">
+          <DataBindContext sourcePathIds="0:267-0:283" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+    </Shape>
+    <Shape id="0:312" name="Tick27" x="89.84648671698676" y="61.59674775249768">
+      <Rectangle name="Path" width="1" height="2" cornerRadiusTL="0" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FF707974">
+          <DataBindContext sourcePathIds="0:267-0:283" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+    </Shape>
+    <Shape id="0:313" name="Tick28" x="87.2042870642882" y="67.97558198854006">
+      <Rectangle name="Path" width="1" height="2" cornerRadiusTL="0" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FF707974">
+          <DataBindContext sourcePathIds="0:267-0:283" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+    </Shape>
+    <Shape id="0:314" name="Tick29" x="83.59674775249769" y="73.86255110086881">
+      <Rectangle name="Path" width="1" height="2" cornerRadiusTL="0" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FF707974">
+          <DataBindContext sourcePathIds="0:267-0:283" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+    </Shape>
+    <Shape id="0:315" name="Tick30" x="79.1126983722081" y="79.11269837220809">
+      <Rectangle name="Path" width="1" height="2" cornerRadiusTL="0" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FF707974">
+          <DataBindContext sourcePathIds="0:267-0:283" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+    </Shape>
+    <Shape id="0:316" name="Pointer" x="48" y="48">
+      <Ellipse name="Path" width="5" height="5" y="-30" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FF202426">
+          <DataBindContext sourcePathIds="0:267-0:281" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+      <DataBindContext sourcePathIds="0:267-0:276" propertyKey="15" converterId="0:317" />
+    </Shape>
+    <Shape id="0:318" name="Face" x="48" y="48">
+      <Ellipse name="Path" width="72" height="72" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FFFAFAF8">
+          <DataBindContext sourcePathIds="0:267-0:280" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+    </Shape>
+    <Shape id="0:319" name="Base" x="48" y="50">
+      <Ellipse name="Path" width="76" height="76" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FF707974">
+          <DataBindContext sourcePathIds="0:267-0:283" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+    </Shape>
+    <StateMachine id="0:269" name="Detent">
+      <StateMachineLayer id="0:270" name="Mechanism">
+        <EntryState x="0" y="0">
+          <StateTransition stateToId="0:320" />
+        </EntryState>
+        <AnyState x="160" y="-120" />
+        <ExitState x="360" y="-120" />
+        <AnimationState id="0:320" animationId="0:322" x="160" y="0">
+          <StateTransition stateToId="0:321" duration="120">
+            <TransitionViewModelCondition opValue="equal">
+              <TransitionPropertyViewModelComparator>
+                <BindablePropertyBoolean>
+                  <DataBindContext sourcePathIds="0:267-0:271" propertyKey="634" />
+                </BindablePropertyBoolean>
+              </TransitionPropertyViewModelComparator>
+              <TransitionValueBooleanComparator value="true" />
+            </TransitionViewModelCondition>
+          </StateTransition>
+        </AnimationState>
+        <AnimationState id="0:321" animationId="0:323" x="360" y="0">
+          <StateTransition stateToId="0:320" duration="120">
+            <TransitionViewModelCondition opValue="equal">
+              <TransitionPropertyViewModelComparator>
+                <BindablePropertyBoolean>
+                  <DataBindContext sourcePathIds="0:267-0:271" propertyKey="634" />
+                </BindablePropertyBoolean>
+              </TransitionPropertyViewModelComparator>
+              <TransitionValueBooleanComparator value="false" />
+            </TransitionViewModelCondition>
+          </StateTransition>
+        </AnimationState>
+      </StateMachineLayer>
+    </StateMachine>
+    <LinearAnimation id="0:322" name="Rest" duration="1" />
+    <LinearAnimation id="0:323" name="Active" duration="1" />
+  </Artboard>
+  <DataConverterRangeMapper id="0:317" name="RotaryKnobRange317" minInput="0" maxInput="1" minOutput="-2.356194490192345" maxOutput="2.356194490192345" clampLower="true" clampUpper="true" />
+  <ViewModel id="0:267" name="RotaryKnob" defaultInstanceId="0:268">
+    <ViewModelPropertyBoolean id="0:271" name="pressed" />
+    <ViewModelPropertyBoolean id="0:272" name="selected" />
+    <ViewModelPropertyBoolean id="0:273" name="hovered" />
+    <ViewModelPropertyBoolean id="0:274" name="focused" />
+    <ViewModelPropertyBoolean id="0:275" name="enabled" />
+    <ViewModelPropertyNumber id="0:276" name="value" />
+    <ViewModelPropertyNumber id="0:277" name="secondaryValue" />
+    <ViewModelPropertyNumber id="0:278" name="progress" />
+    <ViewModelPropertyNumber id="0:279" name="motionScale" />
+    <ViewModelPropertyColor id="0:280" name="surfaceColor" />
+    <ViewModelPropertyColor id="0:281" name="inkColor" />
+    <ViewModelPropertyColor id="0:282" name="accentColor" />
+    <ViewModelPropertyColor id="0:283" name="borderColor" />
+    <ViewModelPropertyColor id="0:284" name="displayColor" />
+    <ViewModelInstance id="0:268" name="Default" exports="true">
+      <ViewModelInstanceBoolean viewModelPropertyId="0:271" propertyValue="false" />
+      <ViewModelInstanceBoolean viewModelPropertyId="0:272" propertyValue="false" />
+      <ViewModelInstanceBoolean viewModelPropertyId="0:273" propertyValue="false" />
+      <ViewModelInstanceBoolean viewModelPropertyId="0:274" propertyValue="false" />
+      <ViewModelInstanceBoolean viewModelPropertyId="0:275" propertyValue="true" />
+      <ViewModelInstanceNumber viewModelPropertyId="0:276" propertyValue="0.68" />
+      <ViewModelInstanceNumber viewModelPropertyId="0:277" propertyValue="1" />
+      <ViewModelInstanceNumber viewModelPropertyId="0:278" propertyValue="0.68" />
+      <ViewModelInstanceNumber viewModelPropertyId="0:279" propertyValue="1" />
+      <ViewModelInstanceColor viewModelPropertyId="0:280" propertyValue="FFFAFAF8" />
+      <ViewModelInstanceColor viewModelPropertyId="0:281" propertyValue="FF202426" />
+      <ViewModelInstanceColor viewModelPropertyId="0:282" propertyValue="FFE9CF48" />
+      <ViewModelInstanceColor viewModelPropertyId="0:283" propertyValue="FF707974" />
+      <ViewModelInstanceColor viewModelPropertyId="0:284" propertyValue="FF171A1C" />
+    </ViewModelInstance>
+  </ViewModel>
+  <Artboard id="0:324" name="Tabs" width="240" height="40" x="1020" y="300" styleId="0:325" viewModelId="0:326" viewModelInstanceId="0:327" defaultStateMachineId="0:328">
+    <LayoutComponentStyle id="0:325" name="Artboard Style" />
+    <Shape id="0:344" name="Selection" x="40.0" y="20.0">
+      <Rectangle name="Path" width="72.0" height="32" cornerRadiusTL="6" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FFE9CF48">
+          <DataBindContext sourcePathIds="0:326-0:341" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+    </Shape>
+    <Shape id="0:345" name="Track" x="120.0" y="20.0">
+      <Rectangle name="Path" width="240" height="40" cornerRadiusTL="6" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FF707974">
+          <DataBindContext sourcePathIds="0:326-0:342" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+    </Shape>
+    <StateMachine id="0:328" name="Detent">
+      <StateMachineLayer id="0:329" name="Mechanism">
+        <EntryState x="0" y="0">
+          <StateTransition stateToId="0:346" />
+        </EntryState>
+        <AnyState x="160" y="-120" />
+        <ExitState x="360" y="-120" />
+        <AnimationState id="0:346" animationId="0:348" x="160" y="0">
+          <StateTransition stateToId="0:347" duration="120">
+            <TransitionViewModelCondition opValue="equal">
+              <TransitionPropertyViewModelComparator>
+                <BindablePropertyBoolean>
+                  <DataBindContext sourcePathIds="0:326-0:331" propertyKey="634" />
+                </BindablePropertyBoolean>
+              </TransitionPropertyViewModelComparator>
+              <TransitionValueBooleanComparator value="true" />
+            </TransitionViewModelCondition>
+          </StateTransition>
+        </AnimationState>
+        <AnimationState id="0:347" animationId="0:349" x="360" y="0">
+          <StateTransition stateToId="0:346" duration="120">
+            <TransitionViewModelCondition opValue="equal">
+              <TransitionPropertyViewModelComparator>
+                <BindablePropertyBoolean>
+                  <DataBindContext sourcePathIds="0:326-0:331" propertyKey="634" />
+                </BindablePropertyBoolean>
+              </TransitionPropertyViewModelComparator>
+              <TransitionValueBooleanComparator value="false" />
+            </TransitionViewModelCondition>
+          </StateTransition>
+        </AnimationState>
+      </StateMachineLayer>
+    </StateMachine>
+    <LinearAnimation id="0:348" name="Rest" duration="1">
+      <KeyedObject objectId="0:344">
+        <KeyedProperty property="x">
+          <KeyFrameDouble value="40.0" />
+        </KeyedProperty>
+      </KeyedObject>
+    </LinearAnimation>
+    <LinearAnimation id="0:349" name="Active" duration="1">
+      <KeyedObject objectId="0:344">
+        <KeyedProperty property="x">
+          <KeyFrameDouble value="200.0" />
+        </KeyedProperty>
+      </KeyedObject>
+    </LinearAnimation>
+  </Artboard>
+  <ViewModel id="0:326" name="Tabs" defaultInstanceId="0:327">
+    <ViewModelPropertyBoolean id="0:330" name="pressed" />
+    <ViewModelPropertyBoolean id="0:331" name="selected" />
+    <ViewModelPropertyBoolean id="0:332" name="hovered" />
+    <ViewModelPropertyBoolean id="0:333" name="focused" />
+    <ViewModelPropertyBoolean id="0:334" name="enabled" />
+    <ViewModelPropertyNumber id="0:335" name="value" />
+    <ViewModelPropertyNumber id="0:336" name="secondaryValue" />
+    <ViewModelPropertyNumber id="0:337" name="progress" />
+    <ViewModelPropertyNumber id="0:338" name="motionScale" />
+    <ViewModelPropertyColor id="0:339" name="surfaceColor" />
+    <ViewModelPropertyColor id="0:340" name="inkColor" />
+    <ViewModelPropertyColor id="0:341" name="accentColor" />
+    <ViewModelPropertyColor id="0:342" name="borderColor" />
+    <ViewModelPropertyColor id="0:343" name="displayColor" />
+    <ViewModelInstance id="0:327" name="Default" exports="true">
+      <ViewModelInstanceBoolean viewModelPropertyId="0:330" propertyValue="false" />
+      <ViewModelInstanceBoolean viewModelPropertyId="0:331" propertyValue="false" />
+      <ViewModelInstanceBoolean viewModelPropertyId="0:332" propertyValue="false" />
+      <ViewModelInstanceBoolean viewModelPropertyId="0:333" propertyValue="false" />
+      <ViewModelInstanceBoolean viewModelPropertyId="0:334" propertyValue="true" />
+      <ViewModelInstanceNumber viewModelPropertyId="0:335" propertyValue="0.68" />
+      <ViewModelInstanceNumber viewModelPropertyId="0:336" propertyValue="1" />
+      <ViewModelInstanceNumber viewModelPropertyId="0:337" propertyValue="0.68" />
+      <ViewModelInstanceNumber viewModelPropertyId="0:338" propertyValue="1" />
+      <ViewModelInstanceColor viewModelPropertyId="0:339" propertyValue="FFFAFAF8" />
+      <ViewModelInstanceColor viewModelPropertyId="0:340" propertyValue="FF202426" />
+      <ViewModelInstanceColor viewModelPropertyId="0:341" propertyValue="FFE9CF48" />
+      <ViewModelInstanceColor viewModelPropertyId="0:342" propertyValue="FF707974" />
+      <ViewModelInstanceColor viewModelPropertyId="0:343" propertyValue="FF171A1C" />
+    </ViewModelInstance>
+  </ViewModel>
+  <Artboard id="0:350" name="Progress" width="240" height="8" x="0" y="450" styleId="0:351" viewModelId="0:352" viewModelInstanceId="0:353" defaultStateMachineId="0:354">
+    <LayoutComponentStyle id="0:351" name="Artboard Style" />
+    <Shape id="0:370" name="Progress" x="0" y="4">
+      <Rectangle name="Path" width="240" height="4" cornerRadiusTL="6" originX="0">
+        <DataBindContext sourcePathIds="0:352-0:363" propertyKey="20" converterId="0:371" />
+      </Rectangle>
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FF202426">
+          <DataBindContext sourcePathIds="0:352-0:366" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+    </Shape>
+    <Shape id="0:372" name="Track" x="120.0" y="4">
+      <Rectangle name="Path" width="240" height="4" cornerRadiusTL="6" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FF707974">
+          <DataBindContext sourcePathIds="0:352-0:368" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+    </Shape>
+    <StateMachine id="0:354" name="Detent">
+      <StateMachineLayer id="0:355" name="Mechanism">
+        <EntryState x="0" y="0">
+          <StateTransition stateToId="0:373" />
+        </EntryState>
+        <AnyState x="160" y="-120" />
+        <ExitState x="360" y="-120" />
+        <AnimationState id="0:373" animationId="0:375" x="160" y="0">
+          <StateTransition stateToId="0:374" duration="120">
+            <TransitionViewModelCondition opValue="equal">
+              <TransitionPropertyViewModelComparator>
+                <BindablePropertyBoolean>
+                  <DataBindContext sourcePathIds="0:352-0:356" propertyKey="634" />
+                </BindablePropertyBoolean>
+              </TransitionPropertyViewModelComparator>
+              <TransitionValueBooleanComparator value="true" />
+            </TransitionViewModelCondition>
+          </StateTransition>
+        </AnimationState>
+        <AnimationState id="0:374" animationId="0:376" x="360" y="0">
+          <StateTransition stateToId="0:373" duration="120">
+            <TransitionViewModelCondition opValue="equal">
+              <TransitionPropertyViewModelComparator>
+                <BindablePropertyBoolean>
+                  <DataBindContext sourcePathIds="0:352-0:356" propertyKey="634" />
+                </BindablePropertyBoolean>
+              </TransitionPropertyViewModelComparator>
+              <TransitionValueBooleanComparator value="false" />
+            </TransitionViewModelCondition>
+          </StateTransition>
+        </AnimationState>
+      </StateMachineLayer>
+    </StateMachine>
+    <LinearAnimation id="0:375" name="Rest" duration="1" />
+    <LinearAnimation id="0:376" name="Active" duration="1" />
+  </Artboard>
+  <DataConverterRangeMapper id="0:371" name="ProgressRange371" minInput="0" maxInput="1" minOutput="0" maxOutput="240" clampLower="true" clampUpper="true" />
+  <ViewModel id="0:352" name="Progress" defaultInstanceId="0:353">
+    <ViewModelPropertyBoolean id="0:356" name="pressed" />
+    <ViewModelPropertyBoolean id="0:357" name="selected" />
+    <ViewModelPropertyBoolean id="0:358" name="hovered" />
+    <ViewModelPropertyBoolean id="0:359" name="focused" />
+    <ViewModelPropertyBoolean id="0:360" name="enabled" />
+    <ViewModelPropertyNumber id="0:361" name="value" />
+    <ViewModelPropertyNumber id="0:362" name="secondaryValue" />
+    <ViewModelPropertyNumber id="0:363" name="progress" />
+    <ViewModelPropertyNumber id="0:364" name="motionScale" />
+    <ViewModelPropertyColor id="0:365" name="surfaceColor" />
+    <ViewModelPropertyColor id="0:366" name="inkColor" />
+    <ViewModelPropertyColor id="0:367" name="accentColor" />
+    <ViewModelPropertyColor id="0:368" name="borderColor" />
+    <ViewModelPropertyColor id="0:369" name="displayColor" />
+    <ViewModelInstance id="0:353" name="Default" exports="true">
+      <ViewModelInstanceBoolean viewModelPropertyId="0:356" propertyValue="false" />
+      <ViewModelInstanceBoolean viewModelPropertyId="0:357" propertyValue="false" />
+      <ViewModelInstanceBoolean viewModelPropertyId="0:358" propertyValue="false" />
+      <ViewModelInstanceBoolean viewModelPropertyId="0:359" propertyValue="false" />
+      <ViewModelInstanceBoolean viewModelPropertyId="0:360" propertyValue="true" />
+      <ViewModelInstanceNumber viewModelPropertyId="0:361" propertyValue="0.68" />
+      <ViewModelInstanceNumber viewModelPropertyId="0:362" propertyValue="1" />
+      <ViewModelInstanceNumber viewModelPropertyId="0:363" propertyValue="0.68" />
+      <ViewModelInstanceNumber viewModelPropertyId="0:364" propertyValue="1" />
+      <ViewModelInstanceColor viewModelPropertyId="0:365" propertyValue="FFFAFAF8" />
+      <ViewModelInstanceColor viewModelPropertyId="0:366" propertyValue="FF202426" />
+      <ViewModelInstanceColor viewModelPropertyId="0:367" propertyValue="FFE9CF48" />
+      <ViewModelInstanceColor viewModelPropertyId="0:368" propertyValue="FF707974" />
+      <ViewModelInstanceColor viewModelPropertyId="0:369" propertyValue="FF171A1C" />
+    </ViewModelInstance>
+  </ViewModel>
+  <Artboard id="0:377" name="DotMatrix" width="160" height="56" x="340" y="450" styleId="0:378" viewModelId="0:379" viewModelInstanceId="0:380" defaultStateMachineId="0:381">
+    <LayoutComponentStyle id="0:378" name="Artboard Style" />
+    <Shape id="0:397" name="Dot0_1_0" x="18" y="8">
+      <Ellipse name="Path" width="2" height="2" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FFFAFAF8">
+          <DataBindContext sourcePathIds="0:379-0:392" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+    </Shape>
+    <Shape id="0:398" name="Dot0_2_0" x="24" y="8">
+      <Ellipse name="Path" width="2" height="2" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FFFAFAF8">
+          <DataBindContext sourcePathIds="0:379-0:392" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+    </Shape>
+    <Shape id="0:399" name="Dot0_3_0" x="30" y="8">
+      <Ellipse name="Path" width="2" height="2" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FFFAFAF8">
+          <DataBindContext sourcePathIds="0:379-0:392" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+    </Shape>
+    <Shape id="0:400" name="Dot0_0_1" x="12" y="14">
+      <Ellipse name="Path" width="2" height="2" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FFFAFAF8">
+          <DataBindContext sourcePathIds="0:379-0:392" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+    </Shape>
+    <Shape id="0:401" name="Dot0_4_1" x="36" y="14">
+      <Ellipse name="Path" width="2" height="2" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FFFAFAF8">
+          <DataBindContext sourcePathIds="0:379-0:392" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+    </Shape>
+    <Shape id="0:402" name="Dot0_0_2" x="12" y="20">
+      <Ellipse name="Path" width="2" height="2" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FFFAFAF8">
+          <DataBindContext sourcePathIds="0:379-0:392" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+    </Shape>
+    <Shape id="0:403" name="Dot0_0_3" x="12" y="26">
+      <Ellipse name="Path" width="2" height="2" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FFFAFAF8">
+          <DataBindContext sourcePathIds="0:379-0:392" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+    </Shape>
+    <Shape id="0:404" name="Dot0_1_3" x="18" y="26">
+      <Ellipse name="Path" width="2" height="2" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FFFAFAF8">
+          <DataBindContext sourcePathIds="0:379-0:392" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+    </Shape>
+    <Shape id="0:405" name="Dot0_2_3" x="24" y="26">
+      <Ellipse name="Path" width="2" height="2" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FFFAFAF8">
+          <DataBindContext sourcePathIds="0:379-0:392" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+    </Shape>
+    <Shape id="0:406" name="Dot0_3_3" x="30" y="26">
+      <Ellipse name="Path" width="2" height="2" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FFFAFAF8">
+          <DataBindContext sourcePathIds="0:379-0:392" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+    </Shape>
+    <Shape id="0:407" name="Dot0_0_4" x="12" y="32">
+      <Ellipse name="Path" width="2" height="2" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FFFAFAF8">
+          <DataBindContext sourcePathIds="0:379-0:392" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+    </Shape>
+    <Shape id="0:408" name="Dot0_4_4" x="36" y="32">
+      <Ellipse name="Path" width="2" height="2" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FFFAFAF8">
+          <DataBindContext sourcePathIds="0:379-0:392" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+    </Shape>
+    <Shape id="0:409" name="Dot0_0_5" x="12" y="38">
+      <Ellipse name="Path" width="2" height="2" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FFFAFAF8">
+          <DataBindContext sourcePathIds="0:379-0:392" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+    </Shape>
+    <Shape id="0:410" name="Dot0_4_5" x="36" y="38">
+      <Ellipse name="Path" width="2" height="2" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FFFAFAF8">
+          <DataBindContext sourcePathIds="0:379-0:392" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+    </Shape>
+    <Shape id="0:411" name="Dot0_1_6" x="18" y="44">
+      <Ellipse name="Path" width="2" height="2" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FFFAFAF8">
+          <DataBindContext sourcePathIds="0:379-0:392" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+    </Shape>
+    <Shape id="0:412" name="Dot0_2_6" x="24" y="44">
+      <Ellipse name="Path" width="2" height="2" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FFFAFAF8">
+          <DataBindContext sourcePathIds="0:379-0:392" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+    </Shape>
+    <Shape id="0:413" name="Dot0_3_6" x="30" y="44">
+      <Ellipse name="Path" width="2" height="2" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FFFAFAF8">
+          <DataBindContext sourcePathIds="0:379-0:392" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+    </Shape>
+    <Shape id="0:414" name="Dot1_1_0" x="62" y="8">
+      <Ellipse name="Path" width="2" height="2" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FFFAFAF8">
+          <DataBindContext sourcePathIds="0:379-0:392" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+    </Shape>
+    <Shape id="0:415" name="Dot1_2_0" x="68" y="8">
+      <Ellipse name="Path" width="2" height="2" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FFFAFAF8">
+          <DataBindContext sourcePathIds="0:379-0:392" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+    </Shape>
+    <Shape id="0:416" name="Dot1_3_0" x="74" y="8">
+      <Ellipse name="Path" width="2" height="2" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FFFAFAF8">
+          <DataBindContext sourcePathIds="0:379-0:392" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+    </Shape>
+    <Shape id="0:417" name="Dot1_0_1" x="56" y="14">
+      <Ellipse name="Path" width="2" height="2" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FFFAFAF8">
+          <DataBindContext sourcePathIds="0:379-0:392" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+    </Shape>
+    <Shape id="0:418" name="Dot1_4_1" x="80" y="14">
+      <Ellipse name="Path" width="2" height="2" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FFFAFAF8">
+          <DataBindContext sourcePathIds="0:379-0:392" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+    </Shape>
+    <Shape id="0:419" name="Dot1_0_2" x="56" y="20">
+      <Ellipse name="Path" width="2" height="2" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FFFAFAF8">
+          <DataBindContext sourcePathIds="0:379-0:392" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+    </Shape>
+    <Shape id="0:420" name="Dot1_4_2" x="80" y="20">
+      <Ellipse name="Path" width="2" height="2" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FFFAFAF8">
+          <DataBindContext sourcePathIds="0:379-0:392" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+    </Shape>
+    <Shape id="0:421" name="Dot1_1_3" x="62" y="26">
+      <Ellipse name="Path" width="2" height="2" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FFFAFAF8">
+          <DataBindContext sourcePathIds="0:379-0:392" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+    </Shape>
+    <Shape id="0:422" name="Dot1_2_3" x="68" y="26">
+      <Ellipse name="Path" width="2" height="2" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FFFAFAF8">
+          <DataBindContext sourcePathIds="0:379-0:392" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+    </Shape>
+    <Shape id="0:423" name="Dot1_3_3" x="74" y="26">
+      <Ellipse name="Path" width="2" height="2" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FFFAFAF8">
+          <DataBindContext sourcePathIds="0:379-0:392" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+    </Shape>
+    <Shape id="0:424" name="Dot1_0_4" x="56" y="32">
+      <Ellipse name="Path" width="2" height="2" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FFFAFAF8">
+          <DataBindContext sourcePathIds="0:379-0:392" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+    </Shape>
+    <Shape id="0:425" name="Dot1_4_4" x="80" y="32">
+      <Ellipse name="Path" width="2" height="2" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FFFAFAF8">
+          <DataBindContext sourcePathIds="0:379-0:392" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+    </Shape>
+    <Shape id="0:426" name="Dot1_0_5" x="56" y="38">
+      <Ellipse name="Path" width="2" height="2" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FFFAFAF8">
+          <DataBindContext sourcePathIds="0:379-0:392" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+    </Shape>
+    <Shape id="0:427" name="Dot1_4_5" x="80" y="38">
+      <Ellipse name="Path" width="2" height="2" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FFFAFAF8">
+          <DataBindContext sourcePathIds="0:379-0:392" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+    </Shape>
+    <Shape id="0:428" name="Dot1_1_6" x="62" y="44">
+      <Ellipse name="Path" width="2" height="2" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FFFAFAF8">
+          <DataBindContext sourcePathIds="0:379-0:392" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+    </Shape>
+    <Shape id="0:429" name="Dot1_2_6" x="68" y="44">
+      <Ellipse name="Path" width="2" height="2" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FFFAFAF8">
+          <DataBindContext sourcePathIds="0:379-0:392" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+    </Shape>
+    <Shape id="0:430" name="Dot1_3_6" x="74" y="44">
+      <Ellipse name="Path" width="2" height="2" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FFFAFAF8">
+          <DataBindContext sourcePathIds="0:379-0:392" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+    </Shape>
+    <Shape id="0:431" name="Dot2_0_0" x="100" y="8">
+      <Ellipse name="Path" width="2" height="2" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FFFAFAF8">
+          <DataBindContext sourcePathIds="0:379-0:392" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+    </Shape>
+    <Shape id="0:432" name="Dot2_1_0" x="106" y="8">
+      <Ellipse name="Path" width="2" height="2" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FFFAFAF8">
+          <DataBindContext sourcePathIds="0:379-0:392" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+    </Shape>
+    <Shape id="0:433" name="Dot2_4_0" x="124" y="8">
+      <Ellipse name="Path" width="2" height="2" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FFFAFAF8">
+          <DataBindContext sourcePathIds="0:379-0:392" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+    </Shape>
+    <Shape id="0:434" name="Dot2_0_1" x="100" y="14">
+      <Ellipse name="Path" width="2" height="2" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FFFAFAF8">
+          <DataBindContext sourcePathIds="0:379-0:392" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+    </Shape>
+    <Shape id="0:435" name="Dot2_1_1" x="106" y="14">
+      <Ellipse name="Path" width="2" height="2" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FFFAFAF8">
+          <DataBindContext sourcePathIds="0:379-0:392" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+    </Shape>
+    <Shape id="0:436" name="Dot2_3_1" x="118" y="14">
+      <Ellipse name="Path" width="2" height="2" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FFFAFAF8">
+          <DataBindContext sourcePathIds="0:379-0:392" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+    </Shape>
+    <Shape id="0:437" name="Dot2_3_2" x="118" y="20">
+      <Ellipse name="Path" width="2" height="2" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FFFAFAF8">
+          <DataBindContext sourcePathIds="0:379-0:392" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+    </Shape>
+    <Shape id="0:438" name="Dot2_2_3" x="112" y="26">
+      <Ellipse name="Path" width="2" height="2" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FFFAFAF8">
+          <DataBindContext sourcePathIds="0:379-0:392" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+    </Shape>
+    <Shape id="0:439" name="Dot2_1_4" x="106" y="32">
+      <Ellipse name="Path" width="2" height="2" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FFFAFAF8">
+          <DataBindContext sourcePathIds="0:379-0:392" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+    </Shape>
+    <Shape id="0:440" name="Dot2_1_5" x="106" y="38">
+      <Ellipse name="Path" width="2" height="2" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FFFAFAF8">
+          <DataBindContext sourcePathIds="0:379-0:392" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+    </Shape>
+    <Shape id="0:441" name="Dot2_3_5" x="118" y="38">
+      <Ellipse name="Path" width="2" height="2" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FFFAFAF8">
+          <DataBindContext sourcePathIds="0:379-0:392" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+    </Shape>
+    <Shape id="0:442" name="Dot2_4_5" x="124" y="38">
+      <Ellipse name="Path" width="2" height="2" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FFFAFAF8">
+          <DataBindContext sourcePathIds="0:379-0:392" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+    </Shape>
+    <Shape id="0:443" name="Dot2_0_6" x="100" y="44">
+      <Ellipse name="Path" width="2" height="2" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FFFAFAF8">
+          <DataBindContext sourcePathIds="0:379-0:392" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+    </Shape>
+    <Shape id="0:444" name="Dot2_3_6" x="118" y="44">
+      <Ellipse name="Path" width="2" height="2" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FFFAFAF8">
+          <DataBindContext sourcePathIds="0:379-0:392" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+    </Shape>
+    <Shape id="0:445" name="Dot2_4_6" x="124" y="44">
+      <Ellipse name="Path" width="2" height="2" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FFFAFAF8">
+          <DataBindContext sourcePathIds="0:379-0:392" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+    </Shape>
+    <Shape id="0:446" name="Display" x="80.0" y="28.0">
+      <Rectangle name="Path" width="160" height="56" cornerRadiusTL="6" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FF171A1C">
+          <DataBindContext sourcePathIds="0:379-0:396" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+    </Shape>
+    <StateMachine id="0:381" name="Detent">
+      <StateMachineLayer id="0:382" name="Mechanism">
+        <EntryState x="0" y="0">
+          <StateTransition stateToId="0:447" />
+        </EntryState>
+        <AnyState x="160" y="-120" />
+        <ExitState x="360" y="-120" />
+        <AnimationState id="0:447" animationId="0:449" x="160" y="0">
+          <StateTransition stateToId="0:448" duration="120">
+            <TransitionViewModelCondition opValue="equal">
+              <TransitionPropertyViewModelComparator>
+                <BindablePropertyBoolean>
+                  <DataBindContext sourcePathIds="0:379-0:383" propertyKey="634" />
+                </BindablePropertyBoolean>
+              </TransitionPropertyViewModelComparator>
+              <TransitionValueBooleanComparator value="true" />
+            </TransitionViewModelCondition>
+          </StateTransition>
+        </AnimationState>
+        <AnimationState id="0:448" animationId="0:450" x="360" y="0">
+          <StateTransition stateToId="0:447" duration="120">
+            <TransitionViewModelCondition opValue="equal">
+              <TransitionPropertyViewModelComparator>
+                <BindablePropertyBoolean>
+                  <DataBindContext sourcePathIds="0:379-0:383" propertyKey="634" />
+                </BindablePropertyBoolean>
+              </TransitionPropertyViewModelComparator>
+              <TransitionValueBooleanComparator value="false" />
+            </TransitionViewModelCondition>
+          </StateTransition>
+        </AnimationState>
+      </StateMachineLayer>
+    </StateMachine>
+    <LinearAnimation id="0:449" name="Rest" duration="1" />
+    <LinearAnimation id="0:450" name="Active" duration="1" />
+  </Artboard>
+  <ViewModel id="0:379" name="DotMatrix" defaultInstanceId="0:380">
+    <ViewModelPropertyBoolean id="0:383" name="pressed" />
+    <ViewModelPropertyBoolean id="0:384" name="selected" />
+    <ViewModelPropertyBoolean id="0:385" name="hovered" />
+    <ViewModelPropertyBoolean id="0:386" name="focused" />
+    <ViewModelPropertyBoolean id="0:387" name="enabled" />
+    <ViewModelPropertyNumber id="0:388" name="value" />
+    <ViewModelPropertyNumber id="0:389" name="secondaryValue" />
+    <ViewModelPropertyNumber id="0:390" name="progress" />
+    <ViewModelPropertyNumber id="0:391" name="motionScale" />
+    <ViewModelPropertyColor id="0:392" name="surfaceColor" />
+    <ViewModelPropertyColor id="0:393" name="inkColor" />
+    <ViewModelPropertyColor id="0:394" name="accentColor" />
+    <ViewModelPropertyColor id="0:395" name="borderColor" />
+    <ViewModelPropertyColor id="0:396" name="displayColor" />
+    <ViewModelInstance id="0:380" name="Default" exports="true">
+      <ViewModelInstanceBoolean viewModelPropertyId="0:383" propertyValue="false" />
+      <ViewModelInstanceBoolean viewModelPropertyId="0:384" propertyValue="false" />
+      <ViewModelInstanceBoolean viewModelPropertyId="0:385" propertyValue="false" />
+      <ViewModelInstanceBoolean viewModelPropertyId="0:386" propertyValue="false" />
+      <ViewModelInstanceBoolean viewModelPropertyId="0:387" propertyValue="true" />
+      <ViewModelInstanceNumber viewModelPropertyId="0:388" propertyValue="0.68" />
+      <ViewModelInstanceNumber viewModelPropertyId="0:389" propertyValue="1" />
+      <ViewModelInstanceNumber viewModelPropertyId="0:390" propertyValue="0.68" />
+      <ViewModelInstanceNumber viewModelPropertyId="0:391" propertyValue="1" />
+      <ViewModelInstanceColor viewModelPropertyId="0:392" propertyValue="FFFAFAF8" />
+      <ViewModelInstanceColor viewModelPropertyId="0:393" propertyValue="FF202426" />
+      <ViewModelInstanceColor viewModelPropertyId="0:394" propertyValue="FFE9CF48" />
+      <ViewModelInstanceColor viewModelPropertyId="0:395" propertyValue="FF707974" />
+      <ViewModelInstanceColor viewModelPropertyId="0:396" propertyValue="FF171A1C" />
+    </ViewModelInstance>
+  </ViewModel>
+  <Artboard id="0:451" name="Meter" width="240" height="56" x="680" y="450" styleId="0:452" viewModelId="0:453" viewModelInstanceId="0:454" defaultStateMachineId="0:455">
+    <LayoutComponentStyle id="0:452" name="Artboard Style" />
+    <Shape id="0:471" name="Segment0" x="8.0" y="20">
+      <Rectangle name="Path" width="2" height="24" cornerRadiusTL="0" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FFE9CF48">
+          <DataBindContext sourcePathIds="0:453-0:468" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+      <DataBindContext sourcePathIds="0:453-0:464" propertyKey="18" converterId="0:472" />
+    </Shape>
+    <Shape id="0:473" name="Segment1" x="13.6" y="20">
+      <Rectangle name="Path" width="2" height="24" cornerRadiusTL="0" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FFE9CF48">
+          <DataBindContext sourcePathIds="0:453-0:468" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+      <DataBindContext sourcePathIds="0:453-0:464" propertyKey="18" converterId="0:474" />
+    </Shape>
+    <Shape id="0:475" name="Segment2" x="19.2" y="20">
+      <Rectangle name="Path" width="2" height="24" cornerRadiusTL="0" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FFE9CF48">
+          <DataBindContext sourcePathIds="0:453-0:468" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+      <DataBindContext sourcePathIds="0:453-0:464" propertyKey="18" converterId="0:476" />
+    </Shape>
+    <Shape id="0:477" name="Segment3" x="24.799999999999997" y="20">
+      <Rectangle name="Path" width="2" height="24" cornerRadiusTL="0" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FFE9CF48">
+          <DataBindContext sourcePathIds="0:453-0:468" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+      <DataBindContext sourcePathIds="0:453-0:464" propertyKey="18" converterId="0:478" />
+    </Shape>
+    <Shape id="0:479" name="Segment4" x="30.4" y="20">
+      <Rectangle name="Path" width="2" height="24" cornerRadiusTL="0" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FFE9CF48">
+          <DataBindContext sourcePathIds="0:453-0:468" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+      <DataBindContext sourcePathIds="0:453-0:464" propertyKey="18" converterId="0:480" />
+    </Shape>
+    <Shape id="0:481" name="Segment5" x="36.0" y="20">
+      <Rectangle name="Path" width="2" height="24" cornerRadiusTL="0" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FFE9CF48">
+          <DataBindContext sourcePathIds="0:453-0:468" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+      <DataBindContext sourcePathIds="0:453-0:464" propertyKey="18" converterId="0:482" />
+    </Shape>
+    <Shape id="0:483" name="Segment6" x="41.599999999999994" y="20">
+      <Rectangle name="Path" width="2" height="24" cornerRadiusTL="0" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FFE9CF48">
+          <DataBindContext sourcePathIds="0:453-0:468" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+      <DataBindContext sourcePathIds="0:453-0:464" propertyKey="18" converterId="0:484" />
+    </Shape>
+    <Shape id="0:485" name="Segment7" x="47.199999999999996" y="20">
+      <Rectangle name="Path" width="2" height="24" cornerRadiusTL="0" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FFE9CF48">
+          <DataBindContext sourcePathIds="0:453-0:468" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+      <DataBindContext sourcePathIds="0:453-0:464" propertyKey="18" converterId="0:486" />
+    </Shape>
+    <Shape id="0:487" name="Segment8" x="52.8" y="20">
+      <Rectangle name="Path" width="2" height="24" cornerRadiusTL="0" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FFE9CF48">
+          <DataBindContext sourcePathIds="0:453-0:468" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+      <DataBindContext sourcePathIds="0:453-0:464" propertyKey="18" converterId="0:488" />
+    </Shape>
+    <Shape id="0:489" name="Segment9" x="58.4" y="20">
+      <Rectangle name="Path" width="2" height="24" cornerRadiusTL="0" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FFE9CF48">
+          <DataBindContext sourcePathIds="0:453-0:468" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+      <DataBindContext sourcePathIds="0:453-0:464" propertyKey="18" converterId="0:490" />
+    </Shape>
+    <Shape id="0:491" name="Segment10" x="64.0" y="20">
+      <Rectangle name="Path" width="2" height="24" cornerRadiusTL="0" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FFE9CF48">
+          <DataBindContext sourcePathIds="0:453-0:468" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+      <DataBindContext sourcePathIds="0:453-0:464" propertyKey="18" converterId="0:492" />
+    </Shape>
+    <Shape id="0:493" name="Segment11" x="69.6" y="20">
+      <Rectangle name="Path" width="2" height="24" cornerRadiusTL="0" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FFE9CF48">
+          <DataBindContext sourcePathIds="0:453-0:468" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+      <DataBindContext sourcePathIds="0:453-0:464" propertyKey="18" converterId="0:494" />
+    </Shape>
+    <Shape id="0:495" name="Segment12" x="75.19999999999999" y="20">
+      <Rectangle name="Path" width="2" height="24" cornerRadiusTL="0" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FFE9CF48">
+          <DataBindContext sourcePathIds="0:453-0:468" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+      <DataBindContext sourcePathIds="0:453-0:464" propertyKey="18" converterId="0:496" />
+    </Shape>
+    <Shape id="0:497" name="Segment13" x="80.8" y="20">
+      <Rectangle name="Path" width="2" height="24" cornerRadiusTL="0" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FFE9CF48">
+          <DataBindContext sourcePathIds="0:453-0:468" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+      <DataBindContext sourcePathIds="0:453-0:464" propertyKey="18" converterId="0:498" />
+    </Shape>
+    <Shape id="0:499" name="Segment14" x="86.39999999999999" y="20">
+      <Rectangle name="Path" width="2" height="24" cornerRadiusTL="0" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FFE9CF48">
+          <DataBindContext sourcePathIds="0:453-0:468" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+      <DataBindContext sourcePathIds="0:453-0:464" propertyKey="18" converterId="0:500" />
+    </Shape>
+    <Shape id="0:501" name="Segment15" x="92.0" y="20">
+      <Rectangle name="Path" width="2" height="24" cornerRadiusTL="0" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FFE9CF48">
+          <DataBindContext sourcePathIds="0:453-0:468" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+      <DataBindContext sourcePathIds="0:453-0:464" propertyKey="18" converterId="0:502" />
+    </Shape>
+    <Shape id="0:503" name="Segment16" x="97.6" y="20">
+      <Rectangle name="Path" width="2" height="24" cornerRadiusTL="0" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FFE9CF48">
+          <DataBindContext sourcePathIds="0:453-0:468" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+      <DataBindContext sourcePathIds="0:453-0:464" propertyKey="18" converterId="0:504" />
+    </Shape>
+    <Shape id="0:505" name="Segment17" x="103.19999999999999" y="20">
+      <Rectangle name="Path" width="2" height="24" cornerRadiusTL="0" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FFE9CF48">
+          <DataBindContext sourcePathIds="0:453-0:468" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+      <DataBindContext sourcePathIds="0:453-0:464" propertyKey="18" converterId="0:506" />
+    </Shape>
+    <Shape id="0:507" name="Segment18" x="108.8" y="20">
+      <Rectangle name="Path" width="2" height="24" cornerRadiusTL="0" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FFE9CF48">
+          <DataBindContext sourcePathIds="0:453-0:468" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+      <DataBindContext sourcePathIds="0:453-0:464" propertyKey="18" converterId="0:508" />
+    </Shape>
+    <Shape id="0:509" name="Segment19" x="114.39999999999999" y="20">
+      <Rectangle name="Path" width="2" height="24" cornerRadiusTL="0" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FFE9CF48">
+          <DataBindContext sourcePathIds="0:453-0:468" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+      <DataBindContext sourcePathIds="0:453-0:464" propertyKey="18" converterId="0:510" />
+    </Shape>
+    <Shape id="0:511" name="Segment20" x="120.0" y="20">
+      <Rectangle name="Path" width="2" height="24" cornerRadiusTL="0" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FFE9CF48">
+          <DataBindContext sourcePathIds="0:453-0:468" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+      <DataBindContext sourcePathIds="0:453-0:464" propertyKey="18" converterId="0:512" />
+    </Shape>
+    <Shape id="0:513" name="Segment21" x="125.6" y="20">
+      <Rectangle name="Path" width="2" height="24" cornerRadiusTL="0" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FFE9CF48">
+          <DataBindContext sourcePathIds="0:453-0:468" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+      <DataBindContext sourcePathIds="0:453-0:464" propertyKey="18" converterId="0:514" />
+    </Shape>
+    <Shape id="0:515" name="Segment22" x="131.2" y="20">
+      <Rectangle name="Path" width="2" height="24" cornerRadiusTL="0" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FFE9CF48">
+          <DataBindContext sourcePathIds="0:453-0:468" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+      <DataBindContext sourcePathIds="0:453-0:464" propertyKey="18" converterId="0:516" />
+    </Shape>
+    <Shape id="0:517" name="Segment23" x="136.79999999999998" y="20">
+      <Rectangle name="Path" width="2" height="24" cornerRadiusTL="0" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FFE9CF48">
+          <DataBindContext sourcePathIds="0:453-0:468" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+      <DataBindContext sourcePathIds="0:453-0:464" propertyKey="18" converterId="0:518" />
+    </Shape>
+    <Shape id="0:519" name="Segment24" x="142.39999999999998" y="20">
+      <Rectangle name="Path" width="2" height="24" cornerRadiusTL="0" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FFE9CF48">
+          <DataBindContext sourcePathIds="0:453-0:468" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+      <DataBindContext sourcePathIds="0:453-0:464" propertyKey="18" converterId="0:520" />
+    </Shape>
+    <Shape id="0:521" name="Segment25" x="148.0" y="20">
+      <Rectangle name="Path" width="2" height="24" cornerRadiusTL="0" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FFE9CF48">
+          <DataBindContext sourcePathIds="0:453-0:468" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+      <DataBindContext sourcePathIds="0:453-0:464" propertyKey="18" converterId="0:522" />
+    </Shape>
+    <Shape id="0:523" name="Segment26" x="153.6" y="20">
+      <Rectangle name="Path" width="2" height="24" cornerRadiusTL="0" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FFE9CF48">
+          <DataBindContext sourcePathIds="0:453-0:468" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+      <DataBindContext sourcePathIds="0:453-0:464" propertyKey="18" converterId="0:524" />
+    </Shape>
+    <Shape id="0:525" name="Segment27" x="159.2" y="20">
+      <Rectangle name="Path" width="2" height="24" cornerRadiusTL="0" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FFE9CF48">
+          <DataBindContext sourcePathIds="0:453-0:468" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+      <DataBindContext sourcePathIds="0:453-0:464" propertyKey="18" converterId="0:526" />
+    </Shape>
+    <Shape id="0:527" name="Segment28" x="164.79999999999998" y="20">
+      <Rectangle name="Path" width="2" height="24" cornerRadiusTL="0" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FFE9CF48">
+          <DataBindContext sourcePathIds="0:453-0:468" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+      <DataBindContext sourcePathIds="0:453-0:464" propertyKey="18" converterId="0:528" />
+    </Shape>
+    <Shape id="0:529" name="Segment29" x="170.39999999999998" y="20">
+      <Rectangle name="Path" width="2" height="24" cornerRadiusTL="0" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FFE9CF48">
+          <DataBindContext sourcePathIds="0:453-0:468" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+      <DataBindContext sourcePathIds="0:453-0:464" propertyKey="18" converterId="0:530" />
+    </Shape>
+    <Shape id="0:531" name="Segment30" x="176.0" y="20">
+      <Rectangle name="Path" width="2" height="24" cornerRadiusTL="0" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FFE9CF48">
+          <DataBindContext sourcePathIds="0:453-0:468" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+      <DataBindContext sourcePathIds="0:453-0:464" propertyKey="18" converterId="0:532" />
+    </Shape>
+    <Shape id="0:533" name="Segment31" x="181.6" y="20">
+      <Rectangle name="Path" width="2" height="24" cornerRadiusTL="0" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FFE9CF48">
+          <DataBindContext sourcePathIds="0:453-0:468" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+      <DataBindContext sourcePathIds="0:453-0:464" propertyKey="18" converterId="0:534" />
+    </Shape>
+    <Shape id="0:535" name="Segment32" x="187.2" y="20">
+      <Rectangle name="Path" width="2" height="24" cornerRadiusTL="0" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FFE9CF48">
+          <DataBindContext sourcePathIds="0:453-0:468" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+      <DataBindContext sourcePathIds="0:453-0:464" propertyKey="18" converterId="0:536" />
+    </Shape>
+    <Shape id="0:537" name="Segment33" x="192.79999999999998" y="20">
+      <Rectangle name="Path" width="2" height="24" cornerRadiusTL="0" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FFE9CF48">
+          <DataBindContext sourcePathIds="0:453-0:468" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+      <DataBindContext sourcePathIds="0:453-0:464" propertyKey="18" converterId="0:538" />
+    </Shape>
+    <Shape id="0:539" name="Segment34" x="198.39999999999998" y="20">
+      <Rectangle name="Path" width="2" height="24" cornerRadiusTL="0" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FFE9CF48">
+          <DataBindContext sourcePathIds="0:453-0:468" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+      <DataBindContext sourcePathIds="0:453-0:464" propertyKey="18" converterId="0:540" />
+    </Shape>
+    <Shape id="0:541" name="Segment35" x="204.0" y="20">
+      <Rectangle name="Path" width="2" height="24" cornerRadiusTL="0" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FFE9CF48">
+          <DataBindContext sourcePathIds="0:453-0:468" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+      <DataBindContext sourcePathIds="0:453-0:464" propertyKey="18" converterId="0:542" />
+    </Shape>
+    <Shape id="0:543" name="Segment36" x="209.6" y="20">
+      <Rectangle name="Path" width="2" height="24" cornerRadiusTL="0" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FFE9CF48">
+          <DataBindContext sourcePathIds="0:453-0:468" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+      <DataBindContext sourcePathIds="0:453-0:464" propertyKey="18" converterId="0:544" />
+    </Shape>
+    <Shape id="0:545" name="Segment37" x="215.2" y="20">
+      <Rectangle name="Path" width="2" height="24" cornerRadiusTL="0" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FFE9CF48">
+          <DataBindContext sourcePathIds="0:453-0:468" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+      <DataBindContext sourcePathIds="0:453-0:464" propertyKey="18" converterId="0:546" />
+    </Shape>
+    <Shape id="0:547" name="Segment38" x="220.79999999999998" y="20">
+      <Rectangle name="Path" width="2" height="24" cornerRadiusTL="0" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FFE9CF48">
+          <DataBindContext sourcePathIds="0:453-0:468" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+      <DataBindContext sourcePathIds="0:453-0:464" propertyKey="18" converterId="0:548" />
+    </Shape>
+    <Shape id="0:549" name="Segment39" x="226.39999999999998" y="20">
+      <Rectangle name="Path" width="2" height="24" cornerRadiusTL="0" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FFE9CF48">
+          <DataBindContext sourcePathIds="0:453-0:468" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+      <DataBindContext sourcePathIds="0:453-0:464" propertyKey="18" converterId="0:550" />
+    </Shape>
+    <Shape id="0:551" name="Display" x="120.0" y="28.0">
+      <Rectangle name="Path" width="240" height="56" cornerRadiusTL="6" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FF171A1C">
+          <DataBindContext sourcePathIds="0:453-0:470" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+    </Shape>
+    <StateMachine id="0:455" name="Detent">
+      <StateMachineLayer id="0:456" name="Mechanism">
+        <EntryState x="0" y="0">
+          <StateTransition stateToId="0:552" />
+        </EntryState>
+        <AnyState x="160" y="-120" />
+        <ExitState x="360" y="-120" />
+        <AnimationState id="0:552" animationId="0:554" x="160" y="0">
+          <StateTransition stateToId="0:553" duration="120">
+            <TransitionViewModelCondition opValue="equal">
+              <TransitionPropertyViewModelComparator>
+                <BindablePropertyBoolean>
+                  <DataBindContext sourcePathIds="0:453-0:457" propertyKey="634" />
+                </BindablePropertyBoolean>
+              </TransitionPropertyViewModelComparator>
+              <TransitionValueBooleanComparator value="true" />
+            </TransitionViewModelCondition>
+          </StateTransition>
+        </AnimationState>
+        <AnimationState id="0:553" animationId="0:555" x="360" y="0">
+          <StateTransition stateToId="0:552" duration="120">
+            <TransitionViewModelCondition opValue="equal">
+              <TransitionPropertyViewModelComparator>
+                <BindablePropertyBoolean>
+                  <DataBindContext sourcePathIds="0:453-0:457" propertyKey="634" />
+                </BindablePropertyBoolean>
+              </TransitionPropertyViewModelComparator>
+              <TransitionValueBooleanComparator value="false" />
+            </TransitionViewModelCondition>
+          </StateTransition>
+        </AnimationState>
+      </StateMachineLayer>
+    </StateMachine>
+    <LinearAnimation id="0:554" name="Rest" duration="1" />
+    <LinearAnimation id="0:555" name="Active" duration="1" />
+  </Artboard>
+  <DataConverterRangeMapper id="0:472" name="Threshold14_0" minInput="0.0" maxInput="0.025" minOutput="0.15" maxOutput="1" clampLower="true" clampUpper="true" />
+  <DataConverterRangeMapper id="0:474" name="Threshold14_1" minInput="0.025" maxInput="0.05" minOutput="0.15" maxOutput="1" clampLower="true" clampUpper="true" />
+  <DataConverterRangeMapper id="0:476" name="Threshold14_2" minInput="0.05" maxInput="0.075" minOutput="0.15" maxOutput="1" clampLower="true" clampUpper="true" />
+  <DataConverterRangeMapper id="0:478" name="Threshold14_3" minInput="0.075" maxInput="0.1" minOutput="0.15" maxOutput="1" clampLower="true" clampUpper="true" />
+  <DataConverterRangeMapper id="0:480" name="Threshold14_4" minInput="0.1" maxInput="0.125" minOutput="0.15" maxOutput="1" clampLower="true" clampUpper="true" />
+  <DataConverterRangeMapper id="0:482" name="Threshold14_5" minInput="0.125" maxInput="0.15" minOutput="0.15" maxOutput="1" clampLower="true" clampUpper="true" />
+  <DataConverterRangeMapper id="0:484" name="Threshold14_6" minInput="0.15" maxInput="0.175" minOutput="0.15" maxOutput="1" clampLower="true" clampUpper="true" />
+  <DataConverterRangeMapper id="0:486" name="Threshold14_7" minInput="0.175" maxInput="0.2" minOutput="0.15" maxOutput="1" clampLower="true" clampUpper="true" />
+  <DataConverterRangeMapper id="0:488" name="Threshold14_8" minInput="0.2" maxInput="0.225" minOutput="0.15" maxOutput="1" clampLower="true" clampUpper="true" />
+  <DataConverterRangeMapper id="0:490" name="Threshold14_9" minInput="0.225" maxInput="0.25" minOutput="0.15" maxOutput="1" clampLower="true" clampUpper="true" />
+  <DataConverterRangeMapper id="0:492" name="Threshold14_10" minInput="0.25" maxInput="0.275" minOutput="0.15" maxOutput="1" clampLower="true" clampUpper="true" />
+  <DataConverterRangeMapper id="0:494" name="Threshold14_11" minInput="0.275" maxInput="0.3" minOutput="0.15" maxOutput="1" clampLower="true" clampUpper="true" />
+  <DataConverterRangeMapper id="0:496" name="Threshold14_12" minInput="0.3" maxInput="0.325" minOutput="0.15" maxOutput="1" clampLower="true" clampUpper="true" />
+  <DataConverterRangeMapper id="0:498" name="Threshold14_13" minInput="0.325" maxInput="0.35" minOutput="0.15" maxOutput="1" clampLower="true" clampUpper="true" />
+  <DataConverterRangeMapper id="0:500" name="Threshold14_14" minInput="0.35" maxInput="0.375" minOutput="0.15" maxOutput="1" clampLower="true" clampUpper="true" />
+  <DataConverterRangeMapper id="0:502" name="Threshold14_15" minInput="0.375" maxInput="0.4" minOutput="0.15" maxOutput="1" clampLower="true" clampUpper="true" />
+  <DataConverterRangeMapper id="0:504" name="Threshold14_16" minInput="0.4" maxInput="0.425" minOutput="0.15" maxOutput="1" clampLower="true" clampUpper="true" />
+  <DataConverterRangeMapper id="0:506" name="Threshold14_17" minInput="0.425" maxInput="0.45" minOutput="0.15" maxOutput="1" clampLower="true" clampUpper="true" />
+  <DataConverterRangeMapper id="0:508" name="Threshold14_18" minInput="0.45" maxInput="0.475" minOutput="0.15" maxOutput="1" clampLower="true" clampUpper="true" />
+  <DataConverterRangeMapper id="0:510" name="Threshold14_19" minInput="0.475" maxInput="0.5" minOutput="0.15" maxOutput="1" clampLower="true" clampUpper="true" />
+  <DataConverterRangeMapper id="0:512" name="Threshold14_20" minInput="0.5" maxInput="0.525" minOutput="0.15" maxOutput="1" clampLower="true" clampUpper="true" />
+  <DataConverterRangeMapper id="0:514" name="Threshold14_21" minInput="0.525" maxInput="0.55" minOutput="0.15" maxOutput="1" clampLower="true" clampUpper="true" />
+  <DataConverterRangeMapper id="0:516" name="Threshold14_22" minInput="0.55" maxInput="0.575" minOutput="0.15" maxOutput="1" clampLower="true" clampUpper="true" />
+  <DataConverterRangeMapper id="0:518" name="Threshold14_23" minInput="0.575" maxInput="0.6" minOutput="0.15" maxOutput="1" clampLower="true" clampUpper="true" />
+  <DataConverterRangeMapper id="0:520" name="Threshold14_24" minInput="0.6" maxInput="0.625" minOutput="0.15" maxOutput="1" clampLower="true" clampUpper="true" />
+  <DataConverterRangeMapper id="0:522" name="Threshold14_25" minInput="0.625" maxInput="0.65" minOutput="0.15" maxOutput="1" clampLower="true" clampUpper="true" />
+  <DataConverterRangeMapper id="0:524" name="Threshold14_26" minInput="0.65" maxInput="0.675" minOutput="0.15" maxOutput="1" clampLower="true" clampUpper="true" />
+  <DataConverterRangeMapper id="0:526" name="Threshold14_27" minInput="0.675" maxInput="0.7" minOutput="0.15" maxOutput="1" clampLower="true" clampUpper="true" />
+  <DataConverterRangeMapper id="0:528" name="Threshold14_28" minInput="0.7" maxInput="0.725" minOutput="0.15" maxOutput="1" clampLower="true" clampUpper="true" />
+  <DataConverterRangeMapper id="0:530" name="Threshold14_29" minInput="0.725" maxInput="0.75" minOutput="0.15" maxOutput="1" clampLower="true" clampUpper="true" />
+  <DataConverterRangeMapper id="0:532" name="Threshold14_30" minInput="0.75" maxInput="0.775" minOutput="0.15" maxOutput="1" clampLower="true" clampUpper="true" />
+  <DataConverterRangeMapper id="0:534" name="Threshold14_31" minInput="0.775" maxInput="0.8" minOutput="0.15" maxOutput="1" clampLower="true" clampUpper="true" />
+  <DataConverterRangeMapper id="0:536" name="Threshold14_32" minInput="0.8" maxInput="0.825" minOutput="0.15" maxOutput="1" clampLower="true" clampUpper="true" />
+  <DataConverterRangeMapper id="0:538" name="Threshold14_33" minInput="0.825" maxInput="0.85" minOutput="0.15" maxOutput="1" clampLower="true" clampUpper="true" />
+  <DataConverterRangeMapper id="0:540" name="Threshold14_34" minInput="0.85" maxInput="0.875" minOutput="0.15" maxOutput="1" clampLower="true" clampUpper="true" />
+  <DataConverterRangeMapper id="0:542" name="Threshold14_35" minInput="0.875" maxInput="0.9" minOutput="0.15" maxOutput="1" clampLower="true" clampUpper="true" />
+  <DataConverterRangeMapper id="0:544" name="Threshold14_36" minInput="0.9" maxInput="0.925" minOutput="0.15" maxOutput="1" clampLower="true" clampUpper="true" />
+  <DataConverterRangeMapper id="0:546" name="Threshold14_37" minInput="0.925" maxInput="0.95" minOutput="0.15" maxOutput="1" clampLower="true" clampUpper="true" />
+  <DataConverterRangeMapper id="0:548" name="Threshold14_38" minInput="0.95" maxInput="0.975" minOutput="0.15" maxOutput="1" clampLower="true" clampUpper="true" />
+  <DataConverterRangeMapper id="0:550" name="Threshold14_39" minInput="0.975" maxInput="1.0" minOutput="0.15" maxOutput="1" clampLower="true" clampUpper="true" />
+  <ViewModel id="0:453" name="Meter" defaultInstanceId="0:454">
+    <ViewModelPropertyBoolean id="0:457" name="pressed" />
+    <ViewModelPropertyBoolean id="0:458" name="selected" />
+    <ViewModelPropertyBoolean id="0:459" name="hovered" />
+    <ViewModelPropertyBoolean id="0:460" name="focused" />
+    <ViewModelPropertyBoolean id="0:461" name="enabled" />
+    <ViewModelPropertyNumber id="0:462" name="value" />
+    <ViewModelPropertyNumber id="0:463" name="secondaryValue" />
+    <ViewModelPropertyNumber id="0:464" name="progress" />
+    <ViewModelPropertyNumber id="0:465" name="motionScale" />
+    <ViewModelPropertyColor id="0:466" name="surfaceColor" />
+    <ViewModelPropertyColor id="0:467" name="inkColor" />
+    <ViewModelPropertyColor id="0:468" name="accentColor" />
+    <ViewModelPropertyColor id="0:469" name="borderColor" />
+    <ViewModelPropertyColor id="0:470" name="displayColor" />
+    <ViewModelInstance id="0:454" name="Default" exports="true">
+      <ViewModelInstanceBoolean viewModelPropertyId="0:457" propertyValue="false" />
+      <ViewModelInstanceBoolean viewModelPropertyId="0:458" propertyValue="false" />
+      <ViewModelInstanceBoolean viewModelPropertyId="0:459" propertyValue="false" />
+      <ViewModelInstanceBoolean viewModelPropertyId="0:460" propertyValue="false" />
+      <ViewModelInstanceBoolean viewModelPropertyId="0:461" propertyValue="true" />
+      <ViewModelInstanceNumber viewModelPropertyId="0:462" propertyValue="0.68" />
+      <ViewModelInstanceNumber viewModelPropertyId="0:463" propertyValue="1" />
+      <ViewModelInstanceNumber viewModelPropertyId="0:464" propertyValue="0.68" />
+      <ViewModelInstanceNumber viewModelPropertyId="0:465" propertyValue="1" />
+      <ViewModelInstanceColor viewModelPropertyId="0:466" propertyValue="FFFAFAF8" />
+      <ViewModelInstanceColor viewModelPropertyId="0:467" propertyValue="FF202426" />
+      <ViewModelInstanceColor viewModelPropertyId="0:468" propertyValue="FFE9CF48" />
+      <ViewModelInstanceColor viewModelPropertyId="0:469" propertyValue="FF707974" />
+      <ViewModelInstanceColor viewModelPropertyId="0:470" propertyValue="FF171A1C" />
+    </ViewModelInstance>
+  </ViewModel>
+  <Artboard id="0:556" name="TaskStatus" width="240" height="64" x="1020" y="450" styleId="0:557" viewModelId="0:558" viewModelInstanceId="0:559" defaultStateMachineId="0:560">
+    <LayoutComponentStyle id="0:557" name="Artboard Style" />
+    <Shape id="0:576" name="Segment0" x="8.0" y="20">
+      <Rectangle name="Path" width="2" height="12" cornerRadiusTL="0" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FFE9CF48">
+          <DataBindContext sourcePathIds="0:558-0:573" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+      <DataBindContext sourcePathIds="0:558-0:569" propertyKey="18" converterId="0:577" />
+    </Shape>
+    <Shape id="0:578" name="Segment1" x="13.6" y="20">
+      <Rectangle name="Path" width="2" height="12" cornerRadiusTL="0" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FFE9CF48">
+          <DataBindContext sourcePathIds="0:558-0:573" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+      <DataBindContext sourcePathIds="0:558-0:569" propertyKey="18" converterId="0:579" />
+    </Shape>
+    <Shape id="0:580" name="Segment2" x="19.2" y="20">
+      <Rectangle name="Path" width="2" height="12" cornerRadiusTL="0" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FFE9CF48">
+          <DataBindContext sourcePathIds="0:558-0:573" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+      <DataBindContext sourcePathIds="0:558-0:569" propertyKey="18" converterId="0:581" />
+    </Shape>
+    <Shape id="0:582" name="Segment3" x="24.799999999999997" y="20">
+      <Rectangle name="Path" width="2" height="12" cornerRadiusTL="0" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FFE9CF48">
+          <DataBindContext sourcePathIds="0:558-0:573" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+      <DataBindContext sourcePathIds="0:558-0:569" propertyKey="18" converterId="0:583" />
+    </Shape>
+    <Shape id="0:584" name="Segment4" x="30.4" y="20">
+      <Rectangle name="Path" width="2" height="12" cornerRadiusTL="0" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FFE9CF48">
+          <DataBindContext sourcePathIds="0:558-0:573" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+      <DataBindContext sourcePathIds="0:558-0:569" propertyKey="18" converterId="0:585" />
+    </Shape>
+    <Shape id="0:586" name="Segment5" x="36.0" y="20">
+      <Rectangle name="Path" width="2" height="12" cornerRadiusTL="0" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FFE9CF48">
+          <DataBindContext sourcePathIds="0:558-0:573" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+      <DataBindContext sourcePathIds="0:558-0:569" propertyKey="18" converterId="0:587" />
+    </Shape>
+    <Shape id="0:588" name="Segment6" x="41.599999999999994" y="20">
+      <Rectangle name="Path" width="2" height="12" cornerRadiusTL="0" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FFE9CF48">
+          <DataBindContext sourcePathIds="0:558-0:573" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+      <DataBindContext sourcePathIds="0:558-0:569" propertyKey="18" converterId="0:589" />
+    </Shape>
+    <Shape id="0:590" name="Segment7" x="47.199999999999996" y="20">
+      <Rectangle name="Path" width="2" height="12" cornerRadiusTL="0" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FFE9CF48">
+          <DataBindContext sourcePathIds="0:558-0:573" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+      <DataBindContext sourcePathIds="0:558-0:569" propertyKey="18" converterId="0:591" />
+    </Shape>
+    <Shape id="0:592" name="Segment8" x="52.8" y="20">
+      <Rectangle name="Path" width="2" height="12" cornerRadiusTL="0" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FFE9CF48">
+          <DataBindContext sourcePathIds="0:558-0:573" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+      <DataBindContext sourcePathIds="0:558-0:569" propertyKey="18" converterId="0:593" />
+    </Shape>
+    <Shape id="0:594" name="Segment9" x="58.4" y="20">
+      <Rectangle name="Path" width="2" height="12" cornerRadiusTL="0" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FFE9CF48">
+          <DataBindContext sourcePathIds="0:558-0:573" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+      <DataBindContext sourcePathIds="0:558-0:569" propertyKey="18" converterId="0:595" />
+    </Shape>
+    <Shape id="0:596" name="Segment10" x="64.0" y="20">
+      <Rectangle name="Path" width="2" height="12" cornerRadiusTL="0" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FFE9CF48">
+          <DataBindContext sourcePathIds="0:558-0:573" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+      <DataBindContext sourcePathIds="0:558-0:569" propertyKey="18" converterId="0:597" />
+    </Shape>
+    <Shape id="0:598" name="Segment11" x="69.6" y="20">
+      <Rectangle name="Path" width="2" height="12" cornerRadiusTL="0" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FFE9CF48">
+          <DataBindContext sourcePathIds="0:558-0:573" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+      <DataBindContext sourcePathIds="0:558-0:569" propertyKey="18" converterId="0:599" />
+    </Shape>
+    <Shape id="0:600" name="Segment12" x="75.19999999999999" y="20">
+      <Rectangle name="Path" width="2" height="12" cornerRadiusTL="0" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FFE9CF48">
+          <DataBindContext sourcePathIds="0:558-0:573" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+      <DataBindContext sourcePathIds="0:558-0:569" propertyKey="18" converterId="0:601" />
+    </Shape>
+    <Shape id="0:602" name="Segment13" x="80.8" y="20">
+      <Rectangle name="Path" width="2" height="12" cornerRadiusTL="0" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FFE9CF48">
+          <DataBindContext sourcePathIds="0:558-0:573" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+      <DataBindContext sourcePathIds="0:558-0:569" propertyKey="18" converterId="0:603" />
+    </Shape>
+    <Shape id="0:604" name="Segment14" x="86.39999999999999" y="20">
+      <Rectangle name="Path" width="2" height="12" cornerRadiusTL="0" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FFE9CF48">
+          <DataBindContext sourcePathIds="0:558-0:573" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+      <DataBindContext sourcePathIds="0:558-0:569" propertyKey="18" converterId="0:605" />
+    </Shape>
+    <Shape id="0:606" name="Segment15" x="92.0" y="20">
+      <Rectangle name="Path" width="2" height="12" cornerRadiusTL="0" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FFE9CF48">
+          <DataBindContext sourcePathIds="0:558-0:573" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+      <DataBindContext sourcePathIds="0:558-0:569" propertyKey="18" converterId="0:607" />
+    </Shape>
+    <Shape id="0:608" name="Segment16" x="97.6" y="20">
+      <Rectangle name="Path" width="2" height="12" cornerRadiusTL="0" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FFE9CF48">
+          <DataBindContext sourcePathIds="0:558-0:573" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+      <DataBindContext sourcePathIds="0:558-0:569" propertyKey="18" converterId="0:609" />
+    </Shape>
+    <Shape id="0:610" name="Segment17" x="103.19999999999999" y="20">
+      <Rectangle name="Path" width="2" height="12" cornerRadiusTL="0" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FFE9CF48">
+          <DataBindContext sourcePathIds="0:558-0:573" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+      <DataBindContext sourcePathIds="0:558-0:569" propertyKey="18" converterId="0:611" />
+    </Shape>
+    <Shape id="0:612" name="Segment18" x="108.8" y="20">
+      <Rectangle name="Path" width="2" height="12" cornerRadiusTL="0" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FFE9CF48">
+          <DataBindContext sourcePathIds="0:558-0:573" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+      <DataBindContext sourcePathIds="0:558-0:569" propertyKey="18" converterId="0:613" />
+    </Shape>
+    <Shape id="0:614" name="Segment19" x="114.39999999999999" y="20">
+      <Rectangle name="Path" width="2" height="12" cornerRadiusTL="0" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FFE9CF48">
+          <DataBindContext sourcePathIds="0:558-0:573" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+      <DataBindContext sourcePathIds="0:558-0:569" propertyKey="18" converterId="0:615" />
+    </Shape>
+    <Shape id="0:616" name="Segment20" x="120.0" y="20">
+      <Rectangle name="Path" width="2" height="12" cornerRadiusTL="0" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FFE9CF48">
+          <DataBindContext sourcePathIds="0:558-0:573" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+      <DataBindContext sourcePathIds="0:558-0:569" propertyKey="18" converterId="0:617" />
+    </Shape>
+    <Shape id="0:618" name="Segment21" x="125.6" y="20">
+      <Rectangle name="Path" width="2" height="12" cornerRadiusTL="0" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FFE9CF48">
+          <DataBindContext sourcePathIds="0:558-0:573" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+      <DataBindContext sourcePathIds="0:558-0:569" propertyKey="18" converterId="0:619" />
+    </Shape>
+    <Shape id="0:620" name="Segment22" x="131.2" y="20">
+      <Rectangle name="Path" width="2" height="12" cornerRadiusTL="0" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FFE9CF48">
+          <DataBindContext sourcePathIds="0:558-0:573" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+      <DataBindContext sourcePathIds="0:558-0:569" propertyKey="18" converterId="0:621" />
+    </Shape>
+    <Shape id="0:622" name="Segment23" x="136.79999999999998" y="20">
+      <Rectangle name="Path" width="2" height="12" cornerRadiusTL="0" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FFE9CF48">
+          <DataBindContext sourcePathIds="0:558-0:573" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+      <DataBindContext sourcePathIds="0:558-0:569" propertyKey="18" converterId="0:623" />
+    </Shape>
+    <Shape id="0:624" name="Segment24" x="142.39999999999998" y="20">
+      <Rectangle name="Path" width="2" height="12" cornerRadiusTL="0" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FFE9CF48">
+          <DataBindContext sourcePathIds="0:558-0:573" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+      <DataBindContext sourcePathIds="0:558-0:569" propertyKey="18" converterId="0:625" />
+    </Shape>
+    <Shape id="0:626" name="Segment25" x="148.0" y="20">
+      <Rectangle name="Path" width="2" height="12" cornerRadiusTL="0" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FFE9CF48">
+          <DataBindContext sourcePathIds="0:558-0:573" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+      <DataBindContext sourcePathIds="0:558-0:569" propertyKey="18" converterId="0:627" />
+    </Shape>
+    <Shape id="0:628" name="Segment26" x="153.6" y="20">
+      <Rectangle name="Path" width="2" height="12" cornerRadiusTL="0" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FFE9CF48">
+          <DataBindContext sourcePathIds="0:558-0:573" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+      <DataBindContext sourcePathIds="0:558-0:569" propertyKey="18" converterId="0:629" />
+    </Shape>
+    <Shape id="0:630" name="Segment27" x="159.2" y="20">
+      <Rectangle name="Path" width="2" height="12" cornerRadiusTL="0" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FFE9CF48">
+          <DataBindContext sourcePathIds="0:558-0:573" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+      <DataBindContext sourcePathIds="0:558-0:569" propertyKey="18" converterId="0:631" />
+    </Shape>
+    <Shape id="0:632" name="Segment28" x="164.79999999999998" y="20">
+      <Rectangle name="Path" width="2" height="12" cornerRadiusTL="0" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FFE9CF48">
+          <DataBindContext sourcePathIds="0:558-0:573" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+      <DataBindContext sourcePathIds="0:558-0:569" propertyKey="18" converterId="0:633" />
+    </Shape>
+    <Shape id="0:634" name="Segment29" x="170.39999999999998" y="20">
+      <Rectangle name="Path" width="2" height="12" cornerRadiusTL="0" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FFE9CF48">
+          <DataBindContext sourcePathIds="0:558-0:573" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+      <DataBindContext sourcePathIds="0:558-0:569" propertyKey="18" converterId="0:635" />
+    </Shape>
+    <Shape id="0:636" name="Segment30" x="176.0" y="20">
+      <Rectangle name="Path" width="2" height="12" cornerRadiusTL="0" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FFE9CF48">
+          <DataBindContext sourcePathIds="0:558-0:573" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+      <DataBindContext sourcePathIds="0:558-0:569" propertyKey="18" converterId="0:637" />
+    </Shape>
+    <Shape id="0:638" name="Segment31" x="181.6" y="20">
+      <Rectangle name="Path" width="2" height="12" cornerRadiusTL="0" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FFE9CF48">
+          <DataBindContext sourcePathIds="0:558-0:573" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+      <DataBindContext sourcePathIds="0:558-0:569" propertyKey="18" converterId="0:639" />
+    </Shape>
+    <Shape id="0:640" name="Segment32" x="187.2" y="20">
+      <Rectangle name="Path" width="2" height="12" cornerRadiusTL="0" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FFE9CF48">
+          <DataBindContext sourcePathIds="0:558-0:573" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+      <DataBindContext sourcePathIds="0:558-0:569" propertyKey="18" converterId="0:641" />
+    </Shape>
+    <Shape id="0:642" name="Segment33" x="192.79999999999998" y="20">
+      <Rectangle name="Path" width="2" height="12" cornerRadiusTL="0" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FFE9CF48">
+          <DataBindContext sourcePathIds="0:558-0:573" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+      <DataBindContext sourcePathIds="0:558-0:569" propertyKey="18" converterId="0:643" />
+    </Shape>
+    <Shape id="0:644" name="Segment34" x="198.39999999999998" y="20">
+      <Rectangle name="Path" width="2" height="12" cornerRadiusTL="0" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FFE9CF48">
+          <DataBindContext sourcePathIds="0:558-0:573" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+      <DataBindContext sourcePathIds="0:558-0:569" propertyKey="18" converterId="0:645" />
+    </Shape>
+    <Shape id="0:646" name="Segment35" x="204.0" y="20">
+      <Rectangle name="Path" width="2" height="12" cornerRadiusTL="0" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FFE9CF48">
+          <DataBindContext sourcePathIds="0:558-0:573" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+      <DataBindContext sourcePathIds="0:558-0:569" propertyKey="18" converterId="0:647" />
+    </Shape>
+    <Shape id="0:648" name="Segment36" x="209.6" y="20">
+      <Rectangle name="Path" width="2" height="12" cornerRadiusTL="0" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FFE9CF48">
+          <DataBindContext sourcePathIds="0:558-0:573" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+      <DataBindContext sourcePathIds="0:558-0:569" propertyKey="18" converterId="0:649" />
+    </Shape>
+    <Shape id="0:650" name="Segment37" x="215.2" y="20">
+      <Rectangle name="Path" width="2" height="12" cornerRadiusTL="0" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FFE9CF48">
+          <DataBindContext sourcePathIds="0:558-0:573" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+      <DataBindContext sourcePathIds="0:558-0:569" propertyKey="18" converterId="0:651" />
+    </Shape>
+    <Shape id="0:652" name="Segment38" x="220.79999999999998" y="20">
+      <Rectangle name="Path" width="2" height="12" cornerRadiusTL="0" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FFE9CF48">
+          <DataBindContext sourcePathIds="0:558-0:573" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+      <DataBindContext sourcePathIds="0:558-0:569" propertyKey="18" converterId="0:653" />
+    </Shape>
+    <Shape id="0:654" name="Segment39" x="226.39999999999998" y="20">
+      <Rectangle name="Path" width="2" height="12" cornerRadiusTL="0" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FFE9CF48">
+          <DataBindContext sourcePathIds="0:558-0:573" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+      <DataBindContext sourcePathIds="0:558-0:569" propertyKey="18" converterId="0:655" />
+    </Shape>
+    <Shape id="0:656" name="Display" x="120.0" y="32.0">
+      <Rectangle name="Path" width="240" height="64" cornerRadiusTL="6" />
+      <Fill name="Fill">
+        <SolidColor name="Color" colorValue="FF171A1C">
+          <DataBindContext sourcePathIds="0:558-0:575" propertyKey="37" />
+        </SolidColor>
+      </Fill>
+    </Shape>
+    <StateMachine id="0:560" name="Detent">
+      <StateMachineLayer id="0:561" name="Mechanism">
+        <EntryState x="0" y="0">
+          <StateTransition stateToId="0:657" />
+        </EntryState>
+        <AnyState x="160" y="-120" />
+        <ExitState x="360" y="-120" />
+        <AnimationState id="0:657" animationId="0:659" x="160" y="0">
+          <StateTransition stateToId="0:658" duration="120">
+            <TransitionViewModelCondition opValue="equal">
+              <TransitionPropertyViewModelComparator>
+                <BindablePropertyBoolean>
+                  <DataBindContext sourcePathIds="0:558-0:562" propertyKey="634" />
+                </BindablePropertyBoolean>
+              </TransitionPropertyViewModelComparator>
+              <TransitionValueBooleanComparator value="true" />
+            </TransitionViewModelCondition>
+          </StateTransition>
+        </AnimationState>
+        <AnimationState id="0:658" animationId="0:660" x="360" y="0">
+          <StateTransition stateToId="0:657" duration="120">
+            <TransitionViewModelCondition opValue="equal">
+              <TransitionPropertyViewModelComparator>
+                <BindablePropertyBoolean>
+                  <DataBindContext sourcePathIds="0:558-0:562" propertyKey="634" />
+                </BindablePropertyBoolean>
+              </TransitionPropertyViewModelComparator>
+              <TransitionValueBooleanComparator value="false" />
+            </TransitionViewModelCondition>
+          </StateTransition>
+        </AnimationState>
+      </StateMachineLayer>
+    </StateMachine>
+    <LinearAnimation id="0:659" name="Rest" duration="1" />
+    <LinearAnimation id="0:660" name="Active" duration="1" />
+  </Artboard>
+  <DataConverterRangeMapper id="0:577" name="Threshold15_0" minInput="0.0" maxInput="0.025" minOutput="0.15" maxOutput="1" clampLower="true" clampUpper="true" />
+  <DataConverterRangeMapper id="0:579" name="Threshold15_1" minInput="0.025" maxInput="0.05" minOutput="0.15" maxOutput="1" clampLower="true" clampUpper="true" />
+  <DataConverterRangeMapper id="0:581" name="Threshold15_2" minInput="0.05" maxInput="0.075" minOutput="0.15" maxOutput="1" clampLower="true" clampUpper="true" />
+  <DataConverterRangeMapper id="0:583" name="Threshold15_3" minInput="0.075" maxInput="0.1" minOutput="0.15" maxOutput="1" clampLower="true" clampUpper="true" />
+  <DataConverterRangeMapper id="0:585" name="Threshold15_4" minInput="0.1" maxInput="0.125" minOutput="0.15" maxOutput="1" clampLower="true" clampUpper="true" />
+  <DataConverterRangeMapper id="0:587" name="Threshold15_5" minInput="0.125" maxInput="0.15" minOutput="0.15" maxOutput="1" clampLower="true" clampUpper="true" />
+  <DataConverterRangeMapper id="0:589" name="Threshold15_6" minInput="0.15" maxInput="0.175" minOutput="0.15" maxOutput="1" clampLower="true" clampUpper="true" />
+  <DataConverterRangeMapper id="0:591" name="Threshold15_7" minInput="0.175" maxInput="0.2" minOutput="0.15" maxOutput="1" clampLower="true" clampUpper="true" />
+  <DataConverterRangeMapper id="0:593" name="Threshold15_8" minInput="0.2" maxInput="0.225" minOutput="0.15" maxOutput="1" clampLower="true" clampUpper="true" />
+  <DataConverterRangeMapper id="0:595" name="Threshold15_9" minInput="0.225" maxInput="0.25" minOutput="0.15" maxOutput="1" clampLower="true" clampUpper="true" />
+  <DataConverterRangeMapper id="0:597" name="Threshold15_10" minInput="0.25" maxInput="0.275" minOutput="0.15" maxOutput="1" clampLower="true" clampUpper="true" />
+  <DataConverterRangeMapper id="0:599" name="Threshold15_11" minInput="0.275" maxInput="0.3" minOutput="0.15" maxOutput="1" clampLower="true" clampUpper="true" />
+  <DataConverterRangeMapper id="0:601" name="Threshold15_12" minInput="0.3" maxInput="0.325" minOutput="0.15" maxOutput="1" clampLower="true" clampUpper="true" />
+  <DataConverterRangeMapper id="0:603" name="Threshold15_13" minInput="0.325" maxInput="0.35" minOutput="0.15" maxOutput="1" clampLower="true" clampUpper="true" />
+  <DataConverterRangeMapper id="0:605" name="Threshold15_14" minInput="0.35" maxInput="0.375" minOutput="0.15" maxOutput="1" clampLower="true" clampUpper="true" />
+  <DataConverterRangeMapper id="0:607" name="Threshold15_15" minInput="0.375" maxInput="0.4" minOutput="0.15" maxOutput="1" clampLower="true" clampUpper="true" />
+  <DataConverterRangeMapper id="0:609" name="Threshold15_16" minInput="0.4" maxInput="0.425" minOutput="0.15" maxOutput="1" clampLower="true" clampUpper="true" />
+  <DataConverterRangeMapper id="0:611" name="Threshold15_17" minInput="0.425" maxInput="0.45" minOutput="0.15" maxOutput="1" clampLower="true" clampUpper="true" />
+  <DataConverterRangeMapper id="0:613" name="Threshold15_18" minInput="0.45" maxInput="0.475" minOutput="0.15" maxOutput="1" clampLower="true" clampUpper="true" />
+  <DataConverterRangeMapper id="0:615" name="Threshold15_19" minInput="0.475" maxInput="0.5" minOutput="0.15" maxOutput="1" clampLower="true" clampUpper="true" />
+  <DataConverterRangeMapper id="0:617" name="Threshold15_20" minInput="0.5" maxInput="0.525" minOutput="0.15" maxOutput="1" clampLower="true" clampUpper="true" />
+  <DataConverterRangeMapper id="0:619" name="Threshold15_21" minInput="0.525" maxInput="0.55" minOutput="0.15" maxOutput="1" clampLower="true" clampUpper="true" />
+  <DataConverterRangeMapper id="0:621" name="Threshold15_22" minInput="0.55" maxInput="0.575" minOutput="0.15" maxOutput="1" clampLower="true" clampUpper="true" />
+  <DataConverterRangeMapper id="0:623" name="Threshold15_23" minInput="0.575" maxInput="0.6" minOutput="0.15" maxOutput="1" clampLower="true" clampUpper="true" />
+  <DataConverterRangeMapper id="0:625" name="Threshold15_24" minInput="0.6" maxInput="0.625" minOutput="0.15" maxOutput="1" clampLower="true" clampUpper="true" />
+  <DataConverterRangeMapper id="0:627" name="Threshold15_25" minInput="0.625" maxInput="0.65" minOutput="0.15" maxOutput="1" clampLower="true" clampUpper="true" />
+  <DataConverterRangeMapper id="0:629" name="Threshold15_26" minInput="0.65" maxInput="0.675" minOutput="0.15" maxOutput="1" clampLower="true" clampUpper="true" />
+  <DataConverterRangeMapper id="0:631" name="Threshold15_27" minInput="0.675" maxInput="0.7" minOutput="0.15" maxOutput="1" clampLower="true" clampUpper="true" />
+  <DataConverterRangeMapper id="0:633" name="Threshold15_28" minInput="0.7" maxInput="0.725" minOutput="0.15" maxOutput="1" clampLower="true" clampUpper="true" />
+  <DataConverterRangeMapper id="0:635" name="Threshold15_29" minInput="0.725" maxInput="0.75" minOutput="0.15" maxOutput="1" clampLower="true" clampUpper="true" />
+  <DataConverterRangeMapper id="0:637" name="Threshold15_30" minInput="0.75" maxInput="0.775" minOutput="0.15" maxOutput="1" clampLower="true" clampUpper="true" />
+  <DataConverterRangeMapper id="0:639" name="Threshold15_31" minInput="0.775" maxInput="0.8" minOutput="0.15" maxOutput="1" clampLower="true" clampUpper="true" />
+  <DataConverterRangeMapper id="0:641" name="Threshold15_32" minInput="0.8" maxInput="0.825" minOutput="0.15" maxOutput="1" clampLower="true" clampUpper="true" />
+  <DataConverterRangeMapper id="0:643" name="Threshold15_33" minInput="0.825" maxInput="0.85" minOutput="0.15" maxOutput="1" clampLower="true" clampUpper="true" />
+  <DataConverterRangeMapper id="0:645" name="Threshold15_34" minInput="0.85" maxInput="0.875" minOutput="0.15" maxOutput="1" clampLower="true" clampUpper="true" />
+  <DataConverterRangeMapper id="0:647" name="Threshold15_35" minInput="0.875" maxInput="0.9" minOutput="0.15" maxOutput="1" clampLower="true" clampUpper="true" />
+  <DataConverterRangeMapper id="0:649" name="Threshold15_36" minInput="0.9" maxInput="0.925" minOutput="0.15" maxOutput="1" clampLower="true" clampUpper="true" />
+  <DataConverterRangeMapper id="0:651" name="Threshold15_37" minInput="0.925" maxInput="0.95" minOutput="0.15" maxOutput="1" clampLower="true" clampUpper="true" />
+  <DataConverterRangeMapper id="0:653" name="Threshold15_38" minInput="0.95" maxInput="0.975" minOutput="0.15" maxOutput="1" clampLower="true" clampUpper="true" />
+  <DataConverterRangeMapper id="0:655" name="Threshold15_39" minInput="0.975" maxInput="1.0" minOutput="0.15" maxOutput="1" clampLower="true" clampUpper="true" />
+  <ViewModel id="0:558" name="TaskStatus" defaultInstanceId="0:559">
+    <ViewModelPropertyBoolean id="0:562" name="pressed" />
+    <ViewModelPropertyBoolean id="0:563" name="selected" />
+    <ViewModelPropertyBoolean id="0:564" name="hovered" />
+    <ViewModelPropertyBoolean id="0:565" name="focused" />
+    <ViewModelPropertyBoolean id="0:566" name="enabled" />
+    <ViewModelPropertyNumber id="0:567" name="value" />
+    <ViewModelPropertyNumber id="0:568" name="secondaryValue" />
+    <ViewModelPropertyNumber id="0:569" name="progress" />
+    <ViewModelPropertyNumber id="0:570" name="motionScale" />
+    <ViewModelPropertyColor id="0:571" name="surfaceColor" />
+    <ViewModelPropertyColor id="0:572" name="inkColor" />
+    <ViewModelPropertyColor id="0:573" name="accentColor" />
+    <ViewModelPropertyColor id="0:574" name="borderColor" />
+    <ViewModelPropertyColor id="0:575" name="displayColor" />
+    <ViewModelInstance id="0:559" name="Default" exports="true">
+      <ViewModelInstanceBoolean viewModelPropertyId="0:562" propertyValue="false" />
+      <ViewModelInstanceBoolean viewModelPropertyId="0:563" propertyValue="false" />
+      <ViewModelInstanceBoolean viewModelPropertyId="0:564" propertyValue="false" />
+      <ViewModelInstanceBoolean viewModelPropertyId="0:565" propertyValue="false" />
+      <ViewModelInstanceBoolean viewModelPropertyId="0:566" propertyValue="true" />
+      <ViewModelInstanceNumber viewModelPropertyId="0:567" propertyValue="0.68" />
+      <ViewModelInstanceNumber viewModelPropertyId="0:568" propertyValue="1" />
+      <ViewModelInstanceNumber viewModelPropertyId="0:569" propertyValue="0.68" />
+      <ViewModelInstanceNumber viewModelPropertyId="0:570" propertyValue="1" />
+      <ViewModelInstanceColor viewModelPropertyId="0:571" propertyValue="FFFAFAF8" />
+      <ViewModelInstanceColor viewModelPropertyId="0:572" propertyValue="FF202426" />
+      <ViewModelInstanceColor viewModelPropertyId="0:573" propertyValue="FFE9CF48" />
+      <ViewModelInstanceColor viewModelPropertyId="0:574" propertyValue="FF707974" />
+      <ViewModelInstanceColor viewModelPropertyId="0:575" propertyValue="FF171A1C" />
+    </ViewModelInstance>
+  </ViewModel>
+</Rive>
