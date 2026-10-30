@@ -1,12 +1,9 @@
 import 'dart:async';
 
-// Keep compatibility with Flutter's Material re-export during SDK extraction.
-// ignore: deprecated_member_use
-import 'package:flutter/material.dart';
-import 'package:forui_lucide/forui_lucide.dart';
-import 'package:flutter/services.dart';
+import '../foundation/primitives.dart';
 
-import '../foundation/theme.dart';
+import 'package:forui_lucide/forui_lucide.dart';
+
 import '../controls/controls.dart';
 import '../rive/artwork.dart';
 import '../rive/skin.dart';
@@ -34,20 +31,28 @@ class NuiBadge extends StatelessWidget {
   Widget build(BuildContext context) {
     final t = NuiTheme.of(context);
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      constraints: const BoxConstraints(minHeight: 32),
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
       decoration: BoxDecoration(
         color: t.raised,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(12),
         border: Border.all(color: t.border),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(
-            icon ?? FLucideIcons.circle,
-            size: icon == null ? 8 : 16,
-            color: nuiToneColor(t, tone),
-          ),
+          if (icon != null)
+            Icon(icon, size: 16, color: nuiToneColor(t, tone))
+          else
+            SizedBox.square(
+              dimension: 8,
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  color: nuiToneColor(t, tone),
+                  shape: BoxShape.circle,
+                ),
+              ),
+            ),
           const SizedBox(width: 8),
           Text(label, style: const TextStyle(fontSize: 12)),
         ],
@@ -67,7 +72,7 @@ class NuiTooltip extends StatelessWidget {
   final String? shortcut;
   final Widget child;
   @override
-  Widget build(BuildContext context) => Tooltip(
+  Widget build(BuildContext context) => NuiHint(
     message: '$message${shortcut == null ? '' : '  $shortcut'}',
     child: child,
   );
@@ -104,17 +109,8 @@ class NuiProgress extends StatelessWidget {
       );
     }
     final fallback = variant == NuiProgressVariant.linear
-        ? LinearProgressIndicator(
-            value: v,
-            minHeight: 4,
-            color: color ?? t.ink,
-            backgroundColor: t.border,
-          )
-        : CircularProgressIndicator(
-            value: v,
-            strokeWidth: 2,
-            color: color ?? t.ink,
-          );
+        ? _NuiFallbackProgress(value: v, color: color ?? t.ink, circular: false)
+        : _NuiFallbackProgress(value: v, color: color ?? t.ink, circular: true);
     final artwork = NuiRiveArtwork(
       artboard: variant == NuiProgressVariant.linear
           ? 'Progress'
@@ -131,7 +127,13 @@ class NuiProgress extends StatelessWidget {
       label: label,
       value: v == null ? '進捗不明' : '${(v * 100).round()}%',
       child: variant == NuiProgressVariant.linear
-          ? SizedBox(height: 4, child: ClipRect(child: artwork))
+          ? SizedBox(
+              height: 7,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(3),
+                child: artwork,
+              ),
+            )
           : SizedBox.square(dimension: 28, child: artwork),
     );
   }
@@ -288,7 +290,7 @@ class NuiMeter extends StatelessWidget {
             ),
             const SizedBox(height: 8),
             DefaultTextStyle(
-              style: Theme.of(context).textTheme.bodySmall!
+              style: NuiTheme.of(context).textTheme.bodySmall
                   .copyWith(color: t.inverse, fontSize: 12),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -327,7 +329,9 @@ class NuiInlineAlert extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(8),
         decoration: BoxDecoration(
-          color: t.raised,
+          color: t.highContrast
+              ? t.raised
+              : Color.alphaBlend(color.withValues(alpha: .05), t.raised),
           borderRadius: BorderRadius.circular(6),
           border: Border.all(color: color),
         ),
@@ -361,13 +365,10 @@ class NuiInlineAlert extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    title,
-                    style: const TextStyle(fontWeight: FontWeight.w600),
-                  ),
+                  Text(title, style: TextStyle(color: color)),
                   if (message != null) ...[
                     const SizedBox(height: 8),
-                    Text(message!),
+                    Text(message!, style: t.textTheme.bodySmall),
                   ],
                 ],
               ),
@@ -395,23 +396,44 @@ class NuiToast extends StatefulWidget {
   final String? actionLabel;
   final Duration duration;
   final NuiTone tone;
-  static ScaffoldFeatureController<SnackBar, SnackBarClosedReason> show(
+  static NuiToastHandle show(
     BuildContext context, {
     required String message,
     String? actionLabel,
     VoidCallback? onAction,
-  }) => ScaffoldMessenger.of(context).showSnackBar(
-    SnackBar(
-      duration: const Duration(days: 1),
-      backgroundColor: NuiTheme.of(context).raised,
-      content: NuiToast(
-        message: message,
-        actionLabel: actionLabel,
-        onAction: onAction,
-        onDismiss: () => ScaffoldMessenger.of(context).hideCurrentSnackBar(),
+  }) {
+    final overlay = Overlay.of(context, rootOverlay: true),
+        data = NuiTheme.of(context);
+    _activeToasts.remove(overlay)?.close();
+    late final NuiToastHandle handle;
+    final entry = OverlayEntry(
+      builder: (ctx) => Positioned(
+        bottom: 24,
+        left: 24,
+        right: 24,
+        child: Align(
+          alignment: Alignment.bottomRight,
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 560),
+            child: NuiTheme(
+              data: data,
+              child: NuiToast(
+                message: message,
+                actionLabel: actionLabel,
+                onAction: onAction,
+                onDismiss: () => handle.close(),
+              ),
+            ),
+          ),
+        ),
       ),
-    ),
-  );
+    );
+    handle = NuiToastHandle(entry);
+    _activeToasts[overlay] = handle;
+    overlay.insert(entry);
+    return handle;
+  }
+
   @override
   State<NuiToast> createState() => _NuiToastState();
 }
@@ -471,24 +493,50 @@ class _NuiToastState extends State<NuiToast> {
         focus = v;
         if (!v) schedule();
       },
-      child: NuiInlineAlert(
-        title: widget.message,
-        tone: widget.tone,
-        action: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            if (widget.actionLabel != null)
-              TextButton(
-                onPressed: widget.onAction,
-                child: Text(widget.actionLabel!),
+      child: Semantics(
+        liveRegion: true,
+        child: Container(
+          constraints: const BoxConstraints(minHeight: 42),
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+          decoration: BoxDecoration(
+            color: NuiTheme.of(context).raised,
+            borderRadius: BorderRadius.circular(8),
+            border: Border.all(color: NuiTheme.of(context).controlBorder),
+          ),
+          child: Row(
+            children: [
+              SizedBox.square(
+                dimension: 8,
+                child: DecoratedBox(
+                  decoration: BoxDecoration(
+                    color: nuiToneColor(NuiTheme.of(context), widget.tone),
+                    shape: BoxShape.circle,
+                  ),
+                ),
               ),
-            if (widget.onDismiss != null)
-              IconButton(
-                tooltip: '通知を閉じる',
-                onPressed: widget.onDismiss,
-                icon: const Icon(FLucideIcons.x, size: 16),
+              const SizedBox(width: 8),
+              Expanded(child: Text(widget.message)),
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  if (widget.actionLabel != null)
+                    NuiPlainButton(
+                      onPressed: widget.onAction,
+                      child: Text(
+                        widget.actionLabel!,
+                        style: NuiTheme.of(context).textTheme.bodySmall,
+                      ),
+                    ),
+                  if (widget.onDismiss != null)
+                    NuiIconAction(
+                      tooltip: '通知を閉じる',
+                      onPressed: widget.onDismiss,
+                      icon: const Icon(FLucideIcons.x, size: 16),
+                    ),
+                ],
               ),
-          ],
+            ],
+          ),
         ),
       ),
     ),
@@ -510,31 +558,15 @@ class NuiDialog extends StatelessWidget {
     required WidgetBuilder builder,
     bool dismissOnOutside = false,
     bool dismissOnEscape = true,
-  }) => showDialog<T>(
+  }) => showNuiDialog<T>(
     context: context,
     barrierDismissible: dismissOnOutside,
-    builder: (ctx) => Shortcuts(
-      shortcuts: const {
-        SingleActivator(LogicalKeyboardKey.escape): DismissIntent(),
-      },
-      child: Actions(
-        actions: {
-          DismissIntent: CallbackAction<DismissIntent>(
-            onInvoke: (_) {
-              if (dismissOnEscape) {
-                Navigator.of(ctx).pop();
-              }
-              return null;
-            },
-          ),
-        },
-        child: PopScope(canPop: dismissOnEscape, child: builder(ctx)),
-      ),
-    ),
+    dismissOnEscape: dismissOnEscape,
+    builder: builder,
   );
   @override
   Widget build(BuildContext context) =>
-      AlertDialog(title: Text(title), content: child, actions: actions);
+      NuiDialogFrame(title: Text(title), content: child, actions: actions);
 }
 
 class NuiPopover extends StatelessWidget {
@@ -542,7 +574,7 @@ class NuiPopover extends StatelessWidget {
   final String label;
   final Widget child;
   @override
-  Widget build(BuildContext context) => MenuAnchor(
+  Widget build(BuildContext context) => NuiPopupAnchor(
     menuChildren: [
       Padding(
         padding: const EdgeInsets.all(8),
@@ -669,7 +701,7 @@ class NuiTaskStatus extends StatelessWidget {
           borderRadius: BorderRadius.circular(6),
         ),
         child: DefaultTextStyle(
-          style: Theme.of(context).textTheme.bodyMedium!
+          style: NuiTheme.of(context).textTheme.bodyMedium
               .copyWith(color: t.inverse, fontSize: 14),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -721,12 +753,12 @@ class NuiTaskStatus extends StatelessWidget {
                 NuiProgress(value: progress, label: label, color: t.inverse),
               ],
               if (state == NuiTaskState.running && onCancel != null)
-                TextButton(
+                NuiPlainButton(
                   onPressed: onCancel,
                   child: Text('取り消す', style: TextStyle(color: t.inverse)),
                 ),
               if (state == NuiTaskState.error && onRetry != null)
-                TextButton(
+                NuiPlainButton(
                   onPressed: onRetry,
                   child: Text('再試行', style: TextStyle(color: t.inverse)),
                 ),
@@ -736,4 +768,124 @@ class NuiTaskStatus extends StatelessWidget {
       ),
     );
   }
+}
+
+final _activeToasts = <OverlayState, NuiToastHandle>{};
+
+class NuiToastHandle {
+  NuiToastHandle(this._entry);
+  OverlayEntry? _entry;
+  void close() {
+    final e = _entry;
+    _entry = null;
+    if (e != null) {
+      e.remove();
+      e.dispose();
+    }
+  }
+}
+
+class _NuiFallbackProgress extends StatefulWidget {
+  const _NuiFallbackProgress({
+    required this.value,
+    required this.color,
+    required this.circular,
+  });
+  final double? value;
+  final Color color;
+  final bool circular;
+  @override
+  State<_NuiFallbackProgress> createState() => _NuiFallbackProgressState();
+}
+
+class _NuiFallbackProgressState extends State<_NuiFallbackProgress>
+    with SingleTickerProviderStateMixin {
+  late final animation = AnimationController(
+    vsync: this,
+    duration: const Duration(milliseconds: 1200),
+  );
+  @override
+  void initState() {
+    super.initState();
+    if (widget.value == null) animation.repeat();
+  }
+
+  @override
+  void didUpdateWidget(_NuiFallbackProgress old) {
+    super.didUpdateWidget(old);
+    if (widget.value == null && !animation.isAnimating) {
+      animation.repeat();
+    } else if (widget.value != null) {
+      animation.stop();
+    }
+  }
+
+  @override
+  void dispose() {
+    animation.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) => AnimatedBuilder(
+    animation: animation,
+    builder: (ctx, _) => CustomPaint(
+      painter: _ProgressPainter(
+        widget.value,
+        animation.value,
+        widget.color,
+        NuiTheme.of(context).border,
+        widget.circular,
+      ),
+    ),
+  );
+}
+
+class _ProgressPainter extends CustomPainter {
+  _ProgressPainter(
+    this.value,
+    this.phase,
+    this.color,
+    this.track,
+    this.circular,
+  );
+  final double? value;
+  final double phase;
+  final Color color, track;
+  final bool circular;
+  @override
+  void paint(Canvas c, Size s) {
+    final p = Paint()
+      ..color = track
+      ..strokeWidth = 2
+      ..style = circular ? PaintingStyle.stroke : PaintingStyle.fill;
+    if (circular) {
+      final rect = (Offset.zero & s).deflate(2);
+      c.drawOval(rect, p);
+      p.color = color;
+      c.drawArc(
+        rect,
+        -1.5708 + (value == null ? phase * 6.2832 : 0),
+        (value ?? .24) * 6.2832,
+        false,
+        p,
+      );
+    } else {
+      c.drawRect(Offset.zero & s, p);
+      p.color = color;
+      final left = value == null ? phase * s.width : 0.0,
+          width = value == null ? s.width * .24 : s.width * value!;
+      c.drawRect(
+        Rect.fromLTWH(left, 0, width.clamp(0.0, s.width - left), s.height),
+        p,
+      );
+    }
+  }
+
+  @override
+  bool shouldRepaint(_ProgressPainter old) =>
+      old.value != value ||
+      old.phase != phase ||
+      old.color != color ||
+      old.track != track;
 }

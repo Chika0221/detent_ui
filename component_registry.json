@@ -1,6 +1,6 @@
 {
   "version": "0.4",
-  "scope": "48 Flutter widgets; default Rive mechanisms with 39 local artboards; design remains v0.4; OS verification pending",
+  "scope": "48 WidgetsApp-compatible Flutter widgets without Material widgets; shared Select/ComboBox popup; keycap units; 39 local Rive artboards; design remains v0.4; OS verification pending",
   "reviewSets": [
     {
       "id": "C01",
@@ -969,5 +969,5 @@
   ],
   "systemName": "Detent Design System",
   "packageName": "detent_ui",
-  "implementationVersion": "0.6.0"
+  "implementationVersion": "0.7.0"
 }

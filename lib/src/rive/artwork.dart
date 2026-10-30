@@ -41,8 +41,14 @@ class NuiRiveArtwork extends StatefulWidget {
 }
 
 class _RiveAsset {
-  _RiveAsset(this.path)
-    : future = rive.File.asset(path, riveFactory: rive.Factory.flutter);
+  _RiveAsset(this.path) : future = _load(path);
+  static Future<rive.File?> _load(String path) async {
+    if (!await rive.RiveNative.init()) {
+      throw StateError('Rive could not initialize');
+    }
+    return rive.File.asset(path, riveFactory: rive.Factory.flutter);
+  }
+
   static final assets = <String, _RiveAsset>{};
   static _RiveAsset acquire(String path) {
     final a = assets.putIfAbsent(path, () => _RiveAsset(path));
@@ -145,9 +151,9 @@ class _NuiRiveArtworkState extends State<NuiRiveArtwork>
 
   Future<void> load() async {
     final token = ++generation;
-    final entry = _RiveAsset.acquire(widget.asset);
-    lease = entry;
     try {
+      final entry = _RiveAsset.acquire(widget.asset);
+      lease = entry;
       final file = await entry.future;
       if (!mounted || token != generation) return;
       if (file == null) throw StateError('Rive could not load ${widget.asset}');
@@ -184,6 +190,9 @@ class _NuiRiveArtworkState extends State<NuiRiveArtwork>
         'secondaryPosition',
         'extent',
         'segmentWidth',
+        'trackWidth',
+        'activeStart',
+        'activeWidth',
       ]) {
         final p = v.number(k);
         if (p != null) numbers[k] = p;
@@ -196,6 +205,7 @@ class _NuiRiveArtworkState extends State<NuiRiveArtwork>
         'displayColor',
         'focusColor',
         'inverseColor',
+        'lineColor',
       ]) {
         final p = v.color(k);
         if (p != null) colors[k] = p;
@@ -272,6 +282,15 @@ class _NuiRiveArtworkState extends State<NuiRiveArtwork>
       'secondaryPosition': 24 + s.secondaryValue.clamp(0.0, 1.0) * trackWidth,
       'extent': s.progress.clamp(0.0, 1.0) * width,
       'segmentWidth': math.max(0, segmentWidth - 8),
+      'trackWidth': trackWidth,
+      'activeStart': widget.artboard == 'RangeSlider'
+          ? 24 + s.value.clamp(0.0, 1.0) * trackWidth
+          : 24.0,
+      'activeWidth':
+          trackWidth *
+          (widget.artboard == 'RangeSlider'
+              ? (s.secondaryValue - s.value).clamp(0.0, 1.0)
+              : s.value.clamp(0.0, 1.0)),
     }.entries) {
       final p = numbers[e.key];
       if (p != null && p.value != e.value) p.value = e.value.toDouble();
@@ -284,6 +303,7 @@ class _NuiRiveArtworkState extends State<NuiRiveArtwork>
       'displayColor': t.display,
       'focusColor': t.focus,
       'inverseColor': t.inverse,
+      'lineColor': t.border,
     }.entries) {
       final p = colors[e.key];
       if (p != null && p.value != e.value) p.value = e.value;

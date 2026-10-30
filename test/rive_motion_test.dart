@@ -1,8 +1,7 @@
 import 'dart:io';
 import 'dart:async';
 
-// ignore: deprecated_member_use
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:rive/rive.dart' as rive;
@@ -57,7 +56,7 @@ void main() {
       await t.pumpWidget(
         NuiApp(
           motion: NuiMotion.full,
-          home: Scaffold(
+          home: NuiBox(
             body: Center(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
@@ -99,10 +98,18 @@ void main() {
       )!;
       expect(thumb.x, closeTo(35, .01));
       thumb.dispose();
-      final nativeSwitch = t.widget<Switch>(find.byType(Switch));
+      expect(t.widget<NuiSwitch>(find.byType(NuiSwitch)).value, true);
       expect(
-        nativeSwitch.thumbColor!.resolve({WidgetState.selected}),
-        Colors.transparent,
+        find.byWidgetPredicate(
+          (w) => [
+            'Material',
+            'MaterialApp',
+            'Scaffold',
+            'TextField',
+            'Theme',
+          ].contains(w.runtimeType.toString()),
+        ),
+        findsNothing,
       );
       await t.tap(find.text('保存'));
       await t.pump();
@@ -173,7 +180,7 @@ void main() {
     await t.pumpWidget(
       NuiApp(
         motion: NuiMotion.full,
-        home: Scaffold(
+        home: NuiBox(
           body: SingleChildScrollView(
             controller: scroll,
             child: Column(children: [art, const SizedBox(height: 1500)]),
@@ -204,7 +211,7 @@ void main() {
     await t.pumpWidget(
       NuiApp(
         motion: NuiMotion.reduced,
-        home: Scaffold(
+        home: NuiBox(
           body: SingleChildScrollView(
             controller: scroll,
             child: Column(children: [art, const SizedBox(height: 1500)]),
@@ -227,7 +234,7 @@ void main() {
       bool value = false;
       Widget host(bool reduced) => NuiApp(
         motion: reduced ? NuiMotion.reduced : NuiMotion.full,
-        home: Scaffold(
+        home: NuiBox(
           body: StatefulBuilder(
             builder: (ctx, set) => NuiSwitch(
               focusNode: focus,
@@ -251,4 +258,58 @@ void main() {
       expect(value, false);
     },
   );
+  testWidgets('Rive and fallback mechanisms occupy identical resized bounds', (
+    t,
+  ) async {
+    Widget host(bool animated) => NuiApp(
+      riveEnabled: animated,
+      home: NuiBox(
+        body: Center(
+          child: SizedBox(
+            width: 500,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                NuiSlider(value: .68, onChanged: (_) {}),
+                NuiSegmentedControl(
+                  options: const [NuiOption(0, '一覧'), NuiOption(1, '比較')],
+                  value: 0,
+                  onChanged: (_) {},
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+    await t.pumpWidget(host(true));
+    for (
+      var i = 0;
+      i < 40 && find.byType(rive.RiveWidget).evaluate().length < 2;
+      i++
+    ) {
+      await t.runAsync(
+        () => Future<void>.delayed(const Duration(milliseconds: 50)),
+      );
+      await t.pump();
+    }
+    expect(find.byType(rive.RiveWidget), findsNWidgets(2));
+    final slider = find.byType(NuiSlider);
+    final skin = find.descendant(
+      of: slider,
+      matching: find.byType(rive.RiveWidget),
+    );
+    expect(t.getSize(skin), const Size(500, 64));
+    final c = t.widget<rive.RiveWidget>(skin).controller;
+    c.advance(1);
+    expect(c.artboard.component('Thumb0')!.x, closeTo(24 + .68 * 452, .01));
+    final occupied = t.getRect(slider);
+    await t.pumpWidget(host(false));
+    await t.pump();
+    expect(t.getRect(slider), occupied);
+    final paint = find
+        .descendant(of: slider, matching: find.byType(CustomPaint))
+        .first;
+    expect(t.getSize(paint), const Size(500, 64));
+  });
 }

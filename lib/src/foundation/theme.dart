@@ -1,12 +1,34 @@
-// Keep compatibility with Flutter's Material re-export during SDK extraction.
-// ignore: deprecated_member_use
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 import 'tokens.g.dart';
+
+abstract final class NuiColors {
+  static const transparent = Color(0x00000000),
+      black = Color(0xFF000000),
+      white = Color(0xFFFFFFFF);
+}
 
 enum NuiDensity { compact, standard, comfortable }
 
 enum NuiMotion { system, full, reduced }
+
+enum NuiThemeMode { light, dark, system }
+
+@immutable
+class NuiTypography {
+  const NuiTypography(this.ink);
+  final Color ink;
+  TextStyle get bodyMedium => TextStyle(
+    fontFamily: 'packages/detent_ui/Manrope',
+    fontFamilyFallback: const ['packages/detent_ui/IBM Plex Sans JP'],
+    fontSize: 14,
+    height: 1.5,
+    color: ink,
+  );
+  TextStyle get bodySmall => bodyMedium.copyWith(fontSize: 12);
+  TextStyle get labelLarge =>
+      bodyMedium.copyWith(fontWeight: FontWeight.w500, height: 1.35);
+}
 
 @immutable
 class NuiThemeData {
@@ -18,16 +40,20 @@ class NuiThemeData {
     this.riveEnabled = true,
   });
   final Brightness brightness;
-  final bool highContrast;
+  final bool highContrast, riveEnabled;
   final NuiDensity density;
   final NuiMotion motion;
-  final bool riveEnabled;
   bool get dark => brightness == Brightness.dark;
   double get controlHeight => switch (density) {
-    NuiDensity.compact => NuiTokens.density_compact_controlHeight,
-    NuiDensity.standard => NuiTokens.density_standard_controlHeight,
-    NuiDensity.comfortable => NuiTokens.density_comfortable_controlHeight,
+    NuiDensity.compact => 32,
+    NuiDensity.standard => 40,
+    NuiDensity.comfortable => 44,
   };
+  NuiTypography get textTheme => NuiTypography(ink);
+  Color _color(String role) =>
+      nuiPalettes[highContrast
+          ? (dark ? 'highDark' : 'highLight')
+          : (dark ? 'dark' : 'light')]![role]!;
   Color get canvas => _color('bg.canvas');
   Color get surface => _color('bg.surface');
   Color get raised => _color('bg.raised');
@@ -43,8 +69,6 @@ class NuiThemeData {
   Color get focus => _color('focus.ring');
   Color get danger => _color('status.danger');
   Color get success => _color('status.success');
-  Color _color(String role) =>
-      nuiPalettes['${highContrast ? 'high' : ''}${highContrast ? (dark ? 'Dark' : 'Light') : (dark ? 'dark' : 'light')}']![role]!;
   bool reduceMotion(BuildContext context) =>
       motion == NuiMotion.reduced ||
       (motion == NuiMotion.system && MediaQuery.disableAnimationsOf(context));
@@ -63,139 +87,40 @@ class NuiThemeData {
     motion: motion ?? this.motion,
     riveEnabled: riveEnabled ?? this.riveEnabled,
   );
-  ThemeData get materialTheme {
-    final scheme =
-        ColorScheme.fromSeed(
-          seedColor: accent,
-          brightness: brightness,
-        ).copyWith(
-          primary: ink,
-          onPrimary: raised,
-          secondary: accent,
-          onSecondary: accentInk,
-          surface: raised,
-          onSurface: ink,
-          error: danger,
-          outline: controlBorder,
-        );
-    final base = ThemeData(
-      useMaterial3: true,
-      colorScheme: scheme,
-      scaffoldBackgroundColor: canvas,
-      fontFamily: 'packages/detent_ui/Manrope',
-      fontFamilyFallback: const ['packages/detent_ui/IBM Plex Sans JP'],
-    );
-    return base.copyWith(
-      textTheme: base.textTheme
-          .apply(fontSizeFactor: 1)
-          .copyWith(
-            bodyMedium: base.textTheme.bodyMedium!.copyWith(
-              fontSize: 14,
-              height: 1.5,
-            ),
-            labelLarge: base.textTheme.labelLarge!.copyWith(
-              fontSize: 14,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-      iconTheme: IconThemeData(size: 16, color: ink),
-      dividerColor: border,
-      focusColor: focus,
-      inputDecorationTheme: InputDecorationTheme(
-        filled: true,
-        fillColor: raised,
-        isDense: true,
-        contentPadding: const EdgeInsets.all(8),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(6),
-          borderSide: BorderSide(color: controlBorder),
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(6),
-          borderSide: BorderSide(color: controlBorder),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(6),
-          borderSide: BorderSide(color: focus, width: 2),
-        ),
-      ),
-      checkboxTheme: CheckboxThemeData(
-        fillColor: WidgetStateProperty.resolveWith(
-          (s) => s.contains(WidgetState.selected) ? ink : raised,
-        ),
-        checkColor: WidgetStatePropertyAll(raised),
-      ),
-      switchTheme: SwitchThemeData(
-        thumbColor: WidgetStateProperty.resolveWith(
-          (s) => s.contains(WidgetState.selected) ? accent : raised,
-        ),
-        trackColor: WidgetStateProperty.resolveWith(
-          (s) => s.contains(WidgetState.selected) ? display : border,
-        ),
-      ),
-      sliderTheme: SliderThemeData(
-        activeTrackColor: ink,
-        inactiveTrackColor: border,
-        thumbColor: raised,
-        overlayColor: focus.withValues(alpha: .15),
-        trackHeight: 3,
-        thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 7),
-      ),
-      progressIndicatorTheme: ProgressIndicatorThemeData(
-        color: ink,
-        linearTrackColor: border,
-      ),
-      menuTheme: MenuThemeData(
-        style: MenuStyle(
-          backgroundColor: WidgetStatePropertyAll(raised),
-          shape: WidgetStatePropertyAll(
-            RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8),
-              side: BorderSide(color: controlBorder),
-            ),
-          ),
-        ),
-      ),
-      tooltipTheme: TooltipThemeData(
-        decoration: BoxDecoration(
-          color: display,
-          borderRadius: BorderRadius.circular(6),
-        ),
-        textStyle: base.textTheme.bodySmall!.copyWith(
-          color: inverse,
-          fontSize: 12,
-        ),
-      ),
-      dialogTheme: DialogThemeData(
-        backgroundColor: raised,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10),
-          side: BorderSide(color: controlBorder),
-        ),
-      ),
-    );
-  }
 }
 
-class NuiTheme extends InheritedWidget {
-  const NuiTheme({super.key, required this.data, required super.child});
+class NuiTheme extends InheritedTheme {
+  NuiTheme({super.key, required this.data, required Widget child})
+    : super(
+        child: DefaultTextStyle(
+          style: data.textTheme.bodyMedium,
+          child: IconTheme(
+            data: IconThemeData(color: data.ink, size: 16),
+            child: child,
+          ),
+        ),
+      );
   final NuiThemeData data;
   static NuiThemeData of(BuildContext context) =>
       context.dependOnInheritedWidgetOfExactType<NuiTheme>()?.data ??
       NuiThemeData(
-        brightness: Theme.of(context).brightness,
-        highContrast: MediaQuery.highContrastOf(context),
+        brightness:
+            MediaQuery.maybeOf(context)?.platformBrightness ?? Brightness.light,
+        highContrast: MediaQuery.maybeOf(context)?.highContrast ?? false,
       );
   @override
-  bool updateShouldNotify(NuiTheme oldWidget) => data != oldWidget.data;
+  bool updateShouldNotify(NuiTheme oldWidget) => oldWidget.data != data;
+  @override
+  Widget wrap(BuildContext context, Widget child) =>
+      NuiTheme(data: data, child: child);
 }
 
-/// Applies Detent's Material adapter locally, including popup/menu typography.
+/// Optional convenience host; every component also works in a plain WidgetsApp.
 class NuiApp extends StatelessWidget {
   const NuiApp({
     super.key,
     required this.home,
-    this.themeMode = ThemeMode.system,
+    this.themeMode = NuiThemeMode.system,
     this.density = NuiDensity.standard,
     this.motion = NuiMotion.system,
     this.riveEnabled = true,
@@ -203,36 +128,37 @@ class NuiApp extends StatelessWidget {
     this.title = 'Detent',
   });
   final Widget home;
-  final ThemeMode themeMode;
+  final NuiThemeMode themeMode;
   final NuiDensity density;
   final NuiMotion motion;
   final bool riveEnabled;
   final bool? highContrast;
   final String title;
   @override
-  Widget build(BuildContext context) => MaterialApp(
+  Widget build(BuildContext context) => WidgetsApp(
+    color: const Color(0xFFE9CF48),
     title: title,
     debugShowCheckedModeBanner: false,
-    themeMode: themeMode,
-    themeAnimationDuration: motion == NuiMotion.reduced
-        ? Duration.zero
-        : const Duration(milliseconds: 200),
-    theme: NuiThemeData(density: density).materialTheme,
-    darkTheme: NuiThemeData(
-      brightness: Brightness.dark,
-      density: density,
-    ).materialTheme,
+    pageRouteBuilder: <T>(settings, builder) => PageRouteBuilder<T>(
+      settings: settings,
+      pageBuilder: (ctx, _, _) => builder(ctx),
+      transitionDuration: Duration.zero,
+    ),
     builder: (context, child) {
-      final data = NuiThemeData(
-        brightness: Theme.of(context).brightness,
-        highContrast: highContrast ?? MediaQuery.highContrastOf(context),
-        density: density,
-        motion: motion,
-        riveEnabled: riveEnabled,
-      );
+      final brightness = switch (themeMode) {
+        NuiThemeMode.light => Brightness.light,
+        NuiThemeMode.dark => Brightness.dark,
+        NuiThemeMode.system => MediaQuery.platformBrightnessOf(context),
+      };
       return NuiTheme(
-        data: data,
-        child: Theme(data: data.materialTheme, child: child!),
+        data: NuiThemeData(
+          brightness: brightness,
+          highContrast: highContrast ?? MediaQuery.highContrastOf(context),
+          density: density,
+          motion: motion,
+          riveEnabled: riveEnabled,
+        ),
+        child: child!,
       );
     },
     home: home,
@@ -244,8 +170,20 @@ class NuiDivider extends StatelessWidget {
   final bool vertical;
   @override
   Widget build(BuildContext context) => vertical
-      ? VerticalDivider(width: 16, color: NuiTheme.of(context).border)
-      : Divider(height: 16, color: NuiTheme.of(context).border);
+      ? Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8),
+          child: SizedBox(
+            width: 1,
+            child: ColoredBox(color: NuiTheme.of(context).border),
+          ),
+        )
+      : Padding(
+          padding: const EdgeInsets.symmetric(vertical: 8),
+          child: SizedBox(
+            height: 1,
+            child: ColoredBox(color: NuiTheme.of(context).border),
+          ),
+        );
 }
 
 class NuiFocusRing extends StatelessWidget {
@@ -263,7 +201,7 @@ class NuiFocusRing extends StatelessWidget {
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(radius + 4),
       border: Border.all(
-        color: focused ? NuiTheme.of(context).focus : Colors.transparent,
+        color: focused ? NuiTheme.of(context).focus : NuiColors.transparent,
         width: 2,
       ),
     ),

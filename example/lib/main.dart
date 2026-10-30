@@ -1,5 +1,4 @@
-// ignore: deprecated_member_use
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:detent_ui/detent_ui.dart';
 
 void main() => runApp(const DetentGallery());
@@ -11,7 +10,7 @@ class DetentGallery extends StatefulWidget {
 }
 
 class _DetentGalleryState extends State<DetentGallery> {
-  ThemeMode mode = ThemeMode.light;
+  NuiThemeMode mode = NuiThemeMode.light;
   bool high = false, reduced = false, riveEnabled = true;
   NuiDensity density = NuiDensity.standard;
   @override
@@ -33,9 +32,10 @@ class _DetentGalleryState extends State<DetentGallery> {
             const SizedBox(width: 24),
             NuiToggleButton(
               label: 'Dark',
-              value: mode == ThemeMode.dark,
-              onChanged: (v) =>
-                  setState(() => mode = v ? ThemeMode.dark : ThemeMode.light),
+              value: mode == NuiThemeMode.dark,
+              onChanged: (v) => setState(
+                () => mode = v ? NuiThemeMode.dark : NuiThemeMode.light,
+              ),
             ),
             NuiToggleButton(
               label: 'High contrast',
@@ -69,7 +69,7 @@ class _DetentGalleryState extends State<DetentGallery> {
           children: [
             Text('48 components'),
             Spacer(),
-            Text('Detent Design System / 0.6'),
+            Text('Detent Design System / 0.7'),
           ],
         ),
       ),
@@ -173,7 +173,10 @@ class _GalleryBodyState extends State<GalleryBody> {
           ),
         ],
       ),
-      child: height == null ? child : SizedBox(height: height, child: child),
+      child: Align(
+        alignment: Alignment.topLeft,
+        child: height == null ? child : SizedBox(height: height, child: child),
+      ),
     ),
   );
   @override
@@ -260,9 +263,11 @@ class _GalleryBodyState extends State<GalleryBody> {
                     children: [
                       NuiKeycap(label: 'Ctrl'),
                       SizedBox(width: 8),
-                      NuiKeycap(label: 'Shift'),
+                      NuiKeycap(label: 'Shift', units: 1.5),
                       SizedBox(width: 8),
                       NuiKeycap(label: 'K', pressed: true),
+                      SizedBox(width: 8),
+                      NuiKeycap(label: 'Enter', units: 2),
                     ],
                   ),
                 ),
@@ -462,11 +467,14 @@ class _GalleryBodyState extends State<GalleryBody> {
                 card(
                   24,
                   'MenuBar',
-                  NuiMenuBar(
-                    menus: [
-                      NuiMenuItem(label: 'ファイル', children: menu),
-                      NuiMenuItem(label: '編集', children: menu),
-                    ],
+                  SizedBox(
+                    width: double.infinity,
+                    child: NuiMenuBar(
+                      menus: [
+                        NuiMenuItem(label: 'ファイル', children: menu),
+                        NuiMenuItem(label: '編集', children: menu),
+                      ],
+                    ),
                   ),
                 ),
                 card(
@@ -656,8 +664,14 @@ class _GalleryBodyState extends State<GalleryBody> {
                   39,
                   'DotMatrix',
                   Container(
+                    width: double.infinity,
+                    height: 96,
+                    alignment: Alignment.centerLeft,
                     padding: const EdgeInsets.all(16),
-                    color: NuiTheme.of(context).display,
+                    decoration: BoxDecoration(
+                      color: NuiTheme.of(context).display,
+                      borderRadius: BorderRadius.circular(9),
+                    ),
                     child: NuiDotMatrix(text: '${value.round()}%'),
                   ),
                 ),
@@ -677,7 +691,7 @@ class _GalleryBodyState extends State<GalleryBody> {
                   NuiInlineAlert(
                     title: '保存できませんでした',
                     message: '保存先を確認して再試行してください。',
-                    action: TextButton(
+                    action: NuiPlainButton(
                       onPressed: notify,
                       child: const Text('再試行'),
                     ),

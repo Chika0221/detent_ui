@@ -1,7 +1,6 @@
 import 'dart:ui' show PointerDeviceKind;
 
-// ignore: deprecated_member_use
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:detent_ui/detent_ui.dart';
@@ -11,11 +10,10 @@ Future<void> host(
   Widget child, {
   NuiThemeData theme = const NuiThemeData(),
 }) => t.pumpWidget(
-  MaterialApp(
-    theme: theme.materialTheme,
+  NuiApp(
     home: NuiTheme(
       data: theme,
-      child: Scaffold(
+      child: NuiBox(
         body: Center(child: SizedBox(width: 500, child: child)),
       ),
     ),
@@ -67,13 +65,13 @@ void main() {
   testWidgets('switch tracks external controlled values', (t) async {
     bool? result;
     await host(t, NuiSwitch(value: false, onChanged: (v) => result = v));
-    await t.tap(find.byType(Switch));
+    await t.tap(find.byType(NuiSwitch));
     await t.pump();
     expect(result, true);
-    expect(t.widget<Switch>(find.byType(Switch)).value, false);
+    expect(t.widget<NuiSwitch>(find.byType(NuiSwitch)).value, false);
     await host(t, NuiSwitch(value: true, onChanged: (v) => result = v));
     await t.pump();
-    expect(t.widget<Switch>(find.byType(Switch)).value, true);
+    expect(t.widget<NuiSwitch>(find.byType(NuiSwitch)).value, true);
   });
   testWidgets('knob keyboard adjustments clamp to its range', (t) async {
     double value = 99;
@@ -116,16 +114,16 @@ void main() {
           onChanged: (v) => changed = v,
         ),
       );
-      await t.enterText(find.byType(TextField), '-');
+      await t.enterText(find.byType(EditableText), '-');
       await t.pump();
       expect(find.text('-'), findsOneWidget);
       expect(changed, null);
-      await t.enterText(find.byType(TextField), '200');
+      await t.enterText(find.byType(EditableText), '200');
       await t.testTextInput.receiveAction(TextInputAction.done);
       await t.pump();
       expect(changed, null);
       expect(find.text('-20.0〜20.0 の値を入力してください'), findsOneWidget);
-      await t.enterText(find.byType(TextField), '-12');
+      await t.enterText(find.byType(EditableText), '-12');
       await t.testTextInput.receiveAction(TextInputAction.done);
       await t.pump();
       expect(changed, -12);
@@ -246,7 +244,7 @@ void main() {
       ),
     );
     await t.pump();
-    await t.enterText(find.byType(TextField), 'Open');
+    await t.enterText(find.byType(EditableText), 'Open');
     await t.pump();
     expect(find.text('Save'), findsNothing);
     await t.testTextInput.receiveAction(TextInputAction.done);
@@ -282,7 +280,7 @@ void main() {
       const NuiProgress(),
       theme: const NuiThemeData(motion: NuiMotion.reduced),
     );
-    expect(find.byType(LinearProgressIndicator), findsNothing);
+    expect(find.byType(NuiRiveArtwork), findsNothing);
     expect(find.text('処理中'), findsOneWidget);
   });
   testWidgets('large table builds only visible rows and retains stable IDs', (

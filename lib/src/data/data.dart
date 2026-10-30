@@ -1,11 +1,12 @@
 import 'package:flutter/semantics.dart';
-// Keep compatibility with Flutter's Material re-export during SDK extraction.
-// ignore: deprecated_member_use
-import 'package:flutter/material.dart';
+
+import '../foundation/primitives.dart';
+import '../controls/controls.dart';
+import '../feedback/feedback.dart';
+
 import 'package:flutter/services.dart';
 import 'package:forui_lucide/forui_lucide.dart';
 
-import '../foundation/theme.dart';
 import '../rive/artwork.dart';
 import '../rive/skin.dart';
 
@@ -25,16 +26,28 @@ class NuiListRow extends StatelessWidget {
   final bool selected;
   final VoidCallback? onPressed;
   @override
-  Widget build(BuildContext context) => Material(
-    color: selected ? NuiTheme.of(context).surface : Colors.transparent,
-    child: ListTile(
+  Widget build(BuildContext context) => NuiSurface(
+    color: selected
+        ? NuiTheme.of(context).surface
+        : NuiTheme.of(context).raised,
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(4),
+      side: BorderSide(color: NuiTheme.of(context).border),
+    ),
+    child: NuiTile(
       dense: true,
       selected: selected,
       selectedColor: NuiTheme.of(context).ink,
       leading: leading,
       trailing: trailing,
       title: Text(label),
-      subtitle: description == null ? null : Text(description!),
+      subtitle: description == null
+          ? null
+          : Text(
+              description!,
+              style: NuiTheme.of(context).textTheme.bodySmall
+                  .copyWith(color: NuiTheme.of(context).muted),
+            ),
       onTap: onPressed,
       contentPadding: const EdgeInsets.all(8),
     ),
@@ -170,17 +183,17 @@ class _NuiTreeViewState<T> extends State<NuiTreeView<T>> {
                   border: Border.all(
                     color: Focus.of(ctx).hasFocus
                         ? NuiTheme.of(context).focus
-                        : Colors.transparent,
+                        : NuiColors.transparent,
                     width: 2,
                   ),
                 ),
                 padding: EdgeInsets.only(left: depth * 16.0),
-                child: ListTile(
+                child: NuiTile(
                   dense: true,
                   selected: widget.selected.contains(n.id),
                   leading: n.children.isEmpty
                       ? Icon(n.icon ?? FLucideIcons.file, size: 16)
-                      : IconButton(
+                      : NuiIconAction(
                           tooltip: widget.expanded.contains(n.id)
                               ? '折り畳む'
                               : '展開',
@@ -284,7 +297,7 @@ class NuiDataTable<T> extends StatelessWidget {
                     label: c.ascending == null
                         ? c.label
                         : '${c.label} ${c.ascending! ? '昇順' : '降順'}',
-                    child: TextButton(
+                    child: NuiPlainButton(
                       onPressed: c.onSort,
                       child: Row(
                         children: [
@@ -304,7 +317,7 @@ class NuiDataTable<T> extends StatelessWidget {
             ],
           ),
         ),
-        if (loading) const LinearProgressIndicator(),
+        if (loading) const NuiProgress(),
         Expanded(
           child: error != null
               ? Center(
@@ -320,12 +333,12 @@ class NuiDataTable<T> extends StatelessWidget {
                       values.length == columns.length,
                       'A cell is required for each column.',
                     );
-                    return Material(
+                    return NuiSurface(
                       key: ValueKey(id),
                       color: selected.contains(id)
                           ? t.accent.withValues(alpha: t.highContrast ? 1 : .2)
                           : t.raised,
-                      child: InkWell(
+                      child: NuiInk(
                         onTap: onSelectionChanged == null
                             ? null
                             : () => onSelectionChanged!({id}),
@@ -338,7 +351,7 @@ class NuiDataTable<T> extends StatelessWidget {
                                 if (onSelectionChanged != null)
                                   SizedBox(
                                     width: 48,
-                                    child: Checkbox(
+                                    child: NuiCheckbox(
                                       value: selected.contains(id),
                                       onChanged: (checked) {
                                         final next = {...selected};

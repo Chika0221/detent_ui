@@ -14,9 +14,9 @@ TOKENS = json.loads((ROOT / 'design_tokens.resolved.json').read_text())
 def color(role):
     return 'FF' + ''.join(f'{round(x*255):02X}' for x in TOKENS['semantic.light.color.'+role]['$value']['components'])
 COLORS = {k:color(v) for k,v in {'surfaceColor':'bg.raised','inkColor':'text.primary','accentColor':'action.primary',
-    'borderColor':'border.control','displayColor':'bg.display','focusColor':'focus.ring','inverseColor':'text.inverse'}.items()}
+    'borderColor':'border.control','displayColor':'bg.display','focusColor':'focus.ring','inverseColor':'text.inverse','lineColor':'border.subtle'}.items()}
 BOOLS = ['pressed','selected','hovered','focused','enabled','indeterminate']
-NUMBERS = ['value','secondaryValue','progress','motionScale','selectionState','taskState','width','height','centerX','centerY','position','secondaryPosition','extent','segmentWidth']
+NUMBERS = ['value','secondaryValue','progress','motionScale','selectionState','taskState','width','height','centerX','centerY','position','secondaryPosition','extent','segmentWidth','trackWidth','activeStart','activeWidth']
 ROOT_XML = Element('Rive', version='1', kind='fragment')
 COUNTER = 0
 MANIFEST = []
@@ -113,7 +113,7 @@ class Board:
         vi=el(v,'ViewModelInstance',id=self.instance,name='Default',exports=True)
         defaults={'width':self.width,'height':self.height,'centerX':self.width/2,'centerY':self.height/2,
             'value':.68,'secondaryValue':.8,'progress':.68,'motionScale':1,'position':24+.68*(self.width-48),
-            'secondaryPosition':24+.8*(self.width-48),'extent':.68*self.width,'segmentWidth':self.width/3-8}
+            'secondaryPosition':24+.8*(self.width-48),'extent':.68*self.width,'segmentWidth':self.width/3-8,'trackWidth':max(0,self.width-48),'activeStart':24,'activeWidth':max(0,self.width-48)*.68}
         for prop,pid in self.props.items():
             typ='Color' if prop in COLORS else 'Boolean' if prop in BOOLS else 'Number'
             value=COLORS[prop] if prop in COLORS else prop=='enabled' if prop in BOOLS else defaults.get(prop,0)
@@ -126,11 +126,12 @@ for name,width,height in [('Button',144,42),('FlatButton',144,42),('IconButton',
     path.set('originX','0');path.set('originY','0')
     b.bind(path,20,'width');b.bind(path,21,'height',b.mapper(-2,998,0,1000))
     b.toggle('Press','pressed',[(face,'y',0,2)],60)
-    outline,outlinepath=b.shape('Control outline',0,0,width,height-2,'borderColor',stroke=1)
-    outlinepath.set('originX','0');outlinepath.set('originY','0')
-    b.bind(outlinepath,20,'width');b.bind(outlinepath,21,'height',b.mapper(-2,998,0,1000))
-    b.node.remove(outline);b.node.insert(1,outline)
-    b.toggle('Outline press','pressed',[(outline,'y',0,2)],60)
+    if name!='FlatButton':
+        outline,outlinepath=b.shape('Control outline',0,0,width,height-2,'borderColor',stroke=1)
+        outlinepath.set('originX','0');outlinepath.set('originY','0')
+        b.bind(outlinepath,20,'width');b.bind(outlinepath,21,'height',b.mapper(-2,998,0,1000))
+        b.node.remove(outline);b.node.insert(1,outline)
+        b.toggle('Outline press','pressed',[(outline,'y',0,2)],60)
     # A restrained edge glow, rather than a scale that moves neighbouring controls.
     edge,edgepath=b.shape('Hover edge',0,0,width,height-2,'accentColor',stroke=1)
     edgepath.set('originX','0');edgepath.set('originY','0');b.bind(edgepath,20,'width');b.bind(edgepath,21,'height',b.mapper(-2,998,0,1000))
@@ -146,10 +147,11 @@ for name,width,height in [('Button',144,42),('FlatButton',144,42),('IconButton',
 for name in ['Checkbox','RadioGroup','Switch']:
     b=Board(name,48 if name=='Switch' else 24,28 if name=='Switch' else 24)
     if name=='Switch':
-        thumb,_=b.shape('Sliding thumb',13,14,16,16,'accentColor',ellipse=True)
+        thumb,_=b.shape('Sliding thumb',13,14,20,20,'inkColor',ellipse=True)
         b.toggle('Selection','selected',[(thumb,'x',13,35)],160)
         b.toggle('Press feedback','pressed',[(thumb,'scaleX',1,.9),(thumb,'scaleY',1,.9)],60)
-        b.shape('Track',24,14,44,22,'displayColor',radius=11)
+        b.shape('Track outline',24,14,48,26,'borderColor',radius=13,stroke=1)
+        b.shape('Track',24,14,48,26,'surfaceColor',radius=13)
     elif name=='Checkbox':
         check,_=b.line('Check',[(6,12),(10,16),(18,8)],'inverseColor',2)
         mixed,_=b.line('Mixed',[(6,12),(18,12)],'inverseColor',2)
@@ -158,7 +160,7 @@ for name in ['Checkbox','RadioGroup','Switch']:
         # selectionState 2 is explicitly mixed, independent of checked.
         off,on=uid(),uid();b.timeline(off,'Mixed hidden',[(mixed,'opacity',[(0,0)])]);b.timeline(on,'Mixed visible',[(mixed,'opacity',[(0,1)]),(check,'opacity',[(0,0)])])
         b.layer('Mixed state',[(off,'selectionState',0),(off,'selectionState',1),(on,'selectionState',2)],120)
-        b.shape('Control outline',12,12,20,20,'borderColor',radius=3,stroke=1)
+        b.shape('Control outline',12,12,20,20,'borderColor',radius=4,stroke=1)
     else:
         dot,_=b.shape('Selected dot',12,12,10,10,'inkColor',ellipse=True)
         b.toggle('Selection','selected',[(dot,'opacity',0,1),(dot,'scaleX',.6,1),(dot,'scaleY',.6,1)],160)
@@ -169,7 +171,14 @@ for name in ['SegmentedControl','Tabs']:
     b=Board(name,288,40)
     selection,path=b.shape('Travelling selection',48,20,88,32,'accentColor')
     b.bind(selection,13,'position',b.smooth(.16));b.bind(selection,14,'centerY')
-    b.bind(path,20,'segmentWidth');b.bind(path,21,'height',b.mapper(-8,992,0,1000))
+    b.bind(path,20,'segmentWidth');b.bind(path,21,'height',b.mapper(-10,990,0,1000))
+    if name=='SegmentedControl':
+        outline,outlinepath=b.shape('Selection outline',48,20,88,32,'borderColor',stroke=1)
+        b.bind(outline,13,'position',b.smooth(.16));b.bind(outline,14,'centerY')
+        b.bind(outlinepath,20,'segmentWidth');b.bind(outlinepath,21,'height',b.mapper(-10,990,0,1000))
+        base,basepath=b.shape('Selection base',48,22,88,32,'borderColor')
+        b.bind(base,13,'position',b.smooth(.16));b.bind(base,14,'centerY',b.mapper(2,1002,0,1000))
+        b.bind(basepath,20,'segmentWidth');b.bind(basepath,21,'height',b.mapper(-10,990,0,1000))
     if name=='Tabs':
         path.set('height','2');path.set('originY','1')
     b.finish()
@@ -180,14 +189,20 @@ b.toggle('Selection','selected',[(underline,'scaleX',0,1),(underline,'opacity',0
 b.finish()
 
 for name in ['Slider','RangeSlider']:
-    b=Board(name,240,48)
+    b=Board(name,240,64)
     for i,prop in enumerate(['position','secondaryPosition'] if name=='RangeSlider' else ['position']):
-        thumb,path=b.shape('Thumb'+str(i),24,24,12,20,'surfaceColor',radius=3)
+        thumb,path=b.shape('Thumb'+str(i),24,32,18,24,'surfaceColor',radius=4)
         b.bind(thumb,13,prop);b.bind(thumb,14,'centerY')
-        border,_=b.shape('Thumb outline'+str(i),24,24,12,20,'borderColor',radius=3,stroke=1)
+        border,_=b.shape('Thumb outline'+str(i),24,32,18,24,'borderColor',radius=4,stroke=1)
         b.bind(border,13,prop);b.bind(border,14,'centerY')
         b.toggle('Thumb press'+str(i),'pressed',[(thumb,'scaleY',1,.9),(border,'scaleY',1,.9)],60)
-    track,path=b.shape('Track',0,24,240,3,'borderColor',radius=1);path.set('originX','0');b.bind(path,20,'width');b.bind(track,14,'centerY')
+    active,path=b.shape('Active track',24,32,130,5,'inkColor',radius=2);path.set('originX','0')
+    b.bind(active,13,'activeStart');b.bind(active,14,'centerY');b.bind(path,20,'activeWidth')
+    track,path=b.shape('Track',24,32,192,5,'lineColor',radius=2);path.set('originX','0');b.bind(path,20,'trackWidth');b.bind(track,14,'centerY')
+    for j in range(21):
+        tick,_=b.shape('Tick'+str(j),24+j*192/20,52,1,8 if j%5==0 else 4,'borderColor',radius=0)
+        b.bind(tick,13,'width',b.mapper(24-48*j/20,24-48*j/20+1000*j/20,0,1000))
+        b.bind(tick,14,'centerY',b.mapper(20,1020,0,1000))
     b.finish()
 
 b=Board('RotaryKnob',96,96)
