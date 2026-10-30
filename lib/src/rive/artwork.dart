@@ -76,6 +76,7 @@ class _NuiRiveArtworkState extends State<NuiRiveArtwork>
   final colors = <String, rive.ViewModelInstanceColor>{};
   int generation = 0;
   bool started = false, visible = false, queued = false;
+  bool geometryReady = false;
   ScrollPosition? position;
   bool get foreground =>
       WidgetsBinding.instance.lifecycleState == null ||
@@ -225,6 +226,7 @@ class _NuiRiveArtworkState extends State<NuiRiveArtwork>
   }
 
   void clear() {
+    geometryReady = false;
     generation++;
     controller?.dispose();
     controller = null;
@@ -335,44 +337,57 @@ class _NuiRiveArtworkState extends State<NuiRiveArtwork>
     if (c != null && c.active != active) c.active = active;
     Widget? graphic;
     if (c != null && active) {
-      graphic = ExcludeSemantics(
-        child: IgnorePointer(
-          child: LayoutBuilder(
-            builder: (ctx, constraints) {
-              final original = Size(
-                c.artboard.widthOriginal,
-                c.artboard.heightOriginal,
-              );
-              final size = widget.resize
-                  ? Size(
-                      constraints.hasBoundedWidth
-                          ? constraints.maxWidth
-                          : original.width,
-                      constraints.hasBoundedHeight
-                          ? constraints.maxHeight
-                          : original.height,
-                    )
-                  : original;
-              if (widget.resize) {
-                if (c.artboard.width != size.width) {
-                  c.artboard.width = size.width;
+      graphic = RepaintBoundary(
+        child: ExcludeSemantics(
+          child: IgnorePointer(
+            child: LayoutBuilder(
+              builder: (ctx, constraints) {
+                final original = Size(
+                  c.artboard.widthOriginal,
+                  c.artboard.heightOriginal,
+                );
+                final size = widget.resize
+                    ? Size(
+                        constraints.hasBoundedWidth
+                            ? constraints.maxWidth
+                            : original.width,
+                        constraints.hasBoundedHeight
+                            ? constraints.maxHeight
+                            : original.height,
+                      )
+                    : original;
+                if (widget.resize) {
+                  if (c.artboard.width != size.width) {
+                    c.artboard.width = size.width;
+                  }
+                  if (c.artboard.height != size.height) {
+                    c.artboard.height = size.height;
+                  }
                 }
-                if (c.artboard.height != size.height) {
-                  c.artboard.height = size.height;
+                apply(size);
+                if (!geometryReady) {
+                  c.advance(0);
+                  if (widget.settleOnLoad) c.advance(1);
+                  geometryReady = true;
                 }
-              }
-              apply(size);
-              return rive.RiveWidget(
-                controller: c,
-                fit: widget.resize || widget.stretch
-                    ? rive.Fit.fill
-                    : rive.Fit.contain,
-              );
-            },
+                return rive.RiveWidget(
+                  controller: c,
+                  fit: widget.resize || widget.stretch
+                      ? rive.Fit.fill
+                      : rive.Fit.contain,
+                );
+              },
+            ),
           ),
         ),
       );
     }
-    return widget.builder?.call(context, graphic) ?? graphic ?? widget.fallback;
+    return widget.builder?.call(context, graphic) ??
+        graphic ??
+        TickerMode(
+          enabled:
+              visible && foreground && TickerMode.valuesOf(context).enabled,
+          child: RepaintBoundary(child: widget.fallback),
+        );
   }
 }

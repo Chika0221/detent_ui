@@ -310,4 +310,39 @@ void main() {
       expect(find.byType(NuiProgress), findsNothing);
     },
   );
+  testWidgets(
+    'offscreen fallback progress does not schedule animation frames',
+    (t) async {
+      final scroll = ScrollController();
+      addTearDown(scroll.dispose);
+      await t.pumpWidget(
+        NuiApp(
+          riveEnabled: false,
+          home: NuiBox(
+            body: SingleChildScrollView(
+              controller: scroll,
+              child: const Column(
+                children: [
+                  SizedBox(height: 1200),
+                  NuiProgress(),
+                  SizedBox(height: 300),
+                ],
+              ),
+            ),
+          ),
+        ),
+      );
+      await t.pump();
+      await t.pump();
+      expect(t.binding.transientCallbackCount, 0);
+      scroll.jumpTo(1100);
+      await t.pump();
+      await t.pump();
+      expect(t.binding.transientCallbackCount, greaterThan(0));
+      scroll.jumpTo(0);
+      await t.pump();
+      await t.pump();
+      expect(t.binding.transientCallbackCount, 0);
+    },
+  );
 }

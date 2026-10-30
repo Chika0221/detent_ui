@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:async';
 
 import 'package:flutter/widgets.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:rive/rive.dart' as rive;
@@ -319,4 +320,67 @@ void main() {
         .first;
     expect(t.getSize(paint), const Size(500, 64));
   });
+  testWidgets('Rive animation does not repaint a static neighbour', (t) async {
+    var paints = 0;
+    final ready = Completer<void>();
+    await t.pumpWidget(
+      NuiApp(
+        home: NuiBox(
+          body: Center(
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                SizedBox(
+                  width: 32,
+                  height: 32,
+                  child: NuiRiveArtwork(
+                    artboard: 'Spinner',
+                    state: const NuiSkinState(indeterminate: true),
+                    onReady: () => ready.complete(),
+                  ),
+                ),
+                _PaintProbe(
+                  onPaint: () => paints++,
+                  child: const Text('Static neighbour'),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+    await t.runAsync(() => ready.future.timeout(const Duration(seconds: 15)));
+    await t.pump();
+    await t.pump(const Duration(milliseconds: 100));
+    paints = 0;
+    for (var i = 0; i < 12; i++) {
+      await t.pump(const Duration(milliseconds: 16));
+    }
+    debugPrint(
+      'DETENT_PERF staticNeighbourPaints=$paints for 12 animated frames',
+    );
+    expect(paints, 0);
+  });
+}
+
+class _PaintProbe extends SingleChildRenderObjectWidget {
+  const _PaintProbe({required this.onPaint, required super.child});
+  final VoidCallback onPaint;
+  @override
+  RenderObject createRenderObject(BuildContext context) =>
+      _PaintCounter(onPaint);
+  @override
+  void updateRenderObject(BuildContext context, _PaintCounter renderObject) {
+    renderObject.onPaint = onPaint;
+  }
+}
+
+class _PaintCounter extends RenderProxyBox {
+  _PaintCounter(this.onPaint);
+  VoidCallback onPaint;
+  @override
+  void paint(PaintingContext context, Offset offset) {
+    onPaint();
+    super.paint(context, offset);
+  }
 }

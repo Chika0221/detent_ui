@@ -1,6 +1,8 @@
 import 'package:flutter/widgets.dart';
 import 'package:detent_ui/detent_ui.dart';
 
+import 'performance_probe.dart';
+
 void main() => runApp(const DetentGallery());
 
 class DetentGallery extends StatefulWidget {
@@ -13,6 +15,21 @@ class _DetentGalleryState extends State<DetentGallery> {
   NuiThemeMode mode = NuiThemeMode.light;
   bool high = false, reduced = false, riveEnabled = true;
   NuiDensity density = NuiDensity.standard;
+  GalleryPerformanceProbe? _performanceProbe;
+  @override
+  void initState() {
+    super.initState();
+    if (const bool.fromEnvironment('DETENT_PERF')) {
+      _performanceProbe = GalleryPerformanceProbe(() => riveEnabled);
+    }
+  }
+
+  @override
+  void dispose() {
+    _performanceProbe?.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) => NuiApp(
     title: 'Detent / Component workshop',
