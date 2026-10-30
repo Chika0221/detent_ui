@@ -1,0 +1,32 @@
+name: detent_ui
+description: Tactile desktop UI components for the Detent Design System.
+version: 0.5.0
+publish_to: none
+environment:
+  sdk: '>=3.13.0-0 <4.0.0'
+  flutter: '>=3.47.0-0'
+dependencies:
+  flutter:
+    sdk: flutter
+  forui_lucide: 0.26.1
+  intl: ^0.20.2
+  rive: 0.14.11
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+flutter:
+  assets:
+    - assets/rive/detent.riv
+    - assets/rive/manifest.json
+  fonts:
+    - family: Manrope
+      fonts:
+        - asset: assets/fonts/Manrope.ttf
+    - family: IBM Plex Sans JP
+      fonts:
+        - asset: assets/fonts/IBMPlexSansJP-Regular.ttf
+        - asset: assets/fonts/IBMPlexSansJP-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/IBMPlexSansJP-SemiBold.ttf
+          weight: 600
