@@ -113,7 +113,7 @@ void main() {
       );
       for (
         var i = 0;
-        i < 40 && find.byType(rive.RiveWidget).evaluate().length < 5;
+        i < 40 && find.byType(rive.RiveWidget).evaluate().isEmpty;
         i++
       ) {
         await t.runAsync(
@@ -121,7 +121,7 @@ void main() {
         );
         await t.pump();
       }
-      expect(find.byType(rive.RiveWidget), findsAtLeastNWidgets(5));
+      expect(find.byType(rive.RiveWidget), findsOneWidget);
       Future<void> capture(GlobalKey key, String path) async {
         await t.runAsync(() async {
           final render =

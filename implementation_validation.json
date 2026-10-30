@@ -1,5 +1,5 @@
 {
-  "implementationVersion": "0.7.0",
+  "implementationVersion": "0.8.0",
   "designVersion": "0.4",
   "date": "2026-10-30",
   "environment": {
@@ -11,9 +11,9 @@
   },
   "components": 48,
   "tokens": 271,
-  "riveArtboards": 39,
+  "riveArtboards": 7,
   "analyze": "passed; no issues",
-  "widgetAndRuntimeTests": 38,
+  "widgetAndRuntimeTests": 39,
   "galleryTests": 3,
   "galleryConfigurations": {
     "themes": [
@@ -49,17 +49,15 @@
     "Custom meter segment counts retain the existing Flutter renderer"
   ],
   "riveDefault": true,
-  "riveIntegratedComponents": 20,
+  "riveIntegratedComponents": 4,
   "motionValidation": [
-    "native component position changes over time",
-    "selection reverses during a transition",
-    "segmented selection interpolates to target",
-    "ordinary controls render actual RiveWidgets",
+    "Interactive gallery controls contain no Rive graphics with Rive enabled",
+    "Flutter switch and segmented selection interpolate and reverse mid-transition",
     "Space release fires once; Escape cancels",
-    "native focus survives reduced-motion changes",
-    "scroll visibility pauses actual controller",
-    "background lifecycle pauses actual controller",
-    "all 39 artboards decode in pinned runtime"
+    "Focus survives reduced-motion changes",
+    "Scroll visibility and background lifecycle pause actual Rive controllers",
+    "All 7 processing artboards decode and bind in the pinned runtime",
+    "Rendered processing pixels animate without changing the real value and remain stable after deactivation"
   ],
   "widgetsAppValidation": {
     "materialImports": 0,
@@ -139,5 +137,17 @@
     "browser": "local Flutter Web gallery; Rive on/off; fresh reload; popup opened",
     "automated": "37 total tests; 4 themes, 200% text, widths 1024/1440/1920; Rive/fallback occupied geometry regression"
   },
-  "performanceValidation": "performance_validation.json"
+  "performanceValidation": "performance_validation.json",
+  "motionPolicy": "Flutter interactive motion; Rive processing feedback only",
+  "riveAssetBytes": 25491,
+  "motionSplit08": {
+    "interactiveRenderer": "Flutter TweenAnimationBuilder / AnimatedContainer / AnimatedRotation / AnimatedScale / AnimatedSwitcher",
+    "processingRenderer": "Rive only for Progress, Meter, Skeleton, TaskStatus",
+    "testsPassed": 42,
+    "analyze": "No issues found",
+    "gallery": "4 themes, 200% text, 1024/1440/1920 widths; interactive control subtrees contain no NuiRiveArtwork",
+    "renderedAnimationTest": "TaskStatus, Meter and Progress pixels change while active, keep progress .68, and stop changing when deactivated",
+    "screenshotsRegenerated": true,
+    "profileTiming": "Not remeasured; performance_validation.json contains labelled 0.7 historical observations"
+  }
 }

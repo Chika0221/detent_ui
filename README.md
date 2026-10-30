@@ -1,7 +1,7 @@
 # Detent Design System
 
 Flutter デスクトップ向けの UI パッケージ。`ui_design.pen` の48部品（C01–C48）を
-`Nui` 接頭辞の Widget として実装しています。デザイン版は0.4、実装版は0.7.0です。通常の操作部品でRiveアニメーションを既定で使用します。
+`Nui` 接頭辞の Widget として実装しています。デザイン版は0.4、実装版は0.8.0です。操作アニメーションはFlutter、処理状態のアニメーションはRiveで実装しています。
 
 ## ギャラリー
 
@@ -37,15 +37,15 @@ Flutter デスクトップ向けの UI パッケージ。`ui_design.pen` の48�
 
 ![進捗・通知・エラー・タスク状態のギャラリー](example/screenshots/feedback.png)
 
-通常部品の操作面・機構はRive、文字と入力・フォーカス・読み上げはFlutterが担当します。
-ギャラリー上部の「Rive」で従来のFlutter描画と比較できます。
+ボタン・スイッチ・ノブ・選択面などの操作はFlutterで描画・アニメーションします。
+ギャラリー上部の「Rive」は処理表示だけを切り替えます。操作部の動きは変わりません。
 
 ### Riveの動き
 
-ボタンの押し込みとスイッチの切り替えを、実際の `.riv` からフレーム書き出ししたサンプルです。
-通常の部品では、この描画にFlutterの文字・入力・キーボード操作が重なります。
+Progress・ライブMeter・処理中のTaskStatus・Skeletonを、実際の `.riv` から書き出したサンプルです。
+メーターと進捗の値は固定し、処理中の光・ドット・掃引だけを動かしています。
 
-![Riveによるボタン押下とスイッチ切り替えのアニメーション](example/screenshots/rive-motion.gif)
+![Riveによる進捗・メーター・タスク・Skeletonのアニメーション](example/screenshots/rive-motion.gif)
 
 選択面・輪郭・底面をまとめて動かす SegmentedControl。実際の Widget を撮影し、途中で方向を反転させています。
 
@@ -144,62 +144,63 @@ Select はホストが値を管理する選択専用、ComboBox は文字入力�
 ```sh
 cd example
 flutter pub get
-flutter create --platforms=linux,macos,windows .
 flutter run -d linux
 ```
 
-プラットフォームのランナーは実行するホストOSで生成してください。
+Linux / macOS / Windows と Android / iOS の生成済みランナーを同梱しています。
+対応方針はデスクトップ向けです。各OSでのビルド・実機動作とモバイル向けレイアウトは未検証です。
 ATELIER-STUDIO側の既存UIの置き換えは行っていません。
 
 ## Rive
 
 `assets/rive/detent.riv` はRive CLI 1.8.0で生成した、スクリプトなしのランタイムファイルです。
 編集可能な制作ソースは `rive/detent/scene.rml`、プロパティとアニメーションの一覧は `assets/rive/manifest.json` にあります。
-39アートボードに、機構・進捗・状態アイコン・15種の数字／記号を収録しています。
+処理表示専用の7アートボード（Progress / CircularProgress / Spinner / Meter / TaskStatus / TaskGlyph / Skeleton）を収録しています。
+操作部向けのアートボードは同梱せず、ファイルは25,491 bytesです（旧95,786 bytesから約73%削減）。
 
-| 部品 | Riveの役割 |
+| 部品 | アニメーションの実装 |
 |---|---|
-| Button / IconButton / ToggleButton / Keycap | 押下60ms・復帰120ms、hover輪郭90ms。ラベルはFlutter側で保持 |
-| Checkbox / RadioGroup / Switch | 選択120–160ms、mixed状態、スイッチのつまみ移動、押下フィードバック |
-| SegmentedControl / Tabs | 選択面は220msのスライド・途中反転、タブの選択下線 |
-| Slider / RangeSlider / RotaryKnob | 実際の値へ即時追従、操作中のつまみの反応 |
-| Progress / Button loading | 実進捗、進捗不明時だけ動く帯・回転弧 |
-| DotMatrix | 可変の数字・小数点・%等をDigitアートボードで構成、字形の出現 |
-| Meter / TaskStatus | 実値に同期する標準32本のバーと、待機・処理中・成功・失敗・取り消しの機構 |
-| InlineAlert / EmptyState / Skeleton / TreeView | 状態アイコン、空状態の初回表示、読み込み中の掃引、展開矢印 |
+| Button / IconButton / ToggleButton / Keycap | Flutter。押下60ms・復帰120ms、hover色の遷移 |
+| Checkbox / RadioGroup / Switch | Flutter。選択120–160ms、スイッチのつまみ移動と途中反転 |
+| SegmentedControl / Tabs | Flutter。選択面の220msスライド・途中反転、下線の遷移 |
+| Slider / RangeSlider / RotaryKnob | Flutter。実値へ即時追従、操作中のつまみの反応 |
+| TreeView / DotMatrix / InlineAlert / EmptyState | Flutter。展開矢印の回転、数字・状態の切り替え |
+| Progress / Button loading | Rive。実進捗の光、不明時の流れる帯・回転弧。ボタンの操作面はFlutter |
+| Meter | Rive。実値に同期する32本のバーに光の脈動。`active: false` で静止 |
+| TaskStatus | Rive。処理中／キャンセル中のドット波、完了アイコン。完了後のループなし |
+| Skeleton | Rive。読み込み中の掃引 |
 
-追加の初期化なしで `NuiApp` / `NuiThemeData` の `riveEnabled: true` が既定です。
-Flutter描画へ切り替えるには `NuiApp(riveEnabled: false, home: ...)`、
-既存アプリの一部なら `data.copyWith(riveEnabled: false)` を指定します。
+`NuiApp` / `NuiThemeData` は `riveEnabled: true` が既定です。
+`NuiApp(riveEnabled: false, home: ...)` で処理表示もFlutterの代替描画に切り替えます。
+通常の操作部はこの設定によらずRiveの読み込み・コントローラー生成を行いません。
 
-Flutterは値・イベント・編集・Focus・Semanticsを保持します。Riveが読み込まれても、
-ネイティブ入力の同じelementを保ち、描画だけを切り替えます。アニメーション終了を待たずホストへ通知し、
-切り替え途中の反転にも対応します。通常ボタンはSpace / Enterを離した時点で確定し、Escapeで中止できます。
+Flutterは値・イベント・編集・Focus・Semanticsを管理します。操作の結果はアニメーションの終了を待たず通知されます。
+通常ボタンはSpace / Enterを離した時点で確定し、Escapeで中止できます。
 
-高コントラスト、reduced motion、Rive無効化、読み込み失敗ではFlutter描画へフォールバックします。
-ファイルは使用中共有し、controller / view model / bindingは各部品で分離・破棄します。
-画面外・TickerMode無効・バックグラウンドではRiveを停止し、復帰時に現在の値を反映します。
-待機・完了したタスクでは回転せず、メーターは架空の値を生成しません。
+高コントラスト、reduced motion、Rive無効化、読み込み失敗では処理表示をFlutter描画へ切り替えます。
+Riveファイルは使用中共有し、controller / view model / bindingは各表示で分離・破棄します。
+画面外・TickerMode無効・バックグラウンドでは停止し、復帰時に現在の値を反映します。
+進捗率とメーターは実データを保ち、演出で架空の値を生成しません。
+進捗未取得のTaskStatusは率を表示せずドットの波で活動を伝え、待機・完了後は静止します。
 
-独自の描画にも `NuiRiveArtwork` を利用できます。描画はIgnorePointer / ExcludeSemantics付きで、
-ラベルや操作はホスト側に用意してください。
+独自の処理表示にも `NuiRiveArtwork` を利用できます。描画はIgnorePointer / ExcludeSemantics付きで、
+ラベルはホスト側に用意してください。
 
 ```dart
 SizedBox(
-  width: 96, height: 96,
+  width: 32, height: 32,
   child: NuiRiveArtwork(
-    artboard: 'RotaryKnob',
-    state: NuiSkinState(value: zoom / 100),
-    fallback: Icon(FLucideIcons.circle),
+    artboard: 'Spinner',
+    state: NuiSkinState(progress: .25, indeterminate: true),
+    fallback: SizedBox.shrink(),
   ),
 )
 ```
 
-`pressed` / `selected` / `hovered` / `focused` / `enabled` は真偽値、
-`value` / `secondaryValue` / `progress` は0…1です。mixedは `selectionState: 2`、
+`progress` は0…1、`indeterminate` は処理中のループ、Progressの `taskState: 1` は実進捗の光です。
 `TaskGlyph` の `taskState` はidle=0 / running=1 / success=2 / error=3 / canceled=4 / canceling=5。
-操作面の寸法と色はFlutterから供給し、文字数や密度が変わっても角丸や押下量を引き伸ばしません。
 メーターのバー本数を標準32以外に指定した場合は、指定本数のFlutter描画を保持します。
+0.7からの移行では、独自の `NuiRiveArtwork` に操作部のアートボード名を指定していた箇所を通常のWidgetへ変更してください。
 
 `rive` runtimeは0.14.11に固定。Linuxの初回テスト前は `dart run rive_native:setup --platform linux` を実行します。
 
@@ -225,7 +226,7 @@ flutter test example/test/gallery_test.dart
 ```
 
 テスト範囲: 押下cancel・二重発火抑制・外部値更新・キーボード・数値制約・通知タイマー・
-表の遅延構築・メニュー終了・Rive障害時代替・39アートボードの実runtime読込とdata binding、実際の機構移動・途中反転・画面外／背景停止・フォーカス維持。
+表の遅延構築・メニュー終了・Rive障害時代替・7アートボードの実runtime読込とdata binding、Flutter操作部の移動・途中反転・画面外／背景停止・フォーカス維持。
 ギャラリーは4テーマと文字200%、幅1024 / 1440 / 1920を確認します。
 OS実機のIME・スクリーンリーダー・DPI・性能測定は別途必要で、Verified認定ではありません。
 

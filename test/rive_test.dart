@@ -17,6 +17,18 @@ void main() {
       final manifest = jsonDecode(
         await File('assets/rive/manifest.json').readAsString(),
       ) as Map<String, dynamic>;
+      expect(
+        (manifest['skins'] as List).map((skin) => skin['artboard']),
+        unorderedEquals([
+          'Progress',
+          'CircularProgress',
+          'Spinner',
+          'Meter',
+          'TaskStatus',
+          'TaskGlyph',
+          'Skeleton',
+        ]),
+      );
       for (final skin in manifest['skins'] as List) {
         final controller = rive.RiveWidgetController(
           file!,

@@ -4,11 +4,9 @@ import '../foundation/primitives.dart';
 import '../inputs/inputs.dart';
 
 import 'package:flutter/services.dart';
-import 'package:forui_lucide/forui_lucide.dart';
 
-import '../rive/artwork.dart';
-import '../rive/skin.dart';
-import '../rive/control_skin.dart';
+import '../feedback/feedback.dart';
+import 'control_skin.dart';
 
 enum NuiButtonVariant { primary, secondary, quiet, danger }
 
@@ -146,17 +144,10 @@ class _NuiButtonState extends State<NuiButton> {
                             if (widget.loading)
                               SizedBox.square(
                                 dimension: 16,
-                                child: NuiRiveArtwork(
-                                  artboard: 'Spinner',
-                                  state: NuiSkinState(
-                                    indeterminate: true,
-                                    progress: .24,
-                                    inkColor: fg,
-                                  ),
-                                  fallback: const Icon(
-                                    FLucideIcons.loader,
-                                    semanticLabel: '処理中',
-                                  ),
+                                child: NuiProgress(
+                                  variant: NuiProgressVariant.circular,
+                                  color: fg,
+                                  label: '処理中',
                                 ),
                               ),
                           ],
@@ -247,22 +238,7 @@ class _NuiButtonState extends State<NuiButton> {
                 child: Stack(
                   alignment: Alignment.center,
                   children: [
-                    Positioned.fill(
-                      child: NuiRiveArtwork(
-                        artboard: widget.variant == NuiButtonVariant.quiet
-                            ? 'FlatButton'
-                            : 'Button',
-                        resize: true,
-                        state: NuiSkinState(
-                          pressed: pressed,
-                          hovered: hovered,
-                          focused: focused,
-                          enabled: enabled,
-                          surfaceColor: bg,
-                        ),
-                        fallback: fallback,
-                      ),
-                    ),
+                    Positioned.fill(child: fallback),
                     content,
                   ],
                 ),
@@ -362,36 +338,39 @@ class NuiKeycap extends StatelessWidget {
         child: Stack(
           children: [
             Positioned.fill(
-              child: NuiRiveArtwork(
-                artboard: 'Keycap',
-                resize: true,
-                state: NuiSkinState(pressed: pressed, surfaceColor: bg),
-                fallback: Stack(
-                  children: [
-                    Positioned.fill(
-                      top: 2,
-                      child: DecoratedBox(
+              child: Stack(
+                children: [
+                  Positioned.fill(
+                    top: 2,
+                    child: DecoratedBox(
+                      decoration: BoxDecoration(
+                        color: t.controlBorder,
+                        borderRadius: BorderRadius.circular(6),
+                      ),
+                    ),
+                  ),
+                  Positioned.fill(
+                    bottom: 2,
+                    child: AnimatedContainer(
+                      duration: t.duration(context, pressed ? 60 : 120),
+                      curve: const Cubic(.2, 0, .2, 1),
+                      transform: Matrix4.translationValues(
+                        0,
+                        pressed ? 2 : 0,
+                        0,
+                      ),
+                      child: AnimatedContainer(
+                        duration: t.duration(context, 120),
+                        curve: const Cubic(.2, 0, .2, 1),
                         decoration: BoxDecoration(
-                          color: t.controlBorder,
+                          color: bg,
+                          border: Border.all(color: t.controlBorder),
                           borderRadius: BorderRadius.circular(6),
                         ),
                       ),
                     ),
-                    Positioned.fill(
-                      bottom: 2,
-                      child: Transform.translate(
-                        offset: Offset(0, pressed ? 2 : 0),
-                        child: DecoratedBox(
-                          decoration: BoxDecoration(
-                            color: bg,
-                            border: Border.all(color: t.controlBorder),
-                            borderRadius: BorderRadius.circular(6),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
             Positioned.fill(
@@ -470,9 +449,9 @@ class _NuiSegmentedControlState<T> extends State<NuiSegmentedControl<T>> {
       child: Padding(
         padding: const EdgeInsets.all(8),
         child: NuiControlSkin(
-          artboard: 'SegmentedControl',
+          mechanism: 'SegmentedControl',
           resize: true,
-          state: NuiSkinState(
+          state: NuiControlState(
             value: w.options.length < 2
                 ? 0
                 : w.options.indexWhere((o) => o.value == w.value) /
@@ -610,9 +589,9 @@ class NuiCheckbox extends StatelessWidget {
             focusNode: focusNode,
             onTap: onChanged == null ? null : toggle,
             child: NuiControlSkin(
-              artboard: 'Checkbox',
+              mechanism: 'Checkbox',
               visualSize: const Size(24, 24),
-              state: NuiSkinState(
+              state: NuiControlState(
                 selected: value != false,
                 selectionState: value == null
                     ? 2
@@ -708,9 +687,9 @@ class _NuiRadioGroupState<T> extends State<NuiRadioGroup<T>> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     NuiControlSkin(
-                      artboard: 'RadioGroup',
+                      mechanism: 'RadioGroup',
                       visualSize: const Size(24, 24),
-                      state: NuiSkinState(
+                      state: NuiControlState(
                         selected: w.value == o.value,
                         enabled: w.onChanged != null && o.enabled,
                       ),
@@ -753,18 +732,9 @@ class NuiSwitch extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           NuiControlSkin(
-            artboard: 'Switch',
+            mechanism: 'Switch',
             visualSize: const Size(48, 28),
-            state: NuiSkinState(
-              selected: value,
-              enabled: onChanged != null,
-              surfaceColor: value
-                  ? NuiTheme.of(context).display
-                  : NuiTheme.of(context).border,
-              inkColor: value
-                  ? NuiTheme.of(context).accent
-                  : NuiTheme.of(context).raised,
-            ),
+            state: NuiControlState(selected: value, enabled: onChanged != null),
             inputBuilder: (_, _) => const SizedBox(width: 56, height: 40),
           ),
           if (label != null) ...[
@@ -916,9 +886,9 @@ class _NuiSliderState extends State<NuiSlider> {
                     ? null
                     : (e) => point(e.localPosition),
                 child: NuiControlSkin(
-                  artboard: 'Slider',
+                  mechanism: 'Slider',
                   resize: true,
-                  state: NuiSkinState(
+                  state: NuiControlState(
                     value: w.max == w.min
                         ? 0
                         : (w.value - w.min) / (w.max - w.min),
@@ -1051,9 +1021,9 @@ class _NuiRangeSliderState extends State<NuiRangeSlider> {
                     ? null
                     : (e) => change(value(e.localPosition), start),
                 child: NuiControlSkin(
-                  artboard: 'RangeSlider',
+                  mechanism: 'RangeSlider',
                   resize: true,
-                  state: NuiSkinState(
+                  state: NuiControlState(
                     value: w.max == w.min
                         ? 0
                         : (w.values.start - w.min) / (w.max - w.min),
@@ -1181,15 +1151,11 @@ class _NuiRotaryKnobState extends State<NuiRotaryKnob> {
               child: Stack(
                 children: [
                   Positioned.fill(
-                    child: NuiRiveArtwork(
-                      artboard: 'RotaryKnob',
-                      state: NuiSkinState(
-                        value: fraction,
-                        focused: focused,
-                        pressed: dragging,
-                        enabled: w.onChanged != null,
-                      ),
-                      fallback: CustomPaint(painter: _KnobPainter(t, fraction)),
+                    child: AnimatedScale(
+                      scale: dragging ? .98 : 1,
+                      duration: t.duration(context, dragging ? 60 : 120),
+                      curve: const Cubic(.2, 0, .2, 1),
+                      child: CustomPaint(painter: _KnobPainter(t, fraction)),
                     ),
                   ),
                   Center(
