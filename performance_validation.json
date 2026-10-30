@@ -41,5 +41,13 @@
     "Local intervals are not a controlled cross-device benchmark",
     "Rive-on view contains an intentionally looping loading indicator",
     "Profile app code is separate from debug preview; use matched modes for comparisons"
-  ]
+  ],
+  "measurementVersion": "0.7.0; historical profile observations before the 0.8 motion split",
+  "motionSplit08": {
+    "interactiveRiveControllers": 0,
+    "processingArtboards": 7,
+    "previousAssetBytes": 95786,
+    "currentAssetBytes": 25491,
+    "note": "Architectural and asset-size change; new profile timings not measured"
+  }
 }
