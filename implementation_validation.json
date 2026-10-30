@@ -1,5 +1,5 @@
 {
-  "implementationVersion": "0.5.0",
+  "implementationVersion": "0.6.0",
   "designVersion": "0.4",
   "date": "2026-10-30",
   "environment": {
@@ -11,9 +11,9 @@
   },
   "components": 48,
   "tokens": 271,
-  "riveArtboards": 16,
+  "riveArtboards": 39,
   "analyze": "passed; no issues",
-  "widgetAndRuntimeTests": 16,
+  "widgetAndRuntimeTests": 21,
   "galleryTests": 2,
   "galleryConfigurations": {
     "themes": [
@@ -34,11 +34,25 @@
     "example/screenshots/light.png",
     "example/screenshots/dark.png",
     "example/screenshots/workspace.png",
-    "example/screenshots/feedback.png"
+    "example/screenshots/feedback.png",
+    "example/screenshots/rive-motion.gif"
   ],
   "limitations": [
-    "No OS-device IME, screen reader, DPI or profile performance certification",
-    "Rive artwork is opt-in decoration; Flutter widgets own interaction",
-    "Rive DotMatrix is a fixed 68% sample; NuiDotMatrix supports dynamic numbers"
+    "OS-device IME, screen reader, DPI and profile performance certification not performed",
+    "Rive keeps text, focus, semantics and business actions in Flutter",
+    "Custom meter segment counts retain the existing Flutter renderer"
+  ],
+  "riveDefault": true,
+  "riveIntegratedComponents": 21,
+  "motionValidation": [
+    "native component position changes over time",
+    "selection reverses during a transition",
+    "segmented selection interpolates to target",
+    "ordinary controls render actual RiveWidgets",
+    "Space release fires once; Escape cancels",
+    "native focus survives reduced-motion changes",
+    "scroll visibility pauses actual controller",
+    "background lifecycle pauses actual controller",
+    "all 39 artboards decode in pinned runtime"
   ]
 }

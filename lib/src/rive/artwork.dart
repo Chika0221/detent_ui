@@ -1,37 +1,53 @@
+import 'dart:math' as math;
+
 import 'package:flutter/widgets.dart';
 import 'package:rive/rive.dart' as rive;
 
 import '../foundation/theme.dart';
 import 'skin.dart';
 
-/// Renders bundled script-free artboards, with input and semantics in Flutter.
-/// Failure, high contrast and reduced motion preserve [fallback].
+typedef NuiRiveVisualBuilder = Widget Function(
+  BuildContext context,
+  Widget? graphic,
+);
+
+/// Script-free Rive graphics. Native inputs can use [builder] to change paint
+/// without replacing their focus/gesture/semantics element when assets load.
 class NuiRiveArtwork extends StatefulWidget {
   const NuiRiveArtwork({
     super.key,
     required this.artboard,
-    required this.fallback,
+    this.fallback = const SizedBox.shrink(),
     this.state = const NuiSkinState(),
     this.asset = 'packages/detent_ui/assets/rive/detent.riv',
     this.onError,
+    this.onReady,
+    this.builder,
+    this.resize = false,
+    this.stretch = false,
+    this.settleOnLoad = true,
   });
   final String artboard, asset;
   final Widget fallback;
   final NuiSkinState state;
   final ValueChanged<Object>? onError;
+  final VoidCallback? onReady;
+  final NuiRiveVisualBuilder? builder;
+
+  /// Resize the authored canvas and bind pixel dimensions, preserving corners.
+  final bool resize, stretch, settleOnLoad;
   @override
   State<NuiRiveArtwork> createState() => _NuiRiveArtworkState();
 }
 
-/// Files are parsed once while in use; controllers and view models are per widget.
 class _RiveAsset {
   _RiveAsset(this.path)
     : future = rive.File.asset(path, riveFactory: rive.Factory.flutter);
   static final assets = <String, _RiveAsset>{};
   static _RiveAsset acquire(String path) {
-    final entry = assets.putIfAbsent(path, () => _RiveAsset(path));
-    entry.users++;
-    return entry;
+    final a = assets.putIfAbsent(path, () => _RiveAsset(path));
+    a.users++;
+    return a;
   }
 
   final String path;
@@ -40,11 +56,12 @@ class _RiveAsset {
   void release() {
     if (--users != 0) return;
     assets.remove(path);
-    future.then((file) => file?.dispose(), onError: (Object _) {});
+    future.then((f) => f?.dispose(), onError: (Object _) {});
   }
 }
 
-class _NuiRiveArtworkState extends State<NuiRiveArtwork> {
+class _NuiRiveArtworkState extends State<NuiRiveArtwork>
+    with WidgetsBindingObserver {
   _RiveAsset? lease;
   rive.RiveWidgetController? controller;
   rive.ViewModelInstance? instance;
@@ -52,15 +69,78 @@ class _NuiRiveArtworkState extends State<NuiRiveArtwork> {
   final numbers = <String, rive.ViewModelInstanceNumber>{};
   final colors = <String, rive.ViewModelInstanceColor>{};
   int generation = 0;
-  bool started = false;
+  bool started = false, visible = false, queued = false;
+  ScrollPosition? position;
+  bool get foreground =>
+      WidgetsBinding.instance.lifecycleState == null ||
+      WidgetsBinding.instance.lifecycleState == AppLifecycleState.resumed;
+  bool policy(BuildContext context) {
+    final t = NuiTheme.of(context);
+    return t.riveEnabled &&
+        !t.highContrast &&
+        !t.reduceMotion(context) &&
+        TickerMode.valuesOf(context).enabled;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    final t = NuiTheme.of(context);
-    if (!started && !t.highContrast && !t.reduceMotion(context)) {
-      started = true;
-      load();
+    final next = Scrollable.maybeOf(context)?.position;
+    if (next != position) {
+      position?.removeListener(scheduleVisibility);
+      position = next;
+      position?.addListener(scheduleVisibility);
     }
+    scheduleVisibility();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state != AppLifecycleState.resumed) {
+      controller?.active = false;
+    }
+    scheduleVisibility();
+  }
+
+  void scheduleVisibility() {
+    if (queued) return;
+    queued = true;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      queued = false;
+      if (!mounted) return;
+      final box = context.findRenderObject();
+      var inView = false;
+      if (box is RenderBox && box.attached && box.hasSize) {
+        final rect = box.localToGlobal(Offset.zero) & box.size;
+        var viewport = Offset.zero & MediaQuery.sizeOf(context);
+        final scrollBox = Scrollable.maybeOf(context)?.context
+            .findRenderObject();
+        if (scrollBox is RenderBox && scrollBox.attached && scrollBox.hasSize) {
+          viewport = viewport.intersect(
+            scrollBox.localToGlobal(Offset.zero) & scrollBox.size,
+          );
+        }
+        inView = rect.overlaps(viewport);
+      }
+      if (visible != inView) {
+        setState(() => visible = inView);
+      }
+      if (inView && foreground && policy(context) && !started) {
+        started = true;
+        load();
+      }
+      final c = controller;
+      if (c != null) {
+        final active = inView && foreground && policy(context);
+        if (c.active != active) c.active = active;
+      }
+    });
   }
 
   Future<void> load() async {
@@ -78,36 +158,54 @@ class _NuiRiveArtworkState extends State<NuiRiveArtwork> {
       controller = c;
       final v = c.dataBind(rive.DataBind.auto());
       instance = v;
-      for (final key in [
+      for (final k in [
         'pressed',
         'selected',
         'hovered',
         'focused',
         'enabled',
+        'indeterminate',
       ]) {
-        final property = v.boolean(key);
-        if (property != null) booleans[key] = property;
+        final p = v.boolean(k);
+        if (p != null) booleans[k] = p;
       }
-      for (final key in [
+      for (final k in [
         'value',
         'secondaryValue',
         'progress',
         'motionScale',
+        'selectionState',
+        'taskState',
+        'width',
+        'height',
+        'centerX',
+        'centerY',
+        'position',
+        'secondaryPosition',
+        'extent',
+        'segmentWidth',
       ]) {
-        final property = v.number(key);
-        if (property != null) numbers[key] = property;
+        final p = v.number(k);
+        if (p != null) numbers[k] = p;
       }
-      for (final key in [
+      for (final k in [
         'surfaceColor',
         'inkColor',
         'accentColor',
         'borderColor',
         'displayColor',
+        'focusColor',
+        'inverseColor',
       ]) {
-        final property = v.color(key);
-        if (property != null) colors[key] = property;
+        final p = v.color(k);
+        if (p != null) colors[k] = p;
       }
+      apply(Size(c.artboard.widthOriginal, c.artboard.heightOriginal));
+      c.advance(0);
+      if (widget.settleOnLoad) c.advance(1);
       setState(() {});
+      widget.onReady?.call();
+      scheduleVisibility();
     } catch (e) {
       if (mounted && token == generation) {
         clear();
@@ -138,67 +236,123 @@ class _NuiRiveArtworkState extends State<NuiRiveArtwork> {
     lease = null;
   }
 
-  @override
-  void didUpdateWidget(NuiRiveArtwork old) {
-    super.didUpdateWidget(old);
-    if (old.asset != widget.asset || old.artboard != widget.artboard) {
-      clear();
-      started = false;
-      final t = NuiTheme.of(context);
-      if (!t.highContrast && !t.reduceMotion(context)) {
-        started = true;
-        load();
-      }
-    }
-  }
-
-  @override
-  void dispose() {
-    clear();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
+  void apply(Size size) {
     final t = NuiTheme.of(context), s = widget.state;
-    final active =
-        !t.highContrast &&
-        !t.reduceMotion(context) &&
-        TickerMode.valuesOf(context).enabled;
-    if (controller != null && controller!.active != active) {
-      controller!.active = active;
-    }
-    if (controller == null || !active) return widget.fallback;
+    final width = size.width, height = size.height;
+    final segmented =
+        widget.artboard == 'SegmentedControl' || widget.artboard == 'Tabs';
+    final count = math.max(1, s.selectionCount), segmentWidth = width / count;
+    final trackWidth = math.max(0, width - 48);
     for (final e in {
       'pressed': s.pressed,
       'selected': s.selected,
       'hovered': s.hovered,
       'focused': s.focused,
       'enabled': s.enabled,
+      'indeterminate': s.indeterminate,
     }.entries) {
-      booleans[e.key]?.value = e.value;
+      final p = booleans[e.key];
+      if (p != null && p.value != e.value) p.value = e.value;
     }
     for (final e in {
       'value': s.value,
       'secondaryValue': s.secondaryValue,
       'progress': s.progress,
       'motionScale': s.motionScale,
+      'selectionState': s.selectionState,
+      'taskState': s.taskState,
+      'width': width,
+      'height': height,
+      'centerX': width / 2,
+      'centerY': height / 2,
+      'position': segmented
+          ? segmentWidth / 2 +
+                s.value.clamp(0.0, 1.0) * math.max(0, width - segmentWidth)
+          : 24 + s.value.clamp(0.0, 1.0) * trackWidth,
+      'secondaryPosition': 24 + s.secondaryValue.clamp(0.0, 1.0) * trackWidth,
+      'extent': s.progress.clamp(0.0, 1.0) * width,
+      'segmentWidth': math.max(0, segmentWidth - 8),
     }.entries) {
-      numbers[e.key]?.value = e.value;
+      final p = numbers[e.key];
+      if (p != null && p.value != e.value) p.value = e.value.toDouble();
     }
     for (final e in {
-      'surfaceColor': t.raised,
-      'inkColor': t.ink,
-      'accentColor': t.accent,
+      'surfaceColor': s.surfaceColor ?? t.raised,
+      'inkColor': s.inkColor ?? t.ink,
+      'accentColor': s.accentColor ?? t.accent,
       'borderColor': t.controlBorder,
       'displayColor': t.display,
+      'focusColor': t.focus,
+      'inverseColor': t.inverse,
     }.entries) {
-      colors[e.key]?.value = e.value;
+      final p = colors[e.key];
+      if (p != null && p.value != e.value) p.value = e.value;
     }
-    return ExcludeSemantics(
-      child: IgnorePointer(
-        child: rive.RiveWidget(controller: controller!, fit: rive.Fit.contain),
-      ),
-    );
+  }
+
+  @override
+  void didUpdateWidget(NuiRiveArtwork old) {
+    super.didUpdateWidget(old);
+    if (old.asset != widget.asset || old.artboard != widget.artboard) {
+      clear();
+      started = false;
+      scheduleVisibility();
+    }
+  }
+
+  @override
+  void dispose() {
+    position?.removeListener(scheduleVisibility);
+    WidgetsBinding.instance.removeObserver(this);
+    clear();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final active = visible && foreground && policy(context);
+    final c = controller;
+    if (c != null && c.active != active) c.active = active;
+    Widget? graphic;
+    if (c != null && active) {
+      graphic = ExcludeSemantics(
+        child: IgnorePointer(
+          child: LayoutBuilder(
+            builder: (ctx, constraints) {
+              final original = Size(
+                c.artboard.widthOriginal,
+                c.artboard.heightOriginal,
+              );
+              final size = widget.resize
+                  ? Size(
+                      constraints.hasBoundedWidth
+                          ? constraints.maxWidth
+                          : original.width,
+                      constraints.hasBoundedHeight
+                          ? constraints.maxHeight
+                          : original.height,
+                    )
+                  : original;
+              if (widget.resize) {
+                if (c.artboard.width != size.width) {
+                  c.artboard.width = size.width;
+                }
+                if (c.artboard.height != size.height) {
+                  c.artboard.height = size.height;
+                }
+              }
+              apply(size);
+              return rive.RiveWidget(
+                controller: c,
+                fit: widget.resize || widget.stretch
+                    ? rive.Fit.fill
+                    : rive.Fit.contain,
+              );
+            },
+          ),
+        ),
+      );
+    }
+    return widget.builder?.call(context, graphic) ?? graphic ?? widget.fallback;
   }
 }

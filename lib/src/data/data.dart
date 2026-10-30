@@ -6,6 +6,8 @@ import 'package:flutter/services.dart';
 import 'package:forui_lucide/forui_lucide.dart';
 
 import '../foundation/theme.dart';
+import '../rive/artwork.dart';
+import '../rive/skin.dart';
 
 class NuiListRow extends StatelessWidget {
   const NuiListRow({
@@ -182,11 +184,20 @@ class _NuiTreeViewState<T> extends State<NuiTreeView<T>> {
                           tooltip: widget.expanded.contains(n.id)
                               ? '折り畳む'
                               : '展開',
-                          icon: Icon(
-                            widget.expanded.contains(n.id)
-                                ? FLucideIcons.chevronDown
-                                : FLucideIcons.chevronRight,
-                            size: 16,
+                          icon: SizedBox.square(
+                            dimension: 16,
+                            child: NuiRiveArtwork(
+                              artboard: 'Chevron',
+                              state: NuiSkinState(
+                                selected: widget.expanded.contains(n.id),
+                              ),
+                              fallback: Icon(
+                                widget.expanded.contains(n.id)
+                                    ? FLucideIcons.chevronDown
+                                    : FLucideIcons.chevronRight,
+                                size: 16,
+                              ),
+                            ),
                           ),
                           onPressed: () =>
                               toggle(n, !widget.expanded.contains(n.id)),

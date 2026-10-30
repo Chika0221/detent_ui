@@ -15,11 +15,13 @@ class NuiThemeData {
     this.highContrast = false,
     this.density = NuiDensity.standard,
     this.motion = NuiMotion.system,
+    this.riveEnabled = true,
   });
   final Brightness brightness;
   final bool highContrast;
   final NuiDensity density;
   final NuiMotion motion;
+  final bool riveEnabled;
   bool get dark => brightness == Brightness.dark;
   double get controlHeight => switch (density) {
     NuiDensity.compact => NuiTokens.density_compact_controlHeight,
@@ -53,11 +55,13 @@ class NuiThemeData {
     bool? highContrast,
     NuiDensity? density,
     NuiMotion? motion,
+    bool? riveEnabled,
   }) => NuiThemeData(
     brightness: brightness ?? this.brightness,
     highContrast: highContrast ?? this.highContrast,
     density: density ?? this.density,
     motion: motion ?? this.motion,
+    riveEnabled: riveEnabled ?? this.riveEnabled,
   );
   ThemeData get materialTheme {
     final scheme =
@@ -194,6 +198,7 @@ class NuiApp extends StatelessWidget {
     this.themeMode = ThemeMode.system,
     this.density = NuiDensity.standard,
     this.motion = NuiMotion.system,
+    this.riveEnabled = true,
     this.highContrast,
     this.title = 'Detent',
   });
@@ -201,6 +206,7 @@ class NuiApp extends StatelessWidget {
   final ThemeMode themeMode;
   final NuiDensity density;
   final NuiMotion motion;
+  final bool riveEnabled;
   final bool? highContrast;
   final String title;
   @override
@@ -208,6 +214,9 @@ class NuiApp extends StatelessWidget {
     title: title,
     debugShowCheckedModeBanner: false,
     themeMode: themeMode,
+    themeAnimationDuration: motion == NuiMotion.reduced
+        ? Duration.zero
+        : const Duration(milliseconds: 200),
     theme: NuiThemeData(density: density).materialTheme,
     darkTheme: NuiThemeData(
       brightness: Brightness.dark,
@@ -219,6 +228,7 @@ class NuiApp extends StatelessWidget {
         highContrast: highContrast ?? MediaQuery.highContrastOf(context),
         density: density,
         motion: motion,
+        riveEnabled: riveEnabled,
       );
       return NuiTheme(
         data: data,

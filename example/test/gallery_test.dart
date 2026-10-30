@@ -87,6 +87,11 @@ void main() {
       expect(t.takeException(), isNull, reason: 'width=$width');
       if (width == 1440) {
         Future<void> capture(String name) async {
+          await t.runAsync(
+            () => Future<void>.delayed(const Duration(milliseconds: 100)),
+          );
+          await t.pump();
+          await t.pump(const Duration(milliseconds: 400));
           await t.runAsync(() async {
             final render =
                 boundary.currentContext!.findRenderObject()!

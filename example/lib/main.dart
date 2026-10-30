@@ -12,7 +12,7 @@ class DetentGallery extends StatefulWidget {
 
 class _DetentGalleryState extends State<DetentGallery> {
   ThemeMode mode = ThemeMode.light;
-  bool high = false, reduced = false;
+  bool high = false, reduced = false, riveEnabled = true;
   NuiDensity density = NuiDensity.standard;
   @override
   Widget build(BuildContext context) => NuiApp(
@@ -21,6 +21,7 @@ class _DetentGalleryState extends State<DetentGallery> {
     density: density,
     motion: reduced ? NuiMotion.reduced : NuiMotion.full,
     highContrast: high,
+    riveEnabled: riveEnabled,
     home: Builder(
       builder: (context) => NuiAppShell(
         toolbar: NuiToolbar(
@@ -46,6 +47,11 @@ class _DetentGalleryState extends State<DetentGallery> {
               value: reduced,
               onChanged: (v) => setState(() => reduced = v),
             ),
+            NuiToggleButton(
+              label: 'Rive',
+              value: riveEnabled,
+              onChanged: (v) => setState(() => riveEnabled = v),
+            ),
             NuiDropdownMenu(
               label: density.name,
               items: [
@@ -63,7 +69,7 @@ class _DetentGalleryState extends State<DetentGallery> {
           children: [
             Text('48 components'),
             Spacer(),
-            Text('Detent Design System / 0.5'),
+            Text('Detent Design System / 0.6'),
           ],
         ),
       ),
@@ -87,6 +93,7 @@ class _GalleryBodyState extends State<GalleryBody> {
   Set<Object> rows = {};
   NuiShortcut? shortcut;
   String tab = 'design', search = '';
+  NuiTaskState taskState = NuiTaskState.idle;
   bool ascending = true;
   final name = TextEditingController(text: 'Atelier / 新しい作業');
   @override
@@ -748,6 +755,56 @@ class _GalleryBodyState extends State<GalleryBody> {
               ],
             ),
             const SizedBox(height: 32),
+            NuiPanel(
+              header: const Text('Rive / 操作と状態の連動'),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    'ボタンを長押し・TabでフォーカスしてSpace・スイッチの切り替え・ノブのドラッグを試せます。RiveをオフにするとFlutter描画と比較できます。',
+                  ),
+                  const SizedBox(height: 16),
+                  NuiTaskStatus(
+                    state: taskState,
+                    label: '状態プレビュー',
+                    progress: taskState == NuiTaskState.running
+                        ? value / 100
+                        : null,
+                    detail: 'スライダーで実際の表示値を指定',
+                    onCancel: () =>
+                        setState(() => taskState = NuiTaskState.canceled),
+                    onRetry: () =>
+                        setState(() => taskState = NuiTaskState.running),
+                  ),
+                  const SizedBox(height: 8),
+                  Wrap(
+                    spacing: 8,
+                    runSpacing: 8,
+                    children: [
+                      for (final state in [
+                        NuiTaskState.idle,
+                        NuiTaskState.running,
+                        NuiTaskState.success,
+                        NuiTaskState.error,
+                      ])
+                        NuiButton(
+                          label: switch (state) {
+                            NuiTaskState.idle => '待機',
+                            NuiTaskState.running => '処理中',
+                            NuiTaskState.success => '成功',
+                            _ => '失敗',
+                          },
+                          variant: taskState == state
+                              ? NuiButtonVariant.primary
+                              : NuiButtonVariant.secondary,
+                          onPressed: () => setState(() => taskState = state),
+                        ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 24),
             const Text(
               'Rive / Runtime artboards',
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),

@@ -7,6 +7,8 @@ import 'package:forui_lucide/forui_lucide.dart';
 import '../foundation/theme.dart';
 import '../controls/controls.dart';
 import '../inputs/inputs.dart';
+import '../rive/artwork.dart';
+import '../rive/skin.dart';
 
 @immutable
 class NuiTab<T> {
@@ -45,7 +47,6 @@ class _NuiTabsState<T> extends State<NuiTabs<T>> {
 
   @override
   Widget build(BuildContext context) {
-    final t = NuiTheme.of(context);
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Row(
@@ -74,15 +75,8 @@ class _NuiTabsState<T> extends State<NuiTabs<T>> {
               },
               child: Semantics(
                 selected: widget.value == tab.value,
-                child: Container(
-                  decoration: BoxDecoration(
-                    border: Border(
-                      bottom: BorderSide(
-                        color: widget.value == tab.value ? t.accent : t.border,
-                        width: 2,
-                      ),
-                    ),
-                  ),
+                child: _NuiAnimatedTab(
+                  selected: widget.value == tab.value,
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
@@ -109,6 +103,34 @@ class _NuiTabsState<T> extends State<NuiTabs<T>> {
       ),
     );
   }
+}
+
+class _NuiAnimatedTab extends StatelessWidget {
+  const _NuiAnimatedTab({required this.selected, required this.child});
+  final bool selected;
+  final Widget child;
+  @override
+  Widget build(BuildContext context) => Stack(
+    children: [
+      Padding(padding: const EdgeInsets.only(bottom: 2), child: child),
+      Positioned(
+        left: 0,
+        right: 0,
+        bottom: 0,
+        height: 2,
+        child: NuiRiveArtwork(
+          artboard: 'TabIndicator',
+          stretch: true,
+          state: NuiSkinState(selected: selected),
+          fallback: ColoredBox(
+            color: selected
+                ? NuiTheme.of(context).accent
+                : NuiTheme.of(context).border,
+          ),
+        ),
+      ),
+    ],
+  );
 }
 
 class NuiNavigationRail<T> extends StatelessWidget {
