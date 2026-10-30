@@ -151,6 +151,13 @@ void main() {
     c.advance(.04);
     expect(selection.x, greaterThan(48));
     expect(selection.x, lessThan(240));
+    final intermediate = selection.x;
+    target.value = 48;
+    c.advance(0);
+    c.advance(.04);
+    expect(selection.x, lessThan(intermediate));
+    expect(selection.x, greaterThan(48));
+    target.value = 240;
     for (var i = 0; i < 30; i++) {
       c.advance(1 / 60);
     }

@@ -691,83 +691,141 @@ class NuiTaskStatus extends StatelessWidget {
       NuiTaskState.success => '完了',
       NuiTaskState.error => '失敗',
     };
+    final foreground = NuiColors.white;
+    final running =
+        state == NuiTaskState.running || state == NuiTaskState.canceling;
+    final terminal =
+        state == NuiTaskState.success ||
+        state == NuiTaskState.error ||
+        state == NuiTaskState.canceled;
+    final color = state == NuiTaskState.error
+        ? t.danger
+        : state == NuiTaskState.success
+        ? t.success
+        : t.accent;
+    final fraction = state == NuiTaskState.success
+        ? 1.0
+        : progress?.clamp(0.0, 1.0) ?? 0;
     return Semantics(
       liveRegion: true,
       label: '$label $status',
-      child: Container(
-        padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          color: t.display,
-          borderRadius: BorderRadius.circular(6),
-        ),
-        child: DefaultTextStyle(
-          style: NuiTheme.of(context).textTheme.bodyMedium
-              .copyWith(color: t.inverse, fontSize: 14),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Row(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Container(
+            constraints: const BoxConstraints(minHeight: 82),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+            decoration: BoxDecoration(
+              color: t.display,
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: DefaultTextStyle(
+              style: t.textTheme.bodyMedium.copyWith(color: foreground),
+              child: Row(
                 children: [
-                  SizedBox.square(
-                    dimension: 20,
+                  SizedBox(
+                    width: 56,
+                    height: 28,
                     child: NuiRiveArtwork(
-                      artboard: 'TaskGlyph',
+                      artboard: terminal ? 'TaskGlyph' : 'TaskStatus',
                       state: NuiSkinState(
+                        progress: fraction,
                         taskState: switch (state) {
-                          NuiTaskState.idle => 0,
-                          NuiTaskState.running => 1,
                           NuiTaskState.success => 2,
                           NuiTaskState.error => 3,
                           NuiTaskState.canceled => 4,
-                          NuiTaskState.canceling => 5,
+                          _ => 0,
                         },
-                        accentColor: state == NuiTaskState.error
-                            ? t.danger
-                            : state == NuiTaskState.success
-                            ? t.success
-                            : t.accent,
+                        accentColor: color,
                       ),
-                      fallback: Icon(
-                        state == NuiTaskState.success
-                            ? FLucideIcons.circleCheck
-                            : state == NuiTaskState.error
-                            ? FLucideIcons.circleAlert
-                            : FLucideIcons.activity,
-                        color: state == NuiTaskState.error
-                            ? t.danger
-                            : t.accent,
-                        size: 16,
-                      ),
+                      fallback: terminal
+                          ? Icon(
+                              state == NuiTaskState.success
+                                  ? FLucideIcons.check
+                                  : state == NuiTaskState.error
+                                  ? FLucideIcons.x
+                                  : FLucideIcons.minus,
+                              color: color,
+                              size: 20,
+                            )
+                          : CustomPaint(painter: _NuiTaskDots(fraction, color)),
                     ),
                   ),
-                  const SizedBox(width: 8),
-                  Expanded(child: Text('$label · $status')),
+                  const SizedBox(width: 24),
+                  Expanded(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(label),
+                        const SizedBox(height: 8),
+                        Text(
+                          detail ?? status,
+                          style: t.textTheme.bodySmall.copyWith(
+                            color: const Color(0xFFADB6BC),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(width: 16),
                   if (progress != null)
-                    Text('${(progress!.clamp(0.0, 1.0) * 100).round()}%'),
+                    Text(
+                      '${(fraction * 100).round()}%',
+                      style: t.textTheme.bodyMedium.copyWith(
+                        color: foreground,
+                        fontSize: 20,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    )
+                  else
+                    Text(
+                      status,
+                      style: t.textTheme.bodySmall.copyWith(color: foreground),
+                    ),
                 ],
               ),
-              if (detail != null) ...[const SizedBox(height: 8), Text(detail!)],
-              if (state == NuiTaskState.running) ...[
-                const SizedBox(height: 16),
-                NuiProgress(value: progress, label: label, color: t.inverse),
-              ],
-              if (state == NuiTaskState.running && onCancel != null)
-                NuiPlainButton(
-                  onPressed: onCancel,
-                  child: Text('取り消す', style: TextStyle(color: t.inverse)),
-                ),
-              if (state == NuiTaskState.error && onRetry != null)
-                NuiPlainButton(
-                  onPressed: onRetry,
-                  child: Text('再試行', style: TextStyle(color: t.inverse)),
-                ),
-            ],
+            ),
           ),
-        ),
+          if (running && onCancel != null)
+            Align(
+              alignment: Alignment.centerRight,
+              child: NuiPlainButton(
+                onPressed: onCancel,
+                child: const Text('取り消す'),
+              ),
+            ),
+          if (state == NuiTaskState.error && onRetry != null)
+            Align(
+              alignment: Alignment.centerRight,
+              child: NuiPlainButton(
+                onPressed: onRetry,
+                child: const Text('再試行'),
+              ),
+            ),
+        ],
       ),
     );
   }
+}
+
+class _NuiTaskDots extends CustomPainter {
+  _NuiTaskDots(this.value, this.color);
+  final double value;
+  final Color color;
+  @override
+  void paint(Canvas canvas, Size size) {
+    final p = Paint();
+    for (var i = 0; i < 32; i++) {
+      p.color = color.withValues(alpha: i < value * 32 ? 1 : .18);
+      canvas.drawCircle(Offset(3.5 + (i % 8) * 7, 3.5 + (i ~/ 8) * 7), 1.5, p);
+    }
+  }
+
+  @override
+  bool shouldRepaint(_NuiTaskDots old) =>
+      old.value != value || old.color != color;
 }
 
 final _activeToasts = <OverlayState, NuiToastHandle>{};

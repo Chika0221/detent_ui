@@ -54,13 +54,28 @@ class _NuiControlSkinState extends State<NuiControlSkin> {
                     opacity: widget.state.enabled ? 1 : .45,
                     child:
                         graphic ??
-                        CustomPaint(
-                          painter: _StaticControlPainter(
-                            widget.artboard,
-                            widget.state,
-                            NuiTheme.of(context),
-                          ),
-                        ),
+                        (widget.artboard == 'SegmentedControl'
+                            ? TweenAnimationBuilder<double>(
+                                tween: Tween(end: widget.state.value),
+                                duration: NuiTheme.of(context)
+                                    .duration(context, 220),
+                                curve: const Cubic(.2, 0, .2, 1),
+                                builder: (ctx, value, _) => CustomPaint(
+                                  painter: _StaticControlPainter(
+                                    widget.artboard,
+                                    widget.state,
+                                    NuiTheme.of(context),
+                                    selectionValue: value,
+                                  ),
+                                ),
+                              )
+                            : CustomPaint(
+                                painter: _StaticControlPainter(
+                                  widget.artboard,
+                                  widget.state,
+                                  NuiTheme.of(context),
+                                ),
+                              )),
                   ),
                 ),
               ),
@@ -74,7 +89,13 @@ class _NuiControlSkinState extends State<NuiControlSkin> {
 }
 
 class _StaticControlPainter extends CustomPainter {
-  _StaticControlPainter(this.artboard, this.state, this.theme);
+  _StaticControlPainter(
+    this.artboard,
+    this.state,
+    this.theme, {
+    this.selectionValue,
+  });
+  final double? selectionValue;
   final String artboard;
   final NuiSkinState state;
   final NuiThemeData theme;
@@ -144,7 +165,9 @@ class _StaticControlPainter extends CustomPainter {
     } else if (artboard == 'SegmentedControl') {
       box(Offset.zero & size, theme.surface, 6);
       final width = size.width / state.selectionCount.clamp(1, double.infinity);
-      final x = state.value.clamp(0.0, 1.0) * (size.width - width);
+      final x =
+          (selectionValue ?? state.value).clamp(0.0, 1.0) *
+          (size.width - width);
       box(
         Rect.fromLTWH(x + 4, 6, width - 8, size.height - 10),
         theme.controlBorder,
@@ -196,5 +219,8 @@ class _StaticControlPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(_StaticControlPainter old) =>
-      old.state != state || old.theme != theme || old.artboard != artboard;
+      old.state != state ||
+      old.theme != theme ||
+      old.artboard != artboard ||
+      old.selectionValue != selectionValue;
 }

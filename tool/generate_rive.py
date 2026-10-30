@@ -168,19 +168,13 @@ for name in ['Checkbox','RadioGroup','Switch']:
     b.finish()
 
 for name in ['SegmentedControl','Tabs']:
-    b=Board(name,288,40)
-    selection,path=b.shape('Travelling selection',48,20,88,32,'accentColor')
-    b.bind(selection,13,'position',b.smooth(.16));b.bind(selection,14,'centerY')
-    b.bind(path,20,'segmentWidth');b.bind(path,21,'height',b.mapper(-10,990,0,1000))
-    if name=='SegmentedControl':
-        outline,outlinepath=b.shape('Selection outline',48,20,88,32,'borderColor',stroke=1)
-        b.bind(outline,13,'position',b.smooth(.16));b.bind(outline,14,'centerY')
-        b.bind(outlinepath,20,'segmentWidth');b.bind(outlinepath,21,'height',b.mapper(-10,990,0,1000))
-        base,basepath=b.shape('Selection base',48,22,88,32,'borderColor')
-        b.bind(base,13,'position',b.smooth(.16));b.bind(base,14,'centerY',b.mapper(2,1002,0,1000))
-        b.bind(basepath,20,'segmentWidth');b.bind(basepath,21,'height',b.mapper(-10,990,0,1000))
-    if name=='Tabs':
-        path.set('height','2');path.set('originY','1')
+    b=Board(name,288,50)
+    carriage=b.group('Travelling selection',48,25)
+    b.bind(carriage,13,'position',b.smooth(.22));b.bind(carriage,14,'centerY')
+    for label,y,role,stroke in [('Selection face',0,'accentColor',None),('Selection outline',0,'borderColor',1),('Selection base',2,'borderColor',None)]:
+        selection,path=b.shape(label,0,y,88,40,role,stroke=stroke,parent=carriage)
+        b.bind(path,20,'segmentWidth');b.bind(path,21,'height',b.mapper(-10,990,0,1000))
+        if name=='Tabs':path.set('height','2')
     b.finish()
 
 b=Board('TabIndicator',120,2)
@@ -233,14 +227,17 @@ for name in ['CircularProgress','Spinner']:
     b.timeline(run,'Rotate',[(arc,'rotation',[(0,0),(72,math.tau)])],72,True)
     b.layer('Activity',[(rest,'indeterminate',False),(run,'indeterminate',True)],0);b.finish()
 
-for name in ['Meter','TaskStatus']:
-    b=Board(name,240,40)
-    count=32 if name=='Meter' else 40
-    for j in range(count):
-        segment,_=b.shape('Segment'+str(j),(j+.5)*240/count,20,240/count-2,32,'accentColor',radius=0)
-        # Only data changes animate; the meter never invents activity at rest.
-        b.bind(segment,18,'progress',b.mapper(.16,1,j/count,(j+1)/count))
-    b.finish()
+b=Board('Meter',240,40)
+for j in range(32):
+    segment,_=b.shape('Segment'+str(j),(j+.5)*240/32,20,240/32-2,32,'accentColor',radius=0)
+    b.bind(segment,18,'progress',b.mapper(.16,1,j/32,(j+1)/32))
+b.finish()
+
+b=Board('TaskStatus',56,28)
+for j in range(32):
+    dot,_=b.shape('Dot'+str(j),3.5+(j%8)*7,3.5+(j//8)*7,3,3,'accentColor',ellipse=True)
+    b.bind(dot,18,'progress',b.mapper(.18,1,j/32,(j+1)/32))
+b.finish()
 
 b=Board('TaskGlyph',32,32)
 idle,_=b.shape('Idle',16,16,10,10,'borderColor',ellipse=True,stroke=2)

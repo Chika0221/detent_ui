@@ -45,73 +45,82 @@ class _NuiTabsState<T> extends State<NuiTabs<T>> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: Row(
-        children: [
-          for (final tab in widget.tabs)
-            Focus(
-              onKeyEvent: (_, e) {
-                if (e is KeyUpEvent) return KeyEventResult.ignored;
-                final i = widget.tabs.indexOf(tab), k = e.logicalKey;
-                int? next;
-                if (k == LogicalKeyboardKey.arrowRight) {
-                  next = (i + 1) % widget.tabs.length;
-                }
-                if (k == LogicalKeyboardKey.arrowLeft) {
-                  next = (i - 1) % widget.tabs.length;
-                }
-                if (k == LogicalKeyboardKey.home) next = 0;
-                if (k == LogicalKeyboardKey.end) next = widget.tabs.length - 1;
-                if (next == null) return KeyEventResult.ignored;
-                final target = widget.tabs[next];
-                nodes[target.value]?.requestFocus();
-                if (!widget.manualActivation) {
-                  widget.onChanged?.call(target.value);
-                }
-                return KeyEventResult.handled;
-              },
-              child: Semantics(
-                selected: widget.value == tab.value,
-                child: _NuiAnimatedTab(
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        border: Border(bottom: BorderSide(color: NuiTheme.of(context).border)),
+      ),
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Row(
+          spacing: 14,
+          children: [
+            for (final tab in widget.tabs)
+              Focus(
+                onKeyEvent: (_, e) {
+                  if (e is KeyUpEvent) return KeyEventResult.ignored;
+                  final i = widget.tabs.indexOf(tab), k = e.logicalKey;
+                  int? next;
+                  if (k == LogicalKeyboardKey.arrowRight) {
+                    next = (i + 1) % widget.tabs.length;
+                  }
+                  if (k == LogicalKeyboardKey.arrowLeft) {
+                    next = (i - 1) % widget.tabs.length;
+                  }
+                  if (k == LogicalKeyboardKey.home) next = 0;
+                  if (k == LogicalKeyboardKey.end) {
+                    next = widget.tabs.length - 1;
+                  }
+                  if (next == null) return KeyEventResult.ignored;
+                  final target = widget.tabs[next];
+                  nodes[target.value]?.requestFocus();
+                  if (!widget.manualActivation) {
+                    widget.onChanged?.call(target.value);
+                  }
+                  return KeyEventResult.handled;
+                },
+                child: Semantics(
                   selected: widget.value == tab.value,
-                  child: NuiInk(
-                    focusNode: nodes.putIfAbsent(tab.value, FocusNode.new),
-                    onTap: widget.onChanged == null
-                        ? null
-                        : () => widget.onChanged!(tab.value),
-                    child: ConstrainedBox(
-                      constraints: BoxConstraints(
-                        minHeight: NuiTheme.of(context).controlHeight + 6,
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Text('${tab.label}${tab.dirty ? ' •' : ''}'),
-                            if (tab.onClose != null) ...[
-                              const SizedBox(width: 8),
-                              NuiIconAction(
-                                icon: const Icon(FLucideIcons.x, size: 16),
-                                tooltip: '${tab.label}を閉じる',
-                                padding: const EdgeInsets.all(2),
-                                constraints: const BoxConstraints(
-                                  minWidth: 24,
-                                  minHeight: 24,
+                  child: _NuiAnimatedTab(
+                    selected: widget.value == tab.value,
+                    child: NuiInk(
+                      focusNode: nodes.putIfAbsent(tab.value, FocusNode.new),
+                      onTap: widget.onChanged == null
+                          ? null
+                          : () => widget.onChanged!(tab.value),
+                      child: ConstrainedBox(
+                        constraints: BoxConstraints(
+                          minHeight: NuiTheme.of(context).controlHeight + 4,
+                          minWidth: 228,
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 15),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text('${tab.label}${tab.dirty ? ' •' : ''}'),
+                              if (tab.onClose != null) ...[
+                                const SizedBox(width: 8),
+                                NuiIconAction(
+                                  icon: const Icon(FLucideIcons.x, size: 16),
+                                  tooltip: '${tab.label}を閉じる',
+                                  padding: const EdgeInsets.all(2),
+                                  constraints: const BoxConstraints(
+                                    minWidth: 24,
+                                    minHeight: 24,
+                                  ),
+                                  onPressed: tab.onClose,
                                 ),
-                                onPressed: tab.onClose,
-                              ),
+                              ],
                             ],
-                          ],
+                          ),
                         ),
                       ),
                     ),
                   ),
                 ),
               ),
-            ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -125,7 +134,7 @@ class _NuiAnimatedTab extends StatelessWidget {
   Widget build(BuildContext context) => Stack(
     children: [
       Container(
-        margin: const EdgeInsets.only(bottom: 2),
+        margin: const EdgeInsets.only(bottom: 3),
         decoration: BoxDecoration(
           color: selected ? NuiTheme.of(context).raised : null,
           borderRadius: BorderRadius.circular(5),
@@ -138,10 +147,10 @@ class _NuiAnimatedTab extends StatelessWidget {
         child: child,
       ),
       Positioned(
-        left: 0,
-        right: 0,
-        bottom: 0,
-        height: 2,
+        left: 12,
+        right: 12,
+        bottom: 7,
+        height: 3,
         child: NuiRiveArtwork(
           artboard: 'TabIndicator',
           stretch: true,
@@ -149,7 +158,7 @@ class _NuiAnimatedTab extends StatelessWidget {
           fallback: ColoredBox(
             color: selected
                 ? NuiTheme.of(context).accent
-                : NuiTheme.of(context).border,
+                : NuiColors.transparent,
           ),
         ),
       ),

@@ -259,4 +259,55 @@ void main() {
       }
     },
   );
+  testWidgets(
+    'icon is centred on the operation face and tabs match pen geometry',
+    (t) async {
+      await t.pumpWidget(
+        host(
+          Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              NuiIconButton(
+                icon: FLucideIcons.plus,
+                tooltip: 'Add',
+                onPressed: () {},
+              ),
+              NuiTabs(
+                tabs: const [
+                  NuiTab(0, '仕様書.md', dirty: true),
+                  NuiTab(1, 'デザイン.pen'),
+                ],
+                value: 0,
+                onChanged: (_) {},
+              ),
+              const NuiTaskStatus(
+                state: NuiTaskState.running,
+                label: '書き出し中',
+                detail: '17 / 25 files',
+                progress: .68,
+              ),
+            ],
+          ),
+        ),
+      );
+      final button = find.byType(NuiIconButton),
+          icon = find.descendant(of: button, matching: find.byType(Icon));
+      expect(t.getSize(button), const Size(50, 50));
+      expect(t.getCenter(icon).dx, closeTo(t.getCenter(button).dx, .01));
+      expect(t.getCenter(icon).dy, closeTo(t.getCenter(button).dy - 1, .01));
+      final selectedSurface = find
+          .byWidgetPredicate(
+            (w) =>
+                w is Container &&
+                w.decoration is BoxDecoration &&
+                (w.decoration! as BoxDecoration).borderRadius ==
+                    BorderRadius.circular(5),
+          )
+          .first;
+      expect(t.getSize(selectedSurface).width, 230);
+      expect(t.getSize(find.byType(NuiTaskStatus)).height, 82);
+      expect(find.text('68%'), findsOneWidget);
+      expect(find.byType(NuiProgress), findsNothing);
+    },
+  );
 }

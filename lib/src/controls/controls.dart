@@ -245,6 +245,7 @@ class _NuiButtonState extends State<NuiButton> {
               child: NuiFocusRing(
                 focused: focused,
                 child: Stack(
+                  alignment: Alignment.center,
                   children: [
                     Positioned.fill(
                       child: NuiRiveArtwork(
