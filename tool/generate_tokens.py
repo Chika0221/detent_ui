@@ -1,4 +1,4 @@
-"""Resolve the canonical DTCG tokens and link Flutter widgets to .pen nodes.
+"""Resolve canonical DTCG tokens into Flutter constants without reading design files.
 Run from the package root. No third-party Python dependencies required.
 """
 import json
@@ -38,16 +38,5 @@ for key, token in flat.items():
         lines.append(f'  static const {name} = {json.dumps(value)};')
 lines.append('}')
 (root / 'lib/src/foundation/tokens.g.dart').write_text('\n'.join(lines)+'\n')
-pen = json.loads((root / 'ui_design.pen').read_text())
-nodes = {}
-def walk(obj):
-    if isinstance(obj, dict):
-        if 'id' in obj: nodes[obj['id']] = obj
-        for v in obj.values(): walk(v)
-    elif isinstance(obj, list):
-        for v in obj: walk(v)
-walk(pen)
-registry = json.loads((root / 'component_registry.json').read_text())
-for item in registry['reviewSets']:
-    assert item['nodeId'] in nodes, item
-print(f'Resolved {len(flat)} tokens; validated {len(registry["reviewSets"])} .pen component links.')
+(root / 'design_tokens.resolved.json').write_text(json.dumps({key: {**token, '$value': resolve(key)} for key, token in flat.items()}, ensure_ascii=False, indent=2)+'\n')
+print(f'Resolved {len(flat)} tokens. Validate Pen component links through the Pen MCP tools separately.')

@@ -2,6 +2,7 @@ import 'package:flutter/widgets.dart';
 import 'package:detent_ui/detent_ui.dart';
 
 import 'performance_probe.dart';
+import 'perforation_showcase.dart';
 
 void main() => runApp(const DetentGallery());
 
@@ -84,7 +85,7 @@ class _DetentGalleryState extends State<DetentGallery> {
         body: const GalleryBody(),
         statusBar: const NuiStatusBar(
           children: [
-            Text('48 components'),
+            Text('51 components'),
             Spacer(),
             Text('Detent Design System / 0.8'),
           ],
@@ -215,7 +216,7 @@ class _GalleryBodyState extends State<GalleryBody> {
               style: TextStyle(fontSize: 32, fontWeight: FontWeight.w600),
             ),
             const SizedBox(height: 8),
-            const Text('Desktop instruments / デザインファイルから実装した48のコンポーネント'),
+            const Text('Desktop instruments / デザインファイルから実装した51のコンポーネント'),
             const SizedBox(height: 24),
             Wrap(
               spacing: 16,
@@ -836,6 +837,8 @@ class _GalleryBodyState extends State<GalleryBody> {
               ),
             ),
             const SizedBox(height: 24),
+            const PerforationShowcase(),
+            const SizedBox(height: 32),
             const Text(
               'Rive / Runtime artboards',
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),

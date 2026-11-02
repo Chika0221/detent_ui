@@ -23,3 +23,5 @@ export 'src/foundation/primitives.dart'
         NuiTile,
         NuiPopupAnchor,
         NuiPopupController;
+
+export 'src/perforation/perforation.dart';

@@ -594,7 +594,8 @@
     "$value": {
       "value": 4,
       "unit": "px"
-    }
+    },
+    "$description": "Focus stroke 2px + offset 2px, per side; reserved in every state."
   },
   "semantic.light.color.bg.canvas": {
     "$type": "color",
@@ -1757,7 +1758,8 @@
     "$value": {
       "value": 50,
       "unit": "px"
-    }
+    },
+    "$description": "Total occupied height, including depth and reserved focus clearance."
   },
   "component.light.button.padding": {
     "$type": "dimension",
@@ -1945,7 +1947,8 @@
     "$value": {
       "value": 50,
       "unit": "px"
-    }
+    },
+    "$description": "Total occupied height, including depth and reserved focus clearance."
   },
   "component.dark.button.padding": {
     "$type": "dimension",
@@ -2133,7 +2136,8 @@
     "$value": {
       "value": 50,
       "unit": "px"
-    }
+    },
+    "$description": "Total occupied height, including depth and reserved focus clearance."
   },
   "component.highLight.button.padding": {
     "$type": "dimension",
@@ -2321,7 +2325,8 @@
     "$value": {
       "value": 50,
       "unit": "px"
-    }
+    },
+    "$description": "Total occupied height, including depth and reserved focus clearance."
   },
   "component.highDark.button.padding": {
     "$type": "dimension",
@@ -2462,11 +2467,13 @@
   },
   "motion.reduced.loop": {
     "$type": "number",
-    "$value": 0
+    "$value": 0,
+    "$description": "0 = stop loops; 1 = allow loops"
   },
   "motion.full.loopWhenVisible": {
     "$type": "number",
-    "$value": 1
+    "$value": 1,
+    "$description": "0 = stop loops; 1 = allow loops while visible"
   },
   "layer.base": {
     "$type": "number",
@@ -2495,5 +2502,192 @@
   "layer.tooltip": {
     "$type": "number",
     "$value": 60
+  },
+  "perforation.hole.size.xs": {
+    "$type": "dimension",
+    "$value": {
+      "value": 2,
+      "unit": "px"
+    }
+  },
+  "perforation.hole.size.sm": {
+    "$type": "dimension",
+    "$value": {
+      "value": 3,
+      "unit": "px"
+    }
+  },
+  "perforation.hole.size.md": {
+    "$type": "dimension",
+    "$value": {
+      "value": 4,
+      "unit": "px"
+    }
+  },
+  "perforation.hole.size.lg": {
+    "$type": "dimension",
+    "$value": {
+      "value": 6,
+      "unit": "px"
+    }
+  },
+  "perforation.hole.gap.compact": {
+    "$type": "dimension",
+    "$value": {
+      "value": 4,
+      "unit": "px"
+    }
+  },
+  "perforation.hole.gap.default": {
+    "$type": "dimension",
+    "$value": {
+      "value": 8,
+      "unit": "px"
+    }
+  },
+  "perforation.hole.gap.relaxed": {
+    "$type": "dimension",
+    "$value": {
+      "value": 12,
+      "unit": "px"
+    }
+  },
+  "perforation.depth.flat": {
+    "$type": "dimension",
+    "$value": {
+      "value": 0,
+      "unit": "px"
+    }
+  },
+  "perforation.depth.inset": {
+    "$type": "dimension",
+    "$value": {
+      "value": 1,
+      "unit": "px"
+    }
+  },
+  "perforation.depth.deep": {
+    "$type": "dimension",
+    "$value": {
+      "value": 2,
+      "unit": "px"
+    }
+  },
+  "perforation.motion.fast": {
+    "$type": "duration",
+    "$value": {
+      "value": 90,
+      "unit": "ms"
+    }
+  },
+  "perforation.motion.normal": {
+    "$type": "duration",
+    "$value": {
+      "value": 160,
+      "unit": "ms"
+    }
+  },
+  "perforation.motion.slow": {
+    "$type": "duration",
+    "$value": {
+      "value": 220,
+      "unit": "ms"
+    }
+  },
+  "perforation.motion.stagger": {
+    "$type": "duration",
+    "$value": {
+      "value": 18,
+      "unit": "ms"
+    }
+  },
+  "perforation.motion.radius": {
+    "$type": "number",
+    "$value": 3
+  },
+  "perforation.motion.intensity": {
+    "$type": "number",
+    "$value": 0.24
+  },
+  "perforation.motion.easing": {
+    "$type": "cubicBezier",
+    "$value": [
+      0.2,
+      0,
+      0,
+      1
+    ]
+  },
+  "perforation.color.light.default": {
+    "$type": "color",
+    "$value": {
+      "colorSpace": "srgb",
+      "components": [
+        0.34901960784313724,
+        0.3803921568627451,
+        0.36470588235294116
+      ],
+      "alpha": 1
+    }
+  },
+  "perforation.color.light.active": {
+    "$type": "color",
+    "$value": {
+      "colorSpace": "srgb",
+      "components": [
+        0.9137254901960784,
+        0.8117647058823529,
+        0.2823529411764706
+      ],
+      "alpha": 1
+    }
+  },
+  "perforation.color.light.rim": {
+    "$type": "color",
+    "$value": {
+      "colorSpace": "srgb",
+      "components": [
+        0.4392156862745098,
+        0.4745098039215686,
+        0.4549019607843137
+      ],
+      "alpha": 1
+    }
+  },
+  "perforation.color.dark.default": {
+    "$type": "color",
+    "$value": {
+      "colorSpace": "srgb",
+      "components": [
+        0.03529411764705882,
+        0.043137254901960784,
+        0.047058823529411764
+      ],
+      "alpha": 1
+    }
+  },
+  "perforation.color.dark.active": {
+    "$type": "color",
+    "$value": {
+      "colorSpace": "srgb",
+      "components": [
+        0.9137254901960784,
+        0.8117647058823529,
+        0.2823529411764706
+      ],
+      "alpha": 1
+    }
+  },
+  "perforation.color.dark.rim": {
+    "$type": "color",
+    "$value": {
+      "colorSpace": "srgb",
+      "components": [
+        0.5411764705882353,
+        0.5843137254901961,
+        0.6039215686274509
+      ],
+      "alpha": 1
+    }
   }
 }

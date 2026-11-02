@@ -148,8 +148,7 @@ abstract final class NuiTokens {
   static const double semantic_highLight_dimension_control_padding = 8.0;
   static const double semantic_highLight_dimension_control_gap = 8.0;
   static const double semantic_highLight_dimension_control_surfaceHeight = 40.0;
-  static const double semantic_highLight_dimension_control_physicalHeight =
-      42.0;
+  static const double semantic_highLight_dimension_control_physicalHeight = 42.0;
   static const double semantic_highLight_dimension_control_layoutHeight = 50.0;
   static const double semantic_highLight_dimension_control_focusReserve = 4.0;
   static const double semantic_highLight_dimension_row_height = 40.0;
@@ -224,18 +223,10 @@ abstract final class NuiTokens {
   static const double component_dark_input_padding = 8.0;
   static const component_dark_surface_background = Color(0xFF24272A);
   static const component_dark_surface_border = Color(0xFF555D62);
-  static const component_highLight_button_primary_background = Color(
-    0xFFE9CF48,
-  );
-  static const component_highLight_button_primary_foreground = Color(
-    0xFF202426,
-  );
-  static const component_highLight_button_secondary_background = Color(
-    0xFFFFFFFF,
-  );
-  static const component_highLight_button_secondary_foreground = Color(
-    0xFF000000,
-  );
+  static const component_highLight_button_primary_background = Color(0xFFE9CF48);
+  static const component_highLight_button_primary_foreground = Color(0xFF202426);
+  static const component_highLight_button_secondary_background = Color(0xFFFFFFFF);
+  static const component_highLight_button_secondary_foreground = Color(0xFF000000);
   static const component_highLight_button_danger_background = Color(0xFFB83238);
   static const component_highLight_button_danger_foreground = Color(0xFFFFFFFF);
   static const double component_highLight_button_height = 50.0;
@@ -253,12 +244,8 @@ abstract final class NuiTokens {
   static const component_highLight_surface_border = Color(0xFF000000);
   static const component_highDark_button_primary_background = Color(0xFFE9CF48);
   static const component_highDark_button_primary_foreground = Color(0xFF202426);
-  static const component_highDark_button_secondary_background = Color(
-    0xFF000000,
-  );
-  static const component_highDark_button_secondary_foreground = Color(
-    0xFFFFFFFF,
-  );
+  static const component_highDark_button_secondary_background = Color(0xFF000000);
+  static const component_highDark_button_secondary_foreground = Color(0xFFFFFFFF);
   static const component_highDark_button_danger_background = Color(0xFFFF858A);
   static const component_highDark_button_danger_foreground = Color(0xFF202426);
   static const double component_highDark_button_height = 50.0;
@@ -287,4 +274,27 @@ abstract final class NuiTokens {
   static const double layer_dialog = 40.0;
   static const double layer_toast = 50.0;
   static const double layer_tooltip = 60.0;
+  static const double perforation_hole_size_xs = 2.0;
+  static const double perforation_hole_size_sm = 3.0;
+  static const double perforation_hole_size_md = 4.0;
+  static const double perforation_hole_size_lg = 6.0;
+  static const double perforation_hole_gap_compact = 4.0;
+  static const double perforation_hole_gap_default = 8.0;
+  static const double perforation_hole_gap_relaxed = 12.0;
+  static const double perforation_depth_flat = 0.0;
+  static const double perforation_depth_inset = 1.0;
+  static const double perforation_depth_deep = 2.0;
+  static const double perforation_motion_fast = 90.0;
+  static const double perforation_motion_normal = 160.0;
+  static const double perforation_motion_slow = 220.0;
+  static const double perforation_motion_stagger = 18.0;
+  static const double perforation_motion_radius = 3.0;
+  static const double perforation_motion_intensity = 0.24;
+  static const perforation_motion_easing = <double>[0.2, 0.0, 0.0, 1.0];
+  static const perforation_color_light_default = Color(0xFF59615D);
+  static const perforation_color_light_active = Color(0xFFE9CF48);
+  static const perforation_color_light_rim = Color(0xFF707974);
+  static const perforation_color_dark_default = Color(0xFF090B0C);
+  static const perforation_color_dark_active = Color(0xFFE9CF48);
+  static const perforation_color_dark_rim = Color(0xFF8A959A);
 }
