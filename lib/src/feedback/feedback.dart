@@ -98,14 +98,20 @@ class NuiProgress extends StatelessWidget {
     if (t.reduceMotion(context) && v == null) {
       return Semantics(
         liveRegion: true,
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const Icon(FLucideIcons.loader, size: 16),
-            const SizedBox(width: 8),
-            Text(label),
-          ],
-        ),
+        label: variant == NuiProgressVariant.circular ? label : null,
+        child: variant == NuiProgressVariant.circular
+            ? SizedBox.square(
+                dimension: 28,
+                child: Icon(FLucideIcons.loader, size: 16, color: color),
+              )
+            : Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(FLucideIcons.loader, size: 16, color: color),
+                  const SizedBox(width: 8),
+                  Text(label),
+                ],
+              ),
       );
     }
     final fallback = variant == NuiProgressVariant.linear
@@ -119,6 +125,7 @@ class NuiProgress extends StatelessWidget {
       state: NuiSkinState(
         progress: v ?? .24,
         indeterminate: v == null,
+        taskState: v != null && v > 0 && v < 1 ? 1 : 0,
         inkColor: color ?? t.ink,
       ),
       fallback: fallback,
@@ -155,13 +162,6 @@ class NuiDotMatrix extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final fg = color ?? NuiTheme.of(context).inverse;
-    const symbols = {
-      '%': 'Percent',
-      '.': 'Dot',
-      ':': 'Colon',
-      '-': 'Minus',
-      ' ': 'Space',
-    };
     return Semantics(
       label: semanticLabel ?? text,
       child: ExcludeSemantics(
@@ -173,13 +173,11 @@ class NuiDotMatrix extends StatelessWidget {
                 key: ValueKey('digit-$i'),
                 width: 6 * dotSize * 1.6,
                 height: 7 * dotSize * 1.6,
-                child: NuiRiveArtwork(
-                  artboard:
-                      'Digit${symbols[text[i]] ?? (int.tryParse(text[i]) != null ? text[i] : 'Minus')}',
-                  settleOnLoad: false,
-                  state: NuiSkinState(inkColor: fg),
-                  // inverseColor is bound for numerical glyphs; the adapter applies fg.
-                  fallback: CustomPaint(
+                child: AnimatedSwitcher(
+                  duration: NuiTheme.of(context).duration(context, 120),
+                  child: CustomPaint(
+                    key: ValueKey(text[i]),
+                    size: Size(6 * dotSize * 1.6, 7 * dotSize * 1.6),
                     painter: _DotPainter(text[i], dotSize, fg),
                   ),
                 ),
@@ -246,10 +244,12 @@ class NuiMeter extends StatelessWidget {
     this.max = 100,
     this.segments = 32,
     this.label = 'レベル',
+    this.active = true,
   });
   final double value, min, max;
   final int segments;
   final String label;
+  final bool active;
   @override
   Widget build(BuildContext context) {
     final t = NuiTheme.of(context),
@@ -283,7 +283,10 @@ class NuiMeter extends StatelessWidget {
                   ? NuiRiveArtwork(
                       artboard: 'Meter',
                       stretch: true,
-                      state: NuiSkinState(progress: fraction),
+                      state: NuiSkinState(
+                        progress: fraction,
+                        indeterminate: active && fraction > 0,
+                      ),
                       fallback: fallbackBars,
                     )
                   : fallbackBars,
@@ -340,18 +343,10 @@ class NuiInlineAlert extends StatelessWidget {
           children: [
             SizedBox.square(
               dimension: 16,
-              child: NuiRiveArtwork(
-                artboard: 'TaskGlyph',
-                settleOnLoad: false,
-                state: NuiSkinState(
-                  taskState: tone == NuiTone.success
-                      ? 2
-                      : tone == NuiTone.danger || tone == NuiTone.warning
-                      ? 3
-                      : 0,
-                  accentColor: color,
-                ),
-                fallback: Icon(
+              child: AnimatedSwitcher(
+                duration: t.duration(context, 160),
+                child: Icon(
+                  key: ValueKey(tone),
                   tone == NuiTone.danger
                       ? FLucideIcons.circleAlert
                       : FLucideIcons.info,
@@ -609,18 +604,7 @@ class NuiEmptyState extends StatelessWidget {
     child: Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        if (icon == FLucideIcons.inbox)
-          SizedBox.square(
-            dimension: 32,
-            child: NuiRiveArtwork(
-              artboard: 'EmptyState',
-              settleOnLoad: false,
-              state: NuiSkinState(inkColor: NuiTheme.of(context).muted),
-              fallback: Icon(icon, size: 32, color: NuiTheme.of(context).muted),
-            ),
-          )
-        else
-          Icon(icon, size: 32, color: NuiTheme.of(context).muted),
+        Icon(icon, size: 32, color: NuiTheme.of(context).muted),
         const SizedBox(height: 16),
         Text(title, style: const TextStyle(fontWeight: FontWeight.w600)),
         if (description != null) ...[
@@ -730,7 +714,8 @@ class NuiTaskStatus extends StatelessWidget {
                     child: NuiRiveArtwork(
                       artboard: terminal ? 'TaskGlyph' : 'TaskStatus',
                       state: NuiSkinState(
-                        progress: fraction,
+                        progress: progress == null && running ? 1 : fraction,
+                        indeterminate: running,
                         taskState: switch (state) {
                           NuiTaskState.success => 2,
                           NuiTaskState.error => 3,

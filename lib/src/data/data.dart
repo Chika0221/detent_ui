@@ -7,9 +7,6 @@ import '../feedback/feedback.dart';
 import 'package:flutter/services.dart';
 import 'package:forui_lucide/forui_lucide.dart';
 
-import '../rive/artwork.dart';
-import '../rive/skin.dart';
-
 class NuiListRow extends StatelessWidget {
   const NuiListRow({
     super.key,
@@ -199,15 +196,13 @@ class _NuiTreeViewState<T> extends State<NuiTreeView<T>> {
                               : '展開',
                           icon: SizedBox.square(
                             dimension: 16,
-                            child: NuiRiveArtwork(
-                              artboard: 'Chevron',
-                              state: NuiSkinState(
-                                selected: widget.expanded.contains(n.id),
-                              ),
-                              fallback: Icon(
-                                widget.expanded.contains(n.id)
-                                    ? FLucideIcons.chevronDown
-                                    : FLucideIcons.chevronRight,
+                            child: AnimatedRotation(
+                              turns: widget.expanded.contains(n.id) ? .25 : 0,
+                              duration: NuiTheme.of(context)
+                                  .duration(context, 120),
+                              curve: const Cubic(.2, 0, .2, 1),
+                              child: const Icon(
+                                FLucideIcons.chevronRight,
                                 size: 16,
                               ),
                             ),

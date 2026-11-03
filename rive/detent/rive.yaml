@@ -1,4 +1,4 @@
 name: detent
-main: Button
+main: Progress
 output:
   dir: ../../assets/rive

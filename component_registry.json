@@ -1,6 +1,6 @@
 {
   "version": "0.4",
-  "scope": "48 WidgetsApp-compatible Flutter widgets without Material widgets; shared Select/ComboBox popup; keycap units; 39 local Rive artboards; design remains v0.4; OS verification pending",
+  "scope": "48 WidgetsApp-compatible Flutter widgets; interactive motion uses Flutter; processing feedback uses 7 local Rive artboards; shared Select/ComboBox popup and keycap units; design v0.4; OS verification pending",
   "reviewSets": [
     {
       "id": "C01",
@@ -14,7 +14,7 @@
       "rive": "A",
       "implementationSource": "lib/src/controls/controls.dart",
       "verificationStatus": "automated_tests_and_gallery; OS verification pending",
-      "motionRenderer": "rive_default_with_flutter_fallback"
+      "motionRenderer": "flutter"
     },
     {
       "id": "C02",
@@ -28,7 +28,7 @@
       "rive": "A",
       "implementationSource": "lib/src/controls/controls.dart",
       "verificationStatus": "automated_tests_and_gallery; OS verification pending",
-      "motionRenderer": "rive_default_with_flutter_fallback"
+      "motionRenderer": "flutter"
     },
     {
       "id": "C03",
@@ -42,7 +42,7 @@
       "rive": "A",
       "implementationSource": "lib/src/controls/controls.dart",
       "verificationStatus": "automated_tests_and_gallery; OS verification pending",
-      "motionRenderer": "rive_default_with_flutter_fallback"
+      "motionRenderer": "flutter"
     },
     {
       "id": "C04",
@@ -56,7 +56,7 @@
       "rive": "A",
       "implementationSource": "lib/src/controls/controls.dart",
       "verificationStatus": "automated_tests_and_gallery; OS verification pending",
-      "motionRenderer": "rive_default_with_flutter_fallback"
+      "motionRenderer": "flutter"
     },
     {
       "id": "C05",
@@ -70,7 +70,7 @@
       "rive": "A",
       "implementationSource": "lib/src/controls/controls.dart",
       "verificationStatus": "automated_tests_and_gallery; OS verification pending",
-      "motionRenderer": "rive_default_with_flutter_fallback"
+      "motionRenderer": "flutter"
     },
     {
       "id": "C06",
@@ -84,7 +84,7 @@
       "rive": "A",
       "implementationSource": "lib/src/controls/controls.dart",
       "verificationStatus": "automated_tests_and_gallery; OS verification pending",
-      "motionRenderer": "rive_default_with_flutter_fallback"
+      "motionRenderer": "flutter"
     },
     {
       "id": "C07",
@@ -98,7 +98,7 @@
       "rive": "A",
       "implementationSource": "lib/src/controls/controls.dart",
       "verificationStatus": "automated_tests_and_gallery; OS verification pending",
-      "motionRenderer": "rive_default_with_flutter_fallback"
+      "motionRenderer": "flutter"
     },
     {
       "id": "C08",
@@ -112,7 +112,7 @@
       "rive": "A",
       "implementationSource": "lib/src/controls/controls.dart",
       "verificationStatus": "automated_tests_and_gallery; OS verification pending",
-      "motionRenderer": "rive_default_with_flutter_fallback"
+      "motionRenderer": "flutter"
     },
     {
       "id": "C09",
@@ -126,7 +126,7 @@
       "rive": "A",
       "implementationSource": "lib/src/controls/controls.dart",
       "verificationStatus": "automated_tests_and_gallery; OS verification pending",
-      "motionRenderer": "rive_default_with_flutter_fallback"
+      "motionRenderer": "flutter"
     },
     {
       "id": "C10",
@@ -140,7 +140,7 @@
       "rive": "A",
       "implementationSource": "lib/src/controls/controls.dart",
       "verificationStatus": "automated_tests_and_gallery; OS verification pending",
-      "motionRenderer": "rive_default_with_flutter_fallback"
+      "motionRenderer": "flutter"
     },
     {
       "id": "C11",
@@ -154,7 +154,7 @@
       "rive": "A",
       "implementationSource": "lib/src/controls/controls.dart",
       "verificationStatus": "automated_tests_and_gallery; OS verification pending",
-      "motionRenderer": "rive_default_with_flutter_fallback"
+      "motionRenderer": "flutter"
     },
     {
       "id": "C12",
@@ -168,7 +168,7 @@
       "rive": "F",
       "implementationSource": "lib/src/inputs/inputs.dart",
       "verificationStatus": "automated_tests_and_gallery; OS verification pending",
-      "motionRenderer": "composed_animated_controls"
+      "motionRenderer": "flutter"
     },
     {
       "id": "C13",
@@ -252,7 +252,7 @@
       "rive": "F",
       "implementationSource": "lib/src/inputs/inputs.dart",
       "verificationStatus": "automated_tests_and_gallery; OS verification pending",
-      "motionRenderer": "composed_animated_controls"
+      "motionRenderer": "flutter"
     },
     {
       "id": "C19",
@@ -280,7 +280,7 @@
       "rive": "A",
       "implementationSource": "lib/src/navigation/navigation.dart",
       "verificationStatus": "automated_tests_and_gallery; OS verification pending",
-      "motionRenderer": "rive_default_with_flutter_fallback"
+      "motionRenderer": "flutter"
     },
     {
       "id": "C21",
@@ -294,7 +294,7 @@
       "rive": "B",
       "implementationSource": "lib/src/navigation/navigation.dart",
       "verificationStatus": "automated_tests_and_gallery; OS verification pending",
-      "motionRenderer": "composed_animated_controls"
+      "motionRenderer": "flutter"
     },
     {
       "id": "C22",
@@ -350,7 +350,7 @@
       "rive": "F",
       "implementationSource": "lib/src/navigation/navigation.dart",
       "verificationStatus": "automated_tests_and_gallery; OS verification pending",
-      "motionRenderer": "composed_animated_controls"
+      "motionRenderer": "flutter"
     },
     {
       "id": "C26",
@@ -378,7 +378,7 @@
       "rive": "B",
       "implementationSource": "lib/src/navigation/navigation.dart",
       "verificationStatus": "automated_tests_and_gallery; OS verification pending",
-      "motionRenderer": "composed_animated_controls"
+      "motionRenderer": "flutter"
     },
     {
       "id": "C28",
@@ -406,7 +406,7 @@
       "rive": "B",
       "implementationSource": "lib/src/data/data.dart",
       "verificationStatus": "automated_tests_and_gallery; OS verification pending",
-      "motionRenderer": "rive_default_with_flutter_fallback"
+      "motionRenderer": "flutter"
     },
     {
       "id": "C31",
@@ -434,7 +434,7 @@
       "rive": "F",
       "implementationSource": "lib/src/layout/layout.dart",
       "verificationStatus": "automated_tests_and_gallery; OS verification pending",
-      "motionRenderer": "composed_animated_controls"
+      "motionRenderer": "flutter"
     },
     {
       "id": "C29",
@@ -546,7 +546,7 @@
       "rive": "A",
       "implementationSource": "lib/src/feedback/feedback.dart",
       "verificationStatus": "automated_tests_and_gallery; OS verification pending",
-      "motionRenderer": "rive_default_with_flutter_fallback"
+      "motionRenderer": "rive_processing_with_flutter_fallback"
     },
     {
       "id": "C39",
@@ -560,7 +560,7 @@
       "rive": "A",
       "implementationSource": "lib/src/feedback/feedback.dart",
       "verificationStatus": "automated_tests_and_gallery; OS verification pending",
-      "motionRenderer": "rive_default_with_flutter_fallback"
+      "motionRenderer": "flutter"
     },
     {
       "id": "C40",
@@ -574,7 +574,7 @@
       "rive": "A",
       "implementationSource": "lib/src/feedback/feedback.dart",
       "verificationStatus": "automated_tests_and_gallery; OS verification pending",
-      "motionRenderer": "rive_default_with_flutter_fallback"
+      "motionRenderer": "rive_processing_with_flutter_fallback"
     },
     {
       "id": "C41",
@@ -588,7 +588,7 @@
       "rive": "B",
       "implementationSource": "lib/src/feedback/feedback.dart",
       "verificationStatus": "automated_tests_and_gallery; OS verification pending",
-      "motionRenderer": "rive_default_with_flutter_fallback"
+      "motionRenderer": "flutter"
     },
     {
       "id": "C42",
@@ -602,7 +602,7 @@
       "rive": "F",
       "implementationSource": "lib/src/feedback/feedback.dart",
       "verificationStatus": "automated_tests_and_gallery; OS verification pending",
-      "motionRenderer": "rive_default_with_flutter_fallback"
+      "motionRenderer": "flutter"
     },
     {
       "id": "C43",
@@ -616,7 +616,7 @@
       "rive": "B",
       "implementationSource": "lib/src/feedback/feedback.dart",
       "verificationStatus": "automated_tests_and_gallery; OS verification pending",
-      "motionRenderer": "composed_animated_controls"
+      "motionRenderer": "flutter"
     },
     {
       "id": "C44",
@@ -630,7 +630,7 @@
       "rive": "F",
       "implementationSource": "lib/src/feedback/feedback.dart",
       "verificationStatus": "automated_tests_and_gallery; OS verification pending",
-      "motionRenderer": "composed_animated_controls"
+      "motionRenderer": "flutter"
     },
     {
       "id": "C45",
@@ -644,7 +644,7 @@
       "rive": "B",
       "implementationSource": "lib/src/feedback/feedback.dart",
       "verificationStatus": "automated_tests_and_gallery; OS verification pending",
-      "motionRenderer": "rive_default_with_flutter_fallback"
+      "motionRenderer": "flutter"
     },
     {
       "id": "C46",
@@ -658,7 +658,7 @@
       "rive": "F",
       "implementationSource": "lib/src/feedback/feedback.dart",
       "verificationStatus": "automated_tests_and_gallery; OS verification pending",
-      "motionRenderer": "rive_default_with_flutter_fallback"
+      "motionRenderer": "rive_processing_with_flutter_fallback"
     },
     {
       "id": "C47",
@@ -672,7 +672,7 @@
       "rive": "A",
       "implementationSource": "lib/src/feedback/feedback.dart",
       "verificationStatus": "automated_tests_and_gallery; OS verification pending",
-      "motionRenderer": "rive_default_with_flutter_fallback"
+      "motionRenderer": "rive_processing_with_flutter_fallback"
     }
   ],
   "symbols": [
@@ -969,5 +969,5 @@
   ],
   "systemName": "Detent Design System",
   "packageName": "detent_ui",
-  "implementationVersion": "0.7.0"
+  "implementationVersion": "0.8.0"
 }

@@ -2,21 +2,32 @@ import '../foundation/primitives.dart';
 
 import 'package:flutter/gestures.dart' show kPrimaryButton;
 
-import 'artwork.dart';
-import 'skin.dart';
+@immutable
+class NuiControlState {
+  const NuiControlState({
+    this.selected = false,
+    this.enabled = true,
+    this.value = 0,
+    this.secondaryValue = 1,
+    this.selectionCount = 1,
+    this.selectionState = 0,
+  });
+  final bool selected, enabled;
+  final double value, secondaryValue, selectionCount, selectionState;
+}
 
-/// Widgets-only control paint. Focus and gestures belong to the caller.
+/// Flutter-only control motion. No Rive controller or asset is created here.
 class NuiControlSkin extends StatefulWidget {
   const NuiControlSkin({
     super.key,
-    required this.artboard,
+    required this.mechanism,
     required this.state,
     required this.inputBuilder,
     this.visualSize,
     this.resize = false,
   });
-  final String artboard;
-  final NuiSkinState state;
+  final String mechanism;
+  final NuiControlState state;
   final Widget Function(BuildContext, bool) inputBuilder;
   final Size? visualSize;
   final bool resize;
@@ -25,64 +36,67 @@ class NuiControlSkin extends StatefulWidget {
 }
 
 class _NuiControlSkinState extends State<NuiControlSkin> {
-  bool hovered = false, pressed = false;
+  bool pressed = false;
   @override
-  Widget build(BuildContext context) => MouseRegion(
-    onEnter: (_) => setState(() => hovered = true),
-    onExit: (_) => setState(() => hovered = false),
-    child: Listener(
-      onPointerDown: (e) {
-        if (widget.state.enabled && (e.buttons & kPrimaryButton) != 0) {
-          setState(() => pressed = true);
-        }
-      },
-      onPointerUp: (_) => setState(() => pressed = false),
-      onPointerCancel: (_) => setState(() => pressed = false),
-      child: NuiRiveArtwork(
-        artboard: widget.artboard,
-        resize: widget.resize,
-        state: widget.state.interaction(hovered: hovered, pressed: pressed),
-        builder: (ctx, graphic) => Stack(
-          alignment: Alignment.center,
-          children: [
-            Positioned.fill(
-              child: Center(
-                child: SizedBox(
-                  width: widget.visualSize?.width ?? double.infinity,
-                  height: widget.visualSize?.height ?? double.infinity,
-                  child: Opacity(
-                    opacity: widget.state.enabled ? 1 : .45,
-                    child:
-                        graphic ??
-                        (widget.artboard == 'SegmentedControl'
-                            ? TweenAnimationBuilder<double>(
-                                tween: Tween(end: widget.state.value),
-                                duration: NuiTheme.of(context)
-                                    .duration(context, 220),
-                                curve: const Cubic(.2, 0, .2, 1),
-                                builder: (ctx, value, _) => CustomPaint(
-                                  painter: _StaticControlPainter(
-                                    widget.artboard,
-                                    widget.state,
-                                    NuiTheme.of(context),
-                                    selectionValue: value,
-                                  ),
-                                ),
-                              )
-                            : CustomPaint(
-                                painter: _StaticControlPainter(
-                                  widget.artboard,
-                                  widget.state,
-                                  NuiTheme.of(context),
-                                ),
-                              )),
+  Widget build(BuildContext context) => Listener(
+    onPointerDown: (e) {
+      if (widget.state.enabled && (e.buttons & kPrimaryButton) != 0) {
+        setState(() => pressed = true);
+      }
+    },
+    onPointerUp: (_) => setState(() => pressed = false),
+    onPointerCancel: (_) => setState(() => pressed = false),
+    child: TweenAnimationBuilder<double>(
+      tween: Tween(
+        end: widget.mechanism == 'SegmentedControl'
+            ? widget.state.value
+            : widget.state.selected
+            ? 1.0
+            : 0.0,
+      ),
+      duration: NuiTheme.of(context).duration(
+        context,
+        widget.mechanism == 'SegmentedControl'
+            ? 220
+            : widget.mechanism == 'Switch'
+            ? 160
+            : 120,
+      ),
+      curve: const Cubic(.2, 0, .2, 1),
+      child: widget.inputBuilder(context, false),
+      builder: (ctx, position, input) => Stack(
+        alignment: Alignment.center,
+        children: [
+          Positioned.fill(
+            child: Center(
+              child: SizedBox(
+                width: widget.visualSize?.width ?? double.infinity,
+                height: widget.visualSize?.height ?? double.infinity,
+                child: Opacity(
+                  opacity: widget.state.enabled ? 1 : .45,
+                  child: RepaintBoundary(
+                    child: TweenAnimationBuilder<double>(
+                      tween: Tween(end: pressed ? 1.0 : 0.0),
+                      duration: NuiTheme.of(context)
+                          .duration(context, pressed ? 60 : 120),
+                      curve: const Cubic(.2, 0, .2, 1),
+                      builder: (ctx, press, _) => CustomPaint(
+                        painter: _StaticControlPainter(
+                          widget.mechanism,
+                          widget.state,
+                          NuiTheme.of(context),
+                          selectionValue: position,
+                          press: press,
+                        ),
+                      ),
+                    ),
                   ),
                 ),
               ),
             ),
-            widget.inputBuilder(ctx, graphic != null),
-          ],
-        ),
+          ),
+          input!,
+        ],
       ),
     ),
   );
@@ -90,14 +104,16 @@ class _NuiControlSkinState extends State<NuiControlSkin> {
 
 class _StaticControlPainter extends CustomPainter {
   _StaticControlPainter(
-    this.artboard,
+    this.mechanism,
     this.state,
     this.theme, {
     this.selectionValue,
+    this.press = 0,
   });
   final double? selectionValue;
-  final String artboard;
-  final NuiSkinState state;
+  final double press;
+  final String mechanism;
+  final NuiControlState state;
   final NuiThemeData theme;
   @override
   void paint(Canvas canvas, Size size) {
@@ -127,22 +143,31 @@ class _StaticControlPainter extends CustomPainter {
     }
 
     final center = size.center(Offset.zero);
-    if (artboard == 'Switch') {
+    if (mechanism == 'Switch') {
       box(
         Rect.fromCenter(center: center, width: 48, height: 26),
-        state.selected ? theme.display : theme.border,
+        Color.lerp(
+          theme.border,
+          theme.display,
+          (selectionValue ?? 0).clamp(0.0, 1.0),
+        )!,
         13,
       );
       circle(
-        center + Offset(state.selected ? 11 : -11, 0),
-        10,
-        state.selected ? theme.accent : theme.raised,
+        center + Offset(-11 + 22 * (selectionValue ?? 0).clamp(0.0, 1.0), 0),
+        10 * (1 - press * .05),
+        Color.lerp(
+          theme.raised,
+          theme.accent,
+          (selectionValue ?? 0).clamp(0.0, 1.0),
+        )!,
       );
-    } else if (artboard == 'Checkbox') {
+    } else if (mechanism == 'Checkbox') {
       final rect = Rect.fromCenter(center: center, width: 20, height: 20);
-      box(rect, state.selected ? theme.ink : theme.raised, 3);
+      final amount = (selectionValue ?? 0).clamp(0.0, 1.0);
+      box(rect, Color.lerp(theme.raised, theme.ink, amount)!, 4);
       box(rect, theme.controlBorder, 3, outline: true);
-      if (state.selected) {
+      if (amount > 0) {
         final path = Path();
         if (state.selectionState == 2) {
           path.moveTo(center.dx - 6, center.dy);
@@ -155,14 +180,14 @@ class _StaticControlPainter extends CustomPainter {
         p
           ..style = PaintingStyle.stroke
           ..strokeWidth = 2
-          ..color = theme.inverse;
+          ..color = theme.inverse.withValues(alpha: amount);
         canvas.drawPath(path, p);
       }
-    } else if (artboard == 'RadioGroup') {
+    } else if (mechanism == 'RadioGroup') {
       circle(center, 10, theme.raised);
       circle(center, 10, theme.controlBorder, outline: true);
-      if (state.selected) circle(center, 5, theme.ink);
-    } else if (artboard == 'SegmentedControl') {
+      circle(center, 5 * (selectionValue ?? 0).clamp(0.0, 1.0), theme.ink);
+    } else if (mechanism == 'SegmentedControl') {
       box(Offset.zero & size, theme.surface, 6);
       final width = size.width / state.selectionCount.clamp(1, double.infinity);
       final x =
@@ -176,7 +201,7 @@ class _StaticControlPainter extends CustomPainter {
       final face = Rect.fromLTWH(x + 4, 4, width - 8, size.height - 10);
       box(face, theme.accent, 6);
       box(face, theme.controlBorder, 6, outline: true);
-    } else if (artboard == 'Slider' || artboard == 'RangeSlider') {
+    } else if (mechanism == 'Slider' || mechanism == 'RangeSlider') {
       final left = 24.0, right = size.width - 24;
       p
         ..style = PaintingStyle.stroke
@@ -184,12 +209,12 @@ class _StaticControlPainter extends CustomPainter {
         ..color = theme.border;
       canvas.drawLine(Offset(left, center.dy), Offset(right, center.dy), p);
       final first = left + state.value.clamp(0.0, 1.0) * (right - left);
-      final end = artboard == 'RangeSlider'
+      final end = mechanism == 'RangeSlider'
           ? left + state.secondaryValue.clamp(0.0, 1.0) * (right - left)
           : first;
       p.color = theme.ink;
       canvas.drawLine(
-        Offset(artboard == 'RangeSlider' ? first : left, center.dy),
+        Offset(mechanism == 'RangeSlider' ? first : left, center.dy),
         Offset(end, center.dy),
         p,
       );
@@ -204,11 +229,11 @@ class _StaticControlPainter extends CustomPainter {
           p,
         );
       }
-      for (final x in [first, if (artboard == 'RangeSlider') end]) {
+      for (final x in [first, if (mechanism == 'RangeSlider') end]) {
         final rect = Rect.fromCenter(
           center: Offset(x, center.dy),
           width: 18,
-          height: 24,
+          height: 24 - press * 2,
         );
         box(rect.shift(const Offset(1, 2)), theme.controlBorder, 4);
         box(rect, theme.raised, 4);
@@ -221,6 +246,7 @@ class _StaticControlPainter extends CustomPainter {
   bool shouldRepaint(_StaticControlPainter old) =>
       old.state != state ||
       old.theme != theme ||
-      old.artboard != artboard ||
-      old.selectionValue != selectionValue;
+      old.mechanism != mechanism ||
+      old.selectionValue != selectionValue ||
+      old.press != press;
 }

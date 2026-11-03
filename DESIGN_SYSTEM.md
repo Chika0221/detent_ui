@@ -1,5 +1,7 @@
 # Detent Design System
 
+> 実装追記（0.8.0）: 操作部の描画とアニメーションをFlutterへ移行。RiveはProgress・Meter・Skeleton・TaskStatus専用の7アートボードに限定しました。以下の旧Rive分類は設計時の記録で、現在の使い分けはREADME.mdを参照してください。
+
 
 > 実装追記（0.5.0）: C01–C48のFlutter Widget、トークン生成、16 Riveアートボード、ギャラリーを追加しました。以下はデザイン版0.4策定時の記録です。現在のAPI・実装範囲・検証上の制限はREADME.mdを参照してください。
 > 実装追記（0.6.0）: 通常の操作部へRiveを既定接続。39アートボード、可変数字、画面外／背景停止、reduced motion代替描画、Rive比較ギャラリーを追加。APIと検証範囲はREADME.mdを参照してください。
