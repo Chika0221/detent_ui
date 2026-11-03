@@ -1,6 +1,6 @@
 {
   "version": "0.4",
-  "scope": "48 WidgetsApp-compatible Flutter widgets; interactive motion uses Flutter; processing feedback uses 7 local Rive artboards; shared Select/ComboBox popup and keycap units; design v0.4; OS verification pending",
+  "scope": "51 WidgetsApp-compatible Flutter widgets; interactive motion uses Flutter; processing feedback uses 7 local Rive artboards; shared Select/ComboBox popup and keycap units; design v0.4; OS verification pending; Perforation signature subsystem C49–C51 uses shared Flutter canvas primitives",
   "reviewSets": [
     {
       "id": "C01",
@@ -673,6 +673,48 @@
       "implementationSource": "lib/src/feedback/feedback.dart",
       "verificationStatus": "automated_tests_and_gallery; OS verification pending",
       "motionRenderer": "rive_processing_with_flutter_fallback"
+    },
+    {
+      "id": "C49",
+      "name": "NuiPerforationSurface",
+      "nodeId": "QqwtH",
+      "kind": "state_review_set",
+      "designStatus": "draft_visual_checked",
+      "implementationStatus": "implemented_initial",
+      "widget": "NuiPerforationSurface",
+      "priority": "P1",
+      "rive": "none",
+      "implementationSource": "lib/src/perforation/perforation.dart",
+      "verificationStatus": "automated_tests_and_gallery; OS verification pending",
+      "motionRenderer": "flutter"
+    },
+    {
+      "id": "C50",
+      "name": "NuiResonanceGrid",
+      "nodeId": "TEKyH",
+      "kind": "state_review_set",
+      "designStatus": "draft_visual_checked",
+      "implementationStatus": "implemented_initial",
+      "widget": "NuiResonanceGrid",
+      "priority": "P1",
+      "rive": "none",
+      "implementationSource": "lib/src/perforation/perforation.dart",
+      "verificationStatus": "automated_tests_and_gallery; OS verification pending",
+      "motionRenderer": "flutter"
+    },
+    {
+      "id": "C51",
+      "name": "NuiSpeakerMatrix",
+      "nodeId": "urCnP",
+      "kind": "state_review_set",
+      "designStatus": "draft_visual_checked",
+      "implementationStatus": "implemented_initial",
+      "widget": "NuiSpeakerMatrix",
+      "priority": "P1",
+      "rive": "none",
+      "implementationSource": "lib/src/perforation/perforation.dart",
+      "verificationStatus": "automated_tests_and_gallery; OS verification pending",
+      "motionRenderer": "flutter"
     }
   ],
   "symbols": [

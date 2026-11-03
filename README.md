@@ -1,7 +1,7 @@
 # Detent Design System
 
-Flutter デスクトップ向けの UI パッケージ。`ui_design.pen` の48部品（C01–C48）を
-`Nui` 接頭辞の Widget として実装しています。デザイン版は0.4、実装版は0.8.0です。操作アニメーションはFlutter、処理状態のアニメーションはRiveで実装しています。
+Flutter デスクトップ向けの UI パッケージ。`design_system.pen` の51部品（C01–C51）を
+`Nui` 接頭辞の Widget として実装しています。デザイン版は0.4、実装版は0.8.0です。操作アニメーションとPerforationはFlutter、既存の処理状態アニメーションはRiveで実装しています。
 
 ## ギャラリー
 
@@ -230,7 +230,7 @@ flutter test example/test/gallery_test.dart
 ギャラリーは4テーマと文字200%、幅1024 / 1440 / 1920を確認します。
 OS実機のIME・スクリーンリーダー・DPI・性能測定は別途必要で、Verified認定ではありません。
 
-設計の根拠: `DESIGN_SYSTEM.md`、`SPECIFICATION.md`、`ui_design.pen`、`component_registry.json`。
+設計の根拠: `DESIGN_SYSTEM.md`、`SPECIFICATION.md`、`design_system.pen`、`component_registry.json`。
 
 ### 動きの負荷を確認する
 
@@ -244,3 +244,45 @@ flutter run --profile -d web-server --web-port 48732 --dart-define=DETENT_PERF=t
 `DETENT_FRAME` に5秒区間のフレーム数、Flutter build / raster の中央値と95パーセンタイルを出力します。
 同じ表示位置で Rive を切り替えて比較してください。通常の起動では計測しません。
 Rive の描画を再描画境界で分離し、画面外の代替進捗アニメーションも TickerMode で停止します。
+
+
+## Signature Systems / Perforation
+
+同じ正円・ピッチ・奥行きを、素材、反応、情報表示で共有するサブシステムです。
+`NuiHole` / `NuiHoleGrid` / `NuiPerforationPattern` が共通Primitiveです。
+描画はCustomPainterへまとめ、穴ごとのWidget・Ticker・Semanticsは生成しません。
+
+```dart
+NuiPerforationSurface(
+  arrangement: NuiPerforationArrangement.hexagonal,
+  coverage: NuiPerforationCoverage.edge,
+  child: const Text('System health'),
+);
+
+const NuiSpeakerMatrix.progress(value: .75, label: '書き出し');
+const NuiSpeakerMatrix.status(
+  status: NuiConnectionStatus.connected, label: '入力デバイス');
+const NuiSpeakerMatrix.level(levels: [.2, .5, .8, 1], label: '入力レベル');
+const NuiSpeakerMatrix.signal(strength: 4, label: '接続強度');
+const NuiSpeakerMatrix.loading(label: '処理中');
+
+NuiResonanceGrid(
+  state: NuiResonanceState.listening,
+  interaction: NuiResonanceInteraction.audio,
+  level: inputLevel, // ホストが渡す0〜1。マイク取得・権限要求は行わない。
+);
+```
+
+- Holeサイズは2 / 3 / 4 / 6px。Densityの隙間はsparse 12 / normal 8 / dense 4px。ピッチは直径＋隙間です。
+- Square / Hexagonalを切り替えても正円を維持します。Patternは利用可能な面積から行列数を計算します。大きく見せるためにGridを引き伸ばさないでください。
+- Depthはflat / inset / deep、Surfaceはstandard / subtle / contrast / elevated / inset。Surfaceの子には16pxの模様のない安全域を設けます。
+- Coverageはfull / edge / corner / custom。Customには`mask`が必要です。Patternの`contentBounds`はローカル座標で指定し、周囲16pxも除外します。
+- Progressの値は0〜1、点灯数は`floor(value × rows × columns)`。horizontalは行優先、verticalは列優先です。Levelは各チャンネルの0〜1、Signalは`strength / maxStrength`を表示します。
+- Pointerは近傍2ピッチ、Radial / Notificationは最大3ピッチに反応します。`pulseId`を増やすと同じ通知を再発火できます。通知は一回で収束し、背景の無限ループには使いません。
+- Audioは入力値で行数を変えます。Listeningそのものから音声や架空の値は生成しません。
+- Matrixのラベル・値は可視テキストとSemanticsで提供します。穴自体は装飾として読み上げから除外します。色は既存テーマのaccent / success / dangerを再利用します。
+- Reduced Motionでは移動・連続点灯を停止します。非表示・バックグラウンド・TickerMode無効でも停止します。
+- 可変行列と局所反応に合わせ、PerforationはFlutterで実装しています。Rive設定は既存の処理表示に引き続き適用されます。
+
+ギャラリー末尾のPerforationセクションではVariants・States、進捗4段階、Pointer・Audio・Notification、既存コンポーネントと組み合わせたワークスペースを操作できます。
+Token正本は`design_tokens.json`。`python3 tool/generate_tokens.py`でDartと確認用スナップショットを再生成します。Token生成はPenファイルを読みません。Penの参照・レイアウト検証はPen MCPで別に行います。
