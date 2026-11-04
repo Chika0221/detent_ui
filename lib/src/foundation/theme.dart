@@ -25,6 +25,9 @@ class NuiTypography {
     height: 1.5,
     color: ink,
   );
+  TextStyle get title => bodyMedium.copyWith(fontSize: 24, fontWeight: FontWeight.w600, height: 1.3);
+  TextStyle get sectionTitle => bodyMedium.copyWith(fontSize: 16, fontWeight: FontWeight.w600);
+  TextStyle get readout => bodyMedium.copyWith(fontSize: 24, fontWeight: FontWeight.w500, fontFeatures: const [FontFeature.tabularFigures()]);
   TextStyle get bodySmall => bodyMedium.copyWith(fontSize: 12);
   TextStyle get labelLarge =>
       bodyMedium.copyWith(fontWeight: FontWeight.w500, height: 1.35);

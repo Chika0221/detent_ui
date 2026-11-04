@@ -3,6 +3,8 @@ import 'package:detent_ui/detent_ui.dart';
 
 import 'performance_probe.dart';
 import 'perforation_showcase.dart';
+import 'instrument_workspace.dart';
+import 'material_workspace.dart';
 
 void main() => runApp(const DetentGallery());
 
@@ -837,6 +839,10 @@ class _GalleryBodyState extends State<GalleryBody> {
               ),
             ),
             const SizedBox(height: 24),
+            const MaterialWorkspace(),
+            const SizedBox(height: 32),
+            const InstrumentWorkspace(),
+            const SizedBox(height: 32),
             const PerforationShowcase(),
             const SizedBox(height: 32),
             const Text(
