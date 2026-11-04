@@ -29,7 +29,7 @@ class NuiListRow extends StatelessWidget {
         : NuiTheme.of(context).raised,
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(4),
-      side: BorderSide(color: NuiTheme.of(context).border),
+      side: BorderSide(color: selected ? NuiTheme.of(context).controlBorder : NuiTheme.of(context).border),
     ),
     child: NuiTile(
       dense: true,
@@ -216,7 +216,7 @@ class _NuiTreeViewState<T> extends State<NuiTreeView<T>> {
                       ? Icon(
                           FLucideIcons.check,
                           size: 16,
-                          color: NuiTheme.of(context).accent,
+                          color: NuiTheme.of(context).ink,
                         )
                       : null,
                   title: Text(n.label),
@@ -330,8 +330,12 @@ class NuiDataTable<T> extends StatelessWidget {
                     );
                     return NuiSurface(
                       key: ValueKey(id),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(4),
+                        side: BorderSide(color: selected.contains(id) ? t.controlBorder : t.border),
+                      ),
                       color: selected.contains(id)
-                          ? t.accent.withValues(alpha: t.highContrast ? 1 : .2)
+                          ? t.surface
                           : t.raised,
                       child: NuiInk(
                         onTap: onSelectionChanged == null
@@ -365,7 +369,7 @@ class NuiDataTable<T> extends StatelessWidget {
                                         color:
                                             selected.contains(id) &&
                                                 t.highContrast
-                                            ? t.accentInk
+                                            ? t.ink
                                             : t.ink,
                                       ),
                                       child: values[j],
