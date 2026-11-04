@@ -158,7 +158,7 @@ class _StaticControlPainter extends CustomPainter {
         10 * (1 - press * .05),
         Color.lerp(
           theme.raised,
-          theme.accent,
+          theme.raised,
           (selectionValue ?? 0).clamp(0.0, 1.0),
         )!,
       );
@@ -199,7 +199,7 @@ class _StaticControlPainter extends CustomPainter {
         6,
       );
       final face = Rect.fromLTWH(x + 4, 4, width - 8, size.height - 10);
-      box(face, theme.accent, 6);
+      box(face, theme.ink, 6);
       box(face, theme.controlBorder, 6, outline: true);
     } else if (mechanism == 'Slider' || mechanism == 'RangeSlider') {
       final left = 24.0, right = size.width - 24;

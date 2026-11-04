@@ -136,6 +136,9 @@ class _NuiAnimatedTab extends StatelessWidget {
         decoration: BoxDecoration(
           color: selected ? NuiTheme.of(context).raised : null,
           borderRadius: BorderRadius.circular(5),
+          boxShadow: selected && !NuiTheme.of(context).highContrast
+              ? [BoxShadow(color: NuiTheme.of(context).controlBorder, offset: const Offset(0, 2))]
+              : null,
           border: Border.all(
             color: selected
                 ? NuiTheme.of(context).controlBorder
@@ -154,7 +157,7 @@ class _NuiAnimatedTab extends StatelessWidget {
           curve: const Cubic(.2, 0, .2, 1),
           decoration: BoxDecoration(
             color: selected
-                ? NuiTheme.of(context).accent
+                ? NuiTheme.of(context).ink
                 : NuiColors.transparent,
             borderRadius: BorderRadius.circular(1),
           ),
