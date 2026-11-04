@@ -18,6 +18,7 @@ class NuiButton extends StatefulWidget {
     this.icon,
     this.variant = NuiButtonVariant.secondary,
     this.loading = false,
+    this.selected = false,
     this.focusNode,
     this.autofocus = false,
     this.semanticLabel,
@@ -26,6 +27,8 @@ class NuiButton extends StatefulWidget {
   final VoidCallback? onPressed;
   final IconData? icon;
   final NuiButtonVariant variant;
+  /// A latched, neutral selection; independent of the primary action variant.
+  final bool selected;
   final bool loading;
   final FocusNode? focusNode;
   final bool autofocus;
@@ -62,14 +65,14 @@ class _NuiButtonState extends State<NuiButton> {
   @override
   Widget build(BuildContext context) {
     final t = NuiTheme.of(context);
-    final bg = switch (widget.variant) {
+    final bg = widget.selected ? t.ink : switch (widget.variant) {
       NuiButtonVariant.primary => hovered ? t.accentHover : t.accent,
       NuiButtonVariant.danger => t.danger,
       NuiButtonVariant.quiet => hovered ? t.surface : NuiColors.transparent,
       NuiButtonVariant.secondary => hovered ? t.surface : t.raised,
     };
-    final fg = widget.variant == NuiButtonVariant.primary
-        ? t.accentInk
+    final fg = widget.selected ? t.inverse : widget.variant == NuiButtonVariant.primary
+        ? t.inverse
         : widget.variant == NuiButtonVariant.danger
         ? (t.dark ? NuiColors.black : NuiColors.white)
         : t.ink;
@@ -77,7 +80,7 @@ class _NuiButtonState extends State<NuiButton> {
     Widget face(Widget child) => AnimatedContainer(
       duration: t.duration(context, pressed ? 60 : 120),
       curve: curve,
-      transform: Matrix4.translationValues(0, pressed ? 2 : 0, 0),
+      transform: Matrix4.translationValues(0, pressed || widget.selected ? 2 : 0, 0),
       child: child,
     );
     final fallback = Stack(
@@ -278,9 +281,7 @@ class NuiIconButton extends StatelessWidget {
           icon: icon,
           onPressed: onPressed,
           focusNode: focusNode,
-          variant: selected
-              ? NuiButtonVariant.primary
-              : NuiButtonVariant.secondary,
+          selected: selected,
         ),
       ),
     ),
@@ -305,7 +306,7 @@ class NuiToggleButton extends StatelessWidget {
     child: NuiButton(
       label: label,
       icon: icon,
-      variant: value ? NuiButtonVariant.primary : NuiButtonVariant.secondary,
+      selected: value,
       onPressed: onChanged == null ? null : () => onChanged!(!value),
     ),
   );
@@ -327,7 +328,7 @@ class NuiKeycap extends StatelessWidget {
   Widget build(BuildContext context) {
     final t = NuiTheme.of(context),
         width = (NuiTheme.of(context).controlHeight + 8) * units - 8;
-    final bg = pressed ? t.accent : t.raised;
+    final bg = pressed ? t.ink : t.raised;
     return Semantics(
       label: label,
       value: pressed ? '押下中' : null,
@@ -388,7 +389,7 @@ class NuiKeycap extends StatelessWidget {
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
-                          color: pressed ? t.accentInk : t.ink,
+                          color: pressed ? t.inverse : t.ink,
                           fontSize: 12,
                         ),
                       ),
@@ -508,7 +509,7 @@ class _NuiSegmentedControlState<T> extends State<NuiSegmentedControl<T>> {
                                   o.icon,
                                   size: 16,
                                   color: o.value == w.value
-                                      ? t.accentInk
+                                      ? t.inverse
                                       : t.ink,
                                 ),
                                 const SizedBox(width: 8),
@@ -521,7 +522,7 @@ class _NuiSegmentedControlState<T> extends State<NuiSegmentedControl<T>> {
                                     color: !o.enabled
                                         ? t.muted
                                         : o.value == w.value
-                                        ? t.accentInk
+                                        ? t.inverse
                                         : t.ink,
                                   ),
                                 ),
