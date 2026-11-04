@@ -311,6 +311,78 @@
       "alpha": 1
     }
   },
+  "primitive.color.chrome": {
+    "$type": "color",
+    "$value": {
+      "colorSpace": "srgb",
+      "components": [
+        0.9294117647058824,
+        0.9333333333333333,
+        0.9215686274509803
+      ],
+      "alpha": 1
+    }
+  },
+  "primitive.color.selection": {
+    "$type": "color",
+    "$value": {
+      "colorSpace": "srgb",
+      "components": [
+        0.8666666666666667,
+        0.8823529411764706,
+        0.8627450980392157
+      ],
+      "alpha": 1
+    }
+  },
+  "primitive.color.keyDepth": {
+    "$type": "color",
+    "$value": {
+      "colorSpace": "srgb",
+      "components": [
+        0.6470588235294118,
+        0.6784313725490196,
+        0.6588235294117647
+      ],
+      "alpha": 1
+    }
+  },
+  "primitive.color.darkChrome": {
+    "$type": "color",
+    "$value": {
+      "colorSpace": "srgb",
+      "components": [
+        0.12549019607843137,
+        0.1450980392156863,
+        0.1568627450980392
+      ],
+      "alpha": 1
+    }
+  },
+  "primitive.color.darkSelection": {
+    "$type": "color",
+    "$value": {
+      "colorSpace": "srgb",
+      "components": [
+        0.2549019607843137,
+        0.2901960784313726,
+        0.27450980392156865
+      ],
+      "alpha": 1
+    }
+  },
+  "primitive.color.darkKeyDepth": {
+    "$type": "color",
+    "$value": {
+      "colorSpace": "srgb",
+      "components": [
+        0.34901960784313724,
+        0.38823529411764707,
+        0.3686274509803922
+      ],
+      "alpha": 1
+    }
+  },
   "primitive.space.s0": {
     "$type": "dimension",
     "$value": {
@@ -645,6 +717,18 @@
       "alpha": 1
     }
   },
+  "semantic.light.color.bg.chrome": {
+    "$type": "color",
+    "$value": {
+      "colorSpace": "srgb",
+      "components": [
+        0.9294117647058824,
+        0.9333333333333333,
+        0.9215686274509803
+      ],
+      "alpha": 1
+    }
+  },
   "semantic.light.color.text.primary": {
     "$type": "color",
     "$value": {
@@ -777,6 +861,42 @@
       "alpha": 1
     }
   },
+  "semantic.light.color.selection.surface": {
+    "$type": "color",
+    "$value": {
+      "colorSpace": "srgb",
+      "components": [
+        0.8666666666666667,
+        0.8823529411764706,
+        0.8627450980392157
+      ],
+      "alpha": 1
+    }
+  },
+  "semantic.light.color.selection.foreground": {
+    "$type": "color",
+    "$value": {
+      "colorSpace": "srgb",
+      "components": [
+        0.12549019607843137,
+        0.1411764705882353,
+        0.14901960784313725
+      ],
+      "alpha": 1
+    }
+  },
+  "semantic.light.color.depth.key": {
+    "$type": "color",
+    "$value": {
+      "colorSpace": "srgb",
+      "components": [
+        0.6470588235294118,
+        0.6784313725490196,
+        0.6588235294117647
+      ],
+      "alpha": 1
+    }
+  },
   "semantic.light.dimension.control.height": {
     "$type": "dimension",
     "$value": {
@@ -823,6 +943,20 @@
     "$type": "dimension",
     "$value": {
       "value": 4,
+      "unit": "px"
+    }
+  },
+  "semantic.light.dimension.control.paddingInline": {
+    "$type": "dimension",
+    "$value": {
+      "value": 12,
+      "unit": "px"
+    }
+  },
+  "semantic.light.dimension.control.paddingBlock": {
+    "$type": "dimension",
+    "$value": {
+      "value": 8,
       "unit": "px"
     }
   },
@@ -912,6 +1046,18 @@
         0.043137254901960784,
         0.050980392156862744,
         0.058823529411764705
+      ],
+      "alpha": 1
+    }
+  },
+  "semantic.dark.color.bg.chrome": {
+    "$type": "color",
+    "$value": {
+      "colorSpace": "srgb",
+      "components": [
+        0.12549019607843137,
+        0.1450980392156863,
+        0.1568627450980392
       ],
       "alpha": 1
     }
@@ -1048,6 +1194,42 @@
       "alpha": 1
     }
   },
+  "semantic.dark.color.selection.surface": {
+    "$type": "color",
+    "$value": {
+      "colorSpace": "srgb",
+      "components": [
+        0.2549019607843137,
+        0.2901960784313726,
+        0.27450980392156865
+      ],
+      "alpha": 1
+    }
+  },
+  "semantic.dark.color.selection.foreground": {
+    "$type": "color",
+    "$value": {
+      "colorSpace": "srgb",
+      "components": [
+        0.9490196078431372,
+        0.9568627450980393,
+        0.9450980392156862
+      ],
+      "alpha": 1
+    }
+  },
+  "semantic.dark.color.depth.key": {
+    "$type": "color",
+    "$value": {
+      "colorSpace": "srgb",
+      "components": [
+        0.34901960784313724,
+        0.38823529411764707,
+        0.3686274509803922
+      ],
+      "alpha": 1
+    }
+  },
   "semantic.dark.dimension.control.height": {
     "$type": "dimension",
     "$value": {
@@ -1094,6 +1276,20 @@
     "$type": "dimension",
     "$value": {
       "value": 4,
+      "unit": "px"
+    }
+  },
+  "semantic.dark.dimension.control.paddingInline": {
+    "$type": "dimension",
+    "$value": {
+      "value": 12,
+      "unit": "px"
+    }
+  },
+  "semantic.dark.dimension.control.paddingBlock": {
+    "$type": "dimension",
+    "$value": {
+      "value": 8,
       "unit": "px"
     }
   },
@@ -1183,6 +1379,18 @@
         0.09019607843137255,
         0.10196078431372549,
         0.10980392156862745
+      ],
+      "alpha": 1
+    }
+  },
+  "semantic.highLight.color.bg.chrome": {
+    "$type": "color",
+    "$value": {
+      "colorSpace": "srgb",
+      "components": [
+        1.0,
+        1.0,
+        1.0
       ],
       "alpha": 1
     }
@@ -1319,6 +1527,42 @@
       "alpha": 1
     }
   },
+  "semantic.highLight.color.selection.surface": {
+    "$type": "color",
+    "$value": {
+      "colorSpace": "srgb",
+      "components": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "alpha": 1
+    }
+  },
+  "semantic.highLight.color.selection.foreground": {
+    "$type": "color",
+    "$value": {
+      "colorSpace": "srgb",
+      "components": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "alpha": 1
+    }
+  },
+  "semantic.highLight.color.depth.key": {
+    "$type": "color",
+    "$value": {
+      "colorSpace": "srgb",
+      "components": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "alpha": 1
+    }
+  },
   "semantic.highLight.dimension.control.height": {
     "$type": "dimension",
     "$value": {
@@ -1365,6 +1609,20 @@
     "$type": "dimension",
     "$value": {
       "value": 4,
+      "unit": "px"
+    }
+  },
+  "semantic.highLight.dimension.control.paddingInline": {
+    "$type": "dimension",
+    "$value": {
+      "value": 12,
+      "unit": "px"
+    }
+  },
+  "semantic.highLight.dimension.control.paddingBlock": {
+    "$type": "dimension",
+    "$value": {
+      "value": 8,
       "unit": "px"
     }
   },
@@ -1447,6 +1705,18 @@
     }
   },
   "semantic.highDark.color.bg.display": {
+    "$type": "color",
+    "$value": {
+      "colorSpace": "srgb",
+      "components": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "alpha": 1
+    }
+  },
+  "semantic.highDark.color.bg.chrome": {
     "$type": "color",
     "$value": {
       "colorSpace": "srgb",
@@ -1590,6 +1860,42 @@
       "alpha": 1
     }
   },
+  "semantic.highDark.color.selection.surface": {
+    "$type": "color",
+    "$value": {
+      "colorSpace": "srgb",
+      "components": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "alpha": 1
+    }
+  },
+  "semantic.highDark.color.selection.foreground": {
+    "$type": "color",
+    "$value": {
+      "colorSpace": "srgb",
+      "components": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "alpha": 1
+    }
+  },
+  "semantic.highDark.color.depth.key": {
+    "$type": "color",
+    "$value": {
+      "colorSpace": "srgb",
+      "components": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "alpha": 1
+    }
+  },
   "semantic.highDark.dimension.control.height": {
     "$type": "dimension",
     "$value": {
@@ -1636,6 +1942,20 @@
     "$type": "dimension",
     "$value": {
       "value": 4,
+      "unit": "px"
+    }
+  },
+  "semantic.highDark.dimension.control.paddingInline": {
+    "$type": "dimension",
+    "$value": {
+      "value": 12,
+      "unit": "px"
+    }
+  },
+  "semantic.highDark.dimension.control.paddingBlock": {
+    "$type": "dimension",
+    "$value": {
+      "value": 8,
       "unit": "px"
     }
   },
@@ -1796,6 +2116,20 @@
       "unit": "px"
     }
   },
+  "component.light.button.paddingInline": {
+    "$type": "dimension",
+    "$value": {
+      "value": 12,
+      "unit": "px"
+    }
+  },
+  "component.light.button.paddingBlock": {
+    "$type": "dimension",
+    "$value": {
+      "value": 8,
+      "unit": "px"
+    }
+  },
   "component.light.input.background": {
     "$type": "color",
     "$value": {
@@ -1840,6 +2174,20 @@
     }
   },
   "component.light.input.padding": {
+    "$type": "dimension",
+    "$value": {
+      "value": 8,
+      "unit": "px"
+    }
+  },
+  "component.light.input.paddingInline": {
+    "$type": "dimension",
+    "$value": {
+      "value": 12,
+      "unit": "px"
+    }
+  },
+  "component.light.input.paddingBlock": {
     "$type": "dimension",
     "$value": {
       "value": 8,
@@ -1985,6 +2333,20 @@
       "unit": "px"
     }
   },
+  "component.dark.button.paddingInline": {
+    "$type": "dimension",
+    "$value": {
+      "value": 12,
+      "unit": "px"
+    }
+  },
+  "component.dark.button.paddingBlock": {
+    "$type": "dimension",
+    "$value": {
+      "value": 8,
+      "unit": "px"
+    }
+  },
   "component.dark.input.background": {
     "$type": "color",
     "$value": {
@@ -2029,6 +2391,20 @@
     }
   },
   "component.dark.input.padding": {
+    "$type": "dimension",
+    "$value": {
+      "value": 8,
+      "unit": "px"
+    }
+  },
+  "component.dark.input.paddingInline": {
+    "$type": "dimension",
+    "$value": {
+      "value": 12,
+      "unit": "px"
+    }
+  },
+  "component.dark.input.paddingBlock": {
     "$type": "dimension",
     "$value": {
       "value": 8,
@@ -2174,6 +2550,20 @@
       "unit": "px"
     }
   },
+  "component.highLight.button.paddingInline": {
+    "$type": "dimension",
+    "$value": {
+      "value": 12,
+      "unit": "px"
+    }
+  },
+  "component.highLight.button.paddingBlock": {
+    "$type": "dimension",
+    "$value": {
+      "value": 8,
+      "unit": "px"
+    }
+  },
   "component.highLight.input.background": {
     "$type": "color",
     "$value": {
@@ -2218,6 +2608,20 @@
     }
   },
   "component.highLight.input.padding": {
+    "$type": "dimension",
+    "$value": {
+      "value": 8,
+      "unit": "px"
+    }
+  },
+  "component.highLight.input.paddingInline": {
+    "$type": "dimension",
+    "$value": {
+      "value": 12,
+      "unit": "px"
+    }
+  },
+  "component.highLight.input.paddingBlock": {
     "$type": "dimension",
     "$value": {
       "value": 8,
@@ -2363,6 +2767,20 @@
       "unit": "px"
     }
   },
+  "component.highDark.button.paddingInline": {
+    "$type": "dimension",
+    "$value": {
+      "value": 12,
+      "unit": "px"
+    }
+  },
+  "component.highDark.button.paddingBlock": {
+    "$type": "dimension",
+    "$value": {
+      "value": 8,
+      "unit": "px"
+    }
+  },
   "component.highDark.input.background": {
     "$type": "color",
     "$value": {
@@ -2407,6 +2825,20 @@
     }
   },
   "component.highDark.input.padding": {
+    "$type": "dimension",
+    "$value": {
+      "value": 8,
+      "unit": "px"
+    }
+  },
+  "component.highDark.input.paddingInline": {
+    "$type": "dimension",
+    "$value": {
+      "value": 12,
+      "unit": "px"
+    }
+  },
+  "component.highDark.input.paddingBlock": {
     "$type": "dimension",
     "$value": {
       "value": 8,
