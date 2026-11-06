@@ -1422,7 +1422,7 @@
                   "x": 4,
                   "y": 6,
                   "name": "キーの厚み",
-                  "fill": "#A5ADA8",
+                  "fill": "$ds.material.keyDepth",
                   "width": 52,
                   "height": 44
                 },
@@ -1441,8 +1441,8 @@
                   "strokeAlignment": "inner",
                   "gap": "$gap.control",
                   "padding": [
-                    8,
-                    12
+                    "$ds.control.paddingY",
+                    "$ds.control.paddingX"
                   ],
                   "justifyContent": "center",
                   "alignItems": "center",
@@ -1478,7 +1478,7 @@
                   "x": 4,
                   "y": 6,
                   "name": "キーの厚み",
-                  "fill": "#A5ADA8",
+                  "fill": "$ds.material.keyDepth",
                   "width": 52,
                   "height": 44
                 },
@@ -1497,8 +1497,8 @@
                   "strokeAlignment": "inner",
                   "gap": "$gap.control",
                   "padding": [
-                    8,
-                    12
+                    "$ds.control.paddingY",
+                    "$ds.control.paddingX"
                   ],
                   "justifyContent": "center",
                   "alignItems": "center",
@@ -1534,7 +1534,7 @@
                   "x": 4,
                   "y": 6,
                   "name": "キーの厚み",
-                  "fill": "#A5ADA8",
+                  "fill": "$ds.material.keyDepth",
                   "width": 52,
                   "height": 44
                 },
@@ -1553,8 +1553,8 @@
                   "strokeAlignment": "inner",
                   "gap": "$gap.control",
                   "padding": [
-                    8,
-                    12
+                    "$ds.control.paddingY",
+                    "$ds.control.paddingX"
                   ],
                   "justifyContent": "center",
                   "alignItems": "center",
@@ -1590,7 +1590,7 @@
                   "x": 4,
                   "y": 6,
                   "name": "キーの厚み",
-                  "fill": "#A5ADA8",
+                  "fill": "$ds.material.keyDepth",
                   "width": 52,
                   "height": 44
                 },
@@ -1609,8 +1609,8 @@
                   "strokeAlignment": "inner",
                   "gap": "$gap.control",
                   "padding": [
-                    8,
-                    12
+                    "$ds.control.paddingY",
+                    "$ds.control.paddingX"
                   ],
                   "justifyContent": "center",
                   "alignItems": "center",
@@ -1895,7 +1895,7 @@
                   "x": 18,
                   "y": 22,
                   "name": "ノブの厚み",
-                  "fill": "$edge",
+                  "fill": "$ds.material.keyDepth",
                   "width": 104,
                   "height": 104
                 },
@@ -2396,7 +2396,7 @@
                   "x": 4,
                   "y": 6,
                   "name": "キーの厚み",
-                  "fill": "#A5ADA8",
+                  "fill": "$ds.material.keyDepth",
                   "width": 112,
                   "height": 40
                 },
@@ -2415,8 +2415,8 @@
                   "strokeAlignment": "inner",
                   "gap": "$gap.control",
                   "padding": [
-                    8,
-                    12
+                    "$ds.control.paddingY",
+                    "$ds.control.paddingX"
                   ],
                   "justifyContent": "center",
                   "alignItems": "center",
@@ -2456,7 +2456,7 @@
                   "x": 4,
                   "y": 6,
                   "name": "キーの厚み",
-                  "fill": "#A5ADA8",
+                  "fill": "$ds.material.keyDepth",
                   "width": 112,
                   "height": 40
                 },
@@ -2475,8 +2475,8 @@
                   "strokeAlignment": "inner",
                   "gap": "$gap.control",
                   "padding": [
-                    8,
-                    12
+                    "$ds.control.paddingY",
+                    "$ds.control.paddingX"
                   ],
                   "justifyContent": "center",
                   "alignItems": "center",
@@ -2516,7 +2516,7 @@
                   "x": 4,
                   "y": 6,
                   "name": "キーの厚み",
-                  "fill": "#A5ADA8",
+                  "fill": "$ds.material.keyDepth",
                   "width": 112,
                   "height": 40
                 },
@@ -2535,8 +2535,8 @@
                   "strokeAlignment": "inner",
                   "gap": "$gap.control",
                   "padding": [
-                    8,
-                    12
+                    "$ds.control.paddingY",
+                    "$ds.control.paddingX"
                   ],
                   "justifyContent": "center",
                   "alignItems": "center",
@@ -2576,7 +2576,7 @@
                   "x": 4,
                   "y": 6,
                   "name": "キーの厚み",
-                  "fill": "#A5ADA8",
+                  "fill": "$ds.material.keyDepth",
                   "width": 112,
                   "height": 40
                 },
@@ -2595,8 +2595,8 @@
                   "strokeAlignment": "inner",
                   "gap": "$gap.control",
                   "padding": [
-                    8,
-                    12
+                    "$ds.control.paddingY",
+                    "$ds.control.paddingX"
                   ],
                   "justifyContent": "center",
                   "alignItems": "center",
@@ -2650,7 +2650,7 @@
                   "x": 4,
                   "y": 6,
                   "name": "キーの厚み",
-                  "fill": "#A5ADA8",
+                  "fill": "$ds.material.keyDepth",
                   "width": 112,
                   "height": 40
                 },
@@ -2669,8 +2669,8 @@
                   "strokeAlignment": "inner",
                   "gap": "$gap.control",
                   "padding": [
-                    8,
-                    12
+                    "$ds.control.paddingY",
+                    "$ds.control.paddingX"
                   ],
                   "justifyContent": "center",
                   "alignItems": "center",
@@ -2710,7 +2710,7 @@
                   "x": 4,
                   "y": 6,
                   "name": "キーの厚み",
-                  "fill": "#A5ADA8",
+                  "fill": "$ds.material.keyDepth",
                   "width": 112,
                   "height": 40
                 },
@@ -2729,8 +2729,8 @@
                   "strokeAlignment": "inner",
                   "gap": "$gap.control",
                   "padding": [
-                    8,
-                    12
+                    "$ds.control.paddingY",
+                    "$ds.control.paddingX"
                   ],
                   "justifyContent": "center",
                   "alignItems": "center",
@@ -2818,7 +2818,7 @@
                   "x": 4,
                   "y": 6,
                   "name": "キーの厚み",
-                  "fill": "#A5ADA8",
+                  "fill": "$ds.material.keyDepth",
                   "width": 42,
                   "height": 40
                 },
@@ -2837,8 +2837,8 @@
                   "strokeAlignment": "inner",
                   "gap": "$gap.control",
                   "padding": [
-                    8,
-                    12
+                    "$ds.control.paddingY",
+                    "$ds.control.paddingX"
                   ],
                   "justifyContent": "center",
                   "alignItems": "center",
@@ -2874,7 +2874,7 @@
                   "x": 4,
                   "y": 6,
                   "name": "キーの厚み",
-                  "fill": "#A5ADA8",
+                  "fill": "$ds.material.keyDepth",
                   "width": 42,
                   "height": 40
                 },
@@ -2893,8 +2893,8 @@
                   "strokeAlignment": "inner",
                   "gap": "$gap.control",
                   "padding": [
-                    8,
-                    12
+                    "$ds.control.paddingY",
+                    "$ds.control.paddingX"
                   ],
                   "justifyContent": "center",
                   "alignItems": "center",
@@ -2930,7 +2930,7 @@
                   "x": 4,
                   "y": 6,
                   "name": "キーの厚み",
-                  "fill": "#A5ADA8",
+                  "fill": "$ds.material.keyDepth",
                   "width": 42,
                   "height": 40
                 },
@@ -2949,8 +2949,8 @@
                   "strokeAlignment": "inner",
                   "gap": "$gap.control",
                   "padding": [
-                    8,
-                    12
+                    "$ds.control.paddingY",
+                    "$ds.control.paddingX"
                   ],
                   "justifyContent": "center",
                   "alignItems": "center",
@@ -3034,7 +3034,7 @@
                   "x": 4,
                   "y": 6,
                   "name": "キーの厚み",
-                  "fill": "#A5ADA8",
+                  "fill": "$ds.material.keyDepth",
                   "width": 44,
                   "height": 40
                 },
@@ -3051,10 +3051,20 @@
                   "stroke": "$edge",
                   "strokeWidth": 1,
                   "strokeAlignment": "inner",
+                  "effect": {
+                    "type": "shadow",
+                    "shadowType": "inner",
+                    "color": "#20242614",
+                    "offset": {
+                      "x": 0,
+                      "y": 1
+                    },
+                    "blur": 2
+                  },
                   "gap": "$gap.control",
                   "padding": [
-                    8,
-                    12
+                    "$ds.control.paddingY",
+                    "$ds.control.paddingX"
                   ],
                   "justifyContent": "center",
                   "alignItems": "center",
@@ -3071,7 +3081,7 @@
                       "textAlign": "center",
                       "fontFamily": "$font.latin",
                       "fontSize": 14,
-                      "fontWeight": "500"
+                      "fontWeight": "600"
                     }
                   ]
                 }
@@ -3094,7 +3104,7 @@
                   "x": 4,
                   "y": 6,
                   "name": "キーの厚み",
-                  "fill": "#A5ADA8",
+                  "fill": "$ds.material.keyDepth",
                   "width": 44,
                   "height": 40
                 },
@@ -3113,8 +3123,8 @@
                   "strokeAlignment": "inner",
                   "gap": "$gap.control",
                   "padding": [
-                    8,
-                    12
+                    "$ds.control.paddingY",
+                    "$ds.control.paddingX"
                   ],
                   "justifyContent": "center",
                   "alignItems": "center",
@@ -3202,7 +3212,7 @@
                   "x": 4,
                   "y": 6,
                   "name": "キーの厚み",
-                  "fill": "#A5ADA8",
+                  "fill": "$ds.material.keyDepth",
                   "width": 70,
                   "height": 40
                 },
@@ -3221,8 +3231,8 @@
                   "strokeAlignment": "inner",
                   "gap": "$gap.control",
                   "padding": [
-                    8,
-                    12
+                    "$ds.control.paddingY",
+                    "$ds.control.paddingX"
                   ],
                   "justifyContent": "center",
                   "alignItems": "center",
@@ -3262,7 +3272,7 @@
                   "x": 4,
                   "y": 6,
                   "name": "キーの厚み",
-                  "fill": "#A5ADA8",
+                  "fill": "$ds.material.keyDepth",
                   "width": 76,
                   "height": 40
                 },
@@ -3281,8 +3291,8 @@
                   "strokeAlignment": "inner",
                   "gap": "$gap.control",
                   "padding": [
-                    8,
-                    12
+                    "$ds.control.paddingY",
+                    "$ds.control.paddingX"
                   ],
                   "justifyContent": "center",
                   "alignItems": "center",
@@ -3322,7 +3332,7 @@
                   "x": 4,
                   "y": 6,
                   "name": "キーの厚み",
-                  "fill": "#A5ADA8",
+                  "fill": "$ds.material.keyDepth",
                   "width": 46,
                   "height": 40
                 },
@@ -3341,8 +3351,8 @@
                   "strokeAlignment": "inner",
                   "gap": "$gap.control",
                   "padding": [
-                    8,
-                    12
+                    "$ds.control.paddingY",
+                    "$ds.control.paddingX"
                   ],
                   "justifyContent": "center",
                   "alignItems": "center",
@@ -3418,11 +3428,11 @@
               "cornerRadius": 7,
               "id": "n00290",
               "x": 0,
-              "y": 42,
+              "y": 50,
               "name": "セグメントの溝",
-              "fill": "$surface",
+              "fill": "$ds.bg.chrome",
               "width": 392,
-              "height": 66,
+              "height": 48,
               "stroke": "$edge",
               "strokeAlignment": "inner"
             },
@@ -3430,7 +3440,7 @@
               "type": "frame",
               "id": "n00291",
               "x": 8,
-              "y": 50,
+              "y": 48,
               "name": "一覧",
               "width": 120,
               "height": 50,
@@ -3443,7 +3453,7 @@
                   "x": 4,
                   "y": 6,
                   "name": "キーの厚み",
-                  "fill": "#A5ADA8",
+                  "fill": "$ds.material.keyDepth",
                   "width": 112,
                   "height": 40
                 },
@@ -3460,10 +3470,20 @@
                   "stroke": "$edge",
                   "strokeWidth": 1,
                   "strokeAlignment": "inner",
+                  "effect": {
+                    "type": "shadow",
+                    "shadowType": "inner",
+                    "color": "#20242614",
+                    "offset": {
+                      "x": 0,
+                      "y": 1
+                    },
+                    "blur": 2
+                  },
                   "gap": "$gap.control",
                   "padding": [
-                    8,
-                    12
+                    "$ds.control.paddingY",
+                    "$ds.control.paddingX"
                   ],
                   "justifyContent": "center",
                   "alignItems": "center",
@@ -3480,7 +3500,7 @@
                       "textAlign": "center",
                       "fontFamily": "$font.japanese",
                       "fontSize": 14,
-                      "fontWeight": "500"
+                      "fontWeight": "600"
                     }
                   ]
                 }
@@ -3492,7 +3512,7 @@
               "x": 140,
               "y": 54,
               "name": "グリッド",
-              "fill": "$ink",
+              "fill": "$muted",
               "textGrowth": "fixed-width-height",
               "width": 112,
               "height": 40,
@@ -3510,7 +3530,7 @@
               "x": 268,
               "y": 54,
               "name": "比較",
-              "fill": "$ink",
+              "fill": "$muted",
               "textGrowth": "fixed-width-height",
               "width": 112,
               "height": 40,
@@ -5126,7 +5146,7 @@
                   "x": 18,
                   "y": 22,
                   "name": "ノブの厚み",
-                  "fill": "$edge",
+                  "fill": "$ds.material.keyDepth",
                   "width": 92,
                   "height": 92
                 },
@@ -5234,8 +5254,8 @@
               "strokeAlignment": "inner",
               "gap": "$gap.control",
               "padding": [
-                8,
-                12
+                "$ds.control.paddingY",
+                "$ds.control.paddingX"
               ],
               "alignItems": "center",
               "children": [
@@ -5271,7 +5291,7 @@
                   "x": 4,
                   "y": 6,
                   "name": "キーの厚み",
-                  "fill": "#A5ADA8",
+                  "fill": "$ds.material.keyDepth",
                   "width": 30,
                   "height": 40
                 },
@@ -5290,8 +5310,8 @@
                   "strokeAlignment": "inner",
                   "gap": "$gap.control",
                   "padding": [
-                    8,
-                    12
+                    "$ds.control.paddingY",
+                    "$ds.control.paddingX"
                   ],
                   "justifyContent": "center",
                   "alignItems": "center",
@@ -5327,7 +5347,7 @@
                   "x": 4,
                   "y": 6,
                   "name": "キーの厚み",
-                  "fill": "#A5ADA8",
+                  "fill": "$ds.material.keyDepth",
                   "width": 30,
                   "height": 40
                 },
@@ -5346,8 +5366,8 @@
                   "strokeAlignment": "inner",
                   "gap": "$gap.control",
                   "padding": [
-                    8,
-                    12
+                    "$ds.control.paddingY",
+                    "$ds.control.paddingX"
                   ],
                   "justifyContent": "center",
                   "alignItems": "center",
@@ -5556,8 +5576,8 @@
               "strokeAlignment": "inner",
               "gap": "$gap.control",
               "padding": [
-                8,
-                12
+                "$ds.control.paddingY",
+                "$ds.control.paddingX"
               ],
               "alignItems": "center",
               "children": [
@@ -5638,8 +5658,8 @@
               "layout": "vertical",
               "gap": "$gap.control",
               "padding": [
-                8,
-                12
+                "$ds.control.paddingY",
+                "$ds.control.paddingX"
               ],
               "children": [
                 {
@@ -5718,8 +5738,8 @@
               "strokeAlignment": "inner",
               "gap": "$gap.control",
               "padding": [
-                8,
-                12
+                "$ds.control.paddingY",
+                "$ds.control.paddingX"
               ],
               "alignItems": "center",
               "children": [
@@ -5835,8 +5855,8 @@
               "strokeAlignment": "inner",
               "gap": "$gap.control",
               "padding": [
-                8,
-                12
+                "$ds.control.paddingY",
+                "$ds.control.paddingX"
               ],
               "alignItems": "center",
               "children": [
@@ -5928,8 +5948,8 @@
               "strokeAlignment": "inner",
               "gap": "$gap.control",
               "padding": [
-                8,
-                12
+                "$ds.control.paddingY",
+                "$ds.control.paddingX"
               ],
               "alignItems": "center",
               "children": [
@@ -6060,8 +6080,8 @@
               "strokeAlignment": "inner",
               "gap": "$gap.control",
               "padding": [
-                8,
-                12
+                "$ds.control.paddingY",
+                "$ds.control.paddingX"
               ],
               "alignItems": "center",
               "children": [
@@ -6097,7 +6117,7 @@
                   "x": 4,
                   "y": 6,
                   "name": "キーの厚み",
-                  "fill": "#A5ADA8",
+                  "fill": "$ds.material.keyDepth",
                   "width": 155,
                   "height": 40
                 },
@@ -6116,8 +6136,8 @@
                   "strokeAlignment": "inner",
                   "gap": "$gap.control",
                   "padding": [
-                    8,
-                    12
+                    "$ds.control.paddingY",
+                    "$ds.control.paddingX"
                   ],
                   "justifyContent": "center",
                   "alignItems": "center",
@@ -6188,8 +6208,8 @@
               "strokeAlignment": "inner",
               "gap": "$gap.control",
               "padding": [
-                8,
-                12
+                "$ds.control.paddingY",
+                "$ds.control.paddingX"
               ],
               "alignItems": "center",
               "children": [
@@ -6383,7 +6403,7 @@
               "x": 0,
               "y": 35,
               "name": "選択タブ",
-              "fill": "$surface",
+              "fill": "$ds.selection.surface",
               "width": 230,
               "height": 46,
               "stroke": "$edge",
@@ -6493,11 +6513,10 @@
               "x": 0,
               "y": 35,
               "name": "レール筐体",
-              "fill": "$surface",
+              "fill": "$ds.bg.chrome",
               "width": 72,
               "height": 376,
               "stroke": "$line",
-              "strokeWidth": 1,
               "strokeAlignment": "inner"
             },
             {
@@ -6517,7 +6536,7 @@
                   "x": 4,
                   "y": 6,
                   "name": "キーの厚み",
-                  "fill": "#A5ADA8",
+                  "fill": "$ds.material.keyDepth",
                   "width": 44,
                   "height": 42
                 },
@@ -6536,8 +6555,8 @@
                   "strokeAlignment": "inner",
                   "gap": "$gap.control",
                   "padding": [
-                    8,
-                    12
+                    "$ds.control.paddingY",
+                    "$ds.control.paddingX"
                   ],
                   "justifyContent": "center",
                   "alignItems": "center",
@@ -6573,7 +6592,7 @@
                   "x": 4,
                   "y": 6,
                   "name": "キーの厚み",
-                  "fill": "#A5ADA8",
+                  "fill": "$ds.material.keyDepth",
                   "width": 44,
                   "height": 42
                 },
@@ -6590,10 +6609,20 @@
                   "stroke": "$edge",
                   "strokeWidth": 1,
                   "strokeAlignment": "inner",
+                  "effect": {
+                    "type": "shadow",
+                    "shadowType": "inner",
+                    "color": "#20242614",
+                    "offset": {
+                      "x": 0,
+                      "y": 1
+                    },
+                    "blur": 2
+                  },
                   "gap": "$gap.control",
                   "padding": [
-                    8,
-                    12
+                    "$ds.control.paddingY",
+                    "$ds.control.paddingX"
                   ],
                   "justifyContent": "center",
                   "alignItems": "center",
@@ -6629,7 +6658,7 @@
                   "x": 4,
                   "y": 6,
                   "name": "キーの厚み",
-                  "fill": "#A5ADA8",
+                  "fill": "$ds.material.keyDepth",
                   "width": 44,
                   "height": 42
                 },
@@ -6648,8 +6677,8 @@
                   "strokeAlignment": "inner",
                   "gap": "$gap.control",
                   "padding": [
-                    8,
-                    12
+                    "$ds.control.paddingY",
+                    "$ds.control.paddingX"
                   ],
                   "justifyContent": "center",
                   "alignItems": "center",
@@ -6703,7 +6732,7 @@
                   "x": 4,
                   "y": 6,
                   "name": "キーの厚み",
-                  "fill": "#A5ADA8",
+                  "fill": "$ds.material.keyDepth",
                   "width": 44,
                   "height": 42
                 },
@@ -6722,8 +6751,8 @@
                   "strokeAlignment": "inner",
                   "gap": "$gap.control",
                   "padding": [
-                    8,
-                    12
+                    "$ds.control.paddingY",
+                    "$ds.control.paddingX"
                   ],
                   "justifyContent": "center",
                   "alignItems": "center",
@@ -6782,7 +6811,7 @@
               "x": 0,
               "y": 40,
               "name": "選択行",
-              "fill": "$surface",
+              "fill": "$ds.selection.surface",
               "width": 350,
               "height": 40,
               "stroke": "$edge"
@@ -7380,8 +7409,8 @@
               "strokeAlignment": "inner",
               "gap": "$gap.control",
               "padding": [
-                8,
-                12
+                "$ds.control.paddingY",
+                "$ds.control.paddingX"
               ],
               "alignItems": "center",
               "children": [
@@ -8164,7 +8193,7 @@
                       "x": 4,
                       "y": 6,
                       "name": "キーの厚み",
-                      "fill": "#A5ADA8",
+                      "fill": "$ds.material.keyDepth",
                       "width": 140,
                       "height": 40
                     },
@@ -8183,8 +8212,8 @@
                       "strokeAlignment": "inner",
                       "gap": "$gap.control",
                       "padding": [
-                        8,
-                        12
+                        "$ds.control.paddingY",
+                        "$ds.control.paddingX"
                       ],
                       "justifyContent": "center",
                       "alignItems": "center",
@@ -8232,7 +8261,7 @@
                       "x": 4,
                       "y": 6,
                       "name": "キーの厚み",
-                      "fill": "#A5ADA8",
+                      "fill": "$ds.material.keyDepth",
                       "width": 40,
                       "height": 40
                     },
@@ -8251,8 +8280,8 @@
                       "strokeAlignment": "inner",
                       "gap": "$gap.control",
                       "padding": [
-                        8,
-                        12
+                        "$ds.control.paddingY",
+                        "$ds.control.paddingX"
                       ],
                       "justifyContent": "center",
                       "alignItems": "center",
@@ -8372,7 +8401,7 @@
                       "x": 4,
                       "y": 6,
                       "name": "キーの厚み",
-                      "fill": "#A5ADA8",
+                      "fill": "$ds.material.keyDepth",
                       "width": 180,
                       "height": 40
                     },
@@ -8391,8 +8420,8 @@
                       "strokeAlignment": "inner",
                       "gap": "$gap.control",
                       "padding": [
-                        8,
-                        12
+                        "$ds.control.paddingY",
+                        "$ds.control.paddingX"
                       ],
                       "justifyContent": "center",
                       "alignItems": "center",
@@ -8681,7 +8710,7 @@
                       "x": 18,
                       "y": 22,
                       "name": "ノブの厚み",
-                      "fill": "$edge",
+                      "fill": "$ds.material.keyDepth",
                       "width": 112,
                       "height": 112
                     },
@@ -11069,7 +11098,7 @@
                   "x": 4,
                   "y": 6,
                   "name": "キーの厚み",
-                  "fill": "#A5ADA8",
+                  "fill": "$ds.material.keyDepth",
                   "width": 192,
                   "height": 40
                 },
@@ -11088,8 +11117,8 @@
                   "strokeAlignment": "inner",
                   "gap": "$gap.control",
                   "padding": [
-                    8,
-                    12
+                    "$ds.control.paddingY",
+                    "$ds.control.paddingX"
                   ],
                   "justifyContent": "center",
                   "alignItems": "center",
@@ -11129,7 +11158,7 @@
                   "x": 4,
                   "y": 6,
                   "name": "キーの厚み",
-                  "fill": "#A5ADA8",
+                  "fill": "$ds.material.keyDepth",
                   "width": 192,
                   "height": 40
                 },
@@ -11148,8 +11177,8 @@
                   "strokeAlignment": "inner",
                   "gap": "$gap.control",
                   "padding": [
-                    8,
-                    12
+                    "$ds.control.paddingY",
+                    "$ds.control.paddingX"
                   ],
                   "justifyContent": "center",
                   "alignItems": "center",
@@ -11352,7 +11381,7 @@
                   "x": 4,
                   "y": 6,
                   "name": "キーの厚み",
-                  "fill": "#A5ADA8",
+                  "fill": "$ds.material.keyDepth",
                   "width": 180,
                   "height": 40
                 },
@@ -11371,8 +11400,8 @@
                   "strokeAlignment": "inner",
                   "gap": "$gap.control",
                   "padding": [
-                    8,
-                    12
+                    "$ds.control.paddingY",
+                    "$ds.control.paddingX"
                   ],
                   "justifyContent": "center",
                   "alignItems": "center",
@@ -12033,7 +12062,7 @@
               "x": 4,
               "y": 6,
               "name": "キーの厚み",
-              "fill": "#A5ADA8",
+              "fill": "$ds.material.keyDepth",
               "width": 280,
               "height": 60
             },
@@ -12052,8 +12081,8 @@
               "strokeAlignment": "inner",
               "gap": "$gap.control",
               "padding": [
-                8,
-                12
+                "$ds.control.paddingY",
+                "$ds.control.paddingX"
               ],
               "justifyContent": "center",
               "alignItems": "center",
@@ -12136,7 +12165,7 @@
               "x": 4,
               "y": 6,
               "name": "キーの厚み",
-              "fill": "#A5ADA8",
+              "fill": "$ds.material.keyDepth",
               "width": 280,
               "height": 60
             },
@@ -12155,8 +12184,8 @@
               "strokeAlignment": "inner",
               "gap": "$gap.control",
               "padding": [
-                8,
-                12
+                "$ds.control.paddingY",
+                "$ds.control.paddingX"
               ],
               "justifyContent": "center",
               "alignItems": "center",
@@ -12224,7 +12253,7 @@
               "x": 4,
               "y": 6,
               "name": "キーの厚み",
-              "fill": "#A5ADA8",
+              "fill": "$ds.material.keyDepth",
               "width": 280,
               "height": 60
             },
@@ -12243,8 +12272,8 @@
               "strokeAlignment": "inner",
               "gap": "$gap.control",
               "padding": [
-                8,
-                12
+                "$ds.control.paddingY",
+                "$ds.control.paddingX"
               ],
               "justifyContent": "center",
               "alignItems": "center",
@@ -12312,7 +12341,7 @@
               "x": 4,
               "y": 6,
               "name": "キーの厚み",
-              "fill": "#A5ADA8",
+              "fill": "$ds.material.keyDepth",
               "width": 280,
               "height": 60
             },
@@ -12331,8 +12360,8 @@
               "strokeAlignment": "inner",
               "gap": "$gap.control",
               "padding": [
-                8,
-                12
+                "$ds.control.paddingY",
+                "$ds.control.paddingX"
               ],
               "justifyContent": "center",
               "alignItems": "center",
@@ -14688,7 +14717,7 @@
               "x": 4,
               "y": 6,
               "name": "キーの厚み",
-              "fill": "#A5ADA8",
+              "fill": "$ds.material.keyDepth",
               "width": 180,
               "height": 40
             },
@@ -14707,8 +14736,8 @@
               "strokeAlignment": "inner",
               "gap": "$gap.control",
               "padding": [
-                8,
-                12
+                "$ds.control.paddingY",
+                "$ds.control.paddingX"
               ],
               "justifyContent": "center",
               "alignItems": "center",
@@ -16810,7 +16839,7 @@
               "x": 4,
               "y": 6,
               "name": "Key depth",
-              "fill": "#A5ADA8",
+              "fill": "$ds.material.keyDepth",
               "width": 144,
               "height": 40
             },
@@ -16828,8 +16857,8 @@
               "strokeWidth": 1,
               "gap": 8,
               "padding": [
-                8,
-                12
+                "$ds.control.paddingY",
+                "$ds.control.paddingX"
               ],
               "justifyContent": "center",
               "alignItems": "center",
@@ -16898,7 +16927,7 @@
               "x": 4,
               "y": 6,
               "name": "Key depth",
-              "fill": "#A5ADA8",
+              "fill": "$ds.material.keyDepth",
               "width": 144,
               "height": 40
             },
@@ -16916,8 +16945,8 @@
               "strokeWidth": 1,
               "gap": 8,
               "padding": [
-                8,
-                12
+                "$ds.control.paddingY",
+                "$ds.control.paddingX"
               ],
               "justifyContent": "center",
               "alignItems": "center",
@@ -16987,7 +17016,7 @@
               "y": 6,
               "name": "Key depth",
               "enabled": false,
-              "fill": "#A5ADA8",
+              "fill": "$ds.material.keyDepth",
               "width": 144,
               "height": 40
             },
@@ -17004,8 +17033,8 @@
               "stroke": "$ds.border.control",
               "gap": 8,
               "padding": [
-                8,
-                12
+                "$ds.control.paddingY",
+                "$ds.control.paddingX"
               ],
               "justifyContent": "center",
               "alignItems": "center",
@@ -17074,7 +17103,7 @@
               "x": 4,
               "y": 6,
               "name": "Key depth",
-              "fill": "#A5ADA8",
+              "fill": "$ds.material.keyDepth",
               "width": 144,
               "height": 40
             },
@@ -17092,8 +17121,8 @@
               "strokeWidth": 1,
               "gap": 8,
               "padding": [
-                8,
-                12
+                "$ds.control.paddingY",
+                "$ds.control.paddingX"
               ],
               "justifyContent": "center",
               "alignItems": "center",
@@ -17162,7 +17191,7 @@
               "x": 4,
               "y": 6,
               "name": "Key depth",
-              "fill": "#A5ADA8",
+              "fill": "$ds.material.keyDepth",
               "width": 144,
               "height": 40
             },
@@ -17180,8 +17209,8 @@
               "strokeWidth": 1,
               "gap": 8,
               "padding": [
-                8,
-                12
+                "$ds.control.paddingY",
+                "$ds.control.paddingX"
               ],
               "justifyContent": "center",
               "alignItems": "center",
@@ -17250,7 +17279,7 @@
               "x": 4,
               "y": 6,
               "name": "Key depth",
-              "fill": "#A5ADA8",
+              "fill": "$ds.material.keyDepth",
               "width": 40,
               "height": 40
             },
@@ -17268,8 +17297,8 @@
               "strokeWidth": 1,
               "gap": 8,
               "padding": [
-                8,
-                12
+                "$ds.control.paddingY",
+                "$ds.control.paddingX"
               ],
               "justifyContent": "center",
               "alignItems": "center",
@@ -17316,8 +17345,8 @@
           "strokeWidth": 1,
           "gap": 8,
           "padding": [
-            8,
-            12
+            "$ds.control.paddingY",
+            "$ds.control.paddingX"
           ],
           "alignItems": "center",
           "children": [
@@ -17364,8 +17393,8 @@
           "strokeWidth": 2,
           "gap": 8,
           "padding": [
-            8,
-            12
+            "$ds.control.paddingY",
+            "$ds.control.paddingX"
           ],
           "alignItems": "center",
           "children": [
@@ -17412,8 +17441,8 @@
           "strokeWidth": 1,
           "gap": 8,
           "padding": [
-            8,
-            12
+            "$ds.control.paddingY",
+            "$ds.control.paddingX"
           ],
           "alignItems": "center",
           "children": [
@@ -17460,8 +17489,8 @@
           "strokeWidth": 1,
           "gap": 8,
           "padding": [
-            8,
-            12
+            "$ds.control.paddingY",
+            "$ds.control.paddingX"
           ],
           "alignItems": "center",
           "children": [
@@ -17843,7 +17872,7 @@
           "reusable": true,
           "width": 232,
           "height": 40,
-          "fill": "$surface",
+          "fill": "$ds.selection.surface",
           "cornerRadius": 6,
           "stroke": "$ds.border.control",
           "layout": "none",
@@ -17854,7 +17883,7 @@
               "x": 12,
               "y": 10,
               "name": "プロジェクト",
-              "fill": "$ds.text.primary",
+              "fill": "$ds.selection.ink",
               "content": "プロジェクト",
               "lineHeight": 1.4,
               "fontFamily": "$font.japanese",
@@ -17868,7 +17897,7 @@
               "x": 8,
               "y": 38,
               "name": "Selected",
-              "fill": "$ink",
+              "fill": "$ds.selection.ink",
               "width": 216,
               "height": 2
             }
@@ -17896,10 +17925,13 @@
           "reusable": true,
           "width": 224,
           "height": 40,
-          "fill": "$ds.bg.surface",
+          "fill": "$ds.selection.surface",
           "cornerRadius": 6,
           "gap": 8,
-          "padding": 8,
+          "padding": [
+            "$ds.control.paddingY",
+            "$ds.control.paddingX"
+          ],
           "alignItems": "center",
           "children": [
             {
@@ -17910,13 +17942,13 @@
               "height": 16,
               "icon": "folder",
               "library": "lucide",
-              "fill": "$ds.text.primary"
+              "fill": "$ds.selection.ink"
             },
             {
               "type": "text",
               "id": "dyV0I",
               "name": "ワークスペース",
-              "fill": "$ds.text.primary",
+              "fill": "$ds.selection.ink",
               "content": "ワークスペース",
               "lineHeight": 1.4,
               "fontFamily": "$font.japanese",
@@ -18737,7 +18769,7 @@
               "fill": "$ds.text.secondary",
               "textGrowth": "fixed-width",
               "width": 608,
-              "content": "選択は黄色の面。フォーカスはグレーの輪郭。\ndisabledを補足本文の色へ流用しない。",
+              "content": "選択はニュートラルな面。フォーカスは独立したグレーの輪郭。 disabledを補足本文の色へ流用しない。",
               "lineHeight": 1.4,
               "fontFamily": "$font.japanese",
               "fontSize": 14,
@@ -19942,7 +19974,7 @@
           "y": 1048,
           "name": "Design draft / Flutter + Rive / 8px base",
           "fill": "$ds.text.secondary",
-          "content": "静かな作業面と薄い操作部。密度はノブと直接入力で調整し、黄色は確定に使う。",
+          "content": "筐体・操作面・作業面を明度差で分ける。選択はニュートラル、黄色は確定へ。",
           "lineHeight": 1.4,
           "fontFamily": "$font.latin",
           "fontSize": 12,
@@ -19969,12 +20001,22 @@
           "name": "Workspace application",
           "width": 1504,
           "height": 752,
-          "fill": "$canvas",
+          "fill": "$ds.bg.chrome",
           "cornerRadius": 10,
           "stroke": "$line",
           "strokeWidth": 1,
           "layout": "none",
           "children": [
+            {
+              "type": "rectangle",
+              "id": "hWoKS",
+              "x": 280,
+              "y": 88,
+              "name": "Canvas material plane",
+              "fill": "$canvas",
+              "width": 896,
+              "height": 584
+            },
             {
               "type": "text",
               "id": "t9GZUF",
@@ -20018,7 +20060,7 @@
               "x": 16,
               "y": 88,
               "name": "Navigation area",
-              "fill": "$canvas",
+              "fill": "$ds.bg.chrome",
               "width": 248,
               "height": 584
             },
@@ -20029,7 +20071,7 @@
               "name": "Instance / navItem",
               "x": 32,
               "y": 106,
-              "fill": "$canvas",
+              "fill": "$ds.bg.chrome",
               "descendants": {
                 "IiVL9": {
                   "icon": "layers"
@@ -20089,6 +20131,7 @@
               "x": 296,
               "y": 112,
               "width": 160,
+              "fill": "$ds.selection.surface",
               "descendants": {
                 "JgMMp": {
                   "content": "調整後"
@@ -20106,7 +20149,7 @@
               "x": 32,
               "y": 228,
               "width": 216,
-              "fill": "$surface",
+              "fill": "$ds.selection.surface",
               "height": 48,
               "stroke": "$edge",
               "strokeWidth": 0,
@@ -20130,7 +20173,7 @@
               "x": 32,
               "y": 284,
               "width": 216,
-              "fill": "$canvas",
+              "fill": "$ds.bg.chrome",
               "height": 48,
               "stroke": "$line",
               "strokeWidth": 0,
@@ -20154,7 +20197,7 @@
               "x": 32,
               "y": 340,
               "width": 216,
-              "fill": "$canvas",
+              "fill": "$ds.bg.chrome",
               "height": 48,
               "stroke": "$line",
               "strokeWidth": 0,
@@ -20211,7 +20254,7 @@
               "fill": "$ds.text.secondary",
               "textGrowth": "fixed-width",
               "width": 208,
-              "content": "03 MATERIALS\n切り替えても調整値を保持",
+              "content": "3 素材・調整値を保持",
               "lineHeight": 1.4,
               "fontFamily": "$font.japanese",
               "fontSize": 12,
@@ -20225,7 +20268,7 @@
               "name": "Detail",
               "width": 288,
               "height": 584,
-              "fill": "$canvas",
+              "fill": "$ds.bg.chrome",
               "cornerRadius": 6,
               "stroke": "$line",
               "layout": "none",
@@ -20555,7 +20598,7 @@
                       "x": 18,
                       "y": 22,
                       "name": "ノブの厚み",
-                      "fill": "$edge",
+                      "fill": "$ds.material.keyDepth",
                       "width": 92,
                       "height": 92
                     },
@@ -20720,7 +20763,10 @@
                   "y": 496,
                   "name": "調整の説明",
                   "fill": "$muted",
+                  "textGrowth": "fixed-width",
+                  "width": 240,
                   "content": "確定値 50 %  /  変更 +14",
+                  "lineHeight": 1.5,
                   "fontFamily": "$font.japanese",
                   "fontSize": 12,
                   "fontWeight": "normal"
@@ -21815,7 +21861,8 @@
                   "descendants": {
                     "iNLg5": {
                       "content": "64 %",
-                      "fontFamily": "$font.latin"
+                      "fontFamily": "$font.latin",
+                      "textAlign": "right"
                     }
                   }
                 },
@@ -21825,7 +21872,7 @@
                   "x": 24,
                   "y": 296,
                   "name": "Density adjustment hint",
-                  "fill": "$muted",
+                  "fill": "$ds.text.secondary",
                   "textGrowth": "fixed-width",
                   "width": 240,
                   "content": "ドラッグで調整・数値で直接入力",
@@ -21875,6 +21922,7 @@
               "x": 1320,
               "y": 712,
               "name": "5 items",
+              "enabled": false,
               "fill": "$ds.text.secondary",
               "content": "SESSION 01",
               "lineHeight": 1.4,
@@ -21883,15 +21931,22 @@
               "fontWeight": "normal"
             },
             {
-              "id": "O4ND6f",
+              "id": "byhxs",
               "type": "ref",
-              "ref": "lvPEN",
-              "name": "確定値と比較",
-              "x": 468,
-              "y": 106,
+              "ref": "UGpa0",
+              "name": "Unselected comparison tab",
+              "x": 472,
+              "y": 112,
+              "width": 144,
+              "fill": "$canvas",
               "descendants": {
-                "EatuU": {
-                  "content": "確定値"
+                "JgMMp": {
+                  "content": "確定値",
+                  "fill": "$muted",
+                  "fontWeight": "normal"
+                },
+                "YUEme": {
+                  "enabled": false
                 }
               }
             },
@@ -22409,7 +22464,7 @@
               "y": 648,
               "name": "プレビュー識別",
               "fill": "$muted",
-              "content": "01 / 同心円",
+              "content": "同心円",
               "fontFamily": "$font.japanese",
               "fontSize": 12,
               "fontWeight": "normal"
@@ -22421,7 +22476,7 @@
               "y": 648,
               "name": "プレビュー倍率",
               "fill": "$muted",
-              "content": "VIEW 100 %",
+              "content": "100 %",
               "fontFamily": "$font.latin",
               "fontSize": 12,
               "fontWeight": "normal"
@@ -76230,9 +76285,12 @@
         {
           "type": "text",
           "id": "FNyfS",
+          "x": 48,
+          "y": 48,
+          "enabled": false,
           "fill": "$ink",
           "textGrowth": "fixed-width",
-          "width": "fill_container",
+          "width": "fill_container(1504)",
           "content": "Detent / Interaction language",
           "lineHeight": 1.5,
           "fontFamily": "$font.japanese",
@@ -76284,7 +76342,7 @@
                   "fill": "$ink",
                   "textGrowth": "fixed-width",
                   "width": "fill_container",
-                  "content": "01  選択している",
+                  "content": "選択している",
                   "lineHeight": 1.5,
                   "fontFamily": "$font.japanese",
                   "fontSize": 20,
@@ -76298,7 +76356,7 @@
                   "width": 232,
                   "descendants": {
                     "JgMMp": {
-                      "content": "調整後  ✓"
+                      "content": "調整後"
                     }
                   }
                 },
@@ -76342,7 +76400,7 @@
                   "fill": "$ink",
                   "textGrowth": "fixed-width",
                   "width": "fill_container",
-                  "content": "02  操作できる",
+                  "content": "操作できる",
                   "lineHeight": 1.5,
                   "fontFamily": "$font.japanese",
                   "fontSize": 20,
@@ -76399,25 +76457,46 @@
                   "fill": "$ink",
                   "textGrowth": "fixed-width",
                   "width": "fill_container",
-                  "content": "03  キーボードで操作する",
+                  "content": "キーボードで操作する",
                   "lineHeight": 1.5,
                   "fontFamily": "$font.japanese",
                   "fontSize": 20,
                   "fontWeight": "normal"
                 },
                 {
-                  "id": "Lxtp0",
-                  "type": "ref",
-                  "ref": "lvPEN",
-                  "name": "フォーカス中の副操作",
-                  "descendants": {
-                    "GYeSW": {
-                      "enabled": true
+                  "type": "frame",
+                  "id": "W7Yota",
+                  "name": "Selected tab with keyboard focus",
+                  "width": 240,
+                  "height": 50,
+                  "layout": "none",
+                  "children": [
+                    {
+                      "type": "rectangle",
+                      "cornerRadius": 10,
+                      "id": "krl7f",
+                      "x": 0,
+                      "y": 0,
+                      "name": "Independent keyboard focus outline",
+                      "width": 240,
+                      "height": 50,
+                      "stroke": "$ds.focus.ring",
+                      "strokeWidth": 2
                     },
-                    "EatuU": {
-                      "content": "確定値に戻す"
+                    {
+                      "id": "WQuLN",
+                      "type": "ref",
+                      "ref": "UGpa0",
+                      "name": "Selected tab inside focus outline",
+                      "x": 4,
+                      "y": 4,
+                      "descendants": {
+                        "JgMMp": {
+                          "content": "調整後"
+                        }
+                      }
                     }
-                  }
+                  ]
                 },
                 {
                   "type": "text",
@@ -76453,7 +76532,7 @@
           "fill": "$ink",
           "textGrowth": "fixed-width",
           "width": "fill_container",
-          "content": "筐体：マットな面と疎な穴模様　／　操作部：厚みと押し込み　／　表示窓：一段奥まった面",
+          "content": "筐体は静かな明度差、操作部は薄い厚み、表示面は一段奥へ。選択とフォーカスは独立させる。",
           "lineHeight": 1.5,
           "fontFamily": "$font.japanese",
           "fontSize": 14,
@@ -76847,11 +76926,79 @@
     },
     "ds.selection.surface": {
       "type": "color",
-      "value": "$ds.bg.display"
+      "value": [
+        {
+          "value": "#DDE1DC",
+          "theme": {
+            "mode": "light"
+          }
+        },
+        {
+          "value": "#414A46",
+          "theme": {
+            "mode": "dark"
+          }
+        }
+      ]
     },
     "ds.selection.ink": {
       "type": "color",
-      "value": "$ds.text.inverse"
+      "value": [
+        {
+          "value": "#202426",
+          "theme": {
+            "mode": "light"
+          }
+        },
+        {
+          "value": "#F2F4F1",
+          "theme": {
+            "mode": "dark"
+          }
+        }
+      ]
+    },
+    "ds.bg.chrome": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#EDEEEB",
+          "theme": {
+            "mode": "light"
+          }
+        },
+        {
+          "value": "#202528",
+          "theme": {
+            "mode": "dark"
+          }
+        }
+      ]
+    },
+    "ds.material.keyDepth": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#A5ADA8",
+          "theme": {
+            "mode": "light"
+          }
+        },
+        {
+          "value": "#59635E",
+          "theme": {
+            "mode": "dark"
+          }
+        }
+      ]
+    },
+    "ds.control.paddingX": {
+      "type": "number",
+      "value": 12
+    },
+    "ds.control.paddingY": {
+      "type": "number",
+      "value": 8
     }
   },
   "fileToken": "cac31f26-d799-4832-9409-eb13db25784c"
