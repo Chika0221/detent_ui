@@ -32,7 +32,7 @@ DS名は **Detent Design System**、Flutterパッケージ名は **`detent_ui`**
 
 1. **構造を見せる。** 操作面、表示面、領域の境界に意味を持たせる。
 2. **入力に応える。** 動きは操作や実状態に同期し、待ち時間を作らない。
-3. **色を役割に割り当てる。** 黄色は主要操作・選択、赤は危険・失敗、緑は完了。形・文字を併用する。
+3. **色を役割に割り当てる。** 黄色は実行・保存などの主要操作、選択はニュートラルな面と文字の強弱、赤は危険・失敗、緑は完了。形・文字を併用する。
 4. **読めることを優先する。** 通常の文字をドットや装飾書体に置き換えない。
 5. **密度を選べる。** デスクトップの情報量と、読みやすい操作領域を両立する。
 6. **仕組みを共有する。** 新しい画面ごとに色・角丸・動きの規則を作らない。
@@ -96,7 +96,7 @@ DS/Button/Primary → Settings / Task / Workspace
 
 ### 5.3 余白・形・アイコン
 
-- 基本paddingとgapは8px。セクション間24px、パネル間16px、ページ内側24pxを標準案とする。
+- 基本gapと操作部の上下paddingは8px。ボタン・入力欄の左右paddingは12px（control.paddingInline）。セクション間24px、パネル間16px、ページ内側24pxを標準案とする。
 - 標準操作高さ40px、compact32px、comfortable44px。compactはキーボード・マウス中心の密な領域で明示的に選ぶ。
 - 入力・ボタンの角丸6、メニュー8、パネル10、筐体14。円やピルは機構・選択に用途を絞る。
 - 線幅1、キーの見かけの厚み2、フォーカス幅2＋offset2。これらは8px刻みの対象外。
@@ -128,6 +128,16 @@ DS/Button/Primary → Settings / Task / Workspace
 ノブとスライダーは、底面・目盛り・つまみの実外形の和集合を取り、フォーカス領域を加える。将来blur shadowを追加するときも、操作面だけの寸法でclip・配置を決めない。装飾の影をhit test領域として扱うかは入力契約と分離する。
 
 DS08に、上の部品→厚み付きボタン→下の部品をgap 8pxで縦積みした確認用パターンを追加した。pen.dev実測で3状態とも子要素のy位置が8 / 56 / 114px、高さが40 / 50 / 40pxで一致することを確認した。Flutter実装での検証は別途必要である。
+
+### 5.6 作業面と選択の統一（2026-11-05）
+
+Operateの画面では、筐体（bg.chrome）、作業面（bg.canvas）、操作面（bg.raised）の明度差で領域を分ける。選択はselection.surfaceとselection.foreground、キーの底面はdepth.keyを使い、黄色を装飾へ流用しない。ライト・ダーク・高コントラストの値は正本トークンで定義する。
+
+`.pen` の対応は `ds.bg.chrome` → `semantic.<theme>.color.bg.chrome`、`ds.selection.surface / ink` → `color.selection.surface / foreground`、`ds.material.keyDepth` → `color.depth.key`、`ds.control.paddingX / Y` → `dimension.control.paddingInline / paddingBlock`。Penの追加色変数はmodeのlight / darkに対応する。高コントラストは正本に値を保持し、通常テーマの描画確認とは分けて扱う。
+
+選択されたタブには細い位置マークを添える。キーボードフォーカスは選択とは独立した2pxの外周とし、両方を同時に示せる。切り替え操作は既存の押し込みを維持し、選択面を過度に暗くしない。密度調整はノブと直接入力で行い、同じ値のドット表示とスライダーを重ねない。
+
+今回の変更範囲はPenの共通部品・見本・Material instrument画面、正本トークンと生成定数。Flutter Widgetの状態描画や入力動作の移行は別作業であり、静止画の確認で動作検証を代替しない。
 
 ## 6. テーマ・密度・重なり
 
