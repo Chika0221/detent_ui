@@ -10,6 +10,9 @@ import 'package:detent_ui/detent_ui.dart';
 // Run from the package root as well as the standalone example.
 // ignore: avoid_relative_lib_imports
 import '../lib/main.dart';
+import '../lib/component_catalog.dart';
+// ignore: avoid_relative_lib_imports
+import '../lib/workshop_navigation.dart';
 
 void main() {
   setUpAll(() async {
@@ -69,13 +72,13 @@ void main() {
     await t.pumpWidget(const SizedBox());
     await t.pump(const Duration(seconds: 2));
   });
-  testWidgets('gallery renders at 1024, 1440, and 1920 and exports previews', (
+  testWidgets('gallery navigation works at compact and desktop widths', (
     t,
   ) async {
     t.view.devicePixelRatio = 1;
     addTearDown(t.view.resetPhysicalSize);
     addTearDown(t.view.resetDevicePixelRatio);
-    for (final width in [1024.0, 1440.0, 1920.0]) {
+    for (final width in [390.0, 1024.0, 1440.0, 1920.0]) {
       t.view.physicalSize = Size(width, 1000);
       final boundary = GlobalKey();
       await t.pumpWidget(
@@ -106,6 +109,18 @@ void main() {
           findsNothing,
           reason: '$type uses Flutter motion',
         );
+      }
+      if (width == 390) {
+        await t.tap(find.widgetWithText(NuiDropdownMenu, '操作部品'));
+        await t.pump(const Duration(milliseconds: 300));
+        await t.tap(find.text('素材ワークスペース'));
+        await t.pump(const Duration(milliseconds: 300));
+        expect(
+          find.widgetWithText(NuiDropdownMenu, '素材ワークスペース'),
+          findsOneWidget,
+        );
+        expect(find.text('素材編集ワークスペース').hitTestable(), findsOneWidget);
+        expect(t.takeException(), isNull);
       }
       if (width == 1440) {
         Future<void> capture(String name) async {
@@ -165,12 +180,23 @@ void main() {
         await t.pump(const Duration(seconds: 1));
         await t.pump(const Duration(seconds: 1));
         await capture('dark');
-        await t.ensureVisible(find.text('C28'));
+        final workspace = find.widgetWithText(WorkshopNavigationItem, '作業領域');
+        await t.tap(workspace);
         await t.pump(const Duration(milliseconds: 300));
+        expect(t.widget<WorkshopNavigationItem>(workspace).selected, isTrue);
+        expect(find.text('C28').hitTestable(), findsOneWidget);
         await capture('workspace');
-        await t.ensureVisible(find.text('C39'));
+        final feedback = find.widgetWithText(WorkshopNavigationItem, '状態と通知');
+        await t.tap(feedback);
         await t.pump(const Duration(milliseconds: 300));
+        expect(t.widget<WorkshopNavigationItem>(feedback).selected, isTrue);
         await capture('feedback');
+        await t.tap(find.text('Dark'));
+        await t.pump();
+        await t.tap(find.widgetWithText(WorkshopNavigationItem, '素材ワークスペース'));
+        await t.pump(const Duration(milliseconds: 300));
+        expect(find.text('素材編集ワークスペース').hitTestable(), findsOneWidget);
+        await capture('material');
       }
     }
     await t.pumpWidget(const SizedBox());
