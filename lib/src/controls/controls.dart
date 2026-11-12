@@ -65,14 +65,14 @@ class _NuiButtonState extends State<NuiButton> {
   @override
   Widget build(BuildContext context) {
     final t = NuiTheme.of(context);
-    final bg = widget.selected ? t.ink : switch (widget.variant) {
+    final bg = widget.selected ? t.selectionSurface : switch (widget.variant) {
       NuiButtonVariant.primary => hovered ? t.accentHover : t.accent,
       NuiButtonVariant.danger => t.danger,
       NuiButtonVariant.quiet => hovered ? t.surface : NuiColors.transparent,
       NuiButtonVariant.secondary => hovered ? t.surface : t.raised,
     };
-    final fg = widget.selected ? t.inverse : widget.variant == NuiButtonVariant.primary
-        ? t.inverse
+    final fg = widget.selected ? t.selectionForeground : widget.variant == NuiButtonVariant.primary
+        ? t.accentInk
         : widget.variant == NuiButtonVariant.danger
         ? (t.dark ? NuiColors.black : NuiColors.white)
         : t.ink;
@@ -389,7 +389,7 @@ class NuiKeycap extends StatelessWidget {
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
-                          color: pressed ? t.inverse : t.ink,
+                          color: pressed ? (t.dark ? t.display : t.inverse) : t.ink,
                           fontSize: 12,
                         ),
                       ),
@@ -509,7 +509,7 @@ class _NuiSegmentedControlState<T> extends State<NuiSegmentedControl<T>> {
                                   o.icon,
                                   size: 16,
                                   color: o.value == w.value
-                                      ? t.inverse
+                                      ? t.selectionForeground
                                       : t.ink,
                                 ),
                                 const SizedBox(width: 8),
@@ -522,7 +522,7 @@ class _NuiSegmentedControlState<T> extends State<NuiSegmentedControl<T>> {
                                     color: !o.enabled
                                         ? t.muted
                                         : o.value == w.value
-                                        ? t.inverse
+                                        ? t.selectionForeground
                                         : t.ink,
                                   ),
                                 ),

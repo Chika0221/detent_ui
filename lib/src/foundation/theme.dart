@@ -58,6 +58,9 @@ class NuiThemeData {
           ? (dark ? 'highDark' : 'highLight')
           : (dark ? 'dark' : 'light')]![role]!;
   Color get canvas => _color('bg.canvas');
+  Color get chrome => _color('bg.chrome');
+  Color get selectionSurface => _color('selection.surface');
+  Color get selectionForeground => _color('selection.foreground');
   Color get surface => _color('bg.surface');
   Color get raised => _color('bg.raised');
   Color get display => _color('bg.display');
@@ -215,6 +218,9 @@ class NuiFocusRing extends StatelessWidget {
 const nuiPalettes = <String, Map<String, Color>>{
   'light': {
     'bg.canvas': NuiTokens.semantic_light_color_bg_canvas,
+    'bg.chrome': NuiTokens.semantic_light_color_bg_chrome,
+    'selection.surface': NuiTokens.semantic_light_color_selection_surface,
+    'selection.foreground': NuiTokens.semantic_light_color_selection_foreground,
     'bg.surface': NuiTokens.semantic_light_color_bg_surface,
     'bg.raised': NuiTokens.semantic_light_color_bg_raised,
     'bg.display': NuiTokens.semantic_light_color_bg_display,
@@ -232,6 +238,9 @@ const nuiPalettes = <String, Map<String, Color>>{
   },
   'dark': {
     'bg.canvas': NuiTokens.semantic_dark_color_bg_canvas,
+    'bg.chrome': NuiTokens.semantic_dark_color_bg_chrome,
+    'selection.surface': NuiTokens.semantic_dark_color_selection_surface,
+    'selection.foreground': NuiTokens.semantic_dark_color_selection_foreground,
     'bg.surface': NuiTokens.semantic_dark_color_bg_surface,
     'bg.raised': NuiTokens.semantic_dark_color_bg_raised,
     'bg.display': NuiTokens.semantic_dark_color_bg_display,
@@ -249,6 +258,9 @@ const nuiPalettes = <String, Map<String, Color>>{
   },
   'highLight': {
     'bg.canvas': NuiTokens.semantic_highLight_color_bg_canvas,
+    'bg.chrome': NuiTokens.semantic_highLight_color_bg_chrome,
+    'selection.surface': NuiTokens.semantic_highLight_color_selection_surface,
+    'selection.foreground': NuiTokens.semantic_highLight_color_selection_foreground,
     'bg.surface': NuiTokens.semantic_highLight_color_bg_surface,
     'bg.raised': NuiTokens.semantic_highLight_color_bg_raised,
     'bg.display': NuiTokens.semantic_highLight_color_bg_display,
@@ -267,6 +279,9 @@ const nuiPalettes = <String, Map<String, Color>>{
   },
   'highDark': {
     'bg.canvas': NuiTokens.semantic_highDark_color_bg_canvas,
+    'bg.chrome': NuiTokens.semantic_highDark_color_bg_chrome,
+    'selection.surface': NuiTokens.semantic_highDark_color_selection_surface,
+    'selection.foreground': NuiTokens.semantic_highDark_color_selection_foreground,
     'bg.surface': NuiTokens.semantic_highDark_color_bg_surface,
     'bg.raised': NuiTokens.semantic_highDark_color_bg_raised,
     'bg.display': NuiTokens.semantic_highDark_color_bg_display,
