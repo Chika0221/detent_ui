@@ -10,15 +10,22 @@ import 'package:detent_ui/detent_ui.dart';
 // Supports running from both the package root and the standalone example.
 // ignore: avoid_relative_lib_imports
 import '../lib/material_workspace.dart';
+// ignore: avoid_relative_lib_imports
+import '../lib/workshop_navigation.dart';
 
 void main() {
   setUpAll(() async {
     final icons = FontLoader('packages/forui_lucide/ForuiLucideIcons')
       ..addFont(rootBundle.load('packages/forui_lucide/assets/lucide.ttf'));
     await icons.load();
-    for (final entry in {'Manrope': 'Manrope.ttf', 'IBM Plex Sans JP': 'IBMPlexSansJP-Regular.ttf'}.entries) {
+    for (final entry in {
+      'Manrope': 'Manrope.ttf',
+      'IBM Plex Sans JP': 'IBMPlexSansJP-Regular.ttf',
+    }.entries) {
       final loader = FontLoader('packages/detent_ui/${entry.key}')
-        ..addFont(rootBundle.load('packages/detent_ui/assets/fonts/${entry.value}'));
+        ..addFont(
+          rootBundle.load('packages/detent_ui/assets/fonts/${entry.value}'),
+        );
       await loader.load();
     }
   });
@@ -42,10 +49,10 @@ void main() {
       );
       await t.pumpAndSettle();
       expect(t.widget<NuiDotMatrix>(find.byType(NuiDotMatrix)).text, '64%');
-      await t.tap(find.widgetWithText(NuiListRow, '波形'));
+      await t.tap(find.widgetWithText(WorkshopNavigationItem, '波形'));
       await t.pumpAndSettle();
       expect(t.widget<NuiDotMatrix>(find.byType(NuiDotMatrix)).text, '50%');
-      await t.tap(find.widgetWithText(NuiListRow, '同心円'));
+      await t.tap(find.widgetWithText(WorkshopNavigationItem, '同心円'));
       await t.pumpAndSettle();
       expect(t.widget<NuiDotMatrix>(find.byType(NuiDotMatrix)).text, '64%');
       await t.tap(find.text('確定値'));
@@ -69,6 +76,15 @@ void main() {
             .writeAsBytesSync(bytes!.buffer.asUint8List());
         image.dispose();
       });
+      final input = find.descendant(
+        of: find.byType(NuiNumberStepper),
+        matching: find.byType(EditableText),
+      );
+      await t.enterText(input, '72');
+      await t.testTextInput.receiveAction(TextInputAction.done);
+      await t.pumpAndSettle();
+      expect(t.widget<NuiDotMatrix>(find.byType(NuiDotMatrix)).text, '72%');
+      expect(find.bySemanticsLabel('同心円、確定値、密度 64パーセント'), findsOneWidget);
     },
   );
 

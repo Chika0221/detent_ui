@@ -144,28 +144,29 @@ class _StaticControlPainter extends CustomPainter {
 
     final center = size.center(Offset.zero);
     if (mechanism == 'Switch') {
+      final amount = (selectionValue ?? 0).clamp(0.0, 1.0);
+      final track = Rect.fromCenter(center: center, width: 48, height: 26);
       box(
-        Rect.fromCenter(center: center, width: 48, height: 26),
-        Color.lerp(
-          theme.border,
-          theme.display,
-          (selectionValue ?? 0).clamp(0.0, 1.0),
-        )!,
+        track,
+        Color.lerp(theme.border, theme.display, amount)!,
         13,
       );
+      if (theme.dark) box(track, theme.controlBorder, 13, outline: true);
       circle(
-        center + Offset(-11 + 22 * (selectionValue ?? 0).clamp(0.0, 1.0), 0),
+        center + Offset(-11 + 22 * amount, 0),
         10 * (1 - press * .05),
-        Color.lerp(
-          theme.raised,
-          theme.raised,
-          (selectionValue ?? 0).clamp(0.0, 1.0),
-        )!,
+        theme.dark
+            ? Color.lerp(
+                theme.highContrast ? theme.canvas : theme.inverse,
+                theme.inverse,
+                amount,
+              )!
+            : theme.raised,
       );
     } else if (mechanism == 'Checkbox') {
       final rect = Rect.fromCenter(center: center, width: 20, height: 20);
       final amount = (selectionValue ?? 0).clamp(0.0, 1.0);
-      box(rect, Color.lerp(theme.raised, theme.ink, amount)!, 4);
+      box(rect, Color.lerp(theme.raised, theme.selectionSurface, amount)!, 4);
       box(rect, theme.controlBorder, 3, outline: true);
       if (amount > 0) {
         final path = Path();
@@ -180,7 +181,7 @@ class _StaticControlPainter extends CustomPainter {
         p
           ..style = PaintingStyle.stroke
           ..strokeWidth = 2
-          ..color = theme.inverse.withValues(alpha: amount);
+          ..color = theme.selectionForeground.withValues(alpha: amount);
         canvas.drawPath(path, p);
       }
     } else if (mechanism == 'RadioGroup') {
@@ -199,7 +200,7 @@ class _StaticControlPainter extends CustomPainter {
         6,
       );
       final face = Rect.fromLTWH(x + 4, 4, width - 8, size.height - 10);
-      box(face, theme.ink, 6);
+      box(face, theme.selectionSurface, 6);
       box(face, theme.controlBorder, 6, outline: true);
     } else if (mechanism == 'Slider' || mechanism == 'RangeSlider') {
       final left = 24.0, right = size.width - 24;

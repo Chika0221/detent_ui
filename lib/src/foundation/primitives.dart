@@ -192,6 +192,7 @@ class NuiTile extends StatelessWidget {
     this.contentPadding = const EdgeInsets.all(8),
     this.minTileHeight,
     this.tileColor,
+    this.hoverColor,
     this.selectedTileColor,
     this.selectedColor,
     this.shape,
@@ -202,13 +203,14 @@ class NuiTile extends StatelessWidget {
   final bool dense, selected, enabled;
   final EdgeInsetsGeometry contentPadding;
   final double? minTileHeight;
-  final Color? tileColor, selectedTileColor, selectedColor;
+  final Color? tileColor, hoverColor, selectedTileColor, selectedColor;
   final ShapeBorder? shape;
   @override
   Widget build(BuildContext context) => NuiInk(
     onTap: enabled ? onTap : null,
     selected: selected,
     color: selected ? selectedTileColor : tileColor,
+    hoverColor: hoverColor,
     child: ConstrainedBox(
       constraints: BoxConstraints(
         minHeight: minTileHeight ?? NuiTheme.of(context).controlHeight,
