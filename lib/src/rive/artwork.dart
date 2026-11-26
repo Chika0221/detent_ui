@@ -6,19 +6,19 @@ import 'package:rive/rive.dart' as rive;
 import '../foundation/theme.dart';
 import 'skin.dart';
 
-typedef NuiRiveVisualBuilder = Widget Function(
+typedef DetentRiveVisualBuilder = Widget Function(
   BuildContext context,
   Widget? graphic,
 );
 
 /// Script-free Rive graphics. Native inputs can use [builder] to change paint
 /// without replacing their focus/gesture/semantics element when assets load.
-class NuiRiveArtwork extends StatefulWidget {
-  const NuiRiveArtwork({
+class DetentRiveArtwork extends StatefulWidget {
+  const DetentRiveArtwork({
     super.key,
     required this.artboard,
     this.fallback = const SizedBox.shrink(),
-    this.state = const NuiSkinState(),
+    this.state = const DetentSkinState(),
     this.asset = 'packages/detent_ui/assets/rive/detent.riv',
     this.onError,
     this.onReady,
@@ -29,15 +29,15 @@ class NuiRiveArtwork extends StatefulWidget {
   });
   final String artboard, asset;
   final Widget fallback;
-  final NuiSkinState state;
+  final DetentSkinState state;
   final ValueChanged<Object>? onError;
   final VoidCallback? onReady;
-  final NuiRiveVisualBuilder? builder;
+  final DetentRiveVisualBuilder? builder;
 
   /// Resize the authored canvas and bind pixel dimensions, preserving corners.
   final bool resize, stretch, settleOnLoad;
   @override
-  State<NuiRiveArtwork> createState() => _NuiRiveArtworkState();
+  State<DetentRiveArtwork> createState() => _DetentRiveArtworkState();
 }
 
 class _RiveAsset {
@@ -66,7 +66,7 @@ class _RiveAsset {
   }
 }
 
-class _NuiRiveArtworkState extends State<NuiRiveArtwork>
+class _DetentRiveArtworkState extends State<DetentRiveArtwork>
     with WidgetsBindingObserver {
   _RiveAsset? lease;
   rive.RiveWidgetController? controller;
@@ -82,7 +82,7 @@ class _NuiRiveArtworkState extends State<NuiRiveArtwork>
       WidgetsBinding.instance.lifecycleState == null ||
       WidgetsBinding.instance.lifecycleState == AppLifecycleState.resumed;
   bool policy(BuildContext context) {
-    final t = NuiTheme.of(context);
+    final t = DetentTheme.of(context);
     return t.riveEnabled &&
         !t.highContrast &&
         !t.reduceMotion(context) &&
@@ -249,7 +249,7 @@ class _NuiRiveArtworkState extends State<NuiRiveArtwork>
   }
 
   void apply(Size size) {
-    final t = NuiTheme.of(context), s = widget.state;
+    final t = DetentTheme.of(context), s = widget.state;
     final width = size.width, height = size.height;
     final segmented =
         widget.artboard == 'SegmentedControl' || widget.artboard == 'Tabs';
@@ -313,7 +313,7 @@ class _NuiRiveArtworkState extends State<NuiRiveArtwork>
   }
 
   @override
-  void didUpdateWidget(NuiRiveArtwork old) {
+  void didUpdateWidget(DetentRiveArtwork old) {
     super.didUpdateWidget(old);
     if (old.asset != widget.asset || old.artboard != widget.artboard) {
       clear();

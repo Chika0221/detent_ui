@@ -12,11 +12,11 @@ class _PerforationShowcaseState extends State<PerforationShowcase> {
   double progress = .75, level = .6;
   int pulse = 0;
   bool loading = true, monitor = true;
-  NuiConnectionStatus connection = NuiConnectionStatus.connected;
+  DetentConnectionStatus connection = DetentConnectionStatus.connected;
 
   Widget specimen(String label, Widget child, {double width = 280}) => SizedBox(
     width: width,
-    child: NuiPanel(header: Text(label), child: child),
+    child: DetentPanel(header: Text(label), child: child),
   );
 
   @override
@@ -34,12 +34,12 @@ class _PerforationShowcaseState extends State<PerforationShowcase> {
         spacing: 16,
         runSpacing: 16,
         children: [
-          for (final variant in NuiPerforationSurfaceVariant.values)
+          for (final variant in DetentPerforationSurfaceVariant.values)
             SizedBox(
               width: 240,
-              child: NuiPerforationSurface(
+              child: DetentPerforationSurface(
                 variant: variant,
-                density: NuiPerforationDensity.sparse,
+                density: DetentPerforationDensity.sparse,
                 child: Text('C49 / ${variant.name}'),
               ),
             ),
@@ -50,36 +50,36 @@ class _PerforationShowcaseState extends State<PerforationShowcase> {
         spacing: 16,
         runSpacing: 16,
         children: [
-          for (final arrangement in NuiPerforationArrangement.values)
+          for (final arrangement in DetentPerforationArrangement.values)
             specimen(
               arrangement.name,
-              NuiHoleGrid(rows: 5, columns: 12, arrangement: arrangement),
+              DetentHoleGrid(rows: 5, columns: 12, arrangement: arrangement),
             ),
-          for (final depth in NuiPerforationDepth.values)
+          for (final depth in DetentPerforationDepth.values)
             specimen(
               depth.name,
-              NuiHoleGrid(rows: 3, columns: 12, depth: depth),
+              DetentHoleGrid(rows: 3, columns: 12, depth: depth),
             ),
           specimen(
             'Hole / states and sizes',
             Wrap(
               spacing: 16,
               children: [
-                for (final size in NuiHoleSize.values)
-                  for (final state in NuiHoleState.values)
-                    NuiHole(size: size, state: state),
+                for (final size in DetentHoleSize.values)
+                  for (final state in DetentHoleState.values)
+                    DetentHole(size: size, state: state),
               ],
             ),
           ),
-          for (final coverage in NuiPerforationCoverage.values)
+          for (final coverage in DetentPerforationCoverage.values)
             specimen(
               'Coverage / ${coverage.name}',
               SizedBox(
                 height: 80,
                 width: 230,
-                child: NuiPerforationPattern(
+                child: DetentPerforationPattern(
                   coverage: coverage,
-                  mask: coverage == NuiPerforationCoverage.custom
+                  mask: coverage == DetentPerforationCoverage.custom
                       ? (r, c, _) => r == c || r + c == 7
                       : null,
                 ),
@@ -92,22 +92,22 @@ class _PerforationShowcaseState extends State<PerforationShowcase> {
         spacing: 16,
         runSpacing: 16,
         children: [
-          for (final state in NuiResonanceState.values)
+          for (final state in DetentResonanceState.values)
             specimen(
               'C50 / ${state.name}',
-              NuiResonanceGrid(
+              DetentResonanceGrid(
                 state: state,
                 level: level,
                 pulseId: pulse,
-                interaction: state == NuiResonanceState.listening
-                    ? NuiResonanceInteraction.audio
-                    : NuiResonanceInteraction.radial,
+                interaction: state == DetentResonanceState.listening
+                    ? DetentResonanceInteraction.audio
+                    : DetentResonanceInteraction.radial,
               ),
             ),
           specimen(
             'Pointer response',
-            const NuiResonanceGrid(
-              interaction: NuiResonanceInteraction.pointer,
+            const DetentResonanceGrid(
+              interaction: DetentResonanceInteraction.pointer,
             ),
           ),
           specimen(
@@ -115,13 +115,13 @@ class _PerforationShowcaseState extends State<PerforationShowcase> {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                NuiResonanceGrid(
+                DetentResonanceGrid(
                   pulseId: pulse,
-                  state: NuiResonanceState.pulse,
-                  interaction: NuiResonanceInteraction.notification,
+                  state: DetentResonanceState.pulse,
+                  interaction: DetentResonanceInteraction.notification,
                 ),
                 const SizedBox(height: 12),
-                NuiButton(
+                DetentButton(
                   label: '通知を送る',
                   onPressed: () => setState(() => pulse++),
                 ),
@@ -138,32 +138,32 @@ class _PerforationShowcaseState extends State<PerforationShowcase> {
           for (final v in [.25, .5, .75, 1.0])
             specimen(
               'C51 / Progress',
-              NuiSpeakerMatrix.progress(value: v, label: '書き出し'),
+              DetentSpeakerMatrix.progress(value: v, label: '書き出し'),
             ),
-          for (final s in NuiConnectionStatus.values)
+          for (final s in DetentConnectionStatus.values)
             specimen(
               'C51 / Status',
-              NuiSpeakerMatrix.status(status: s, label: '接続状態'),
+              DetentSpeakerMatrix.status(status: s, label: '接続状態'),
             ),
           specimen(
             'C51 / Level',
-            NuiSpeakerMatrix.level(
+            DetentSpeakerMatrix.level(
               levels: [level / 2, level, .8, .3],
               label: '入力レベル',
             ),
           ),
           specimen(
             'C51 / Signal',
-            const NuiSpeakerMatrix.signal(strength: 4, label: '信号強度'),
+            const DetentSpeakerMatrix.signal(strength: 4, label: '信号強度'),
           ),
           specimen(
             'C51 / Loading',
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                NuiSpeakerMatrix.loading(label: '処理中', enabled: loading),
+                DetentSpeakerMatrix.loading(label: '処理中', enabled: loading),
                 const SizedBox(height: 12),
-                NuiToggleButton(
+                DetentToggleButton(
                   label: '処理中',
                   value: loading,
                   onChanged: (v) => setState(() => loading = v),
@@ -195,29 +195,29 @@ class _PerforationShowcaseState extends State<PerforationShowcase> {
                   crossAxisAlignment: WrapCrossAlignment.center,
                   children: [
                     const Text('入力モニター'),
-                    NuiSwitch(
+                    DetentSwitch(
                       value: monitor,
                       onChanged: (v) => setState(() => monitor = v),
                     ),
                   ],
                 ),
                 const SizedBox(height: 12),
-                NuiSlider(
+                DetentSlider(
                   value: level,
                   onChanged: (v) => setState(() => level = v),
                 ),
                 const SizedBox(height: 12),
-                NuiSlider(
+                DetentSlider(
                   value: progress,
                   onChanged: (v) => setState(() => progress = v),
                 ),
                 const SizedBox(height: 12),
                 SizedBox(
                   width: 280,
-                  child: NuiProgress(value: progress, label: 'セッション書き出し'),
+                  child: DetentProgress(value: progress, label: 'セッション書き出し'),
                 ),
                 const SizedBox(height: 16),
-                NuiButton(
+                DetentButton(
                   label: 'セッションを保存',
                   onPressed: () => setState(() => progress = 1),
                 ),
@@ -227,31 +227,31 @@ class _PerforationShowcaseState extends State<PerforationShowcase> {
           ),
           specimen(
             '音声フィードバック',
-            NuiResonanceGrid(
-              interaction: NuiResonanceInteraction.audio,
+            DetentResonanceGrid(
+              interaction: DetentResonanceInteraction.audio,
               level: level,
               state: monitor
-                  ? NuiResonanceState.listening
-                  : NuiResonanceState.disabled,
+                  ? DetentResonanceState.listening
+                  : DetentResonanceState.disabled,
             ),
           ),
           specimen(
             '書き出し',
-            NuiSpeakerMatrix.progress(value: progress, label: 'セッション書き出し'),
+            DetentSpeakerMatrix.progress(value: progress, label: 'セッション書き出し'),
           ),
           specimen(
             '接続状態',
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                NuiSpeakerMatrix.status(status: connection, label: '入力デバイス'),
+                DetentSpeakerMatrix.status(status: connection, label: '入力デバイス'),
                 const SizedBox(height: 12),
-                NuiButton(
+                DetentButton(
                   label: '接続状態を切替',
                   onPressed: () => setState(() {
                     connection =
-                        NuiConnectionStatus.values[(connection.index + 1) %
-                            NuiConnectionStatus.values.length];
+                        DetentConnectionStatus.values[(connection.index + 1) %
+                            DetentConnectionStatus.values.length];
                   }),
                 ),
               ],

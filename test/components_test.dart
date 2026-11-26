@@ -8,12 +8,12 @@ import 'package:detent_ui/detent_ui.dart';
 Future<void> host(
   WidgetTester t,
   Widget child, {
-  NuiThemeData theme = const NuiThemeData(),
+  DetentThemeData theme = const DetentThemeData(),
 }) => t.pumpWidget(
-  NuiApp(
-    home: NuiTheme(
+  DetentApp(
+    home: DetentTheme(
       data: theme,
-      child: NuiBox(
+      child: DetentBox(
         body: Center(child: SizedBox(width: 500, child: child)),
       ),
     ),
@@ -26,24 +26,24 @@ void main() {
     addTearDown(focus.dispose);
     await host(
       t,
-      NuiButton(label: '保存', focusNode: focus, onPressed: () => calls++),
+      DetentButton(label: '保存', focusNode: focus, onPressed: () => calls++),
     );
-    final initial = t.getSize(find.byType(NuiButton));
+    final initial = t.getSize(find.byType(DetentButton));
     expect(initial.height, 50);
-    final g = await t.startGesture(t.getCenter(find.byType(NuiButton)));
+    final g = await t.startGesture(t.getCenter(find.byType(DetentButton)));
     await t.pump();
-    expect(t.getSize(find.byType(NuiButton)), initial);
+    expect(t.getSize(find.byType(DetentButton)), initial);
     await g.cancel();
     await t.pump();
     expect(calls, 0);
-    await t.tap(find.byType(NuiButton));
+    await t.tap(find.byType(DetentButton));
     await t.pump();
     expect(calls, 1);
     focus.requestFocus();
     await t.pump();
     await t.sendKeyEvent(LogicalKeyboardKey.enter);
     expect(calls, 2);
-    expect(t.getSize(find.byType(NuiButton)), initial);
+    expect(t.getSize(find.byType(DetentButton)), initial);
   });
   testWidgets('disabled and loading buttons never invoke host', (t) async {
     var calls = 0;
@@ -52,33 +52,33 @@ void main() {
       Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          const NuiButton(label: '無効'),
-          NuiButton(label: '保存', loading: true, onPressed: () => calls++),
+          const DetentButton(label: '無効'),
+          DetentButton(label: '保存', loading: true, onPressed: () => calls++),
         ],
       ),
     );
     await t.tap(find.text('保存'), warnIfMissed: false);
     await t.pump();
     expect(calls, 0);
-    expect(t.getSize(find.byType(NuiButton).first).height, 50);
+    expect(t.getSize(find.byType(DetentButton).first).height, 50);
   });
   testWidgets('switch tracks external controlled values', (t) async {
     bool? result;
-    await host(t, NuiSwitch(value: false, onChanged: (v) => result = v));
-    await t.tap(find.byType(NuiSwitch));
+    await host(t, DetentSwitch(value: false, onChanged: (v) => result = v));
+    await t.tap(find.byType(DetentSwitch));
     await t.pump();
     expect(result, true);
-    expect(t.widget<NuiSwitch>(find.byType(NuiSwitch)).value, false);
-    await host(t, NuiSwitch(value: true, onChanged: (v) => result = v));
+    expect(t.widget<DetentSwitch>(find.byType(DetentSwitch)).value, false);
+    await host(t, DetentSwitch(value: true, onChanged: (v) => result = v));
     await t.pump();
-    expect(t.widget<NuiSwitch>(find.byType(NuiSwitch)).value, true);
+    expect(t.widget<DetentSwitch>(find.byType(DetentSwitch)).value, true);
   });
   testWidgets('knob keyboard adjustments clamp to its range', (t) async {
     double value = 99;
     await host(
       t,
       StatefulBuilder(
-        builder: (context, set) => NuiRotaryKnob(
+        builder: (context, set) => DetentRotaryKnob(
           value: value,
           min: 0,
           max: 100,
@@ -107,7 +107,7 @@ void main() {
       double? changed;
       await host(
         t,
-        NuiNumberStepper(
+        DetentNumberStepper(
           value: 10,
           min: -20,
           max: 20,
@@ -136,7 +136,7 @@ void main() {
       await host(
         t,
         StatefulBuilder(
-          builder: (ctx, set) => NuiRangeSlider(
+          builder: (ctx, set) => DetentRangeSlider(
             values: range,
             min: 0,
             max: 100,
@@ -163,14 +163,14 @@ void main() {
     await host(
       t,
       Builder(
-        builder: (ctx) => NuiButton(
+        builder: (ctx) => DetentButton(
           label: '開く',
-          onPressed: () => NuiDialog.show<void>(
+          onPressed: () => DetentDialog.show<void>(
             ctx,
-            builder: (dialog) => NuiDialog(
+            builder: (dialog) => DetentDialog(
               title: '確認',
               actions: [
-                NuiButton(
+                DetentButton(
                   label: '戻る',
                   autofocus: true,
                   onPressed: () => Navigator.pop(dialog),
@@ -198,12 +198,12 @@ void main() {
       StatefulBuilder(
         builder: (context, set) => SizedBox(
           height: 200,
-          child: NuiTreeView<String>(
+          child: DetentTreeView<String>(
             nodes: const [
-              NuiTreeNode(
+              DetentTreeNode(
                 id: 'root',
                 label: 'Root',
-                children: [NuiTreeNode(id: 'child', label: 'Child')],
+                children: [DetentTreeNode(id: 'child', label: 'Child')],
               ),
             ],
             expanded: expanded,
@@ -235,10 +235,14 @@ void main() {
       t,
       SizedBox(
         height: 300,
-        child: NuiCommandPalette(
+        child: DetentCommandPalette(
           commands: [
-            NuiCommand(id: 'save', label: 'Save', onPressed: () => calls++),
-            NuiCommand(id: 'open', label: 'Open', onPressed: () => calls += 10),
+            DetentCommand(id: 'save', label: 'Save', onPressed: () => calls++),
+            DetentCommand(
+              id: 'open',
+              label: 'Open',
+              onPressed: () => calls += 10,
+            ),
           ],
         ),
       ),
@@ -255,7 +259,7 @@ void main() {
     var dismiss = 0;
     await host(
       t,
-      NuiToast(
+      DetentToast(
         message: '保存済み',
         duration: const Duration(seconds: 2),
         onDismiss: () => dismiss++,
@@ -264,7 +268,7 @@ void main() {
     final pointer = await t.createGesture(kind: PointerDeviceKind.mouse);
     await pointer.addPointer(location: Offset.zero);
     await t.pump();
-    await pointer.moveTo(t.getCenter(find.byType(NuiToast)));
+    await pointer.moveTo(t.getCenter(find.byType(DetentToast)));
     await t.pump(const Duration(seconds: 3));
     expect(dismiss, 0);
     await pointer.moveTo(Offset.zero);
@@ -277,10 +281,10 @@ void main() {
   ) async {
     await host(
       t,
-      const NuiProgress(),
-      theme: const NuiThemeData(motion: NuiMotion.reduced),
+      const DetentProgress(),
+      theme: const DetentThemeData(motion: DetentMotion.reduced),
     );
-    expect(find.byType(NuiRiveArtwork), findsNothing);
+    expect(find.byType(DetentRiveArtwork), findsNothing);
     expect(find.text('処理中'), findsOneWidget);
   });
   testWidgets('large table builds only visible rows and retains stable IDs', (
@@ -292,8 +296,8 @@ void main() {
       t,
       SizedBox(
         height: 300,
-        child: NuiDataTable<int>(
-          columns: const [NuiTableColumn(label: 'ID')],
+        child: DetentDataTable<int>(
+          columns: const [DetentTableColumn(label: 'ID')],
           rows: data,
           rowId: (r) => r,
           cells: (r) {
@@ -309,9 +313,9 @@ void main() {
   testWidgets('menu closes with Escape and returns focus', (t) async {
     await host(
       t,
-      NuiDropdownMenu(
+      DetentDropdownMenu(
         label: '操作',
-        items: [NuiMenuItem(label: '保存', onPressed: () {})],
+        items: [DetentMenuItem(label: '保存', onPressed: () {})],
       ),
     );
     await t.tap(find.text('操作'));
@@ -333,7 +337,7 @@ void main() {
       SizedBox(
         width: 144,
         height: 50,
-        child: NuiRiveArtwork(
+        child: DetentRiveArtwork(
           artboard: 'Button',
           asset: 'missing.riv',
           fallback: const Text('静的な代替'),
@@ -344,12 +348,12 @@ void main() {
     await t.pumpAndSettle();
     expect(find.text('静的な代替'), findsOneWidget);
     expect(error, isNotNull);
-    expect(t.getSize(find.byType(NuiRiveArtwork)).height, 50);
+    expect(t.getSize(find.byType(DetentRiveArtwork)).height, 50);
   });
   test('all four palettes resolve roles from canonical token values', () {
     for (final dark in [false, true]) {
       for (final high in [false, true]) {
-        final theme = NuiThemeData(
+        final theme = DetentThemeData(
           brightness: dark ? Brightness.dark : Brightness.light,
           highContrast: high,
         );

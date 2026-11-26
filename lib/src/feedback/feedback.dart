@@ -8,28 +8,28 @@ import '../controls/controls.dart';
 import '../rive/artwork.dart';
 import '../rive/skin.dart';
 
-enum NuiTone { neutral, success, danger, warning }
+enum DetentTone { neutral, success, danger, warning }
 
-Color nuiToneColor(NuiThemeData t, NuiTone tone) => switch (tone) {
-  NuiTone.neutral => t.muted,
-  NuiTone.success => t.success,
-  NuiTone.danger => t.danger,
-  NuiTone.warning => t.accent,
+Color detentToneColor(DetentThemeData t, DetentTone tone) => switch (tone) {
+  DetentTone.neutral => t.muted,
+  DetentTone.success => t.success,
+  DetentTone.danger => t.danger,
+  DetentTone.warning => t.accent,
 };
 
-class NuiBadge extends StatelessWidget {
-  const NuiBadge({
+class DetentBadge extends StatelessWidget {
+  const DetentBadge({
     super.key,
     required this.label,
-    this.tone = NuiTone.neutral,
+    this.tone = DetentTone.neutral,
     this.icon,
   });
   final String label;
-  final NuiTone tone;
+  final DetentTone tone;
   final IconData? icon;
   @override
   Widget build(BuildContext context) {
-    final t = NuiTheme.of(context);
+    final t = DetentTheme.of(context);
     return Container(
       constraints: const BoxConstraints(minHeight: 32),
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
@@ -42,13 +42,13 @@ class NuiBadge extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           if (icon != null)
-            Icon(icon, size: 16, color: nuiToneColor(t, tone))
+            Icon(icon, size: 16, color: detentToneColor(t, tone))
           else
             SizedBox.square(
               dimension: 8,
               child: DecoratedBox(
                 decoration: BoxDecoration(
-                  color: nuiToneColor(t, tone),
+                  color: detentToneColor(t, tone),
                   shape: BoxShape.circle,
                 ),
               ),
@@ -61,8 +61,8 @@ class NuiBadge extends StatelessWidget {
   }
 }
 
-class NuiTooltip extends StatelessWidget {
-  const NuiTooltip({
+class DetentTooltip extends StatelessWidget {
+  const DetentTooltip({
     super.key,
     required this.message,
     required this.child,
@@ -72,34 +72,34 @@ class NuiTooltip extends StatelessWidget {
   final String? shortcut;
   final Widget child;
   @override
-  Widget build(BuildContext context) => NuiHint(
+  Widget build(BuildContext context) => DetentHint(
     message: '$message${shortcut == null ? '' : '  $shortcut'}',
     child: child,
   );
 }
 
-enum NuiProgressVariant { linear, circular }
+enum DetentProgressVariant { linear, circular }
 
-class NuiProgress extends StatelessWidget {
-  const NuiProgress({
+class DetentProgress extends StatelessWidget {
+  const DetentProgress({
     super.key,
     this.value,
-    this.variant = NuiProgressVariant.linear,
+    this.variant = DetentProgressVariant.linear,
     this.label = '処理中',
     this.color,
   });
   final double? value;
   final Color? color;
-  final NuiProgressVariant variant;
+  final DetentProgressVariant variant;
   final String label;
   @override
   Widget build(BuildContext context) {
-    final t = NuiTheme.of(context), v = value?.clamp(0.0, 1.0);
+    final t = DetentTheme.of(context), v = value?.clamp(0.0, 1.0);
     if (t.reduceMotion(context) && v == null) {
       return Semantics(
         liveRegion: true,
-        label: variant == NuiProgressVariant.circular ? label : null,
-        child: variant == NuiProgressVariant.circular
+        label: variant == DetentProgressVariant.circular ? label : null,
+        child: variant == DetentProgressVariant.circular
             ? SizedBox.square(
                 dimension: 28,
                 child: Icon(FLucideIcons.loader, size: 16, color: color),
@@ -114,15 +114,23 @@ class NuiProgress extends StatelessWidget {
               ),
       );
     }
-    final fallback = variant == NuiProgressVariant.linear
-        ? _NuiFallbackProgress(value: v, color: color ?? t.ink, circular: false)
-        : _NuiFallbackProgress(value: v, color: color ?? t.ink, circular: true);
-    final artwork = NuiRiveArtwork(
-      artboard: variant == NuiProgressVariant.linear
+    final fallback = variant == DetentProgressVariant.linear
+        ? _DetentFallbackProgress(
+            value: v,
+            color: color ?? t.ink,
+            circular: false,
+          )
+        : _DetentFallbackProgress(
+            value: v,
+            color: color ?? t.ink,
+            circular: true,
+          );
+    final artwork = DetentRiveArtwork(
+      artboard: variant == DetentProgressVariant.linear
           ? 'Progress'
           : 'CircularProgress',
-      stretch: variant == NuiProgressVariant.linear,
-      state: NuiSkinState(
+      stretch: variant == DetentProgressVariant.linear,
+      state: DetentSkinState(
         progress: v ?? .24,
         indeterminate: v == null,
         taskState: v != null && v > 0 && v < 1 ? 1 : 0,
@@ -133,7 +141,7 @@ class NuiProgress extends StatelessWidget {
     return Semantics(
       label: label,
       value: v == null ? '進捗不明' : '${(v * 100).round()}%',
-      child: variant == NuiProgressVariant.linear
+      child: variant == DetentProgressVariant.linear
           ? SizedBox(
               height: 7,
               child: ClipRRect(
@@ -147,8 +155,8 @@ class NuiProgress extends StatelessWidget {
 }
 
 /// Independent 5×7 numeric glyphs, with ordinary text exposed to accessibility.
-class NuiDotMatrix extends StatelessWidget {
-  const NuiDotMatrix({
+class DetentDotMatrix extends StatelessWidget {
+  const DetentDotMatrix({
     super.key,
     required this.text,
     this.dotSize = 3,
@@ -161,7 +169,7 @@ class NuiDotMatrix extends StatelessWidget {
   final String? semanticLabel;
   @override
   Widget build(BuildContext context) {
-    final fg = color ?? NuiTheme.of(context).inverse;
+    final fg = color ?? DetentTheme.of(context).inverse;
     return Semantics(
       label: semanticLabel ?? text,
       child: ExcludeSemantics(
@@ -174,7 +182,7 @@ class NuiDotMatrix extends StatelessWidget {
                 width: 6 * dotSize * 1.6,
                 height: 7 * dotSize * 1.6,
                 child: AnimatedSwitcher(
-                  duration: NuiTheme.of(context).duration(context, 120),
+                  duration: DetentTheme.of(context).duration(context, 120),
                   child: CustomPaint(
                     key: ValueKey(text[i]),
                     size: Size(6 * dotSize * 1.6, 7 * dotSize * 1.6),
@@ -236,8 +244,8 @@ class _DotPainter extends CustomPainter {
       old.text != text || old.dot != dot || old.color != color;
 }
 
-class NuiMeter extends StatelessWidget {
-  const NuiMeter({
+class DetentMeter extends StatelessWidget {
+  const DetentMeter({
     super.key,
     required this.value,
     this.min = 0,
@@ -252,7 +260,7 @@ class NuiMeter extends StatelessWidget {
   final bool active;
   @override
   Widget build(BuildContext context) {
-    final t = NuiTheme.of(context),
+    final t = DetentTheme.of(context),
         fraction = ((value - min) / (max - min)).clamp(0.0, 1.0);
     final fallbackBars = Row(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -280,10 +288,10 @@ class NuiMeter extends StatelessWidget {
             SizedBox(
               height: 40,
               child: segments == 32
-                  ? NuiRiveArtwork(
+                  ? DetentRiveArtwork(
                       artboard: 'Meter',
                       stretch: true,
-                      state: NuiSkinState(
+                      state: DetentSkinState(
                         progress: fraction,
                         indeterminate: active && fraction > 0,
                       ),
@@ -293,7 +301,7 @@ class NuiMeter extends StatelessWidget {
             ),
             const SizedBox(height: 8),
             DefaultTextStyle(
-              style: NuiTheme.of(context).textTheme.bodySmall
+              style: DetentTheme.of(context).textTheme.bodySmall
                   .copyWith(color: t.inverse, fontSize: 12),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -311,22 +319,22 @@ class NuiMeter extends StatelessWidget {
   }
 }
 
-class NuiInlineAlert extends StatelessWidget {
-  const NuiInlineAlert({
+class DetentInlineAlert extends StatelessWidget {
+  const DetentInlineAlert({
     super.key,
     required this.title,
     this.message,
-    this.tone = NuiTone.danger,
+    this.tone = DetentTone.danger,
     this.action,
   });
   final String title;
   final String? message;
-  final NuiTone tone;
+  final DetentTone tone;
   final Widget? action;
   @override
   Widget build(BuildContext context) {
-    final t = NuiTheme.of(context),
-        color = nuiToneColor(NuiTheme.of(context), tone);
+    final t = DetentTheme.of(context),
+        color = detentToneColor(DetentTheme.of(context), tone);
     return Semantics(
       liveRegion: true,
       child: Container(
@@ -347,7 +355,7 @@ class NuiInlineAlert extends StatelessWidget {
                 duration: t.duration(context, 160),
                 child: Icon(
                   key: ValueKey(tone),
-                  tone == NuiTone.danger
+                  tone == DetentTone.danger
                       ? FLucideIcons.circleAlert
                       : FLucideIcons.info,
                   size: 16,
@@ -376,31 +384,31 @@ class NuiInlineAlert extends StatelessWidget {
   }
 }
 
-class NuiToast extends StatefulWidget {
-  const NuiToast({
+class DetentToast extends StatefulWidget {
+  const DetentToast({
     super.key,
     required this.message,
     this.onDismiss,
     this.duration = const Duration(seconds: 5),
     this.actionLabel,
     this.onAction,
-    this.tone = NuiTone.success,
+    this.tone = DetentTone.success,
   });
   final String message;
   final VoidCallback? onDismiss, onAction;
   final String? actionLabel;
   final Duration duration;
-  final NuiTone tone;
-  static NuiToastHandle show(
+  final DetentTone tone;
+  static DetentToastHandle show(
     BuildContext context, {
     required String message,
     String? actionLabel,
     VoidCallback? onAction,
   }) {
     final overlay = Overlay.of(context, rootOverlay: true),
-        data = NuiTheme.of(context);
+        data = DetentTheme.of(context);
     _activeToasts.remove(overlay)?.close();
-    late final NuiToastHandle handle;
+    late final DetentToastHandle handle;
     final entry = OverlayEntry(
       builder: (ctx) => Positioned(
         bottom: 24,
@@ -410,9 +418,9 @@ class NuiToast extends StatefulWidget {
           alignment: Alignment.bottomRight,
           child: ConstrainedBox(
             constraints: const BoxConstraints(maxWidth: 560),
-            child: NuiTheme(
+            child: DetentTheme(
               data: data,
-              child: NuiToast(
+              child: DetentToast(
                 message: message,
                 actionLabel: actionLabel,
                 onAction: onAction,
@@ -423,17 +431,17 @@ class NuiToast extends StatefulWidget {
         ),
       ),
     );
-    handle = NuiToastHandle(entry);
+    handle = DetentToastHandle(entry);
     _activeToasts[overlay] = handle;
     overlay.insert(entry);
     return handle;
   }
 
   @override
-  State<NuiToast> createState() => _NuiToastState();
+  State<DetentToast> createState() => _DetentToastState();
 }
 
-class _NuiToastState extends State<NuiToast> {
+class _DetentToastState extends State<DetentToast> {
   Timer? timer;
   late Duration remaining;
   final watch = Stopwatch();
@@ -494,9 +502,9 @@ class _NuiToastState extends State<NuiToast> {
           constraints: const BoxConstraints(minHeight: 42),
           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
           decoration: BoxDecoration(
-            color: NuiTheme.of(context).raised,
+            color: DetentTheme.of(context).raised,
             borderRadius: BorderRadius.circular(8),
-            border: Border.all(color: NuiTheme.of(context).controlBorder),
+            border: Border.all(color: DetentTheme.of(context).controlBorder),
           ),
           child: Row(
             children: [
@@ -504,7 +512,10 @@ class _NuiToastState extends State<NuiToast> {
                 dimension: 8,
                 child: DecoratedBox(
                   decoration: BoxDecoration(
-                    color: nuiToneColor(NuiTheme.of(context), widget.tone),
+                    color: detentToneColor(
+                      DetentTheme.of(context),
+                      widget.tone,
+                    ),
                     shape: BoxShape.circle,
                   ),
                 ),
@@ -515,15 +526,15 @@ class _NuiToastState extends State<NuiToast> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   if (widget.actionLabel != null)
-                    NuiPlainButton(
+                    DetentPlainButton(
                       onPressed: widget.onAction,
                       child: Text(
                         widget.actionLabel!,
-                        style: NuiTheme.of(context).textTheme.bodySmall,
+                        style: DetentTheme.of(context).textTheme.bodySmall,
                       ),
                     ),
                   if (widget.onDismiss != null)
-                    NuiIconAction(
+                    DetentIconAction(
                       tooltip: '通知を閉じる',
                       onPressed: widget.onDismiss,
                       icon: const Icon(FLucideIcons.x, size: 16),
@@ -538,8 +549,8 @@ class _NuiToastState extends State<NuiToast> {
   );
 }
 
-class NuiDialog extends StatelessWidget {
-  const NuiDialog({
+class DetentDialog extends StatelessWidget {
+  const DetentDialog({
     super.key,
     required this.title,
     required this.child,
@@ -553,7 +564,7 @@ class NuiDialog extends StatelessWidget {
     required WidgetBuilder builder,
     bool dismissOnOutside = false,
     bool dismissOnEscape = true,
-  }) => showNuiDialog<T>(
+  }) => showDetentDialog<T>(
     context: context,
     barrierDismissible: dismissOnOutside,
     dismissOnEscape: dismissOnEscape,
@@ -561,15 +572,15 @@ class NuiDialog extends StatelessWidget {
   );
   @override
   Widget build(BuildContext context) =>
-      NuiDialogFrame(title: Text(title), content: child, actions: actions);
+      DetentDialogFrame(title: Text(title), content: child, actions: actions);
 }
 
-class NuiPopover extends StatelessWidget {
-  const NuiPopover({super.key, required this.label, required this.child});
+class DetentPopover extends StatelessWidget {
+  const DetentPopover({super.key, required this.label, required this.child});
   final String label;
   final Widget child;
   @override
-  Widget build(BuildContext context) => NuiPopupAnchor(
+  Widget build(BuildContext context) => DetentPopupAnchor(
     menuChildren: [
       Padding(
         padding: const EdgeInsets.all(8),
@@ -579,15 +590,15 @@ class NuiPopover extends StatelessWidget {
         ),
       ),
     ],
-    builder: (ctx, c, _) => NuiButton(
+    builder: (ctx, c, _) => DetentButton(
       label: label,
       onPressed: () => c.isOpen ? c.close() : c.open(),
     ),
   );
 }
 
-class NuiEmptyState extends StatelessWidget {
-  const NuiEmptyState({
+class DetentEmptyState extends StatelessWidget {
+  const DetentEmptyState({
     super.key,
     required this.title,
     this.description,
@@ -604,7 +615,7 @@ class NuiEmptyState extends StatelessWidget {
     child: Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Icon(icon, size: 32, color: NuiTheme.of(context).muted),
+        Icon(icon, size: 32, color: DetentTheme.of(context).muted),
         const SizedBox(height: 16),
         Text(title, style: const TextStyle(fontWeight: FontWeight.w600)),
         if (description != null) ...[
@@ -617,8 +628,8 @@ class NuiEmptyState extends StatelessWidget {
   );
 }
 
-class NuiSkeleton extends StatelessWidget {
-  const NuiSkeleton({
+class DetentSkeleton extends StatelessWidget {
+  const DetentSkeleton({
     super.key,
     this.width = 160,
     this.height = 12,
@@ -632,13 +643,13 @@ class NuiSkeleton extends StatelessWidget {
     child: SizedBox(
       width: width,
       height: height,
-      child: NuiRiveArtwork(
+      child: DetentRiveArtwork(
         artboard: 'Skeleton',
         stretch: true,
-        state: const NuiSkinState(indeterminate: true),
+        state: const DetentSkinState(indeterminate: true),
         fallback: DecoratedBox(
           decoration: BoxDecoration(
-            color: NuiTheme.of(context).border,
+            color: DetentTheme.of(context).border,
             borderRadius: BorderRadius.circular(2),
           ),
         ),
@@ -647,10 +658,10 @@ class NuiSkeleton extends StatelessWidget {
   );
 }
 
-enum NuiTaskState { idle, running, canceling, canceled, success, error }
+enum DetentTaskState { idle, running, canceling, canceled, success, error }
 
-class NuiTaskStatus extends StatelessWidget {
-  const NuiTaskStatus({
+class DetentTaskStatus extends StatelessWidget {
+  const DetentTaskStatus({
     super.key,
     required this.state,
     required this.label,
@@ -659,35 +670,35 @@ class NuiTaskStatus extends StatelessWidget {
     this.onCancel,
     this.onRetry,
   });
-  final NuiTaskState state;
+  final DetentTaskState state;
   final String label;
   final double? progress;
   final String? detail;
   final VoidCallback? onCancel, onRetry;
   @override
   Widget build(BuildContext context) {
-    final t = NuiTheme.of(context);
+    final t = DetentTheme.of(context);
     final status = switch (state) {
-      NuiTaskState.idle => '待機中',
-      NuiTaskState.running => '処理中',
-      NuiTaskState.canceling => '取り消し中',
-      NuiTaskState.canceled => '取り消しました',
-      NuiTaskState.success => '完了',
-      NuiTaskState.error => '失敗',
+      DetentTaskState.idle => '待機中',
+      DetentTaskState.running => '処理中',
+      DetentTaskState.canceling => '取り消し中',
+      DetentTaskState.canceled => '取り消しました',
+      DetentTaskState.success => '完了',
+      DetentTaskState.error => '失敗',
     };
-    final foreground = NuiColors.white;
+    final foreground = DetentColors.white;
     final running =
-        state == NuiTaskState.running || state == NuiTaskState.canceling;
+        state == DetentTaskState.running || state == DetentTaskState.canceling;
     final terminal =
-        state == NuiTaskState.success ||
-        state == NuiTaskState.error ||
-        state == NuiTaskState.canceled;
-    final color = state == NuiTaskState.error
+        state == DetentTaskState.success ||
+        state == DetentTaskState.error ||
+        state == DetentTaskState.canceled;
+    final color = state == DetentTaskState.error
         ? t.danger
-        : state == NuiTaskState.success
+        : state == DetentTaskState.success
         ? t.success
         : t.accent;
-    final fraction = state == NuiTaskState.success
+    final fraction = state == DetentTaskState.success
         ? 1.0
         : progress?.clamp(0.0, 1.0) ?? 0;
     return Semantics(
@@ -711,30 +722,32 @@ class NuiTaskStatus extends StatelessWidget {
                   SizedBox(
                     width: 56,
                     height: 28,
-                    child: NuiRiveArtwork(
+                    child: DetentRiveArtwork(
                       artboard: terminal ? 'TaskGlyph' : 'TaskStatus',
-                      state: NuiSkinState(
+                      state: DetentSkinState(
                         progress: progress == null && running ? 1 : fraction,
                         indeterminate: running,
                         taskState: switch (state) {
-                          NuiTaskState.success => 2,
-                          NuiTaskState.error => 3,
-                          NuiTaskState.canceled => 4,
+                          DetentTaskState.success => 2,
+                          DetentTaskState.error => 3,
+                          DetentTaskState.canceled => 4,
                           _ => 0,
                         },
                         accentColor: color,
                       ),
                       fallback: terminal
                           ? Icon(
-                              state == NuiTaskState.success
+                              state == DetentTaskState.success
                                   ? FLucideIcons.check
-                                  : state == NuiTaskState.error
+                                  : state == DetentTaskState.error
                                   ? FLucideIcons.x
                                   : FLucideIcons.minus,
                               color: color,
                               size: 20,
                             )
-                          : CustomPaint(painter: _NuiTaskDots(fraction, color)),
+                          : CustomPaint(
+                              painter: _DetentTaskDots(fraction, color),
+                            ),
                     ),
                   ),
                   const SizedBox(width: 24),
@@ -776,15 +789,15 @@ class NuiTaskStatus extends StatelessWidget {
           if (running && onCancel != null)
             Align(
               alignment: Alignment.centerRight,
-              child: NuiPlainButton(
+              child: DetentPlainButton(
                 onPressed: onCancel,
                 child: const Text('取り消す'),
               ),
             ),
-          if (state == NuiTaskState.error && onRetry != null)
+          if (state == DetentTaskState.error && onRetry != null)
             Align(
               alignment: Alignment.centerRight,
-              child: NuiPlainButton(
+              child: DetentPlainButton(
                 onPressed: onRetry,
                 child: const Text('再試行'),
               ),
@@ -795,8 +808,8 @@ class NuiTaskStatus extends StatelessWidget {
   }
 }
 
-class _NuiTaskDots extends CustomPainter {
-  _NuiTaskDots(this.value, this.color);
+class _DetentTaskDots extends CustomPainter {
+  _DetentTaskDots(this.value, this.color);
   final double value;
   final Color color;
   @override
@@ -809,14 +822,14 @@ class _NuiTaskDots extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(_NuiTaskDots old) =>
+  bool shouldRepaint(_DetentTaskDots old) =>
       old.value != value || old.color != color;
 }
 
-final _activeToasts = <OverlayState, NuiToastHandle>{};
+final _activeToasts = <OverlayState, DetentToastHandle>{};
 
-class NuiToastHandle {
-  NuiToastHandle(this._entry);
+class DetentToastHandle {
+  DetentToastHandle(this._entry);
   OverlayEntry? _entry;
   void close() {
     final e = _entry;
@@ -828,8 +841,8 @@ class NuiToastHandle {
   }
 }
 
-class _NuiFallbackProgress extends StatefulWidget {
-  const _NuiFallbackProgress({
+class _DetentFallbackProgress extends StatefulWidget {
+  const _DetentFallbackProgress({
     required this.value,
     required this.color,
     required this.circular,
@@ -838,10 +851,11 @@ class _NuiFallbackProgress extends StatefulWidget {
   final Color color;
   final bool circular;
   @override
-  State<_NuiFallbackProgress> createState() => _NuiFallbackProgressState();
+  State<_DetentFallbackProgress> createState() =>
+      _DetentFallbackProgressState();
 }
 
-class _NuiFallbackProgressState extends State<_NuiFallbackProgress>
+class _DetentFallbackProgressState extends State<_DetentFallbackProgress>
     with SingleTickerProviderStateMixin {
   late final animation = AnimationController(
     vsync: this,
@@ -854,7 +868,7 @@ class _NuiFallbackProgressState extends State<_NuiFallbackProgress>
   }
 
   @override
-  void didUpdateWidget(_NuiFallbackProgress old) {
+  void didUpdateWidget(_DetentFallbackProgress old) {
     super.didUpdateWidget(old);
     if (widget.value == null && !animation.isAnimating) {
       animation.repeat();
@@ -877,7 +891,7 @@ class _NuiFallbackProgressState extends State<_NuiFallbackProgress>
         widget.value,
         animation.value,
         widget.color,
-        NuiTheme.of(context).border,
+        DetentTheme.of(context).border,
         widget.circular,
       ),
     ),

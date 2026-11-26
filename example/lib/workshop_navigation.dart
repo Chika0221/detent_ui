@@ -19,11 +19,11 @@ class WorkshopNavigationItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = NuiTheme.of(context);
+    final theme = DetentTheme.of(context);
     final foreground = selected ? theme.selectionForeground : theme.ink;
     return IconTheme.merge(
       data: IconThemeData(color: foreground),
-      child: NuiTile(
+      child: DetentTile(
         leading: Icon(icon),
         title: Text(label),
         subtitle: description == null

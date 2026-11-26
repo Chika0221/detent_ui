@@ -7,31 +7,31 @@ import '../controls/controls.dart';
 import '../inputs/inputs.dart';
 
 @immutable
-class NuiTab<T> {
-  const NuiTab(this.value, this.label, {this.dirty = false, this.onClose});
+class DetentTab<T> {
+  const DetentTab(this.value, this.label, {this.dirty = false, this.onClose});
   final T value;
   final String label;
   final bool dirty;
   final VoidCallback? onClose;
 }
 
-class NuiTabs<T> extends StatefulWidget {
-  const NuiTabs({
+class DetentTabs<T> extends StatefulWidget {
+  const DetentTabs({
     super.key,
     required this.tabs,
     required this.value,
     this.onChanged,
     this.manualActivation = false,
   });
-  final List<NuiTab<T>> tabs;
+  final List<DetentTab<T>> tabs;
   final T value;
   final ValueChanged<T>? onChanged;
   final bool manualActivation;
   @override
-  State<NuiTabs<T>> createState() => _NuiTabsState<T>();
+  State<DetentTabs<T>> createState() => _DetentTabsState<T>();
 }
 
-class _NuiTabsState<T> extends State<NuiTabs<T>> {
+class _DetentTabsState<T> extends State<DetentTabs<T>> {
   final Map<T, FocusNode> nodes = {};
   @override
   void dispose() {
@@ -45,7 +45,9 @@ class _NuiTabsState<T> extends State<NuiTabs<T>> {
   Widget build(BuildContext context) {
     return DecoratedBox(
       decoration: BoxDecoration(
-        border: Border(bottom: BorderSide(color: NuiTheme.of(context).border)),
+        border: Border(
+          bottom: BorderSide(color: DetentTheme.of(context).border),
+        ),
       ),
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
@@ -78,16 +80,16 @@ class _NuiTabsState<T> extends State<NuiTabs<T>> {
                 },
                 child: Semantics(
                   selected: widget.value == tab.value,
-                  child: _NuiAnimatedTab(
+                  child: _DetentAnimatedTab(
                     selected: widget.value == tab.value,
-                    child: NuiInk(
+                    child: DetentInk(
                       focusNode: nodes.putIfAbsent(tab.value, FocusNode.new),
                       onTap: widget.onChanged == null
                           ? null
                           : () => widget.onChanged!(tab.value),
                       child: ConstrainedBox(
                         constraints: BoxConstraints(
-                          minHeight: NuiTheme.of(context).controlHeight + 4,
+                          minHeight: DetentTheme.of(context).controlHeight + 4,
                           minWidth: 228,
                         ),
                         child: Padding(
@@ -98,7 +100,7 @@ class _NuiTabsState<T> extends State<NuiTabs<T>> {
                               Text('${tab.label}${tab.dirty ? ' •' : ''}'),
                               if (tab.onClose != null) ...[
                                 const SizedBox(width: 8),
-                                NuiIconAction(
+                                DetentIconAction(
                                   icon: const Icon(FLucideIcons.x, size: 16),
                                   tooltip: '${tab.label}を閉じる',
                                   padding: const EdgeInsets.all(2),
@@ -124,8 +126,8 @@ class _NuiTabsState<T> extends State<NuiTabs<T>> {
   }
 }
 
-class _NuiAnimatedTab extends StatelessWidget {
-  const _NuiAnimatedTab({required this.selected, required this.child});
+class _DetentAnimatedTab extends StatelessWidget {
+  const _DetentAnimatedTab({required this.selected, required this.child});
   final bool selected;
   final Widget child;
   @override
@@ -134,15 +136,20 @@ class _NuiAnimatedTab extends StatelessWidget {
       Container(
         margin: const EdgeInsets.only(bottom: 3),
         decoration: BoxDecoration(
-          color: selected ? NuiTheme.of(context).raised : null,
+          color: selected ? DetentTheme.of(context).raised : null,
           borderRadius: BorderRadius.circular(5),
-          boxShadow: selected && !NuiTheme.of(context).highContrast
-              ? [BoxShadow(color: NuiTheme.of(context).controlBorder, offset: const Offset(0, 2))]
+          boxShadow: selected && !DetentTheme.of(context).highContrast
+              ? [
+                  BoxShadow(
+                    color: DetentTheme.of(context).controlBorder,
+                    offset: const Offset(0, 2),
+                  ),
+                ]
               : null,
           border: Border.all(
             color: selected
-                ? NuiTheme.of(context).controlBorder
-                : NuiColors.transparent,
+                ? DetentTheme.of(context).controlBorder
+                : DetentColors.transparent,
           ),
         ),
         child: child,
@@ -153,12 +160,12 @@ class _NuiAnimatedTab extends StatelessWidget {
         bottom: 7,
         height: 3,
         child: AnimatedContainer(
-          duration: NuiTheme.of(context).duration(context, 160),
+          duration: DetentTheme.of(context).duration(context, 160),
           curve: const Cubic(.2, 0, .2, 1),
           decoration: BoxDecoration(
             color: selected
-                ? NuiTheme.of(context).ink
-                : NuiColors.transparent,
+                ? DetentTheme.of(context).ink
+                : DetentColors.transparent,
             borderRadius: BorderRadius.circular(1),
           ),
         ),
@@ -167,19 +174,19 @@ class _NuiAnimatedTab extends StatelessWidget {
   );
 }
 
-class NuiNavigationRail<T> extends StatelessWidget {
-  const NuiNavigationRail({
+class DetentNavigationRail<T> extends StatelessWidget {
+  const DetentNavigationRail({
     super.key,
     required this.options,
     required this.value,
     this.onChanged,
   });
-  final List<NuiOption<T>> options;
+  final List<DetentOption<T>> options;
   final T value;
   final ValueChanged<T>? onChanged;
   @override
   Widget build(BuildContext context) => Container(
-    color: NuiTheme.of(context).surface,
+    color: DetentTheme.of(context).surface,
     padding: const EdgeInsets.all(8),
     child: Column(
       mainAxisSize: MainAxisSize.min,
@@ -187,7 +194,7 @@ class NuiNavigationRail<T> extends StatelessWidget {
         for (final o in options)
           Padding(
             padding: const EdgeInsets.only(bottom: 8),
-            child: NuiIconButton(
+            child: DetentIconButton(
               icon: o.icon ?? FLucideIcons.circle,
               tooltip: o.label,
               selected: value == o.value,
@@ -201,8 +208,8 @@ class NuiNavigationRail<T> extends StatelessWidget {
   );
 }
 
-class NuiSidebarItem extends StatelessWidget {
-  const NuiSidebarItem({
+class DetentSidebarItem extends StatelessWidget {
+  const DetentSidebarItem({
     super.key,
     required this.label,
     this.icon,
@@ -221,10 +228,10 @@ class NuiSidebarItem extends StatelessWidget {
   final VoidCallback? onPressed;
   @override
   Widget build(BuildContext context) {
-    final t = NuiTheme.of(context);
-    return NuiSurface(
-      color: selected ? t.surface : NuiColors.transparent,
-      child: NuiTile(
+    final t = DetentTheme.of(context);
+    return DetentSurface(
+      color: selected ? t.surface : DetentColors.transparent,
+      child: DetentTile(
         dense: true,
         contentPadding: EdgeInsets.only(left: 8 + depth * 16, right: 8),
         minTileHeight: t.controlHeight,
@@ -246,9 +253,9 @@ class NuiSidebarItem extends StatelessWidget {
   }
 }
 
-class NuiBreadcrumb extends StatelessWidget {
-  const NuiBreadcrumb({super.key, required this.items, this.maxVisible = 4});
-  final List<NuiBreadcrumbItem> items;
+class DetentBreadcrumb extends StatelessWidget {
+  const DetentBreadcrumb({super.key, required this.items, this.maxVisible = 4});
+  final List<DetentBreadcrumbItem> items;
   final int maxVisible;
   @override
   Widget build(BuildContext context) {
@@ -262,16 +269,16 @@ class NuiBreadcrumb extends StatelessWidget {
       children: [
         for (var i = 0; i < visible.length; i++) ...[
           if (i > 0)
-            Text('/', style: TextStyle(color: NuiTheme.of(context).muted)),
+            Text('/', style: TextStyle(color: DetentTheme.of(context).muted)),
           if (collapse && i == 1)
-            NuiDropdownMenu(
+            DetentDropdownMenu(
               label: '途中の階層',
               items: [
                 for (final o in items.skip(1).take(items.length - maxVisible))
-                  NuiMenuItem(label: o.label, onPressed: o.onPressed),
+                  DetentMenuItem(label: o.label, onPressed: o.onPressed),
               ],
             ),
-          NuiPlainButton(
+          DetentPlainButton(
             onPressed: visible[i].onPressed,
             child: Text(visible[i].label),
           ),
@@ -282,15 +289,15 @@ class NuiBreadcrumb extends StatelessWidget {
 }
 
 @immutable
-class NuiBreadcrumbItem {
-  const NuiBreadcrumbItem(this.label, {this.onPressed});
+class DetentBreadcrumbItem {
+  const DetentBreadcrumbItem(this.label, {this.onPressed});
   final String label;
   final VoidCallback? onPressed;
 }
 
 @immutable
-class NuiMenuItem {
-  const NuiMenuItem({
+class DetentMenuItem {
+  const DetentMenuItem({
     required this.label,
     this.onPressed,
     this.icon,
@@ -304,21 +311,24 @@ class NuiMenuItem {
   final IconData? icon;
   final String? shortcut;
   final bool? checked;
-  final List<NuiMenuItem> children;
+  final List<DetentMenuItem> children;
   final bool danger;
 }
 
-List<Widget> nuiMenuWidgets(BuildContext context, List<NuiMenuItem> items) => [
+List<Widget> detentMenuWidgets(
+  BuildContext context,
+  List<DetentMenuItem> items,
+) => [
   for (final item in items)
     if (item.children.isNotEmpty)
-      _NuiSubmenu(label: item.label, items: item.children)
+      _DetentSubmenu(label: item.label, items: item.children)
     else
       Builder(
-        builder: (context) => NuiTile(
+        builder: (context) => DetentTile(
           title: Text(
             item.label,
             style: TextStyle(
-              color: item.danger ? NuiTheme.of(context).danger : null,
+              color: item.danger ? DetentTheme.of(context).danger : null,
             ),
           ),
           leading: item.checked != null
@@ -333,33 +343,33 @@ List<Widget> nuiMenuWidgets(BuildContext context, List<NuiMenuItem> items) => [
               ? null
               : Text(
                   item.shortcut!,
-                  style: NuiTheme.of(context).textTheme.bodySmall
-                      .copyWith(color: NuiTheme.of(context).muted),
+                  style: DetentTheme.of(context).textTheme.bodySmall
+                      .copyWith(color: DetentTheme.of(context).muted),
                 ),
           onTap: item.onPressed == null
               ? null
               : () {
-                  NuiPopupController.maybeOf(context)?.closeAll();
+                  DetentPopupController.maybeOf(context)?.closeAll();
                   item.onPressed!();
                 },
         ),
       ),
 ];
 
-class _NuiSubmenu extends StatelessWidget {
-  const _NuiSubmenu({
+class _DetentSubmenu extends StatelessWidget {
+  const _DetentSubmenu({
     required this.label,
     required this.items,
     this.topLevel = false,
   });
   final bool topLevel;
   final String label;
-  final List<NuiMenuItem> items;
+  final List<DetentMenuItem> items;
   @override
-  Widget build(BuildContext context) => NuiPopupAnchor(
+  Widget build(BuildContext context) => DetentPopupAnchor(
     focusMenu: true,
-    menuChildren: nuiMenuWidgets(context, items),
-    builder: (ctx, c, _) => NuiPlainButton(
+    menuChildren: detentMenuWidgets(context, items),
+    builder: (ctx, c, _) => DetentPlainButton(
       onPressed: () => c.isOpen ? c.close() : c.open(),
       child: Row(
         mainAxisSize: MainAxisSize.min,
@@ -375,45 +385,45 @@ class _NuiSubmenu extends StatelessWidget {
   );
 }
 
-class NuiMenuBar extends StatelessWidget {
-  const NuiMenuBar({super.key, required this.menus});
-  final List<NuiMenuItem> menus;
+class DetentMenuBar extends StatelessWidget {
+  const DetentMenuBar({super.key, required this.menus});
+  final List<DetentMenuItem> menus;
   @override
-  Widget build(BuildContext context) => NuiSurface(
+  Widget build(BuildContext context) => DetentSurface(
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(4),
-      side: BorderSide(color: NuiTheme.of(context).border),
+      side: BorderSide(color: DetentTheme.of(context).border),
     ),
     child: ConstrainedBox(
       constraints: BoxConstraints(
-        minHeight: NuiTheme.of(context).controlHeight + 2,
+        minHeight: DetentTheme.of(context).controlHeight + 2,
       ),
       child: Wrap(
         spacing: 8,
         children: [
           for (final m in menus)
-            _NuiSubmenu(label: m.label, items: m.children, topLevel: true),
+            _DetentSubmenu(label: m.label, items: m.children, topLevel: true),
         ],
       ),
     ),
   );
 }
 
-class NuiDropdownMenu extends StatefulWidget {
-  const NuiDropdownMenu({
+class DetentDropdownMenu extends StatefulWidget {
+  const DetentDropdownMenu({
     super.key,
     required this.label,
     required this.items,
     this.icon,
   });
   final String label;
-  final List<NuiMenuItem> items;
+  final List<DetentMenuItem> items;
   final IconData? icon;
   @override
-  State<NuiDropdownMenu> createState() => _NuiDropdownMenuState();
+  State<DetentDropdownMenu> createState() => _DetentDropdownMenuState();
 }
 
-class _NuiDropdownMenuState extends State<NuiDropdownMenu> {
+class _DetentDropdownMenuState extends State<DetentDropdownMenu> {
   final focus = FocusNode();
   @override
   void dispose() {
@@ -422,10 +432,10 @@ class _NuiDropdownMenuState extends State<NuiDropdownMenu> {
   }
 
   @override
-  Widget build(BuildContext context) => NuiPopupAnchor(
+  Widget build(BuildContext context) => DetentPopupAnchor(
     focusMenu: true,
     childFocusNode: focus,
-    menuChildren: nuiMenuWidgets(context, widget.items),
+    menuChildren: detentMenuWidgets(context, widget.items),
     builder: (context, controller, child) => Focus(
       onKeyEvent: (_, e) {
         if (e is KeyDownEvent &&
@@ -436,7 +446,7 @@ class _NuiDropdownMenuState extends State<NuiDropdownMenu> {
         }
         return KeyEventResult.ignored;
       },
-      child: NuiButton(
+      child: DetentButton(
         label: widget.label,
         focusNode: focus,
         icon: widget.icon ?? FLucideIcons.chevronDown,
@@ -449,16 +459,20 @@ class _NuiDropdownMenuState extends State<NuiDropdownMenu> {
   );
 }
 
-class NuiContextMenu extends StatefulWidget {
-  const NuiContextMenu({super.key, required this.items, required this.child});
-  final List<NuiMenuItem> items;
+class DetentContextMenu extends StatefulWidget {
+  const DetentContextMenu({
+    super.key,
+    required this.items,
+    required this.child,
+  });
+  final List<DetentMenuItem> items;
   final Widget child;
   @override
-  State<NuiContextMenu> createState() => _NuiContextMenuState();
+  State<DetentContextMenu> createState() => _DetentContextMenuState();
 }
 
-class _NuiContextMenuState extends State<NuiContextMenu> {
-  final controller = NuiPopupController();
+class _DetentContextMenuState extends State<DetentContextMenu> {
+  final controller = DetentPopupController();
   final focus = FocusNode();
   @override
   void dispose() {
@@ -467,11 +481,11 @@ class _NuiContextMenuState extends State<NuiContextMenu> {
   }
 
   @override
-  Widget build(BuildContext context) => NuiPopupAnchor(
+  Widget build(BuildContext context) => DetentPopupAnchor(
     controller: controller,
     focusMenu: true,
     childFocusNode: focus,
-    menuChildren: nuiMenuWidgets(context, widget.items),
+    menuChildren: detentMenuWidgets(context, widget.items),
     builder: (context, c, _) => Focus(
       focusNode: focus,
       onKeyEvent: (_, e) {
@@ -496,8 +510,8 @@ class _NuiContextMenuState extends State<NuiContextMenu> {
 }
 
 @immutable
-class NuiCommand {
-  const NuiCommand({
+class DetentCommand {
+  const DetentCommand({
     required this.id,
     required this.label,
     required this.onPressed,
@@ -511,20 +525,24 @@ class NuiCommand {
   final IconData? icon;
 }
 
-class NuiCommandPalette extends StatefulWidget {
-  const NuiCommandPalette({super.key, required this.commands, this.onDismiss});
-  final List<NuiCommand> commands;
+class DetentCommandPalette extends StatefulWidget {
+  const DetentCommandPalette({
+    super.key,
+    required this.commands,
+    this.onDismiss,
+  });
+  final List<DetentCommand> commands;
   final VoidCallback? onDismiss;
   static Future<void> show(
     BuildContext context, {
-    required List<NuiCommand> commands,
-  }) => showNuiDialog<void>(
+    required List<DetentCommand> commands,
+  }) => showDetentDialog<void>(
     context: context,
-    builder: (ctx) => NuiDialogFrame(
+    builder: (ctx) => DetentDialogFrame(
       child: SizedBox(
         width: 560,
         height: 420,
-        child: NuiCommandPalette(
+        child: DetentCommandPalette(
           commands: commands,
           onDismiss: () => Navigator.pop(ctx),
         ),
@@ -532,15 +550,15 @@ class NuiCommandPalette extends StatefulWidget {
     ),
   );
   @override
-  State<NuiCommandPalette> createState() => _NuiCommandPaletteState();
+  State<DetentCommandPalette> createState() => _DetentCommandPaletteState();
 }
 
-class _NuiCommandPaletteState extends State<NuiCommandPalette> {
+class _DetentCommandPaletteState extends State<DetentCommandPalette> {
   String query = '';
   int selected = 0;
   final focus = FocusNode();
   final scroll = ScrollController();
-  List<NuiCommand> get filtered => widget.commands
+  List<DetentCommand> get filtered => widget.commands
       .where(
         (c) =>
             '${c.label} ${c.group}'.toLowerCase().contains(query.toLowerCase()),
@@ -553,7 +571,7 @@ class _NuiCommandPaletteState extends State<NuiCommandPalette> {
     super.dispose();
   }
 
-  void run(NuiCommand c) {
+  void run(DetentCommand c) {
     widget.onDismiss?.call();
     c.onPressed();
   }
@@ -591,7 +609,7 @@ class _NuiCommandPaletteState extends State<NuiCommandPalette> {
         padding: const EdgeInsets.all(8),
         child: Column(
           children: [
-            NuiTextField(
+            DetentTextField(
               focusNode: focus,
               autofocus: true,
               hintText: 'コマンドを検索',
@@ -616,9 +634,9 @@ class _NuiCommandPaletteState extends State<NuiCommandPalette> {
                       itemCount: results.length,
                       itemBuilder: (context, i) {
                         final c = results[i];
-                        return NuiTile(
+                        return DetentTile(
                           selected: i == selected,
-                          selectedTileColor: NuiTheme.of(context).surface,
+                          selectedTileColor: DetentTheme.of(context).surface,
                           leading: c.icon == null ? null : Icon(c.icon),
                           title: Text(c.label),
                           subtitle: c.group.isEmpty ? null : Text(c.group),

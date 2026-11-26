@@ -29,7 +29,7 @@ class _MaterialWorkspaceState extends State<MaterialWorkspace> {
 
   @override
   Widget build(BuildContext context) {
-    final t = NuiTheme.of(context);
+    final t = DetentTheme.of(context);
     final type = t.textTheme;
     const icons = [
       FLucideIcons.circle,
@@ -40,7 +40,7 @@ class _MaterialWorkspaceState extends State<MaterialWorkspace> {
       for (var i = 0; i < names.length; i++)
         if (names[i].contains(query)) i,
     ];
-    final library = NuiSurface(
+    final library = DetentSurface(
       color: t.chrome,
       child: Padding(
         padding: const EdgeInsets.all(12),
@@ -49,7 +49,7 @@ class _MaterialWorkspaceState extends State<MaterialWorkspace> {
           children: [
             Text('素材ライブラリ', style: type.sectionTitle),
             const SizedBox(height: 16),
-            NuiSearchField(
+            DetentSearchField(
               controller: search,
               hintText: '素材を検索',
               onChanged: (v) => setState(() => query = v),
@@ -82,8 +82,8 @@ class _MaterialWorkspaceState extends State<MaterialWorkspace> {
           alignment: Alignment.centerLeft,
           child: ConstrainedBox(
             constraints: const BoxConstraints(maxWidth: 320),
-            child: NuiSegmentedControl<int>(
-              options: const [NuiOption(0, '調整後'), NuiOption(1, '確定値')],
+            child: DetentSegmentedControl<int>(
+              options: const [DetentOption(0, '調整後'), DetentOption(1, '確定値')],
               value: view,
               onChanged: (v) => setState(() => view = v),
             ),
@@ -123,7 +123,7 @@ class _MaterialWorkspaceState extends State<MaterialWorkspace> {
         ),
       ],
     );
-    final inspector = NuiSurface(
+    final inspector = DetentSurface(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10),
         side: BorderSide(color: t.border),
@@ -137,7 +137,7 @@ class _MaterialWorkspaceState extends State<MaterialWorkspace> {
             const SizedBox(height: 24),
             const Text('密度'),
             const SizedBox(height: 8),
-            NuiNumberStepper(
+            DetentNumberStepper(
               label: '素材の密度',
               value: values[material],
               min: 0,
@@ -147,7 +147,7 @@ class _MaterialWorkspaceState extends State<MaterialWorkspace> {
             ),
             const SizedBox(height: 24),
             Center(
-              child: NuiRotaryKnob(
+              child: DetentRotaryKnob(
                 label: '素材の密度',
                 value: values[material],
                 valueLabel: '${values[material].round()}%',
@@ -165,7 +165,7 @@ class _MaterialWorkspaceState extends State<MaterialWorkspace> {
               child: FittedBox(
                 fit: BoxFit.scaleDown,
                 alignment: Alignment.centerLeft,
-                child: NuiDotMatrix(
+                child: DetentDotMatrix(
                   text: '${values[material].round()}%',
                   dotSize: 4,
                   semanticLabel: '密度 ${values[material].round()}パーセント',
@@ -173,10 +173,10 @@ class _MaterialWorkspaceState extends State<MaterialWorkspace> {
               ),
             ),
             const SizedBox(height: 12),
-            const NuiDivider(),
+            const DetentDivider(),
             Text(dirty ? '未確定の調整があります' : '調整は確定済みです'),
             const SizedBox(height: 16),
-            NuiButton(
+            DetentButton(
               label: '確定値に戻す',
               onPressed: dirty
                   ? () => setState(() => values[material] = saved[material])
@@ -211,9 +211,9 @@ class _MaterialWorkspaceState extends State<MaterialWorkspace> {
                 runSpacing: 8,
                 children: [
                   Text('素材編集ワークスペース', style: type.title),
-                  NuiButton(
+                  DetentButton(
                     label: '調整を確定',
-                    variant: NuiButtonVariant.primary,
+                    variant: DetentButtonVariant.primary,
                     onPressed: dirty
                         ? () =>
                               setState(() => saved[material] = values[material])
@@ -227,7 +227,7 @@ class _MaterialWorkspaceState extends State<MaterialWorkspace> {
                 style: type.bodyMedium.copyWith(color: t.muted),
               ),
               const SizedBox(height: 8),
-              const NuiDivider(),
+              const DetentDivider(),
               const SizedBox(height: 16),
               LayoutBuilder(
                 builder: (context, c) {
@@ -258,7 +258,7 @@ class _MaterialWorkspaceState extends State<MaterialWorkspace> {
                 },
               ),
               const SizedBox(height: 24),
-              const NuiDivider(),
+              const DetentDivider(),
               Text(
                 '${names[material]} / ${view == 0 ? '調整後を表示' : '確定値を表示'} / ${dirty ? '未確定' : '確定済み'}',
                 style: type.bodySmall,

@@ -14,11 +14,11 @@ void main() {
   testWidgets('Flutter switch moves and reverses without Rive', (t) async {
     var value = false;
     await t.pumpWidget(
-      NuiApp(
-        home: NuiBox(
+      DetentApp(
+        home: DetentBox(
           body: Center(
             child: StatefulBuilder(
-              builder: (ctx, set) => NuiSwitch(
+              builder: (ctx, set) => DetentSwitch(
                 value: value,
                 onChanged: (v) => set(() => value = v),
               ),
@@ -31,7 +31,7 @@ void main() {
         ((t
                         .widget<CustomPaint>(
                           find.descendant(
-                            of: find.byType(NuiSwitch),
+                            of: find.byType(DetentSwitch),
                             matching: find.byType(CustomPaint),
                           ),
                         )
@@ -40,19 +40,19 @@ void main() {
                 .selectionValue
             as double);
     expect(position(), 0);
-    await t.tap(find.byType(NuiSwitch));
+    await t.tap(find.byType(DetentSwitch));
     await t.pump();
     await t.pump(const Duration(milliseconds: 40));
     final mid = position();
     expect(mid, greaterThan(0));
     expect(mid, lessThan(1));
-    await t.tap(find.byType(NuiSwitch));
+    await t.tap(find.byType(DetentSwitch));
     await t.pump();
     await t.pump(const Duration(milliseconds: 40));
     expect(position(), lessThan(mid));
     await t.pumpAndSettle();
     expect(position(), 0);
-    expect(find.byType(NuiRiveArtwork), findsNothing);
+    expect(find.byType(DetentRiveArtwork), findsNothing);
   });
   testWidgets(
     'controls retain keyboard activation while only feedback uses Rive',
@@ -62,25 +62,25 @@ void main() {
       final focus = FocusNode();
       addTearDown(focus.dispose);
       await t.pumpWidget(
-        NuiApp(
-          motion: NuiMotion.full,
-          home: NuiBox(
+        DetentApp(
+          motion: DetentMotion.full,
+          home: DetentBox(
             body: Center(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  NuiButton(
+                  DetentButton(
                     label: '保存',
                     focusNode: focus,
                     onPressed: () => calls++,
                   ),
-                  NuiSwitch(value: true, onChanged: (_) {}),
+                  DetentSwitch(value: true, onChanged: (_) {}),
                   SizedBox(
                     width: 24,
                     height: 24,
-                    child: NuiRiveArtwork(
+                    child: DetentRiveArtwork(
                       artboard: 'Spinner',
-                      state: const NuiSkinState(
+                      state: const DetentSkinState(
                         indeterminate: true,
                         progress: .24,
                       ),
@@ -100,12 +100,12 @@ void main() {
       expect(find.byType(rive.RiveWidget), findsOneWidget);
       expect(
         find.descendant(
-          of: find.byType(NuiSwitch),
-          matching: find.byType(NuiRiveArtwork),
+          of: find.byType(DetentSwitch),
+          matching: find.byType(DetentRiveArtwork),
         ),
         findsNothing,
       );
-      expect(t.widget<NuiSwitch>(find.byType(NuiSwitch)).value, true);
+      expect(t.widget<DetentSwitch>(find.byType(DetentSwitch)).value, true);
       expect(
         find.byWidgetPredicate(
           (w) => [
@@ -141,14 +141,17 @@ void main() {
     (t) async {
       var value = 0;
       await t.pumpWidget(
-        NuiApp(
-          home: NuiBox(
+        DetentApp(
+          home: DetentBox(
             body: Center(
               child: SizedBox(
                 width: 500,
                 child: StatefulBuilder(
-                  builder: (ctx, set) => NuiSegmentedControl(
-                    options: const [NuiOption(0, '一覧'), NuiOption(1, '比較')],
+                  builder: (ctx, set) => DetentSegmentedControl(
+                    options: const [
+                      DetentOption(0, '一覧'),
+                      DetentOption(1, '比較'),
+                    ],
                     value: value,
                     onChanged: (v) => set(() => value = v),
                   ),
@@ -162,7 +165,7 @@ void main() {
           ((t
                           .widget<CustomPaint>(
                             find.descendant(
-                              of: find.byType(NuiSegmentedControl<int>),
+                              of: find.byType(DetentSegmentedControl<int>),
                               matching: find.byType(CustomPaint),
                             ),
                           )
@@ -182,7 +185,7 @@ void main() {
       expect(position(), lessThan(mid));
       await t.pumpAndSettle();
       expect(position(), 0);
-      expect(find.byType(NuiRiveArtwork), findsNothing);
+      expect(find.byType(DetentRiveArtwork), findsNothing);
     },
   );
   testWidgets('motion policy and visibility pause the actual Rive controller', (
@@ -194,17 +197,17 @@ void main() {
     final art = SizedBox(
       height: 60,
       width: 120,
-      child: NuiRiveArtwork(
+      child: DetentRiveArtwork(
         artboard: 'Spinner',
-        state: const NuiSkinState(indeterminate: true, progress: .24),
+        state: const DetentSkinState(indeterminate: true, progress: .24),
         onReady: () => ready.complete(),
         fallback: const Text('静的な表示'),
       ),
     );
     await t.pumpWidget(
-      NuiApp(
-        motion: NuiMotion.full,
-        home: NuiBox(
+      DetentApp(
+        motion: DetentMotion.full,
+        home: DetentBox(
           body: SingleChildScrollView(
             controller: scroll,
             child: Column(children: [art, const SizedBox(height: 1500)]),
@@ -233,9 +236,9 @@ void main() {
     await t.pump();
     expect(c.active, true);
     await t.pumpWidget(
-      NuiApp(
-        motion: NuiMotion.reduced,
-        home: NuiBox(
+      DetentApp(
+        motion: DetentMotion.reduced,
+        home: DetentBox(
           body: SingleChildScrollView(
             controller: scroll,
             child: Column(children: [art, const SizedBox(height: 1500)]),
@@ -256,11 +259,11 @@ void main() {
       final focus = FocusNode();
       addTearDown(focus.dispose);
       bool value = false;
-      Widget host(bool reduced) => NuiApp(
-        motion: reduced ? NuiMotion.reduced : NuiMotion.full,
-        home: NuiBox(
+      Widget host(bool reduced) => DetentApp(
+        motion: reduced ? DetentMotion.reduced : DetentMotion.full,
+        home: DetentBox(
           body: StatefulBuilder(
-            builder: (ctx, set) => NuiSwitch(
+            builder: (ctx, set) => DetentSwitch(
               focusNode: focus,
               value: value,
               onChanged: (v) => set(() => value = v),
@@ -285,18 +288,21 @@ void main() {
   testWidgets(
     'feedback Rive preference never changes interactive control geometry',
     (t) async {
-      Widget host(bool animated) => NuiApp(
+      Widget host(bool animated) => DetentApp(
         riveEnabled: animated,
-        home: NuiBox(
+        home: DetentBox(
           body: Center(
             child: SizedBox(
               width: 500,
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  NuiSlider(value: .68, onChanged: (_) {}),
-                  NuiSegmentedControl(
-                    options: const [NuiOption(0, '一覧'), NuiOption(1, '比較')],
+                  DetentSlider(value: .68, onChanged: (_) {}),
+                  DetentSegmentedControl(
+                    options: const [
+                      DetentOption(0, '一覧'),
+                      DetentOption(1, '比較'),
+                    ],
                     value: 0,
                     onChanged: (_) {},
                   ),
@@ -307,8 +313,8 @@ void main() {
         ),
       );
       await t.pumpWidget(host(true));
-      expect(find.byType(NuiRiveArtwork), findsNothing);
-      final slider = find.byType(NuiSlider);
+      expect(find.byType(DetentRiveArtwork), findsNothing);
+      final slider = find.byType(DetentSlider);
       final skin = find
           .descendant(of: slider, matching: find.byType(CustomPaint))
           .first;
@@ -374,8 +380,8 @@ void main() {
     var paints = 0;
     final ready = Completer<void>();
     await t.pumpWidget(
-      NuiApp(
-        home: NuiBox(
+      DetentApp(
+        home: DetentBox(
           body: Center(
             child: Row(
               mainAxisSize: MainAxisSize.min,
@@ -383,9 +389,9 @@ void main() {
                 SizedBox(
                   width: 32,
                   height: 32,
-                  child: NuiRiveArtwork(
+                  child: DetentRiveArtwork(
                     artboard: 'Spinner',
-                    state: const NuiSkinState(indeterminate: true),
+                    state: const DetentSkinState(indeterminate: true),
                     onReady: () => ready.complete(),
                   ),
                 ),

@@ -42,8 +42,8 @@ void main() {
       await t.pumpWidget(
         RepaintBoundary(
           key: boundary,
-          child: NuiApp(
-            home: NuiBox(
+          child: DetentApp(
+            home: DetentBox(
               body: Center(
                 child: Padding(
                   padding: const EdgeInsets.all(24),
@@ -56,7 +56,7 @@ void main() {
                           'IconButton',
                           Align(
                             alignment: Alignment.centerLeft,
-                            child: NuiIconButton(
+                            child: DetentIconButton(
                               icon: FLucideIcons.plus,
                               tooltip: '追加',
                               onPressed: () {},
@@ -65,10 +65,15 @@ void main() {
                         ),
                         row(
                           'Tabs',
-                          NuiTabs(
+                          DetentTabs(
                             tabs: [
-                              NuiTab(0, '仕様書.md', dirty: true, onClose: () {}),
-                              NuiTab(1, 'デザイン.pen', onClose: () {}),
+                              DetentTab(
+                                0,
+                                '仕様書.md',
+                                dirty: true,
+                                onClose: () {},
+                              ),
+                              DetentTab(1, 'デザイン.pen', onClose: () {}),
                             ],
                             value: 0,
                             onChanged: (_) {},
@@ -76,8 +81,8 @@ void main() {
                         ),
                         row(
                           'TaskStatus',
-                          const NuiTaskStatus(
-                            state: NuiTaskState.running,
+                          const DetentTaskStatus(
+                            state: DetentTaskState.running,
                             label: '書き出し中',
                             detail: '17 / 25 files',
                             progress: .68,
@@ -87,15 +92,19 @@ void main() {
                           'SegmentedControl',
                           RepaintBoundary(
                             key: segment,
-                            child: NuiSegmentedControl(
+                            child: DetentSegmentedControl(
                               options: const [
-                                NuiOption(0, '一覧', icon: FLucideIcons.list),
-                                NuiOption(
+                                DetentOption(0, '一覧', icon: FLucideIcons.list),
+                                DetentOption(
                                   1,
                                   'グリッド',
                                   icon: FLucideIcons.layoutGrid,
                                 ),
-                                NuiOption(2, '比較', icon: FLucideIcons.columns2),
+                                DetentOption(
+                                  2,
+                                  '比較',
+                                  icon: FLucideIcons.columns2,
+                                ),
                               ],
                               value: value,
                               onChanged: (v) => set(() => value = v),
@@ -139,7 +148,7 @@ void main() {
         if ([6, 18, 30].contains(i)) {
           await t.tap(
             find.descendant(
-              of: find.byType(NuiSegmentedControl<int>),
+              of: find.byType(DetentSegmentedControl<int>),
               matching: find.text(
                 i == 6
                     ? '比較'

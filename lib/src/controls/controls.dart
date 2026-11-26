@@ -8,15 +8,15 @@ import 'package:flutter/services.dart';
 import '../feedback/feedback.dart';
 import 'control_skin.dart';
 
-enum NuiButtonVariant { primary, secondary, quiet, danger }
+enum DetentButtonVariant { primary, secondary, quiet, danger }
 
-class NuiButton extends StatefulWidget {
-  const NuiButton({
+class DetentButton extends StatefulWidget {
+  const DetentButton({
     super.key,
     required this.label,
     this.onPressed,
     this.icon,
-    this.variant = NuiButtonVariant.secondary,
+    this.variant = DetentButtonVariant.secondary,
     this.loading = false,
     this.selected = false,
     this.focusNode,
@@ -26,7 +26,8 @@ class NuiButton extends StatefulWidget {
   final String label;
   final VoidCallback? onPressed;
   final IconData? icon;
-  final NuiButtonVariant variant;
+  final DetentButtonVariant variant;
+
   /// A latched, neutral selection; independent of the primary action variant.
   final bool selected;
   final bool loading;
@@ -34,10 +35,10 @@ class NuiButton extends StatefulWidget {
   final bool autofocus;
   final String? semanticLabel;
   @override
-  State<NuiButton> createState() => _NuiButtonState();
+  State<DetentButton> createState() => _DetentButtonState();
 }
 
-class _NuiButtonState extends State<NuiButton> {
+class _DetentButtonState extends State<DetentButton> {
   bool pressed = false, hovered = false, focused = false;
   LogicalKeyboardKey? keyboardPress;
   final ownFocus = FocusNode();
@@ -54,7 +55,7 @@ class _NuiButtonState extends State<NuiButton> {
   }
 
   @override
-  void didUpdateWidget(NuiButton old) {
+  void didUpdateWidget(DetentButton old) {
     super.didUpdateWidget(old);
     if (!enabled) {
       pressed = false;
@@ -64,28 +65,37 @@ class _NuiButtonState extends State<NuiButton> {
 
   @override
   Widget build(BuildContext context) {
-    final t = NuiTheme.of(context);
-    final bg = widget.selected ? t.selectionSurface : switch (widget.variant) {
-      NuiButtonVariant.primary => hovered ? t.accentHover : t.accent,
-      NuiButtonVariant.danger => t.danger,
-      NuiButtonVariant.quiet => hovered ? t.surface : NuiColors.transparent,
-      NuiButtonVariant.secondary => hovered ? t.surface : t.raised,
-    };
-    final fg = widget.selected ? t.selectionForeground : widget.variant == NuiButtonVariant.primary
+    final t = DetentTheme.of(context);
+    final bg = widget.selected
+        ? t.selectionSurface
+        : switch (widget.variant) {
+            DetentButtonVariant.primary => hovered ? t.accentHover : t.accent,
+            DetentButtonVariant.danger => t.danger,
+            DetentButtonVariant.quiet =>
+              hovered ? t.surface : DetentColors.transparent,
+            DetentButtonVariant.secondary => hovered ? t.surface : t.raised,
+          };
+    final fg = widget.selected
+        ? t.selectionForeground
+        : widget.variant == DetentButtonVariant.primary
         ? t.accentInk
-        : widget.variant == NuiButtonVariant.danger
-        ? (t.dark ? NuiColors.black : NuiColors.white)
+        : widget.variant == DetentButtonVariant.danger
+        ? (t.dark ? DetentColors.black : DetentColors.white)
         : t.ink;
     final curve = const Cubic(.2, 0, .2, 1);
     Widget face(Widget child) => AnimatedContainer(
       duration: t.duration(context, pressed ? 60 : 120),
       curve: curve,
-      transform: Matrix4.translationValues(0, pressed || widget.selected ? 2 : 0, 0),
+      transform: Matrix4.translationValues(
+        0,
+        pressed || widget.selected ? 2 : 0,
+        0,
+      ),
       child: child,
     );
     final fallback = Stack(
       children: [
-        if (widget.variant != NuiButtonVariant.quiet && !t.highContrast)
+        if (widget.variant != DetentButtonVariant.quiet && !t.highContrast)
           Positioned.fill(
             top: 2,
             child: DecoratedBox(
@@ -103,8 +113,8 @@ class _NuiButtonState extends State<NuiButton> {
                 color: bg,
                 borderRadius: BorderRadius.circular(6),
                 border: Border.all(
-                  color: widget.variant == NuiButtonVariant.quiet
-                      ? NuiColors.transparent
+                  color: widget.variant == DetentButtonVariant.quiet
+                      ? DetentColors.transparent
                       : t.controlBorder,
                 ),
               ),
@@ -123,8 +133,10 @@ class _NuiButtonState extends State<NuiButton> {
             child: IconTheme(
               data: IconThemeData(color: fg, size: 16),
               child: DefaultTextStyle(
-                style: NuiTheme.of(context).textTheme.labelLarge
-                    .copyWith(color: fg),
+                style: DetentTheme.of(context).textTheme.labelLarge.copyWith(
+                  color: fg,
+                  fontWeight: widget.selected ? FontWeight.w600 : null,
+                ),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -147,8 +159,8 @@ class _NuiButtonState extends State<NuiButton> {
                             if (widget.loading)
                               SizedBox.square(
                                 dimension: 16,
-                                child: NuiProgress(
-                                  variant: NuiProgressVariant.circular,
+                                child: DetentProgress(
+                                  variant: DetentProgressVariant.circular,
                                   color: fg,
                                   label: '処理中',
                                 ),
@@ -236,7 +248,7 @@ class _NuiButtonState extends State<NuiButton> {
             onTapUp: (_) => setState(() => pressed = false),
             child: Opacity(
               opacity: enabled || widget.loading ? 1 : .45,
-              child: NuiFocusRing(
+              child: DetentFocusRing(
                 focused: focused,
                 child: Stack(
                   alignment: Alignment.center,
@@ -254,8 +266,8 @@ class _NuiButtonState extends State<NuiButton> {
   }
 }
 
-class NuiIconButton extends StatelessWidget {
-  const NuiIconButton({
+class DetentIconButton extends StatelessWidget {
+  const DetentIconButton({
     super.key,
     required this.icon,
     required this.tooltip,
@@ -269,13 +281,13 @@ class NuiIconButton extends StatelessWidget {
   final bool selected;
   final FocusNode? focusNode;
   @override
-  Widget build(BuildContext context) => NuiHint(
+  Widget build(BuildContext context) => DetentHint(
     message: tooltip,
     child: Semantics(
       toggled: selected,
       child: SizedBox(
-        width: NuiTheme.of(context).controlHeight + 10,
-        child: NuiButton(
+        width: DetentTheme.of(context).controlHeight + 10,
+        child: DetentButton(
           label: '',
           semanticLabel: tooltip,
           icon: icon,
@@ -288,8 +300,8 @@ class NuiIconButton extends StatelessWidget {
   );
 }
 
-class NuiToggleButton extends StatelessWidget {
-  const NuiToggleButton({
+class DetentToggleButton extends StatelessWidget {
+  const DetentToggleButton({
     super.key,
     required this.label,
     required this.value,
@@ -303,7 +315,7 @@ class NuiToggleButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Semantics(
     toggled: value,
-    child: NuiButton(
+    child: DetentButton(
       label: label,
       icon: icon,
       selected: value,
@@ -314,8 +326,8 @@ class NuiToggleButton extends StatelessWidget {
 
 /// Keyboard width in units of the key pitch. A standard 1u face is 40px;
 /// the 8px inter-key gap makes 1.5u = 64px, 2u = 88px and 6.25u = 292px.
-class NuiKeycap extends StatelessWidget {
-  const NuiKeycap({
+class DetentKeycap extends StatelessWidget {
+  const DetentKeycap({
     super.key,
     required this.label,
     this.pressed = false,
@@ -326,8 +338,8 @@ class NuiKeycap extends StatelessWidget {
   final double units;
   @override
   Widget build(BuildContext context) {
-    final t = NuiTheme.of(context),
-        width = (NuiTheme.of(context).controlHeight + 8) * units - 8;
+    final t = DetentTheme.of(context),
+        width = (DetentTheme.of(context).controlHeight + 8) * units - 8;
     final bg = pressed ? t.ink : t.raised;
     return Semantics(
       label: label,
@@ -389,7 +401,9 @@ class NuiKeycap extends StatelessWidget {
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
-                          color: pressed ? (t.dark ? t.display : t.inverse) : t.ink,
+                          color: pressed
+                              ? (t.dark ? t.display : t.inverse)
+                              : t.ink,
                           fontSize: 12,
                         ),
                       ),
@@ -406,29 +420,30 @@ class NuiKeycap extends StatelessWidget {
 }
 
 @immutable
-class NuiOption<T> {
-  const NuiOption(this.value, this.label, {this.icon, this.enabled = true});
+class DetentOption<T> {
+  const DetentOption(this.value, this.label, {this.icon, this.enabled = true});
   final T value;
   final String label;
   final IconData? icon;
   final bool enabled;
 }
 
-class NuiSegmentedControl<T> extends StatefulWidget {
-  const NuiSegmentedControl({
+class DetentSegmentedControl<T> extends StatefulWidget {
+  const DetentSegmentedControl({
     super.key,
     required this.options,
     required this.value,
     this.onChanged,
   });
-  final List<NuiOption<T>> options;
+  final List<DetentOption<T>> options;
   final T value;
   final ValueChanged<T>? onChanged;
   @override
-  State<NuiSegmentedControl<T>> createState() => _NuiSegmentedControlState<T>();
+  State<DetentSegmentedControl<T>> createState() =>
+      _DetentSegmentedControlState<T>();
 }
 
-class _NuiSegmentedControlState<T> extends State<NuiSegmentedControl<T>> {
+class _DetentSegmentedControlState<T> extends State<DetentSegmentedControl<T>> {
   final nodes = <T, FocusNode>{};
   @override
   void dispose() {
@@ -440,7 +455,7 @@ class _NuiSegmentedControlState<T> extends State<NuiSegmentedControl<T>> {
 
   @override
   Widget build(BuildContext context) {
-    final w = widget, t = NuiTheme.of(context);
+    final w = widget, t = DetentTheme.of(context);
     return DecoratedBox(
       decoration: BoxDecoration(
         color: t.surface,
@@ -449,10 +464,10 @@ class _NuiSegmentedControlState<T> extends State<NuiSegmentedControl<T>> {
       ),
       child: Padding(
         padding: const EdgeInsets.all(8),
-        child: NuiControlSkin(
+        child: DetentControlSkin(
           mechanism: 'SegmentedControl',
           resize: true,
-          state: NuiControlState(
+          state: DetentControlState(
             value: w.options.length < 2
                 ? 0
                 : w.options.indexWhere((o) => o.value == w.value) /
@@ -488,7 +503,7 @@ class _NuiSegmentedControlState<T> extends State<NuiSegmentedControl<T>> {
                       w.onChanged!(enabled[index].value);
                       return KeyEventResult.handled;
                     },
-                    child: NuiInk(
+                    child: DetentInk(
                       focusNode: nodes.putIfAbsent(o.value, FocusNode.new),
                       selected: o.value == w.value,
                       onTap: w.onChanged == null || !o.enabled
@@ -519,6 +534,9 @@ class _NuiSegmentedControlState<T> extends State<NuiSegmentedControl<T>> {
                                   o.label,
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
+                                    fontWeight: o.value == w.value
+                                        ? FontWeight.w600
+                                        : null,
                                     color: !o.enabled
                                         ? t.muted
                                         : o.value == w.value
@@ -554,8 +572,8 @@ class _NuiSegmentedControlState<T> extends State<NuiSegmentedControl<T>> {
   }
 }
 
-class NuiCheckbox extends StatelessWidget {
-  const NuiCheckbox({
+class DetentCheckbox extends StatelessWidget {
+  const DetentCheckbox({
     super.key,
     required this.value,
     this.onChanged,
@@ -586,13 +604,13 @@ class NuiCheckbox extends StatelessWidget {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          NuiInk(
+          DetentInk(
             focusNode: focusNode,
             onTap: onChanged == null ? null : toggle,
-            child: NuiControlSkin(
+            child: DetentControlSkin(
               mechanism: 'Checkbox',
               visualSize: const Size(24, 24),
-              state: NuiControlState(
+              state: DetentControlState(
                 selected: value != false,
                 selectionState: value == null
                     ? 2
@@ -614,21 +632,21 @@ class NuiCheckbox extends StatelessWidget {
   }
 }
 
-class NuiRadioGroup<T> extends StatefulWidget {
-  const NuiRadioGroup({
+class DetentRadioGroup<T> extends StatefulWidget {
+  const DetentRadioGroup({
     super.key,
     required this.options,
     required this.value,
     this.onChanged,
   });
-  final List<NuiOption<T>> options;
+  final List<DetentOption<T>> options;
   final T? value;
   final ValueChanged<T>? onChanged;
   @override
-  State<NuiRadioGroup<T>> createState() => _NuiRadioGroupState<T>();
+  State<DetentRadioGroup<T>> createState() => _DetentRadioGroupState<T>();
 }
 
-class _NuiRadioGroupState<T> extends State<NuiRadioGroup<T>> {
+class _DetentRadioGroupState<T> extends State<DetentRadioGroup<T>> {
   final nodes = <T, FocusNode>{};
   @override
   void dispose() {
@@ -679,7 +697,7 @@ class _NuiRadioGroupState<T> extends State<NuiRadioGroup<T>> {
               inMutuallyExclusiveGroup: true,
               label: o.label,
               enabled: w.onChanged != null && o.enabled,
-              child: NuiInk(
+              child: DetentInk(
                 focusNode: nodes.putIfAbsent(o.value, FocusNode.new),
                 onTap: w.onChanged == null || !o.enabled
                     ? null
@@ -687,10 +705,10 @@ class _NuiRadioGroupState<T> extends State<NuiRadioGroup<T>> {
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    NuiControlSkin(
+                    DetentControlSkin(
                       mechanism: 'RadioGroup',
                       visualSize: const Size(24, 24),
-                      state: NuiControlState(
+                      state: DetentControlState(
                         selected: w.value == o.value,
                         enabled: w.onChanged != null && o.enabled,
                       ),
@@ -709,8 +727,8 @@ class _NuiRadioGroupState<T> extends State<NuiRadioGroup<T>> {
   }
 }
 
-class NuiSwitch extends StatelessWidget {
-  const NuiSwitch({
+class DetentSwitch extends StatelessWidget {
+  const DetentSwitch({
     super.key,
     required this.value,
     this.onChanged,
@@ -726,16 +744,19 @@ class NuiSwitch extends StatelessWidget {
     toggled: value,
     label: label,
     enabled: onChanged != null,
-    child: NuiInk(
+    child: DetentInk(
       focusNode: focusNode,
       onTap: onChanged == null ? null : () => onChanged!(!value),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          NuiControlSkin(
+          DetentControlSkin(
             mechanism: 'Switch',
             visualSize: const Size(48, 28),
-            state: NuiControlState(selected: value, enabled: onChanged != null),
+            state: DetentControlState(
+              selected: value,
+              enabled: onChanged != null,
+            ),
             inputBuilder: (_, _) => const SizedBox(width: 56, height: 40),
           ),
           if (label != null) ...[
@@ -775,20 +796,20 @@ double? _adjustValue(
 }
 
 @immutable
-class NuiRangeValues {
-  const NuiRangeValues(this.start, this.end) : assert(start <= end);
+class DetentRangeValues {
+  const DetentRangeValues(this.start, this.end) : assert(start <= end);
   final double start, end;
   @override
   bool operator ==(Object other) =>
-      other is NuiRangeValues && other.start == start && other.end == end;
+      other is DetentRangeValues && other.start == start && other.end == end;
   @override
   int get hashCode => Object.hash(start, end);
 }
 
-typedef RangeValues = NuiRangeValues;
+typedef RangeValues = DetentRangeValues;
 
-class NuiSlider extends StatefulWidget {
-  const NuiSlider({
+class DetentSlider extends StatefulWidget {
+  const DetentSlider({
     super.key,
     required this.value,
     this.min = 0,
@@ -804,10 +825,10 @@ class NuiSlider extends StatefulWidget {
   final ValueChanged<double>? onChanged;
   final String? label;
   @override
-  State<NuiSlider> createState() => _NuiSliderState();
+  State<DetentSlider> createState() => _DetentSliderState();
 }
 
-class _NuiSliderState extends State<NuiSlider> {
+class _DetentSliderState extends State<DetentSlider> {
   final focus = FocusNode();
   @override
   void dispose() {
@@ -857,8 +878,8 @@ class _NuiSliderState extends State<NuiSlider> {
             border: Border.all(
               width: 2,
               color: focus.hasFocus
-                  ? NuiTheme.of(context).focus
-                  : NuiColors.transparent,
+                  ? DetentTheme.of(context).focus
+                  : DetentColors.transparent,
             ),
           ),
           child: LayoutBuilder(
@@ -886,10 +907,10 @@ class _NuiSliderState extends State<NuiSlider> {
                 onHorizontalDragUpdate: w.onChanged == null
                     ? null
                     : (e) => point(e.localPosition),
-                child: NuiControlSkin(
+                child: DetentControlSkin(
                   mechanism: 'Slider',
                   resize: true,
-                  state: NuiControlState(
+                  state: DetentControlState(
                     value: w.max == w.min
                         ? 0
                         : (w.value - w.min) / (w.max - w.min),
@@ -907,8 +928,8 @@ class _NuiSliderState extends State<NuiSlider> {
   }
 }
 
-class NuiRangeSlider extends StatefulWidget {
-  const NuiRangeSlider({
+class DetentRangeSlider extends StatefulWidget {
+  const DetentRangeSlider({
     super.key,
     required this.values,
     this.min = 0,
@@ -918,16 +939,16 @@ class NuiRangeSlider extends StatefulWidget {
     this.label,
   }) : assert(min <= max),
        assert(divisions == null || divisions > 0);
-  final NuiRangeValues values;
+  final DetentRangeValues values;
   final double min, max;
   final int? divisions;
-  final ValueChanged<NuiRangeValues>? onChanged;
+  final ValueChanged<DetentRangeValues>? onChanged;
   final String? label;
   @override
-  State<NuiRangeSlider> createState() => _NuiRangeSliderState();
+  State<DetentRangeSlider> createState() => _DetentRangeSliderState();
 }
 
-class _NuiRangeSliderState extends State<NuiRangeSlider> {
+class _DetentRangeSliderState extends State<DetentRangeSlider> {
   final lower = FocusNode(), upper = FocusNode();
   bool start = true;
   @override
@@ -952,8 +973,11 @@ class _NuiRangeSliderState extends State<NuiRangeSlider> {
     }
     w.onChanged?.call(
       first
-          ? NuiRangeValues(next.clamp(w.min, w.values.end), w.values.end)
-          : NuiRangeValues(w.values.start, next.clamp(w.values.start, w.max)),
+          ? DetentRangeValues(next.clamp(w.min, w.values.end), w.values.end)
+          : DetentRangeValues(
+              w.values.start,
+              next.clamp(w.values.start, w.max),
+            ),
     );
   }
 
@@ -982,7 +1006,7 @@ class _NuiRangeSliderState extends State<NuiRangeSlider> {
           change(next, first);
           return KeyEventResult.handled;
         },
-        child: NuiFocusRing(
+        child: DetentFocusRing(
           focused: node.hasFocus,
           child: Text(
             '${first ? '下限' : '上限'} ${value.toStringAsFixed(1)}',
@@ -1021,10 +1045,10 @@ class _NuiRangeSliderState extends State<NuiRangeSlider> {
                 onHorizontalDragUpdate: w.onChanged == null
                     ? null
                     : (e) => change(value(e.localPosition), start),
-                child: NuiControlSkin(
+                child: DetentControlSkin(
                   mechanism: 'RangeSlider',
                   resize: true,
-                  state: NuiControlState(
+                  state: DetentControlState(
                     value: w.max == w.min
                         ? 0
                         : (w.values.start - w.min) / (w.max - w.min),
@@ -1049,8 +1073,8 @@ class _NuiRangeSliderState extends State<NuiRangeSlider> {
   }
 }
 
-class NuiRotaryKnob extends StatefulWidget {
-  const NuiRotaryKnob({
+class DetentRotaryKnob extends StatefulWidget {
+  const DetentRotaryKnob({
     super.key,
     required this.value,
     this.min = 0,
@@ -1066,17 +1090,17 @@ class NuiRotaryKnob extends StatefulWidget {
   final String label;
   final String? valueLabel;
   @override
-  State<NuiRotaryKnob> createState() => _NuiRotaryKnobState();
+  State<DetentRotaryKnob> createState() => _DetentRotaryKnobState();
 }
 
-class _NuiRotaryKnobState extends State<NuiRotaryKnob> {
+class _DetentRotaryKnobState extends State<DetentRotaryKnob> {
   bool focused = false, dragging = false;
   double? drag;
   void set(double v) => widget.onChanged?.call(v.clamp(widget.min, widget.max));
   @override
   Widget build(BuildContext context) {
     final w = widget;
-    final t = NuiTheme.of(context);
+    final t = DetentTheme.of(context);
     final fraction = (w.value.clamp(w.min, w.max) - w.min) / (w.max - w.min);
     return Semantics(
       label: w.label,
@@ -1133,7 +1157,7 @@ class _NuiRotaryKnobState extends State<NuiRotaryKnob> {
           onDoubleTap: w.onChanged == null
               ? null
               : () async {
-                  final result = await showNuiDialog<double>(
+                  final result = await showDetentDialog<double>(
                     context: context,
                     builder: (ctx) => _KnobValueDialog(
                       label: w.label,
@@ -1144,7 +1168,7 @@ class _NuiRotaryKnobState extends State<NuiRotaryKnob> {
                   );
                   if (result != null && mounted) set(result);
                 },
-          child: NuiFocusRing(
+          child: DetentFocusRing(
             focused: focused,
             radius: w.size / 2,
             child: SizedBox.square(
@@ -1180,7 +1204,7 @@ class _NuiRotaryKnobState extends State<NuiRotaryKnob> {
 
 class _KnobPainter extends CustomPainter {
   _KnobPainter(this.t, this.fraction);
-  final NuiThemeData t;
+  final DetentThemeData t;
   final double fraction;
   @override
   void paint(Canvas c, Size s) {
@@ -1250,9 +1274,9 @@ class _KnobValueDialogState extends State<_KnobValueDialog> {
   }
 
   @override
-  Widget build(BuildContext context) => NuiDialogFrame(
+  Widget build(BuildContext context) => DetentDialogFrame(
     title: Text(widget.label),
-    content: NuiTextField(
+    content: DetentTextField(
       controller: c,
       autofocus: true,
       keyboardType: const TextInputType.numberWithOptions(
@@ -1263,11 +1287,11 @@ class _KnobValueDialogState extends State<_KnobValueDialog> {
       onSubmitted: (_) => submit(),
     ),
     actions: [
-      NuiPlainButton(
+      DetentPlainButton(
         onPressed: () => Navigator.pop(context),
         child: const Text('キャンセル'),
       ),
-      NuiPlainButton(onPressed: submit, child: const Text('適用')),
+      DetentPlainButton(onPressed: submit, child: const Text('適用')),
     ],
   );
 }

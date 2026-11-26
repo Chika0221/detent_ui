@@ -74,7 +74,7 @@ class _PerforationMotionState extends State<_PerforationMotion>
   }
 
   void sync() {
-    final reduced = NuiTheme.of(context).reduceMotion(context);
+    final reduced = DetentTheme.of(context).reduceMotion(context);
     if (!widget.enabled || !widget.animate || reduced) {
       controller.stop();
       controller.value = 1;
@@ -150,7 +150,7 @@ class _PerforationMotionState extends State<_PerforationMotion>
       child: AnimatedBuilder(
         animation: controller,
         builder: (context, _) {
-          final curve = NuiTokens.perforation_motion_easing;
+          final curve = DetentTokens.perforation_motion_easing;
           final phase = widget.repeat
               ? controller.value
               : Cubic(

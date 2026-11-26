@@ -30,17 +30,17 @@ void main() {
       addTearDown(t.view.resetPhysicalSize);
       for (final width in [1024.0, 1440.0, 1920.0]) {
         t.view.physicalSize = Size(width, 1000);
-        for (final mode in [NuiThemeMode.light, NuiThemeMode.dark]) {
+        for (final mode in [DetentThemeMode.light, DetentThemeMode.dark]) {
           final boundary = GlobalKey();
           final scroll = ScrollController();
           await t.pumpWidget(
             RepaintBoundary(
               key: boundary,
-              child: NuiApp(
+              child: DetentApp(
                 riveEnabled: false,
                 themeMode: mode,
-                motion: NuiMotion.reduced,
-                home: NuiBox(
+                motion: DetentMotion.reduced,
+                home: DetentBox(
                   body: SingleChildScrollView(
                     controller: scroll,
                     child: const Padding(
@@ -54,7 +54,7 @@ void main() {
           );
           await t.pumpAndSettle();
           expect(t.takeException(), isNull, reason: '$width/$mode');
-          expect(find.byType(NuiPerforationSurface), findsNWidgets(5));
+          expect(find.byType(DetentPerforationSurface), findsNWidgets(5));
           Future<void> capture(String area) async {
             await t.pump();
             await t.runAsync(() async {

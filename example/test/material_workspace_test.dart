@@ -38,7 +38,7 @@ void main() {
       addTearDown(t.view.resetDevicePixelRatio);
       final boundary = GlobalKey();
       await t.pumpWidget(
-        NuiApp(
+        DetentApp(
           home: SingleChildScrollView(
             child: RepaintBoundary(
               key: boundary,
@@ -48,13 +48,22 @@ void main() {
         ),
       );
       await t.pumpAndSettle();
-      expect(t.widget<NuiDotMatrix>(find.byType(NuiDotMatrix)).text, '64%');
+      expect(
+        t.widget<DetentDotMatrix>(find.byType(DetentDotMatrix)).text,
+        '64%',
+      );
       await t.tap(find.widgetWithText(WorkshopNavigationItem, '波形'));
       await t.pumpAndSettle();
-      expect(t.widget<NuiDotMatrix>(find.byType(NuiDotMatrix)).text, '50%');
+      expect(
+        t.widget<DetentDotMatrix>(find.byType(DetentDotMatrix)).text,
+        '50%',
+      );
       await t.tap(find.widgetWithText(WorkshopNavigationItem, '同心円'));
       await t.pumpAndSettle();
-      expect(t.widget<NuiDotMatrix>(find.byType(NuiDotMatrix)).text, '64%');
+      expect(
+        t.widget<DetentDotMatrix>(find.byType(DetentDotMatrix)).text,
+        '64%',
+      );
       await t.tap(find.text('確定値'));
       await t.pumpAndSettle();
       expect(find.bySemanticsLabel('同心円、確定値、密度 50パーセント'), findsOneWidget);
@@ -62,7 +71,9 @@ void main() {
       await t.pumpAndSettle();
       expect(find.bySemanticsLabel('同心円、確定値、密度 64パーセント'), findsOneWidget);
       expect(
-        t.widget<NuiButton>(find.widgetWithText(NuiButton, '調整を確定')).onPressed,
+        t
+            .widget<DetentButton>(find.widgetWithText(DetentButton, '調整を確定'))
+            .onPressed,
         isNull,
       );
       expect(t.takeException(), isNull);
@@ -77,13 +88,16 @@ void main() {
         image.dispose();
       });
       final input = find.descendant(
-        of: find.byType(NuiNumberStepper),
+        of: find.byType(DetentNumberStepper),
         matching: find.byType(EditableText),
       );
       await t.enterText(input, '72');
       await t.testTextInput.receiveAction(TextInputAction.done);
       await t.pumpAndSettle();
-      expect(t.widget<NuiDotMatrix>(find.byType(NuiDotMatrix)).text, '72%');
+      expect(
+        t.widget<DetentDotMatrix>(find.byType(DetentDotMatrix)).text,
+        '72%',
+      );
       expect(find.bySemanticsLabel('同心円、確定値、密度 64パーセント'), findsOneWidget);
     },
   );
@@ -97,7 +111,7 @@ void main() {
     for (final width in [390.0, 1024.0]) {
       t.view.physicalSize = Size(width, 1000);
       await t.pumpWidget(
-        NuiApp(
+        DetentApp(
           home: MediaQuery(
             data: MediaQueryData(
               textScaler: TextScaler.linear(2),

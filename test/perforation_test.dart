@@ -8,19 +8,19 @@ import 'package:flutter_test/flutter_test.dart';
 
 Widget host(
   Widget child, {
-  NuiThemeData theme = const NuiThemeData(
+  DetentThemeData theme = const DetentThemeData(
     riveEnabled: false,
-    motion: NuiMotion.reduced,
+    motion: DetentMotion.reduced,
   ),
   bool disableAnimations = false,
-}) => NuiApp(
+}) => DetentApp(
   riveEnabled: false,
   home: MediaQuery(
     data: MediaQueryData(
       size: const Size(800, 600),
       disableAnimations: disableAnimations,
     ),
-    child: NuiTheme(
+    child: DetentTheme(
       data: theme,
       child: Center(child: child),
     ),
@@ -53,7 +53,7 @@ Future<int> activeCount(
         child: SizedBox(
           width: 300,
           height: 180,
-          child: NuiSpeakerMatrix.progress(
+          child: DetentSpeakerMatrix.progress(
             value: value,
             label: 'Export',
             orientation: axis,
@@ -64,7 +64,7 @@ Future<int> activeCount(
   );
   await t.pump();
   final paint = find.descendant(
-    of: find.byType(NuiSpeakerMatrix),
+    of: find.byType(DetentSpeakerMatrix),
     matching: find.byType(CustomPaint),
   );
   final origin = t.getTopLeft(paint) - t.getTopLeft(find.byKey(key));
@@ -87,13 +87,13 @@ Future<int> activeCount(
 
 void main() {
   test('square and hex grids have exact extents and half-pitch offset', () {
-    const square = NuiPerforationGeometry(rows: 3, columns: 4);
+    const square = DetentPerforationGeometry(rows: 3, columns: 4);
     expect(square.size, const Size(40, 28));
     expect(square.center(1, 2), const Offset(26, 14));
-    const hex = NuiPerforationGeometry(
+    const hex = DetentPerforationGeometry(
       rows: 3,
       columns: 4,
-      arrangement: NuiPerforationArrangement.hexagonal,
+      arrangement: DetentPerforationArrangement.hexagonal,
     );
     expect(hex.size.width, 46);
     expect(hex.center(1, 0).dx - hex.center(0, 0).dx, 6);
@@ -103,15 +103,17 @@ void main() {
 
   test('geometry rejects non-finite sizes and invalid counts', () {
     expect(
-      () => NuiPerforationGeometry(rows: 0, columns: 1),
+      () => DetentPerforationGeometry(rows: 0, columns: 1),
       throwsAssertionError,
     );
     expect(
-      () => NuiPerforationGeometry(rows: 1, columns: 1, diameter: double.nan),
+      () =>
+          DetentPerforationGeometry(rows: 1, columns: 1, diameter: double.nan),
       throwsAssertionError,
     );
     expect(
-      () => NuiPerforationGeometry(rows: 1, columns: 1, gap: double.infinity),
+      () =>
+          DetentPerforationGeometry(rows: 1, columns: 1, gap: double.infinity),
       throwsAssertionError,
     );
   });
@@ -130,7 +132,7 @@ void main() {
   ) async {
     final semantics = t.ensureSemantics();
     await t.pumpWidget(
-      host(const NuiSpeakerMatrix.progress(value: .75, label: 'Export')),
+      host(const DetentSpeakerMatrix.progress(value: .75, label: 'Export')),
     );
     expect(find.bySemanticsLabel('Export'), findsOneWidget);
     expect(
@@ -142,7 +144,9 @@ void main() {
         isEnabled: true,
       ),
     );
-    await t.pumpWidget(host(const NuiSpeakerMatrix.loading(label: 'Import')));
+    await t.pumpWidget(
+      host(const DetentSpeakerMatrix.loading(label: 'Import')),
+    );
     expect(t.getSemantics(find.bySemanticsLabel('Import')).value, 'Processing');
     semantics.dispose();
   });
@@ -152,24 +156,27 @@ void main() {
   ) async {
     for (final brightness in Brightness.values) {
       for (final high in [false, true]) {
-        final theme = NuiThemeData(
+        final theme = DetentThemeData(
           brightness: brightness,
           highContrast: high,
-          motion: NuiMotion.reduced,
+          motion: DetentMotion.reduced,
         );
         final samples = <Widget>[
-          for (final variant in NuiPerforationSurfaceVariant.values)
-            NuiPerforationSurface(
+          for (final variant in DetentPerforationSurfaceVariant.values)
+            DetentPerforationSurface(
               variant: variant,
               child: const Text('Content'),
             ),
-          for (final status in NuiConnectionStatus.values)
-            NuiSpeakerMatrix.status(status: status, label: 'Connection'),
-          const NuiSpeakerMatrix.level(levels: [.2, .4, .8, 1], label: 'Input'),
-          const NuiSpeakerMatrix.signal(strength: 4, label: 'Signal'),
-          const NuiSpeakerMatrix.loading(label: 'Loading'),
-          for (final state in NuiResonanceState.values)
-            NuiResonanceGrid(state: state, level: .6),
+          for (final status in DetentConnectionStatus.values)
+            DetentSpeakerMatrix.status(status: status, label: 'Connection'),
+          const DetentSpeakerMatrix.level(
+            levels: [.2, .4, .8, 1],
+            label: 'Input',
+          ),
+          const DetentSpeakerMatrix.signal(strength: 4, label: 'Signal'),
+          const DetentSpeakerMatrix.loading(label: 'Loading'),
+          for (final state in DetentResonanceState.values)
+            DetentResonanceGrid(state: state, level: .6),
         ];
         for (final sample in samples) {
           await t.pumpWidget(
@@ -204,9 +211,9 @@ void main() {
           host(
             SizedBox.fromSize(
               size: size,
-              child: NuiPerforationPattern(
-                coverage: NuiPerforationCoverage.custom,
-                arrangement: NuiPerforationArrangement.hexagonal,
+              child: DetentPerforationPattern(
+                coverage: DetentPerforationCoverage.custom,
+                arrangement: DetentPerforationArrangement.hexagonal,
                 mask: (r, c, center) {
                   centers.add(center);
                   return true;
@@ -219,7 +226,7 @@ void main() {
         expect(t.takeException(), isNull);
       }
       expect(centers.length, greaterThan(30));
-      await t.pumpWidget(host(const NuiPerforationPattern()));
+      await t.pumpWidget(host(const DetentPerforationPattern()));
       expect(t.takeException(), isNull);
     },
   );
@@ -232,25 +239,25 @@ void main() {
       await mouse.addPointer(location: Offset.zero);
       addTearDown(mouse.removePointer);
       for (final state in [
-        NuiResonanceState.idle,
-        NuiResonanceState.disabled,
+        DetentResonanceState.idle,
+        DetentResonanceState.disabled,
       ]) {
         await t.pumpWidget(
           host(
             RepaintBoundary(
               key: key,
-              child: NuiResonanceGrid(
+              child: DetentResonanceGrid(
                 state: state,
-                interaction: NuiResonanceInteraction.pointer,
+                interaction: DetentResonanceInteraction.pointer,
               ),
             ),
           ),
         );
         final before = await pixels(t, key);
-        await mouse.moveTo(t.getCenter(find.byType(NuiResonanceGrid)));
+        await mouse.moveTo(t.getCenter(find.byType(DetentResonanceGrid)));
         await t.pump();
         final after = await pixels(t, key);
-        if (state == NuiResonanceState.disabled) {
+        if (state == DetentResonanceState.disabled) {
           expect(after, before);
         } else {
           expect(after, isNot(before));
@@ -268,9 +275,9 @@ void main() {
     Widget audio(double level) => host(
       RepaintBoundary(
         key: key,
-        child: NuiResonanceGrid(
-          state: NuiResonanceState.listening,
-          interaction: NuiResonanceInteraction.audio,
+        child: DetentResonanceGrid(
+          state: DetentResonanceState.listening,
+          interaction: DetentResonanceInteraction.audio,
           level: level,
         ),
       ),
@@ -285,8 +292,8 @@ void main() {
 
   testWidgets('notification is finite and can be retriggered', (t) async {
     Widget pulse(int id) => host(
-      NuiResonanceGrid(state: NuiResonanceState.pulse, pulseId: id),
-      theme: const NuiThemeData(motion: NuiMotion.full),
+      DetentResonanceGrid(state: DetentResonanceState.pulse, pulseId: id),
+      theme: const DetentThemeData(motion: DetentMotion.full),
     );
     await t.pumpWidget(pulse(0));
     await t.pump(const Duration(milliseconds: 90));
@@ -304,28 +311,28 @@ void main() {
   testWidgets('loading respects system/reduced motion and TickerMode', (
     t,
   ) async {
-    for (final motion in NuiMotion.values) {
+    for (final motion in DetentMotion.values) {
       await t.pumpWidget(
         host(
-          const NuiSpeakerMatrix.loading(label: 'Processing'),
+          const DetentSpeakerMatrix.loading(label: 'Processing'),
           disableAnimations: true,
-          theme: NuiThemeData(motion: motion),
+          theme: DetentThemeData(motion: motion),
         ),
       );
       await t.pump();
       await t.pump(const Duration(milliseconds: 40));
       expect(
         t.binding.transientCallbackCount,
-        motion == NuiMotion.full ? greaterThan(0) : 0,
+        motion == DetentMotion.full ? greaterThan(0) : 0,
       );
     }
     await t.pumpWidget(
       host(
         const TickerMode(
           enabled: false,
-          child: NuiSpeakerMatrix.loading(label: 'Processing'),
+          child: DetentSpeakerMatrix.loading(label: 'Processing'),
         ),
-        theme: const NuiThemeData(motion: NuiMotion.full),
+        theme: const DetentThemeData(motion: DetentMotion.full),
       ),
     );
     await t.pump();
@@ -345,13 +352,13 @@ void main() {
             child: const Column(
               children: [
                 SizedBox(height: 800),
-                NuiSpeakerMatrix.loading(label: 'Processing'),
+                DetentSpeakerMatrix.loading(label: 'Processing'),
                 SizedBox(height: 400),
               ],
             ),
           ),
         ),
-        theme: const NuiThemeData(motion: NuiMotion.full),
+        theme: const DetentThemeData(motion: DetentMotion.full),
       ),
     );
     await t.pump();
@@ -393,7 +400,9 @@ void main() {
                       controller: inner,
                       child: const Column(
                         children: [
-                          NuiSpeakerMatrix.loading(label: 'Nested processing'),
+                          DetentSpeakerMatrix.loading(
+                            label: 'Nested processing',
+                          ),
                           SizedBox(height: 500),
                         ],
                       ),
@@ -404,7 +413,7 @@ void main() {
               ),
             ),
           ),
-          theme: const NuiThemeData(motion: NuiMotion.full),
+          theme: const DetentThemeData(motion: DetentMotion.full),
         ),
       );
       await t.pump();
@@ -439,8 +448,8 @@ void main() {
         SizedBox(
           width: 160,
           height: 100,
-          child: NuiPerforationPattern(
-            coverage: NuiPerforationCoverage.custom,
+          child: DetentPerforationPattern(
+            coverage: DetentPerforationCoverage.custom,
             contentBounds: content,
             mask: (r, c, center) {
               centers.add(center);

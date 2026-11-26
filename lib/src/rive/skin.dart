@@ -4,8 +4,8 @@ import '../foundation/theme.dart';
 
 /// Host-neutral values for Rive adapters. Flutter owns events and accessibility.
 @immutable
-class NuiSkinState {
-  const NuiSkinState({
+class DetentSkinState {
+  const DetentSkinState({
     this.hovered = false,
     this.pressed = false,
     this.focused = false,
@@ -27,8 +27,8 @@ class NuiSkinState {
   final double value, secondaryValue, progress, motionScale;
   final double selectionState, selectionCount, taskState;
   final Color? surfaceColor, inkColor, accentColor;
-  NuiSkinState interaction({bool? hovered, bool? pressed, bool? focused}) =>
-      NuiSkinState(
+  DetentSkinState interaction({bool? hovered, bool? pressed, bool? focused}) =>
+      DetentSkinState(
         hovered: hovered ?? this.hovered,
         pressed: pressed ?? this.pressed,
         focused: focused ?? this.focused,
@@ -48,24 +48,24 @@ class NuiSkinState {
       );
 }
 
-typedef NuiSkinBuilder = Widget? Function(
+typedef DetentSkinBuilder = Widget? Function(
   BuildContext context,
   String component,
-  NuiSkinState state,
+  DetentSkinState state,
 );
 
 /// Install a renderer; return null on unavailable assets to retain the fallback.
-class NuiSkin extends InheritedWidget {
-  const NuiSkin({super.key, required this.builder, required super.child});
-  final NuiSkinBuilder builder;
+class DetentSkin extends InheritedWidget {
+  const DetentSkin({super.key, required this.builder, required super.child});
+  final DetentSkinBuilder builder;
   static Widget render(
     BuildContext context, {
     required String component,
-    required NuiSkinState state,
+    required DetentSkinState state,
     required Widget fallback,
   }) {
-    if (NuiTheme.of(context).reduceMotion(context)) return fallback;
-    return context.dependOnInheritedWidgetOfExactType<NuiSkin>()?.builder(
+    if (DetentTheme.of(context).reduceMotion(context)) return fallback;
+    return context.dependOnInheritedWidgetOfExactType<DetentSkin>()?.builder(
           context,
           component,
           state,
@@ -74,5 +74,5 @@ class NuiSkin extends InheritedWidget {
   }
 
   @override
-  bool updateShouldNotify(NuiSkin oldWidget) => builder != oldWidget.builder;
+  bool updateShouldNotify(DetentSkin oldWidget) => builder != oldWidget.builder;
 }

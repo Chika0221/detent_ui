@@ -4,19 +4,19 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:detent_ui/detent_ui.dart';
 
 const options = [
-  NuiOption(0, 'Atelier'),
-  NuiOption(1, 'Disabled', enabled: false),
-  NuiOption(2, 'Detent'),
+  DetentOption(0, 'Atelier'),
+  DetentOption(1, 'Disabled', enabled: false),
+  DetentOption(2, 'Detent'),
 ];
 Future<void> host(
   WidgetTester t,
   Widget widget, {
-  NuiThemeData data = const NuiThemeData(riveEnabled: false),
+  DetentThemeData data = const DetentThemeData(riveEnabled: false),
 }) => t.pumpWidget(
-  NuiApp(
-    home: NuiTheme(
+  DetentApp(
+    home: DetentTheme(
       data: data,
-      child: NuiBox(
+      child: DetentBox(
         body: Center(child: SizedBox(width: 300, child: widget)),
       ),
     ),
@@ -30,24 +30,24 @@ void main() {
         await host(
           t,
           editable
-              ? const NuiComboBox(options: options)
-              : NuiSelect(options: options, value: 0, onChanged: (_) {}),
+              ? const DetentComboBox(options: options)
+              : DetentSelect(options: options, value: 0, onChanged: (_) {}),
         );
         final field = find.byType(EditableText);
-        expect(t.getSize(find.byType(NuiTextField)).height, 40);
+        expect(t.getSize(find.byType(DetentTextField)).height, 40);
         await t.tap(field);
         await t.pumpAndSettle();
         final list = find.byType(ListView);
         expect(list, findsOneWidget);
         expect(t.getSize(list).width, 284);
-        final tiles = t.widgetList<NuiTile>(find.byType(NuiTile));
+        final tiles = t.widgetList<DetentTile>(find.byType(DetentTile));
         expect(tiles.length, 3);
         expect(
           tiles.first.contentPadding,
           const EdgeInsets.symmetric(horizontal: 8),
         );
-        final menu = t.widget<NuiSurface>(
-          find.ancestor(of: list, matching: find.byType(NuiSurface)).first,
+        final menu = t.widget<DetentSurface>(
+          find.ancestor(of: list, matching: find.byType(DetentSurface)).first,
         );
         expect(menu.elevation, 0);
         await t.sendKeyEvent(LogicalKeyboardKey.escape);
@@ -63,7 +63,7 @@ void main() {
       await host(
         t,
         StatefulBuilder(
-          builder: (ctx, set) => NuiSelect(
+          builder: (ctx, set) => DetentSelect(
             options: options,
             value: value,
             onChanged: (v) => set(() => value = v!),
@@ -96,7 +96,7 @@ void main() {
       String? changed;
       await host(
         t,
-        NuiComboBox(
+        DetentComboBox(
           options: options,
           onSelected: (v) => selected = v,
           onChanged: (v) => changed = v,
@@ -116,7 +116,7 @@ void main() {
       );
       await t.tap(
         find.byWidgetPredicate(
-          (w) => w is NuiIconAction && w.tooltip == '候補を表示',
+          (w) => w is DetentIconAction && w.tooltip == '候補を表示',
         ),
       );
       await t.pumpAndSettle();
@@ -132,7 +132,7 @@ void main() {
       int? value;
       await host(
         t,
-        NuiSelect(options: options, value: 0, onChanged: (v) => value = v),
+        DetentSelect(options: options, value: 0, onChanged: (v) => value = v),
       );
       await t.tap(find.byType(EditableText));
       await t.pumpAndSettle();
@@ -152,11 +152,11 @@ void main() {
     },
   );
   testWidgets('loading and no-results use the same bounded popup', (t) async {
-    await host(t, const NuiComboBox<int>(options: [], loading: true));
+    await host(t, const DetentComboBox<int>(options: [], loading: true));
     await t.tap(find.byType(EditableText));
     await t.pumpAndSettle();
     expect(find.text('読み込み中'), findsOneWidget);
-    await host(t, const NuiComboBox<int>(options: []));
+    await host(t, const DetentComboBox<int>(options: []));
     await t.pumpAndSettle();
     expect(find.text('候補がありません'), findsOneWidget);
   });
@@ -168,20 +168,20 @@ void main() {
     addTearDown(t.view.resetPhysicalSize);
     addTearDown(t.view.resetDevicePixelRatio);
     await t.pumpWidget(
-      NuiApp(
+      DetentApp(
         home: MediaQuery(
           data: const MediaQueryData(
             size: Size(400, 320),
             textScaler: TextScaler.linear(2),
           ),
-          child: NuiTheme(
-            data: const NuiThemeData(riveEnabled: false),
-            child: NuiBox(
+          child: DetentTheme(
+            data: const DetentThemeData(riveEnabled: false),
+            child: DetentBox(
               body: Align(
                 alignment: Alignment.bottomCenter,
                 child: SizedBox(
                   width: 300,
-                  child: NuiSelect(
+                  child: DetentSelect(
                     options: options,
                     value: 0,
                     onChanged: (_) {},

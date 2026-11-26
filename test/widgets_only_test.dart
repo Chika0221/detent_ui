@@ -11,9 +11,9 @@ Widget host(Widget child) => WidgetsApp(
     settings: settings,
     pageBuilder: (ctx, _, _) => builder(ctx),
   ),
-  home: NuiTheme(
-    data: const NuiThemeData(riveEnabled: false),
-    child: NuiBox(
+  home: DetentTheme(
+    data: const DetentThemeData(riveEnabled: false),
+    child: DetentBox(
       body: Center(child: SizedBox(width: 500, child: child)),
     ),
   ),
@@ -49,16 +49,16 @@ void main() {
         host(
           const Row(
             children: [
-              NuiKeycap(label: 'K'),
+              DetentKeycap(label: 'K'),
               SizedBox(width: 8),
-              NuiKeycap(label: 'Shift', units: 1.5),
+              DetentKeycap(label: 'Shift', units: 1.5),
               SizedBox(width: 8),
-              NuiKeycap(label: 'Enter', units: 2),
+              DetentKeycap(label: 'Enter', units: 2),
             ],
           ),
         ),
       );
-      final caps = find.byType(NuiKeycap);
+      final caps = find.byType(DetentKeycap);
       expect(t.getSize(caps.at(0)), const Size(40, 42));
       expect(t.getSize(caps.at(1)), const Size(64, 42));
       expect(t.getSize(caps.at(2)), const Size(88, 42));
@@ -67,11 +67,11 @@ void main() {
         host(
           const Row(
             children: [
-              NuiKeycap(label: 'K'),
+              DetentKeycap(label: 'K'),
               SizedBox(width: 8),
-              NuiKeycap(label: 'Shift', units: 1.5, pressed: true),
+              DetentKeycap(label: 'Shift', units: 1.5, pressed: true),
               SizedBox(width: 8),
-              NuiKeycap(label: 'Enter', units: 2),
+              DetentKeycap(label: 'Enter', units: 2),
             ],
           ),
         ),
@@ -91,23 +91,29 @@ void main() {
             builder: (ctx, set) => Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                NuiSelect(
-                  options: const [NuiOption(0, 'Alpha'), NuiOption(1, 'Beta')],
+                DetentSelect(
+                  options: const [
+                    DetentOption(0, 'Alpha'),
+                    DetentOption(1, 'Beta'),
+                  ],
                   value: selected,
                   onChanged: (v) => set(() => selected = v!),
                 ),
-                NuiComboBox(
-                  options: const [NuiOption(0, 'Alpha'), NuiOption(1, 'Beta')],
+                DetentComboBox(
+                  options: const [
+                    DetentOption(0, 'Alpha'),
+                    DetentOption(1, 'Beta'),
+                  ],
                   onChanged: (v) => changed = v,
                 ),
-                NuiButton(
+                DetentButton(
                   label: '確認',
-                  onPressed: () => NuiDialog.show<void>(
+                  onPressed: () => DetentDialog.show<void>(
                     ctx,
-                    builder: (dialog) => NuiDialog(
+                    builder: (dialog) => DetentDialog(
                       title: '保存しますか',
                       actions: [
-                        NuiButton(
+                        DetentButton(
                           label: '戻る',
                           autofocus: true,
                           onPressed: () => Navigator.pop(dialog),
@@ -159,7 +165,7 @@ void main() {
     (t) async {
       final controller = TextEditingController(text: 'alpha beta');
       addTearDown(controller.dispose);
-      await t.pumpWidget(host(NuiTextField(controller: controller)));
+      await t.pumpWidget(host(DetentTextField(controller: controller)));
       final field = find.byType(EditableText);
       await t.tapAt(t.getTopLeft(field) + const Offset(16, 10));
       await t.pump(const Duration(milliseconds: 40));
@@ -183,13 +189,13 @@ void main() {
       var calls = 0;
       await t.pumpWidget(
         host(
-          NuiDropdownMenu(
+          DetentDropdownMenu(
             label: 'Menu',
             items: [
-              NuiMenuItem(
+              DetentMenuItem(
                 label: 'Submenu',
                 children: [
-                  NuiMenuItem(label: 'Run action', onPressed: () => calls++),
+                  DetentMenuItem(label: 'Run action', onPressed: () => calls++),
                 ],
               ),
             ],
@@ -215,8 +221,8 @@ void main() {
         const Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            NuiSlider(value: 3, min: 3, max: 3),
-            NuiRangeSlider(values: NuiRangeValues(3, 3), min: 3, max: 3),
+            DetentSlider(value: 3, min: 3, max: 3),
+            DetentRangeSlider(values: DetentRangeValues(3, 3), min: 3, max: 3),
           ],
         ),
       ),
@@ -232,13 +238,13 @@ void main() {
           Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              NuiSlider(value: .68, onChanged: (_) {}),
-              NuiRangeSlider(
-                values: const NuiRangeValues(.25, .8),
+              DetentSlider(value: .68, onChanged: (_) {}),
+              DetentRangeSlider(
+                values: const DetentRangeValues(.25, .8),
                 onChanged: (_) {},
               ),
-              NuiSegmentedControl(
-                options: const [NuiOption(0, '一覧'), NuiOption(1, '比較')],
+              DetentSegmentedControl(
+                options: const [DetentOption(0, '一覧'), DetentOption(1, '比較')],
                 value: 0,
                 onChanged: (_) {},
               ),
@@ -247,9 +253,9 @@ void main() {
         ),
       );
       for (final component in [
-        find.byType(NuiSlider),
-        find.byType(NuiRangeSlider),
-        find.byType(NuiSegmentedControl<int>),
+        find.byType(DetentSlider),
+        find.byType(DetentRangeSlider),
+        find.byType(DetentSegmentedControl<int>),
       ]) {
         final painter = find
             .descendant(of: component, matching: find.byType(CustomPaint))
@@ -267,21 +273,21 @@ void main() {
           Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              NuiIconButton(
+              DetentIconButton(
                 icon: FLucideIcons.plus,
                 tooltip: 'Add',
                 onPressed: () {},
               ),
-              NuiTabs(
+              DetentTabs(
                 tabs: const [
-                  NuiTab(0, '仕様書.md', dirty: true),
-                  NuiTab(1, 'デザイン.pen'),
+                  DetentTab(0, '仕様書.md', dirty: true),
+                  DetentTab(1, 'デザイン.pen'),
                 ],
                 value: 0,
                 onChanged: (_) {},
               ),
-              const NuiTaskStatus(
-                state: NuiTaskState.running,
+              const DetentTaskStatus(
+                state: DetentTaskState.running,
                 label: '書き出し中',
                 detail: '17 / 25 files',
                 progress: .68,
@@ -290,7 +296,7 @@ void main() {
           ),
         ),
       );
-      final button = find.byType(NuiIconButton),
+      final button = find.byType(DetentIconButton),
           icon = find.descendant(of: button, matching: find.byType(Icon));
       expect(t.getSize(button), const Size(50, 50));
       expect(t.getCenter(icon).dx, closeTo(t.getCenter(button).dx, .01));
@@ -305,9 +311,9 @@ void main() {
           )
           .first;
       expect(t.getSize(selectedSurface).width, 230);
-      expect(t.getSize(find.byType(NuiTaskStatus)).height, 82);
+      expect(t.getSize(find.byType(DetentTaskStatus)).height, 82);
       expect(find.text('68%'), findsOneWidget);
-      expect(find.byType(NuiProgress), findsNothing);
+      expect(find.byType(DetentProgress), findsNothing);
     },
   );
   testWidgets(
@@ -316,15 +322,15 @@ void main() {
       final scroll = ScrollController();
       addTearDown(scroll.dispose);
       await t.pumpWidget(
-        NuiApp(
+        DetentApp(
           riveEnabled: false,
-          home: NuiBox(
+          home: DetentBox(
             body: SingleChildScrollView(
               controller: scroll,
               child: const Column(
                 children: [
                   SizedBox(height: 1200),
-                  NuiProgress(),
+                  DetentProgress(),
                   SizedBox(height: 300),
                 ],
               ),
