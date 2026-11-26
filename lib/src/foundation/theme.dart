@@ -90,6 +90,14 @@ class DetentTypography {
     height: DetentTokens.primitive_lineHeight_caption,
   );
 
+  /// Engraved labels on panels and spec sheets: 12 / 600, slightly
+  /// tracked, tabular figures. Keep to short names and numbers.
+  TextStyle get label => caption.copyWith(
+    fontWeight: FontWeight.w600,
+    letterSpacing: .6,
+    fontFeatures: const [FontFeature.tabularFigures()],
+  );
+
   /// Instrument values. 20 / 500 with tabular figures.
   TextStyle get readout => body.copyWith(
     fontSize: DetentTokens.primitive_typeSize_section,

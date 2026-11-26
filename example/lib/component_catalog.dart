@@ -136,38 +136,33 @@ class _GalleryBodyState extends State<GalleryBody> {
       child: const Text('作業内容に未保存の変更があります。'),
     ),
   );
-  Widget card(int id, String label, Widget child, {double? height}) => SizedBox(
-    width: 360,
-    child: DetentSurface(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10),
-        side: BorderSide(color: DetentTheme.of(context).border),
+  // A spec sheet: each component is a cell under one rule, named in an
+  // engraved label with its catalogue number at the right edge. Only the
+  // controls themselves keep physical depth (DESIGN_SYSTEM.md §5.7).
+  Widget card(int id, String label, Widget child, {double? height}) {
+    final t = DetentTheme.of(context);
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        border: Border(top: BorderSide(color: t.controlBorder)),
       ),
       child: Padding(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.only(top: 10, bottom: 8),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           mainAxisSize: MainAxisSize.min,
           children: [
             Row(
+              crossAxisAlignment: CrossAxisAlignment.baseline,
+              textBaseline: TextBaseline.alphabetic,
               children: [
+                Expanded(child: Text(label, style: t.textTheme.label)),
                 Text(
                   'C${id.toString().padLeft(2, '0')}',
-                  style: TextStyle(
-                    color: DetentTheme.of(context).muted,
-                    fontSize: 12,
-                  ),
-                ),
-                const SizedBox(width: 8),
-                Expanded(
-                  child: Text(
-                    label,
-                    style: const TextStyle(fontWeight: FontWeight.w600),
-                  ),
+                  style: t.textTheme.label.copyWith(color: t.muted),
                 ),
               ],
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: 20),
             Align(
               alignment: Alignment.topLeft,
               child: height == null
@@ -177,8 +172,9 @@ class _GalleryBodyState extends State<GalleryBody> {
           ],
         ),
       ),
-    ),
-  );
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final opts = [
@@ -188,16 +184,40 @@ class _GalleryBodyState extends State<GalleryBody> {
     ];
     final theme = DetentTheme.of(context);
     Widget group(List<Widget> children, {String? title}) => Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         if (title != null) ...[
-          Text(
-            title,
-            style: theme.textTheme.componentTitle.copyWith(color: theme.muted),
+          Row(
+            children: [
+              // A small square marker, like a printed index tab.
+              SizedBox.square(
+                dimension: 6,
+                child: ColoredBox(color: theme.ink),
+              ),
+              const SizedBox(width: 8),
+              Text(title, style: theme.textTheme.componentTitle),
+            ],
           ),
           const SizedBox(height: 16),
         ],
-        Wrap(spacing: 16, runSpacing: 16, children: children),
+        // Even columns from the available width instead of fixed 360px cards.
+        LayoutBuilder(
+          builder: (context, box) {
+            const gap = 24.0, minWidth = 300.0;
+            final columns = ((box.maxWidth + gap) / (minWidth + gap))
+                .floor()
+                .clamp(1, 4);
+            final width = (box.maxWidth - gap * (columns - 1)) / columns;
+            return Wrap(
+              spacing: gap,
+              runSpacing: 24,
+              children: [
+                for (final child in children)
+                  SizedBox(width: width, child: child),
+              ],
+            );
+          },
+        ),
       ],
     );
     Widget section(
@@ -206,12 +226,36 @@ class _GalleryBodyState extends State<GalleryBody> {
       bool showTitle = true,
     }) => Padding(
       key: _anchors[section],
-      padding: const EdgeInsets.only(top: 24, bottom: 32),
+      padding: const EdgeInsets.only(top: 24, bottom: 48),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
-        spacing: 24,
+        spacing: 32,
         children: [
-          if (showTitle) Text(section.title, style: theme.textTheme.section),
+          if (showTitle)
+            DecoratedBox(
+              decoration: BoxDecoration(
+                border: Border(top: BorderSide(color: theme.ink, width: 2)),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.only(top: 12),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.baseline,
+                  textBaseline: TextBaseline.alphabetic,
+                  children: [
+                    SizedBox(
+                      width: 56,
+                      child: Text(
+                        (section.index + 1).toString().padLeft(2, '0'),
+                        style: theme.textTheme.readout.copyWith(
+                          color: theme.muted,
+                        ),
+                      ),
+                    ),
+                    Text(section.title, style: theme.textTheme.section),
+                  ],
+                ),
+              ),
+            ),
           ...children,
         ],
       ),
@@ -220,13 +264,26 @@ class _GalleryBodyState extends State<GalleryBody> {
     final content = Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Text('UIワークショップ', style: theme.textTheme.page),
-        const SizedBox(height: 8),
+        // Title block: a quiet spec line over one large heading.
+        Text(
+          'DETENT UI  /  COMPONENT WORKSHOP  /  ${_Section.values.length} SECTIONS',
+          style: theme.textTheme.label.copyWith(color: theme.muted),
+        ),
+        const SizedBox(height: 12),
+        Text(
+          'UIワークショップ',
+          style: theme.textTheme.page.copyWith(
+            fontSize: DetentTokens.primitive_typeSize_display,
+            height: 1.1,
+            letterSpacing: -1,
+          ),
+        ),
+        const SizedBox(height: 12),
         Text(
           'Detent UIの部品と画面作例',
           style: theme.textTheme.body.copyWith(color: theme.muted),
         ),
-        const SizedBox(height: 16),
+        const SizedBox(height: 40),
         section(_Section.controls, [
           group([
             card(
@@ -561,10 +618,21 @@ class _GalleryBodyState extends State<GalleryBody> {
             card(
               28,
               'AppShell',
-              const DetentAppShell(
-                navigation: Center(child: Text('Navigation')),
-                body: Center(child: Text('Workspace')),
-                statusBar: DetentStatusBar(children: [Text('準備完了')]),
+              // Framed so the miniature reads as an example, not the page.
+              DecoratedBox(
+                position: DecorationPosition.foreground,
+                decoration: BoxDecoration(
+                  border: Border.all(color: theme.controlBorder),
+                  borderRadius: BorderRadius.circular(DetentRadius.control),
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(DetentRadius.control),
+                  child: const DetentAppShell(
+                    navigation: Center(child: Text('Navigation')),
+                    body: Center(child: Text('Workspace')),
+                    statusBar: DetentStatusBar(children: [Text('準備完了')]),
+                  ),
+                ),
               ),
               height: 220,
             ),

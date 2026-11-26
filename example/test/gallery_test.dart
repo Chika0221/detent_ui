@@ -14,6 +14,11 @@ import '../lib/component_catalog.dart';
 // ignore: avoid_relative_lib_imports
 import '../lib/workshop_navigation.dart';
 
+/// Set with --dart-define=DETENT_PROPOSAL=a|b to keep proposal shots apart.
+const shotPrefix = bool.hasEnvironment('DETENT_PROPOSAL')
+    ? '${String.fromEnvironment('DETENT_PROPOSAL')}-'
+    : '';
+
 void main() {
   setUpAll(() async {
     final icons = FontLoader('packages/forui_lucide/ForuiLucideIcons')
@@ -26,6 +31,17 @@ void main() {
           'packages/detent_ui/assets/fonts/${family == 'Manrope' ? 'Manrope.ttf' : 'IBMPlexSansJP-Regular.ttf'}',
         ),
       );
+      // Load the bundled Japanese weights too, so 500/600 text is drawn
+      // with the real font instead of a synthesized bold.
+      if (family != 'Manrope') {
+        for (final weight in ['Medium', 'SemiBold']) {
+          loader.addFont(
+            rootBundle.load(
+              'packages/detent_ui/assets/fonts/IBMPlexSansJP-$weight.ttf',
+            ),
+          );
+        }
+      }
       await loader.load();
     }
   });
@@ -125,25 +141,26 @@ void main() {
         expect(find.text('素材編集ワークスペース').hitTestable(), findsOneWidget);
         expect(t.takeException(), isNull);
       }
-      if (width == 1440) {
-        Future<void> capture(String name) async {
-          await t.runAsync(
-            () => Future<void>.delayed(const Duration(milliseconds: 100)),
-          );
-          await t.pump();
-          await t.pump(const Duration(milliseconds: 400));
-          await t.runAsync(() async {
-            final render =
-                boundary.currentContext!.findRenderObject()!
-                    as RenderRepaintBoundary;
-            final img = await render.toImage();
-            final bytes = await img.toByteData(format: ui.ImageByteFormat.png);
-            File('/tmp/detent-gallery-$name.png')
-                .writeAsBytesSync(bytes!.buffer.asUint8List());
-            img.dispose();
-          });
-        }
+      Future<void> capture(String name) async {
+        await t.runAsync(
+          () => Future<void>.delayed(const Duration(milliseconds: 100)),
+        );
+        await t.pump();
+        await t.pump(const Duration(milliseconds: 400));
+        await t.runAsync(() async {
+          final render =
+              boundary.currentContext!.findRenderObject()!
+                  as RenderRepaintBoundary;
+          final img = await render.toImage();
+          final bytes = await img.toByteData(format: ui.ImageByteFormat.png);
+          File('/tmp/detent-gallery-$shotPrefix$name.png')
+              .writeAsBytesSync(bytes!.buffer.asUint8List());
+          img.dispose();
+        });
+      }
 
+      if (width == 1024) await capture('narrow');
+      if (width == 1440) {
         await capture('light');
         await t.tap(find.text('Rive'));
         await t.pump();
