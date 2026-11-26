@@ -73,7 +73,7 @@ void main() {
                                 dirty: true,
                                 onClose: () {},
                               ),
-                              DetentTab(1, 'デザイン.pen', onClose: () {}),
+                              DetentTab(1, 'デザイン.json', onClose: () {}),
                             ],
                             value: 0,
                             onChanged: (_) {},
