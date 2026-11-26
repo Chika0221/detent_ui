@@ -17,32 +17,97 @@ enum DetentMotion { system, full, reduced }
 
 enum DetentThemeMode { light, dark, system }
 
+/// Corner radii from `primitive.radius` (DESIGN_SYSTEM.md §5.3).
+abstract final class DetentRadius {
+  /// Small position marks, meter cells, and thin indicators.
+  static const mark = DetentTokens.primitive_radius_mark;
+
+  /// Buttons, inputs, list rows, and other controls.
+  static const control = DetentTokens.primitive_radius_button;
+
+  /// Menus, popovers, tooltips, and toasts.
+  static const menu = DetentTokens.primitive_radius_menu;
+
+  /// Panels, cards, dialogs, and displays.
+  static const panel = DetentTokens.primitive_radius_panel;
+
+  /// The outer chassis of a device-like surface.
+  static const chassis = DetentTokens.primitive_radius_shell;
+}
+
+/// Spacing from `primitive.space` and `component.*.button` (§5.3).
+abstract final class DetentSpace {
+  static const gap = 8.0;
+  static const controlInline =
+      DetentTokens.component_light_button_paddingInline;
+  static const controlBlock = DetentTokens.component_light_button_paddingBlock;
+  static const panel = 16.0;
+  static const section = 24.0;
+}
+
+/// Type roles from DESIGN_SYSTEM.md §5.2. Manrope draws Latin and figures,
+/// IBM Plex Sans JP draws Japanese.
 @immutable
 class DetentTypography {
   const DetentTypography(this.ink);
   final Color ink;
-  TextStyle get bodyMedium => TextStyle(
+
+  /// Running text. 14 / 400.
+  TextStyle get body => TextStyle(
     fontFamily: 'packages/detent_ui/Manrope',
     fontFamilyFallback: const ['packages/detent_ui/IBM Plex Sans JP'],
-    fontSize: 14,
+    fontSize: DetentTokens.primitive_typeSize_body,
     height: 1.5,
     color: ink,
   );
-  TextStyle get title => bodyMedium.copyWith(
-    fontSize: 24,
+
+  /// Page heading. 32 / 600.
+  TextStyle get page => body.copyWith(
+    fontSize: DetentTokens.primitive_typeSize_page,
     fontWeight: FontWeight.w600,
-    height: 1.3,
+    height: DetentTokens.primitive_lineHeight_heading,
   );
-  TextStyle get sectionTitle =>
-      bodyMedium.copyWith(fontSize: 16, fontWeight: FontWeight.w600);
-  TextStyle get readout => bodyMedium.copyWith(
-    fontSize: 24,
+
+  /// Section heading. 20 / 500.
+  TextStyle get section => body.copyWith(
+    fontSize: DetentTokens.primitive_typeSize_section,
     fontWeight: FontWeight.w500,
+    height: DetentTokens.primitive_lineHeight_heading,
+  );
+
+  /// Component and panel title. 14 / 600.
+  TextStyle get componentTitle => body.copyWith(fontWeight: FontWeight.w600);
+
+  /// Labels on buttons, tabs, and other controls. 14 / 500.
+  TextStyle get control => body.copyWith(
+    fontWeight: FontWeight.w500,
+    height: DetentTokens.primitive_lineHeight_control,
+  );
+
+  /// Supporting text, units, and metadata. 12 / 400.
+  TextStyle get caption => body.copyWith(
+    fontSize: DetentTokens.primitive_typeSize_caption,
+    height: DetentTokens.primitive_lineHeight_caption,
+  );
+
+  /// Instrument values. 20 / 500 with tabular figures.
+  TextStyle get readout => body.copyWith(
+    fontSize: DetentTokens.primitive_typeSize_section,
+    fontWeight: FontWeight.w500,
+    height: DetentTokens.primitive_lineHeight_heading,
     fontFeatures: const [FontFeature.tabularFigures()],
   );
-  TextStyle get bodySmall => bodyMedium.copyWith(fontSize: 12);
-  TextStyle get labelLarge =>
-      bodyMedium.copyWith(fontWeight: FontWeight.w500, height: 1.35);
+
+  @Deprecated('Use body. Will be removed after 0.10.')
+  TextStyle get bodyMedium => body;
+  @Deprecated('Use caption. Will be removed after 0.10.')
+  TextStyle get bodySmall => caption;
+  @Deprecated('Use control. Will be removed after 0.10.')
+  TextStyle get labelLarge => control;
+  @Deprecated('Use section. Will be removed after 0.10.')
+  TextStyle get sectionTitle => section;
+  @Deprecated('Use page. Will be removed after 0.10.')
+  TextStyle get title => page;
 }
 
 @immutable
@@ -92,6 +157,9 @@ class DetentThemeData {
   Color get focus => _color('focus.ring');
   Color get danger => _color('status.danger');
   Color get success => _color('status.success');
+  Color get warning => _color('status.warning');
+  Color get info => _color('status.info');
+  Color get onDanger => _color('status.onDanger');
   bool reduceMotion(BuildContext context) =>
       motion == DetentMotion.reduced ||
       (motion == DetentMotion.system &&
@@ -119,7 +187,7 @@ class DetentTheme extends InheritedTheme {
   DetentTheme({super.key, required this.data, required Widget child})
     : super(
         child: DefaultTextStyle(
-          style: data.textTheme.bodyMedium,
+          style: data.textTheme.body,
           child: IconTheme(
             data: IconThemeData(color: data.ink, size: 16),
             child: child,
@@ -225,7 +293,7 @@ class DetentFocusRing extends StatelessWidget {
     super.key,
     required this.child,
     required this.focused,
-    this.radius = 6,
+    this.radius = DetentRadius.control,
   });
   final Widget child;
   final bool focused;
@@ -267,6 +335,9 @@ const detentPalettes = <String, Map<String, Color>>{
     'focus.ring': DetentTokens.semantic_light_color_focus_ring,
     'status.danger': DetentTokens.semantic_light_color_status_danger,
     'status.success': DetentTokens.semantic_light_color_status_success,
+    'status.warning': DetentTokens.semantic_light_color_status_warning,
+    'status.info': DetentTokens.semantic_light_color_status_info,
+    'status.onDanger': DetentTokens.semantic_light_color_status_onDanger,
   },
   'dark': {
     'bg.canvas': DetentTokens.semantic_dark_color_bg_canvas,
@@ -288,6 +359,9 @@ const detentPalettes = <String, Map<String, Color>>{
     'focus.ring': DetentTokens.semantic_dark_color_focus_ring,
     'status.danger': DetentTokens.semantic_dark_color_status_danger,
     'status.success': DetentTokens.semantic_dark_color_status_success,
+    'status.warning': DetentTokens.semantic_dark_color_status_warning,
+    'status.info': DetentTokens.semantic_dark_color_status_info,
+    'status.onDanger': DetentTokens.semantic_dark_color_status_onDanger,
   },
   'highLight': {
     'bg.canvas': DetentTokens.semantic_highLight_color_bg_canvas,
@@ -311,6 +385,9 @@ const detentPalettes = <String, Map<String, Color>>{
     'focus.ring': DetentTokens.semantic_highLight_color_focus_ring,
     'status.danger': DetentTokens.semantic_highLight_color_status_danger,
     'status.success': DetentTokens.semantic_highLight_color_status_success,
+    'status.warning': DetentTokens.semantic_highLight_color_status_warning,
+    'status.info': DetentTokens.semantic_highLight_color_status_info,
+    'status.onDanger': DetentTokens.semantic_highLight_color_status_onDanger,
   },
   'highDark': {
     'bg.canvas': DetentTokens.semantic_highDark_color_bg_canvas,
@@ -333,5 +410,8 @@ const detentPalettes = <String, Map<String, Color>>{
     'focus.ring': DetentTokens.semantic_highDark_color_focus_ring,
     'status.danger': DetentTokens.semantic_highDark_color_status_danger,
     'status.success': DetentTokens.semantic_highDark_color_status_success,
+    'status.warning': DetentTokens.semantic_highDark_color_status_warning,
+    'status.info': DetentTokens.semantic_highDark_color_status_info,
+    'status.onDanger': DetentTokens.semantic_highDark_color_status_onDanger,
   },
 };

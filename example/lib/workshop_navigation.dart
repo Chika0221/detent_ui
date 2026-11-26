@@ -30,7 +30,7 @@ class WorkshopNavigationItem extends StatelessWidget {
             ? null
             : Text(
                 description!,
-                style: theme.textTheme.bodySmall.copyWith(
+                style: theme.textTheme.caption.copyWith(
                   color: selected ? foreground : theme.muted,
                 ),
               ),

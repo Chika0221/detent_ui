@@ -80,7 +80,7 @@ class _DetentButtonState extends State<DetentButton> {
         : widget.variant == DetentButtonVariant.primary
         ? t.accentInk
         : widget.variant == DetentButtonVariant.danger
-        ? (t.dark ? DetentColors.black : DetentColors.white)
+        ? t.onDanger
         : t.ink;
     final curve = const Cubic(.2, 0, .2, 1);
     Widget face(Widget child) => AnimatedContainer(
@@ -101,7 +101,7 @@ class _DetentButtonState extends State<DetentButton> {
             child: DecoratedBox(
               decoration: BoxDecoration(
                 color: t.controlBorder,
-                borderRadius: BorderRadius.circular(6),
+                borderRadius: BorderRadius.circular(DetentRadius.control),
               ),
             ),
           ),
@@ -111,7 +111,7 @@ class _DetentButtonState extends State<DetentButton> {
             DecoratedBox(
               decoration: BoxDecoration(
                 color: bg,
-                borderRadius: BorderRadius.circular(6),
+                borderRadius: BorderRadius.circular(DetentRadius.control),
                 border: Border.all(
                   color: widget.variant == DetentButtonVariant.quiet
                       ? DetentColors.transparent
@@ -129,11 +129,16 @@ class _DetentButtonState extends State<DetentButton> {
         ConstrainedBox(
           constraints: BoxConstraints(minHeight: t.controlHeight, minWidth: 28),
           child: Padding(
-            padding: const EdgeInsets.all(8),
+            padding: EdgeInsets.symmetric(
+              horizontal: widget.label.isEmpty
+                  ? DetentSpace.gap
+                  : DetentSpace.controlInline,
+              vertical: DetentSpace.controlBlock,
+            ),
             child: IconTheme(
               data: IconThemeData(color: fg, size: 16),
               child: DefaultTextStyle(
-                style: DetentTheme.of(context).textTheme.labelLarge.copyWith(
+                style: DetentTheme.of(context).textTheme.control.copyWith(
                   color: fg,
                   fontWeight: widget.selected ? FontWeight.w600 : null,
                 ),
@@ -358,7 +363,9 @@ class DetentKeycap extends StatelessWidget {
                     child: DecoratedBox(
                       decoration: BoxDecoration(
                         color: t.controlBorder,
-                        borderRadius: BorderRadius.circular(6),
+                        borderRadius: BorderRadius.circular(
+                          DetentRadius.control,
+                        ),
                       ),
                     ),
                   ),
@@ -378,7 +385,9 @@ class DetentKeycap extends StatelessWidget {
                         decoration: BoxDecoration(
                           color: bg,
                           border: Border.all(color: t.controlBorder),
-                          borderRadius: BorderRadius.circular(6),
+                          borderRadius: BorderRadius.circular(
+                            DetentRadius.control,
+                          ),
                         ),
                       ),
                     ),
@@ -400,11 +409,10 @@ class DetentKeycap extends StatelessWidget {
                         label,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
+                        style: t.textTheme.caption.copyWith(
                           color: pressed
                               ? (t.dark ? t.display : t.inverse)
                               : t.ink,
-                          fontSize: 12,
                         ),
                       ),
                     ),
@@ -460,7 +468,7 @@ class _DetentSegmentedControlState<T> extends State<DetentSegmentedControl<T>> {
       decoration: BoxDecoration(
         color: t.surface,
         border: Border.all(color: t.controlBorder),
-        borderRadius: BorderRadius.circular(7),
+        borderRadius: BorderRadius.circular(DetentRadius.menu),
       ),
       child: Padding(
         padding: const EdgeInsets.all(8),
@@ -874,7 +882,7 @@ class _DetentSliderState extends State<DetentSlider> {
         },
         child: DecoratedBox(
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(6),
+            borderRadius: BorderRadius.circular(DetentRadius.control),
             border: Border.all(
               width: 2,
               color: focus.hasFocus
@@ -1010,7 +1018,7 @@ class _DetentRangeSliderState extends State<DetentRangeSlider> {
           focused: node.hasFocus,
           child: Text(
             '${first ? '下限' : '上限'} ${value.toStringAsFixed(1)}',
-            style: const TextStyle(fontSize: 12),
+            style: DetentTheme.of(context).textTheme.caption,
           ),
         ),
       );
@@ -1186,10 +1194,7 @@ class _DetentRotaryKnobState extends State<DetentRotaryKnob> {
                   Center(
                     child: Text(
                       w.valueLabel ?? w.value.toStringAsFixed(0),
-                      style: const TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w500,
-                      ),
+                      style: DetentTheme.of(context).textTheme.readout,
                     ),
                   ),
                 ],

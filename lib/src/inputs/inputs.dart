@@ -95,12 +95,18 @@ class _DetentTextFieldState extends State<DetentTextField>
                       child: Container(
                         constraints: BoxConstraints(minHeight: t.controlHeight),
                         padding: EdgeInsets.symmetric(
-                          horizontal: focus.hasFocus ? 7 : 8,
+                          // The 2px focus border replaces 1px of padding so the
+                          // text does not move.
+                          horizontal: focus.hasFocus
+                              ? DetentSpace.controlInline - 1
+                              : DetentSpace.controlInline,
                           vertical: focus.hasFocus ? 4 : 5,
                         ),
                         decoration: BoxDecoration(
                           color: t.raised,
-                          borderRadius: BorderRadius.circular(6),
+                          borderRadius: BorderRadius.circular(
+                            DetentRadius.control,
+                          ),
                           border: Border.all(
                             color: w.errorText != null
                                 ? t.danger
@@ -132,8 +138,9 @@ class _DetentTextFieldState extends State<DetentTextField>
                                       IgnorePointer(
                                         child: Text(
                                           w.hintText!,
-                                          style: t.textTheme.bodyMedium
-                                              .copyWith(color: t.muted),
+                                          style: t.textTheme.body.copyWith(
+                                            color: t.muted,
+                                          ),
                                         ),
                                       ),
                                     EditableText(
@@ -142,7 +149,7 @@ class _DetentTextFieldState extends State<DetentTextField>
                                       focusNode: focus,
                                       autofocus: w.autofocus,
                                       rendererIgnoresPointer: true,
-                                      style: t.textTheme.bodyMedium,
+                                      style: t.textTheme.body,
                                       cursorColor: t.ink,
                                       backgroundCursorColor: t.border,
                                       selectionColor: t.accent.withValues(
@@ -248,7 +255,7 @@ class _DetentTextFieldState extends State<DetentTextField>
                 alignment: AlignmentDirectional.centerEnd,
                 child: Text(
                   '${controller.text.characters.length} / ${w.maxLength}',
-                  style: t.textTheme.bodySmall.copyWith(color: t.muted),
+                  style: t.textTheme.caption.copyWith(color: t.muted),
                 ),
               ),
           ],
@@ -345,7 +352,7 @@ class _DetentSearchFieldState extends State<DetentSearchField> {
                   padding: const EdgeInsets.all(8),
                   child: Text(
                     widget.shortcut!,
-                    style: const TextStyle(fontSize: 12),
+                    style: DetentTheme.of(context).textTheme.caption,
                   ),
                 ),
         ),
@@ -616,7 +623,7 @@ class _DetentOptionPickerState<T> extends State<_DetentOptionPicker<T>> {
             controller: menu,
             childFocusNode: focus,
             alignmentOffset: const Offset(0, 8),
-            radius: 6,
+            radius: DetentRadius.control,
             padding: EdgeInsets.zero,
             menuChildren: [
               TextFieldTapRegion(
@@ -790,10 +797,8 @@ class DetentFormField extends StatelessWidget {
             padding: const EdgeInsets.only(top: 8),
             child: Text(
               description!,
-              style: TextStyle(
-                fontSize: 12,
-                color: DetentTheme.of(context).muted,
-              ),
+              style: DetentTheme.of(context).textTheme.caption
+                  .copyWith(color: DetentTheme.of(context).muted),
             ),
           ),
         if (error != null)

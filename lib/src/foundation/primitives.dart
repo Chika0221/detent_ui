@@ -31,7 +31,8 @@ class DetentSurface extends StatelessWidget {
       shape:
           shape ??
           RoundedRectangleBorder(
-            borderRadius: borderRadius ?? BorderRadius.circular(8),
+            borderRadius:
+                borderRadius ?? BorderRadius.circular(DetentRadius.menu),
           ),
       shadows: elevation == 0
           ? null
@@ -111,7 +112,8 @@ class _DetentInkState extends State<DetentInk> {
         onTap: widget.onTap,
         child: DecoratedBox(
           decoration: BoxDecoration(
-            color: hover
+            // Hover never hides the selection surface.
+            color: hover && !widget.selected
                 ? widget.hoverColor ?? DetentTheme.of(context).surface
                 : widget.color,
             border: Border.all(
@@ -120,7 +122,7 @@ class _DetentInkState extends State<DetentInk> {
                   : DetentColors.transparent,
               width: 2,
             ),
-            borderRadius: BorderRadius.circular(4),
+            borderRadius: BorderRadius.circular(DetentRadius.control),
           ),
           child: widget.child,
         ),
@@ -213,7 +215,9 @@ class DetentTile extends StatelessWidget {
   Widget build(BuildContext context) => DetentInk(
     onTap: enabled ? onTap : null,
     selected: selected,
-    color: selected ? selectedTileColor : tileColor,
+    color: selected
+        ? selectedTileColor ?? DetentTheme.of(context).selectionSurface
+        : tileColor,
     hoverColor: hoverColor,
     child: ConstrainedBox(
       constraints: BoxConstraints(
@@ -226,7 +230,12 @@ class DetentTile extends StatelessWidget {
             if (leading != null) ...[leading!, const SizedBox(width: 8)],
             Expanded(
               child: DefaultTextStyle.merge(
-                style: TextStyle(color: selected ? selectedColor : null),
+                style: TextStyle(
+                  color: selected
+                      ? selectedColor ??
+                            DetentTheme.of(context).selectionForeground
+                      : null,
+                ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
@@ -277,7 +286,7 @@ class DetentPopupAnchor extends StatefulWidget {
     this.onClose,
     this.surfaceColor,
     this.borderColor,
-    this.radius = 8,
+    this.radius = DetentRadius.menu,
   });
   final DetentPopupController? controller;
   final FocusNode? childFocusNode;
@@ -526,13 +535,13 @@ class _DetentHintState extends State<DetentHint> {
     controller: controller,
     surfaceColor: DetentTheme.of(context).display,
     borderColor: DetentColors.transparent,
-    radius: 5,
+    radius: DetentRadius.menu,
     padding: const EdgeInsets.all(8),
     menuChildren: [
       Text(
         widget.message,
-        style: DetentTheme.of(context).textTheme.bodySmall
-            .copyWith(color: DetentColors.white),
+        style: DetentTheme.of(context).textTheme.caption
+            .copyWith(color: DetentTheme.of(context).inverse),
       ),
     ],
     builder: (ctx, c, _) => Focus(
@@ -627,7 +636,7 @@ class DetentDialogFrame extends StatelessWidget {
     constraints: const BoxConstraints(maxWidth: 456),
     child: DetentSurface(
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(DetentRadius.panel),
         side: BorderSide(color: DetentTheme.of(context).controlBorder),
       ),
       child: Padding(
@@ -640,10 +649,7 @@ class DetentDialogFrame extends StatelessWidget {
               children: [
                 if (title != null) ...[
                   DefaultTextStyle.merge(
-                    style: const TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w500,
-                    ),
+                    style: DetentTheme.of(context).textTheme.section,
                     child: title!,
                   ),
                   const SizedBox(height: 16),

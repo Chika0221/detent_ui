@@ -137,7 +137,7 @@ class _DetentAnimatedTab extends StatelessWidget {
         margin: const EdgeInsets.only(bottom: 3),
         decoration: BoxDecoration(
           color: selected ? DetentTheme.of(context).raised : null,
-          borderRadius: BorderRadius.circular(5),
+          borderRadius: BorderRadius.circular(DetentRadius.control),
           boxShadow: selected && !DetentTheme.of(context).highContrast
               ? [
                   BoxShadow(
@@ -166,7 +166,7 @@ class _DetentAnimatedTab extends StatelessWidget {
             color: selected
                 ? DetentTheme.of(context).ink
                 : DetentColors.transparent,
-            borderRadius: BorderRadius.circular(1),
+            borderRadius: BorderRadius.circular(DetentRadius.mark),
           ),
         ),
       ),
@@ -230,13 +230,13 @@ class DetentSidebarItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final t = DetentTheme.of(context);
     return DetentSurface(
-      color: selected ? t.surface : DetentColors.transparent,
+      color: selected ? t.selectionSurface : DetentColors.transparent,
       child: DetentTile(
         dense: true,
         contentPadding: EdgeInsets.only(left: 8 + depth * 16, right: 8),
         minTileHeight: t.controlHeight,
         selected: selected,
-        selectedColor: t.ink,
+        selectedColor: t.selectionForeground,
         leading: icon == null ? null : Icon(icon, size: 16),
         title: Text(label),
         trailing:
@@ -245,7 +245,7 @@ class DetentSidebarItem extends StatelessWidget {
                 ? null
                 : Text(
                     '$count',
-                    style: TextStyle(color: t.muted, fontSize: 12),
+                    style: t.textTheme.caption.copyWith(color: t.muted),
                   )),
         onTap: onPressed,
       ),
@@ -343,7 +343,7 @@ List<Widget> detentMenuWidgets(
               ? null
               : Text(
                   item.shortcut!,
-                  style: DetentTheme.of(context).textTheme.bodySmall
+                  style: DetentTheme.of(context).textTheme.caption
                       .copyWith(color: DetentTheme.of(context).muted),
                 ),
           onTap: item.onPressed == null
@@ -391,7 +391,7 @@ class DetentMenuBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) => DetentSurface(
     shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(4),
+      borderRadius: BorderRadius.circular(DetentRadius.control),
       side: BorderSide(color: DetentTheme.of(context).border),
     ),
     child: ConstrainedBox(

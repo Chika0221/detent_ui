@@ -24,21 +24,16 @@ class DetentListRow extends StatelessWidget {
   final VoidCallback? onPressed;
   @override
   Widget build(BuildContext context) => DetentSurface(
+    // Rows sit flat on their container; only the selection gets a surface,
+    // matching SidebarItem and TreeView (DESIGN_SYSTEM.md §5.6).
     color: selected
-        ? DetentTheme.of(context).surface
-        : DetentTheme.of(context).raised,
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(4),
-      side: BorderSide(
-        color: selected
-            ? DetentTheme.of(context).controlBorder
-            : DetentTheme.of(context).border,
-      ),
-    ),
+        ? DetentTheme.of(context).selectionSurface
+        : DetentColors.transparent,
+    borderRadius: BorderRadius.circular(DetentRadius.control),
     child: DetentTile(
       dense: true,
       selected: selected,
-      selectedColor: DetentTheme.of(context).ink,
+      selectedColor: DetentTheme.of(context).selectionForeground,
       leading: leading,
       trailing: trailing,
       title: Text(label),
@@ -46,7 +41,7 @@ class DetentListRow extends StatelessWidget {
           ? null
           : Text(
               description!,
-              style: DetentTheme.of(context).textTheme.bodySmall
+              style: DetentTheme.of(context).textTheme.caption
                   .copyWith(color: DetentTheme.of(context).muted),
             ),
       onTap: onPressed,
@@ -283,7 +278,9 @@ class DetentDataTable<T> extends StatelessWidget {
     return Column(
       children: [
         Container(
-          color: t.surface,
+          decoration: BoxDecoration(
+            border: Border(bottom: BorderSide(color: t.controlBorder)),
+          ),
           padding: const EdgeInsets.all(8),
           child: Row(
             children: [
@@ -332,17 +329,15 @@ class DetentDataTable<T> extends StatelessWidget {
                       values.length == columns.length,
                       'A cell is required for each column.',
                     );
-                    return DetentSurface(
+                    // One rule between rows instead of a frame per row.
+                    return DecoratedBox(
                       key: ValueKey(id),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(4),
-                        side: BorderSide(
-                          color: selected.contains(id)
-                              ? t.controlBorder
-                              : t.border,
-                        ),
+                      decoration: BoxDecoration(
+                        color: selected.contains(id)
+                            ? t.selectionSurface
+                            : null,
+                        border: Border(bottom: BorderSide(color: t.border)),
                       ),
-                      color: selected.contains(id) ? t.surface : t.raised,
                       child: DetentInk(
                         onTap: onSelectionChanged == null
                             ? null
@@ -372,10 +367,8 @@ class DetentDataTable<T> extends StatelessWidget {
                                     flex: columns[j].flex,
                                     child: DefaultTextStyle.merge(
                                       style: TextStyle(
-                                        color:
-                                            selected.contains(id) &&
-                                                t.highContrast
-                                            ? t.ink
+                                        color: selected.contains(id)
+                                            ? t.selectionForeground
                                             : t.ink,
                                       ),
                                       child: values[j],

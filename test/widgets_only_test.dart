@@ -307,7 +307,7 @@ void main() {
                 w is Container &&
                 w.decoration is BoxDecoration &&
                 (w.decoration! as BoxDecoration).borderRadius ==
-                    BorderRadius.circular(5),
+                    BorderRadius.circular(DetentRadius.control),
           )
           .first;
       expect(t.getSize(selectedSurface).width, 230);

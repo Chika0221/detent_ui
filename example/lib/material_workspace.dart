@@ -47,7 +47,7 @@ class _MaterialWorkspaceState extends State<MaterialWorkspace> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Text('素材ライブラリ', style: type.sectionTitle),
+            Text('素材ライブラリ', style: type.componentTitle),
             const SizedBox(height: 16),
             DetentSearchField(
               controller: search,
@@ -67,7 +67,7 @@ class _MaterialWorkspaceState extends State<MaterialWorkspace> {
             const SizedBox(height: 24),
             Text(
               '素材ごとに調整値を保持します。',
-              style: type.bodySmall.copyWith(color: t.muted),
+              style: type.caption.copyWith(color: t.muted),
             ),
           ],
         ),
@@ -76,7 +76,7 @@ class _MaterialWorkspaceState extends State<MaterialWorkspace> {
     final preview = Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Text('プレビュー', style: type.sectionTitle),
+        Text('プレビュー', style: type.componentTitle),
         const SizedBox(height: 12),
         Align(
           alignment: Alignment.centerLeft,
@@ -118,7 +118,7 @@ class _MaterialWorkspaceState extends State<MaterialWorkspace> {
           runSpacing: 8,
           children: [
             Text(names[material]),
-            Text(view == 0 ? '調整後を表示' : '確定値を表示', style: type.bodySmall),
+            Text(view == 0 ? '調整後を表示' : '確定値を表示', style: type.caption),
           ],
         ),
       ],
@@ -133,7 +133,7 @@ class _MaterialWorkspaceState extends State<MaterialWorkspace> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Text('素材の調整', style: type.sectionTitle),
+            Text('素材の調整', style: type.componentTitle),
             const SizedBox(height: 24),
             const Text('密度'),
             const SizedBox(height: 8),
@@ -185,7 +185,7 @@ class _MaterialWorkspaceState extends State<MaterialWorkspace> {
             const SizedBox(height: 16),
             Text(
               'この見本の確定値は画面を開いている間だけ保持されます。',
-              style: type.bodySmall.copyWith(color: t.muted),
+              style: type.caption.copyWith(color: t.muted),
             ),
           ],
         ),
@@ -210,7 +210,7 @@ class _MaterialWorkspaceState extends State<MaterialWorkspace> {
                 spacing: 16,
                 runSpacing: 8,
                 children: [
-                  Text('素材編集ワークスペース', style: type.title),
+                  Text('素材編集ワークスペース', style: type.section),
                   DetentButton(
                     label: '調整を確定',
                     variant: DetentButtonVariant.primary,
@@ -224,7 +224,7 @@ class _MaterialWorkspaceState extends State<MaterialWorkspace> {
               const SizedBox(height: 8),
               Text(
                 '素材を選び、密度を調整し、確定値と比較できます。',
-                style: type.bodyMedium.copyWith(color: t.muted),
+                style: type.body.copyWith(color: t.muted),
               ),
               const SizedBox(height: 8),
               const DetentDivider(),
@@ -261,7 +261,7 @@ class _MaterialWorkspaceState extends State<MaterialWorkspace> {
               const DetentDivider(),
               Text(
                 '${names[material]} / ${view == 0 ? '調整後を表示' : '確定値を表示'} / ${dirty ? '未確定' : '確定済み'}',
-                style: type.bodySmall,
+                style: type.caption,
               ),
             ],
           ),

@@ -86,7 +86,7 @@ class DetentPanel extends StatelessWidget {
     return DetentSurface(
       color: inset ? t.canvas : t.surface,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(DetentRadius.panel),
         side: BorderSide(color: t.border),
       ),
       child: Padding(
@@ -279,7 +279,7 @@ class DetentStatusBar extends StatelessWidget {
     padding: const EdgeInsets.all(8),
     color: DetentTheme.of(context).surface,
     child: DefaultTextStyle.merge(
-      style: const TextStyle(fontSize: 12),
+      style: DetentTheme.of(context).textTheme.caption,
       child: Row(children: children),
     ),
   );

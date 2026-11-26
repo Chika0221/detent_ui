@@ -191,7 +191,10 @@ class _GalleryBodyState extends State<GalleryBody> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         if (title != null) ...[
-          Text(title, style: theme.textTheme.sectionTitle),
+          Text(
+            title,
+            style: theme.textTheme.componentTitle.copyWith(color: theme.muted),
+          ),
           const SizedBox(height: 16),
         ],
         Wrap(spacing: 16, runSpacing: 16, children: children),
@@ -208,7 +211,7 @@ class _GalleryBodyState extends State<GalleryBody> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         spacing: 24,
         children: [
-          if (showTitle) Text(section.title, style: theme.textTheme.title),
+          if (showTitle) Text(section.title, style: theme.textTheme.section),
           ...children,
         ],
       ),
@@ -217,11 +220,11 @@ class _GalleryBodyState extends State<GalleryBody> {
     final content = Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Text('UIワークショップ', style: theme.textTheme.title.copyWith(fontSize: 32)),
+        Text('UIワークショップ', style: theme.textTheme.page),
         const SizedBox(height: 8),
         Text(
           'Detent UIの部品と画面作例',
-          style: theme.textTheme.bodyMedium.copyWith(color: theme.muted),
+          style: theme.textTheme.body.copyWith(color: theme.muted),
         ),
         const SizedBox(height: 16),
         section(_Section.controls, [
