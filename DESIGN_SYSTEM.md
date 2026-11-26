@@ -145,6 +145,8 @@ Operateの画面では、筐体（bg.chrome）、作業面（bg.canvas）、操�
 
 旧 `.pen` での対応（記録）は `ds.bg.chrome` → `semantic.<theme>.color.bg.chrome`、`ds.selection.surface / ink` → `color.selection.surface / foreground`、`ds.material.keyDepth` → `color.depth.key`、`ds.control.paddingX / Y` → `dimension.control.paddingInline / paddingBlock`。Penの追加色変数はmodeのlight / darkに対応する。高コントラストは正本に値を保持し、通常テーマの描画確認とは分けて扱う。
 
+選択面の濃さ（2026-11-26改訂）: 旧値（light `#DDE1DC` / dark `#414A46`）は操作面との比が1.27 / 1.26で、ToggleButtonやSegmentedControlの選択を面だけで見分けにくかった。light `#B5BDB8` / dark `#56615B`（操作面との比1.84 / 1.78、選択文字との比8.15 / 5.83）へ濃くし、選択中のラベルをsemibold（600）にして文字の強弱でも示す。暗いテーマでは明るい文字の4.5:1を保ったまま面だけで3:1を得られないため、面と文字の太さを併用する。下辺に位置マークを置く案は、書式トグルの下線と誤読されるため採用しなかった。
+
 選択されたタブには細い位置マークを添える。キーボードフォーカスは選択とは独立した2pxの外周とし、両方を同時に示せる。切り替え操作は既存の押し込みを維持し、選択面を過度に暗くしない。密度調整はノブと直接入力で行い、同じ値のドット表示とスライダーを重ねない。
 
 今回の変更範囲はPenの共通部品・見本・Material instrument画面、正本トークンと生成定数。Flutter Widgetの状態描画や入力動作の移行は別作業であり、静止画の確認で動作検証を代替しない。

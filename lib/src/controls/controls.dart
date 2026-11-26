@@ -133,8 +133,10 @@ class _DetentButtonState extends State<DetentButton> {
             child: IconTheme(
               data: IconThemeData(color: fg, size: 16),
               child: DefaultTextStyle(
-                style: DetentTheme.of(context).textTheme.labelLarge
-                    .copyWith(color: fg),
+                style: DetentTheme.of(context).textTheme.labelLarge.copyWith(
+                  color: fg,
+                  fontWeight: widget.selected ? FontWeight.w600 : null,
+                ),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -532,6 +534,9 @@ class _DetentSegmentedControlState<T> extends State<DetentSegmentedControl<T>> {
                                   o.label,
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
+                                    fontWeight: o.value == w.value
+                                        ? FontWeight.w600
+                                        : null,
                                     color: !o.enabled
                                         ? t.muted
                                         : o.value == w.value

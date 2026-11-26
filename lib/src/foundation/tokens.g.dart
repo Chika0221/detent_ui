@@ -30,10 +30,10 @@ abstract final class DetentTokens {
   static const primitive_color_black = Color(0xFF000000);
   static const primitive_color_display = Color(0xFF171A1C);
   static const primitive_color_chrome = Color(0xFFEDEEEB);
-  static const primitive_color_selection = Color(0xFFDDE1DC);
+  static const primitive_color_selection = Color(0xFFB5BDB8);
   static const primitive_color_keyDepth = Color(0xFFA5ADA8);
   static const primitive_color_darkChrome = Color(0xFF202528);
-  static const primitive_color_darkSelection = Color(0xFF414A46);
+  static const primitive_color_darkSelection = Color(0xFF56615B);
   static const primitive_color_darkKeyDepth = Color(0xFF59635E);
   static const double primitive_space_s0 = 0.0;
   static const double primitive_space_s4 = 4.0;
@@ -95,7 +95,7 @@ abstract final class DetentTokens {
   static const semantic_light_color_focus_ring = Color(0xFF5F6765);
   static const semantic_light_color_status_danger = Color(0xFFB83238);
   static const semantic_light_color_status_success = Color(0xFF2E6B50);
-  static const semantic_light_color_selection_surface = Color(0xFFDDE1DC);
+  static const semantic_light_color_selection_surface = Color(0xFFB5BDB8);
   static const semantic_light_color_selection_foreground = Color(0xFF202426);
   static const semantic_light_color_depth_key = Color(0xFFA5ADA8);
   static const double semantic_light_dimension_control_height = 40.0;
@@ -129,7 +129,7 @@ abstract final class DetentTokens {
   static const semantic_dark_color_focus_ring = Color(0xFFC4CBC7);
   static const semantic_dark_color_status_danger = Color(0xFFFF858A);
   static const semantic_dark_color_status_success = Color(0xFF8DD2AB);
-  static const semantic_dark_color_selection_surface = Color(0xFF414A46);
+  static const semantic_dark_color_selection_surface = Color(0xFF56615B);
   static const semantic_dark_color_selection_foreground = Color(0xFFF2F4F1);
   static const semantic_dark_color_depth_key = Color(0xFF59635E);
   static const double semantic_dark_dimension_control_height = 40.0;
