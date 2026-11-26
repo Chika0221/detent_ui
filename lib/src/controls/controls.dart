@@ -735,11 +735,12 @@ class _DetentRadioGroupState<T> extends State<DetentRadioGroup<T>> {
   }
 }
 
-/// An immediate on/off setting drawn as a physical slide switch.
+/// An immediate on/off setting drawn as a chunky slide switch that shares
+/// the Slider's look: a dark recessed bed, an oversized raised knob, ruler
+/// ticks, and engraved ON / OFF.
 ///
-/// [axis] defaults to [Axis.vertical]: a recessed slot with a ridged knob
-/// that slides up for on, engraved ON / OFF beside it. [Axis.horizontal]
-/// lays the same switch on its side: right is on, OFF and ON at the ends. Arrow keys along the axis set the
+/// [axis] defaults to [Axis.vertical] (up is on). [Axis.horizontal] lays the
+/// same switch on its side (right is on). Arrow keys along the axis set the
 /// value directly; Enter and Space toggle.
 class DetentSwitch extends StatelessWidget {
   const DetentSwitch({
@@ -789,14 +790,14 @@ class DetentSwitch extends StatelessWidget {
             children: [
               DetentControlSkin(
                 mechanism: vertical ? 'SwitchVertical' : 'Switch',
-                visualSize: vertical ? const Size(56, 48) : const Size(112, 28),
+                visualSize: vertical ? const Size(68, 56) : const Size(116, 44),
                 state: DetentControlState(
                   selected: value,
                   enabled: onChanged != null,
                 ),
                 inputBuilder: (_, _) => vertical
-                    ? const SizedBox(width: 60, height: 52)
-                    : const SizedBox(width: 116, height: 40),
+                    ? const SizedBox(width: 72, height: 60)
+                    : const SizedBox(width: 120, height: 48),
               ),
               if (label != null) ...[
                 const SizedBox(width: 8),

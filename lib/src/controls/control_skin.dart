@@ -167,12 +167,14 @@ class _StaticControlPainter extends CustomPainter {
 
     final center = size.center(Offset.zero);
     if (mechanism == 'SwitchVertical' || mechanism == 'Switch') {
-      // A slide switch: a dark recessed slot, a ridged knob with a 2px base
-      // like the keys, and engraved ON / OFF labels. Vertical: up is on.
-      // Horizontal: right is on, OFF and ON engraved at either end.
+      // A chunky slide switch in the Slider's language: a dark recessed bed,
+      // an oversized knob drawn like the Slider's raised cap with its offset
+      // base, and short ruler ticks at the two positions beside engraved
+      // ON / OFF.
+      // Vertical: up is on. Horizontal: right is on.
       final vertical = mechanism == 'SwitchVertical';
       final amount = (selectionValue ?? 0).clamp(0.0, 1.0);
-      const slotLong = 46.0, slotShort = 22.0, knobLong = 20.0;
+      const long = 48.0, short = 28.0, knobLong = 24.0, inset = 3.0;
       TextPainter engraving(String text, bool active) => TextPainter(
         text: TextSpan(
           text: text,
@@ -186,82 +188,84 @@ class _StaticControlPainter extends CustomPainter {
       )..layout();
       final on = engraving('ON', amount >= .5),
           off = engraving('OFF', amount < .5);
-      final slot = vertical
+      final bed = vertical
           ? Rect.fromCenter(
-              center: Offset(size.width - slotShort / 2 - 1, center.dy),
-              width: slotShort,
-              height: slotLong,
+              center: Offset(size.width - short / 2 - 1, center.dy - 1),
+              width: short,
+              height: long,
             )
           : Rect.fromCenter(
               center: Offset(
                 (size.width - on.width + off.width) / 2,
-                center.dy,
+                center.dy - 1,
               ),
-              width: slotLong,
-              height: slotShort,
+              width: long,
+              height: short,
             );
-      box(slot, theme.highContrast ? theme.canvas : theme.display, 4);
-      box(slot, theme.controlBorder, 4, outline: true);
-      final travel = slotLong - 6 - knobLong;
-      final depth = 2 * (1 - press);
+      box(bed, theme.highContrast ? theme.canvas : theme.display, 6);
+      box(bed, theme.controlBorder, 6, outline: true);
+      final travel = long - inset * 2 - knobLong;
+      final lift = 2 * press;
       final knob = vertical
           ? Rect.fromLTWH(
-              slot.left + 3,
-              slot.top + 3 + travel * (1 - amount) + 2 - depth,
-              slotShort - 6,
+              bed.left + inset,
+              bed.top + inset + travel * (1 - amount) + lift,
+              short - inset * 2,
               knobLong - 2,
             )
           : Rect.fromLTWH(
-              slot.left + 3 + travel * amount,
-              slot.top + 3 + 2 - depth,
+              bed.left + inset + travel * amount,
+              bed.top + inset + lift,
               knobLong,
-              slotShort - 8,
+              short - inset * 2 - 2,
             );
-      box(knob.shift(Offset(0, depth)), theme.controlBorder, 3);
-      box(knob, theme.raised, 3);
-      box(knob, theme.controlBorder, 3, outline: true);
+      box(knob.shift(Offset(1, 2 - lift)), theme.controlBorder, 4);
+      box(knob, theme.raised, 4);
+      box(knob, theme.controlBorder, 4, outline: true);
+      // One short mark on the knob, across the direction of travel.
       p
         ..style = PaintingStyle.stroke
-        ..strokeWidth = 1
+        ..strokeWidth = 2
+        ..strokeCap = StrokeCap.round
         ..color = theme.controlBorder;
-      for (final d in [-3.0, 0.0, 3.0]) {
-        if (vertical) {
-          final y = knob.center.dy + d;
-          canvas.drawLine(
-            Offset(knob.left + 4, y),
-            Offset(knob.right - 4, y),
-            p,
-          );
-        } else {
-          final x = knob.center.dx + d;
-          canvas.drawLine(
-            Offset(x, knob.top + 3),
-            Offset(x, knob.bottom - 3),
-            p,
-          );
-        }
+      final c = knob.center;
+      canvas.drawLine(
+        vertical ? c - const Offset(5, 0) : c - const Offset(0, 5),
+        vertical ? c + const Offset(5, 0) : c + const Offset(0, 5),
+        p,
+      );
+      // Ruler ticks at the two knob positions, outside the bed.
+      p
+        ..strokeWidth = 1
+        ..strokeCap = StrokeCap.butt;
+      final onAt = vertical
+          ? Offset(bed.left, bed.top + inset + knobLong / 2)
+          : Offset(bed.right - inset - knobLong / 2, bed.bottom);
+      final offAt = vertical
+          ? Offset(bed.left, bed.bottom - inset - knobLong / 2)
+          : Offset(bed.left + inset + knobLong / 2, bed.bottom);
+      for (final at in [onAt, offAt]) {
+        canvas.drawLine(
+          vertical ? at - const Offset(8, 0) : at + const Offset(0, 3),
+          vertical ? at - const Offset(3, 0) : at + const Offset(0, 8),
+          p,
+        );
       }
       if (vertical) {
         on.paint(
           canvas,
-          Offset(
-            slot.left - 6 - on.width,
-            slot.top + 3 + knobLong / 2 - on.height / 2,
-          ),
+          Offset(onAt.dx - 12 - on.width, onAt.dy - on.height / 2),
         );
         off.paint(
           canvas,
-          Offset(
-            slot.left - 6 - off.width,
-            slot.bottom - 3 - knobLong / 2 - off.height / 2,
-          ),
+          Offset(offAt.dx - 12 - off.width, offAt.dy - off.height / 2),
         );
       } else {
         off.paint(
           canvas,
-          Offset(slot.left - 6 - off.width, center.dy - off.height / 2),
+          Offset(bed.left - 6 - off.width, bed.center.dy - off.height / 2),
         );
-        on.paint(canvas, Offset(slot.right + 6, center.dy - on.height / 2));
+        on.paint(canvas, Offset(bed.right + 6, bed.center.dy - on.height / 2));
       }
       on.dispose();
       off.dispose();
