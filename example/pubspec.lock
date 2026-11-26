@@ -56,6 +56,13 @@ packages:
       relative: true
     source: path
     version: "0.8.0"
+  detent_ui_omarchy:
+    dependency: "direct main"
+    description:
+      path: "../packages/detent_ui_omarchy"
+      relative: true
+    source: path
+    version: "0.1.0"
   fake_async:
     dependency: transitive
     description:
