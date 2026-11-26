@@ -1,6 +1,6 @@
 # Detent Design System
 
-Flutter デスクトップ向けの UI パッケージ。`design_system.pen` の51部品（C01–C51）を
+Flutter デスクトップ向けの UI パッケージ。51部品（C01–C51）を
 `Detent` 接頭辞の Widget として実装しています。デザイン版は0.4、実装版は0.8.0です。操作アニメーションとPerforationはFlutter、既存の処理状態アニメーションはRiveで実装しています。
 
 ## ギャラリー
@@ -124,7 +124,7 @@ Row(children: const [
 入力枠・候補パネル・行・チェック表示・スクロールを共通実装にしています。
 Select はホストが値を管理する選択専用、ComboBox は文字入力で候補を絞り込めます。
 上下キー、Home / End、Enter、Escape、無効候補のスキップに対応します。
-候補面は `.pen` に合わせて角丸6px、行高36px（拡大文字では伸長）、入力枠との間隔8pxです。
+候補面は角丸6px、行高36px（拡大文字では伸長）、入力枠との間隔8pxです。
 
 ![共通の候補面を使うSelect](example/screenshots/select.png)
 
@@ -236,7 +236,7 @@ flutter test example/test/gallery_test.dart
 ギャラリーは4テーマと文字200%、幅1024 / 1440 / 1920を確認します。
 OS実機のIME・スクリーンリーダー・DPI・性能測定は別途必要で、Verified認定ではありません。
 
-設計の根拠: `DESIGN_SYSTEM.md`、`SPECIFICATION.md`、`design_system.pen`、`component_registry.json`。
+設計の根拠: `DESIGN_SYSTEM.md`、`SPECIFICATION.md`、`design_tokens.json`、`component_registry.json`。`design_system.pen` は旧デザインの記録で、更新していません。
 
 ### 動きの負荷を確認する
 
@@ -291,4 +291,4 @@ DetentResonanceGrid(
 - 可変行列と局所反応に合わせ、PerforationはFlutterで実装しています。Rive設定は既存の処理表示に引き続き適用されます。
 
 ギャラリー末尾のPerforationセクションではVariants・States、進捗4段階、Pointer・Audio・Notification、既存コンポーネントと組み合わせたワークスペースを操作できます。
-Token正本は`design_tokens.json`。`python3 tool/generate_tokens.py`でDartと確認用スナップショットを再生成します。Token生成はPenファイルを読みません。Penの参照・レイアウト検証はPen MCPで別に行います。
+Token正本は`design_tokens.json`。`python3 tool/generate_tokens.py`でDartと確認用スナップショットを再生成します。見た目の確認は `tool/update_screenshots.sh` でギャラリーのスクリーンショットを撮り直して行います（変更前の画像は `build/screenshots/before/` に退避されます）。

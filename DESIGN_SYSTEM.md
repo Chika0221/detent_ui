@@ -1,5 +1,7 @@
 # Detent Design System
 
+> 運用変更（2026-11-26）: デザインの正本をコードへ移しました。値は `design_tokens.json`、見た目はFlutterギャラリー（`example/`）とそのスクリーンショットで確認します。`design_system.pen` は旧デザインの記録として保持し、更新しません。手順は §4 を参照してください。
+
 > 実装追記（0.8.0）: 操作部の描画とアニメーションをFlutterへ移行。RiveはProgress・Meter・Skeleton・TaskStatus専用の7アートボードに限定しました。以下の旧Rive分類は設計時の記録で、現在の使い分けはREADME.mdを参照してください。
 
 
@@ -41,7 +43,7 @@ Nothingの構造美、AULAの操作モジュール、提示されたRive作例�
 
 ## 4. トークンの構造と正本
 
-正本は `design_tokens.json`。`design_tokens.resolved.json` は参照を解決した確認用スナップショット。`.pen` の共通変数・部品は、これらの値に対応させる。
+正本は `design_tokens.json`。`design_tokens.resolved.json` は参照を解決した確認用スナップショット。部品の見た目の正本はFlutter実装とギャラリー（`example/`）で、`design_system.pen` は2026-11時点の旧デザインの記録として更新しない。
 
 ```text
 primitive.color.yellow
@@ -65,7 +67,15 @@ DS/Button/Primary → Settings / Task / Workspace
 
 `$type`・`$value`・`{path.to.token}` の参照にはDTCG 2025.10の語彙を用いる。色はsRGBオブジェクト、寸法は値とpx、時間は値とmsで保持する。テーマの切り替えは本プロジェクトの明示的な名前空間による。外部ツールのテーマ解決や仕様の全機能を実装したと主張しない。
 
-値の変更は正本→参照解決→`.pen`反映→スクリーンショット比較の順で行う。現段階では自動同期のCIはなく、添付スナップショットとレポートを更新する運用とする。`.pen` だけを変更して正本へ戻さない変更を避ける。
+値の変更は次の順で行う。
+
+1. `design_tokens.json` を編集する。
+2. `python3 tool/generate_tokens.py` で `tokens.g.dart` と確認用スナップショットを再生成する。
+3. 部品・ギャラリーを修正し、`flutter analyze` とテストを通す。
+4. `tool/update_screenshots.sh` でギャラリーのスクリーンショットを撮り直し、変更前（`build/screenshots/before/`）と比較する。
+5. README・仕様・registryの記述を同じ版へ更新する。
+
+自動同期のCIはなく、スクリーンショットとレポートを更新する運用とする。生成物（`tokens.g.dart`）だけを直接変更して正本へ戻さない変更を避ける。
 
 ## 5. Foundations
 
@@ -133,7 +143,7 @@ DS08に、上の部品→厚み付きボタン→下の部品をgap 8pxで縦積
 
 Operateの画面では、筐体（bg.chrome）、作業面（bg.canvas）、操作面（bg.raised）の明度差で領域を分ける。選択はselection.surfaceとselection.foreground、キーの底面はdepth.keyを使い、黄色を装飾へ流用しない。ライト・ダーク・高コントラストの値は正本トークンで定義する。
 
-`.pen` の対応は `ds.bg.chrome` → `semantic.<theme>.color.bg.chrome`、`ds.selection.surface / ink` → `color.selection.surface / foreground`、`ds.material.keyDepth` → `color.depth.key`、`ds.control.paddingX / Y` → `dimension.control.paddingInline / paddingBlock`。Penの追加色変数はmodeのlight / darkに対応する。高コントラストは正本に値を保持し、通常テーマの描画確認とは分けて扱う。
+旧 `.pen` での対応（記録）は `ds.bg.chrome` → `semantic.<theme>.color.bg.chrome`、`ds.selection.surface / ink` → `color.selection.surface / foreground`、`ds.material.keyDepth` → `color.depth.key`、`ds.control.paddingX / Y` → `dimension.control.paddingInline / paddingBlock`。Penの追加色変数はmodeのlight / darkに対応する。高コントラストは正本に値を保持し、通常テーマの描画確認とは分けて扱う。
 
 選択されたタブには細い位置マークを添える。キーボードフォーカスは選択とは独立した2pxの外周とし、両方を同時に示せる。切り替え操作は既存の押し込みを維持し、選択面を過度に暗くしない。密度調整はノブと直接入力で行い、同じ値のドット表示とスライダーを重ねない。
 
@@ -154,7 +164,7 @@ layerの数値はUI内の相対順序であり、OSウィンドウ順序では�
 
 ## 7. コンポーネントの契約
 
-既存48部品の用途・優先順位は `SPECIFICATION.md` を参照する。`.pen` のC番号付きセットは比較・レビュー用として保持する。追加した `DS/` 部品は単一状態の再利用シンボルとし、パターン画面ではrefを使って配置する。
+既存48部品の用途・優先順位は `SPECIFICATION.md` を参照する。旧 `.pen` のC番号付きセットは記録として残し、比較・レビューはギャラリーのC番号付きカードで行う。追加した `DS/` 部品は単一状態の再利用シンボルとし、パターン画面ではrefを使って配置する。
 
 各部品は、用途、使わない場面、variant、size、state、slot、入力、イベント、Focus、Semantics、motion、fallback、token binding、使用例、変更履歴を持つ。
 
@@ -259,7 +269,7 @@ Draft → Design reviewed → Implemented → Verified → Deprecated。
 2. token / variant / component / patternのどの変更か選ぶ。
 3. 全状態、light/dark/high contrast、keyboard/reduced motionを設計する。
 4. スクリーンショットと互換性・移行案を確認する。
-5. 正本・`.pen`・仕様・registryを同じ版へ更新する。
+5. 正本・実装・ギャラリーのスクリーンショット・仕様・registryを同じ版へ更新する。
 6. 実装とOS検証が完了してからVerifiedへ進める。
 
 責任者はプロジェクトのmaintainerが担当し、特定の個人をこの時点で指名しない。
@@ -275,7 +285,7 @@ Draft → Design reviewed → Implemented → Verified → Deprecated。
 - 部品の文字・アイコン・選択面の配置と長い日本語を確認する。
 - interaction / semantics / fallback / motion / IMEの実装検証を行う。
 - profileモードのフレーム時間とメモリ、controllerの破棄を検証する。
-- token・registry・docs・`.pen`・実装の版に食い違いがない。
+- token・registry・docs・実装・スクリーンショットの版に食い違いがない。
 
 ## 13. 成果物と次の実装単位
 
@@ -287,7 +297,9 @@ Draft → Design reviewed → Implemented → Verified → Deprecated。
 | design_tokens.resolved.json | 参照を解決した確認用の値 |
 | token_validation.json | aliasと代表色の計算結果 |
 | component_registry.json | 部品・patternの対応と成熟度 |
-| ui_design.pen | 元の8ボード＋デザインシステムの9ボード |
+| design_system.pen | 旧デザインの記録（更新しない） |
+| example/ / example/screenshots | 見た目の確認用ギャラリーとスクリーンショット |
+| tool/update_screenshots.sh | ギャラリーのスクリーンショット更新 |
 | design_system_overview.png | 追加したシステムボードの一覧 |
 
 次は、Theme・Focus・MotionPolicyの基盤とButton / TextField / Switchの実装を最小単位として検証する。その後、Settings formとMaster–detailへ広げる。大量の部品を先に実装し、最後にトークンへ寄せる順序を避ける。

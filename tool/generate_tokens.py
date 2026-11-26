@@ -39,4 +39,4 @@ for key, token in flat.items():
 lines.append('}')
 (root / 'lib/src/foundation/tokens.g.dart').write_text('\n'.join(lines)+'\n')
 (root / 'design_tokens.resolved.json').write_text(json.dumps({key: {**token, '$value': resolve(key)} for key, token in flat.items()}, ensure_ascii=False, indent=2)+'\n')
-print(f'Resolved {len(flat)} tokens. Validate Pen component links through the Pen MCP tools separately.')
+print(f'Resolved {len(flat)} tokens. Check visuals with tool/update_screenshots.sh.')
