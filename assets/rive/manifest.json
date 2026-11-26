@@ -5,7 +5,7 @@
   "license": "Project-owned geometric artwork",
   "skins": [
     {
-      "component": "NuiProgress",
+      "component": "DetentProgress",
       "artboard": "Progress",
       "stateMachine": "Detent",
       "viewModel": "Progress",
@@ -53,7 +53,7 @@
       ]
     },
     {
-      "component": "NuiCircularProgress",
+      "component": "DetentCircularProgress",
       "artboard": "CircularProgress",
       "stateMachine": "Detent",
       "viewModel": "CircularProgress",
@@ -99,7 +99,7 @@
       ]
     },
     {
-      "component": "NuiSpinner",
+      "component": "DetentSpinner",
       "artboard": "Spinner",
       "stateMachine": "Detent",
       "viewModel": "Spinner",
@@ -145,7 +145,7 @@
       ]
     },
     {
-      "component": "NuiMeter",
+      "component": "DetentMeter",
       "artboard": "Meter",
       "stateMachine": "Detent",
       "viewModel": "Meter",
@@ -191,7 +191,7 @@
       ]
     },
     {
-      "component": "NuiTaskStatus",
+      "component": "DetentTaskStatus",
       "artboard": "TaskStatus",
       "stateMachine": "Detent",
       "viewModel": "TaskStatus",
@@ -237,7 +237,7 @@
       ]
     },
     {
-      "component": "NuiTaskGlyph",
+      "component": "DetentTaskGlyph",
       "artboard": "TaskGlyph",
       "stateMachine": "Detent",
       "viewModel": "TaskGlyph",
@@ -287,7 +287,7 @@
       ]
     },
     {
-      "component": "NuiSkeleton",
+      "component": "DetentSkeleton",
       "artboard": "Skeleton",
       "stateMachine": "Detent",
       "viewModel": "Skeleton",

@@ -3,8 +3,8 @@ import '../foundation/primitives.dart';
 import 'package:flutter/gestures.dart' show kPrimaryButton;
 
 @immutable
-class NuiControlState {
-  const NuiControlState({
+class DetentControlState {
+  const DetentControlState({
     this.selected = false,
     this.enabled = true,
     this.value = 0,
@@ -17,8 +17,8 @@ class NuiControlState {
 }
 
 /// Flutter-only control motion. No Rive controller or asset is created here.
-class NuiControlSkin extends StatefulWidget {
-  const NuiControlSkin({
+class DetentControlSkin extends StatefulWidget {
+  const DetentControlSkin({
     super.key,
     required this.mechanism,
     required this.state,
@@ -27,15 +27,15 @@ class NuiControlSkin extends StatefulWidget {
     this.resize = false,
   });
   final String mechanism;
-  final NuiControlState state;
+  final DetentControlState state;
   final Widget Function(BuildContext, bool) inputBuilder;
   final Size? visualSize;
   final bool resize;
   @override
-  State<NuiControlSkin> createState() => _NuiControlSkinState();
+  State<DetentControlSkin> createState() => _DetentControlSkinState();
 }
 
-class _NuiControlSkinState extends State<NuiControlSkin> {
+class _DetentControlSkinState extends State<DetentControlSkin> {
   bool pressed = false;
   @override
   Widget build(BuildContext context) => Listener(
@@ -54,7 +54,7 @@ class _NuiControlSkinState extends State<NuiControlSkin> {
             ? 1.0
             : 0.0,
       ),
-      duration: NuiTheme.of(context).duration(
+      duration: DetentTheme.of(context).duration(
         context,
         widget.mechanism == 'SegmentedControl'
             ? 220
@@ -77,14 +77,14 @@ class _NuiControlSkinState extends State<NuiControlSkin> {
                   child: RepaintBoundary(
                     child: TweenAnimationBuilder<double>(
                       tween: Tween(end: pressed ? 1.0 : 0.0),
-                      duration: NuiTheme.of(context)
+                      duration: DetentTheme.of(context)
                           .duration(context, pressed ? 60 : 120),
                       curve: const Cubic(.2, 0, .2, 1),
                       builder: (ctx, press, _) => CustomPaint(
                         painter: _StaticControlPainter(
                           widget.mechanism,
                           widget.state,
-                          NuiTheme.of(context),
+                          DetentTheme.of(context),
                           selectionValue: position,
                           press: press,
                         ),
@@ -113,8 +113,8 @@ class _StaticControlPainter extends CustomPainter {
   final double? selectionValue;
   final double press;
   final String mechanism;
-  final NuiControlState state;
-  final NuiThemeData theme;
+  final DetentControlState state;
+  final DetentThemeData theme;
   @override
   void paint(Canvas canvas, Size size) {
     final p = Paint()..isAntiAlias = true;
@@ -146,11 +146,7 @@ class _StaticControlPainter extends CustomPainter {
     if (mechanism == 'Switch') {
       final amount = (selectionValue ?? 0).clamp(0.0, 1.0);
       final track = Rect.fromCenter(center: center, width: 48, height: 26);
-      box(
-        track,
-        Color.lerp(theme.border, theme.display, amount)!,
-        13,
-      );
+      box(track, Color.lerp(theme.border, theme.display, amount)!, 13);
       if (theme.dark) box(track, theme.controlBorder, 13, outline: true);
       circle(
         center + Offset(-11 + 22 * amount, 0),

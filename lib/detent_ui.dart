@@ -16,12 +16,12 @@ export 'src/rive/artwork.dart';
 
 export 'src/foundation/primitives.dart'
     show
-        NuiBox,
-        NuiSurface,
-        NuiPlainButton,
-        NuiIconAction,
-        NuiTile,
-        NuiPopupAnchor,
-        NuiPopupController;
+        DetentBox,
+        DetentSurface,
+        DetentPlainButton,
+        DetentIconAction,
+        DetentTile,
+        DetentPopupAnchor,
+        DetentPopupController;
 
 export 'src/perforation/perforation.dart';

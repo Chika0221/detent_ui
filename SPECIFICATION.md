@@ -93,58 +93,58 @@ Nothingからは、構造を見せる考え方、モノクロを中心とした�
 
 ## 5. コンポーネント一覧
 
-接頭辞は暫定で `Nui`。P0は最初の利用に必要、P1はデスクトップ体験の充実、P2は用途に応じて追加する。Rive区分は、A=標準の動的スキン、B=任意の拡張、F=Flutter主体。すべてのA部品にも静的な代替表現を用意する。以下の48項目をデザイン対象とする。
+接頭辞は暫定で `Detent`。P0は最初の利用に必要、P1はデスクトップ体験の充実、P2は用途に応じて追加する。Rive区分は、A=標準の動的スキン、B=任意の拡張、F=Flutter主体。すべてのA部品にも静的な代替表現を用意する。以下の48項目をデザイン対象とする。
 
 | ID | コンポーネント | 主な用途・バリエーション | 優先 | Rive |
 |---|---|---|---|---|
-| C01 | NuiButton | primary / secondary / quiet / danger、loading | P0 | A |
-| C02 | NuiIconButton | tooltip付き、丸／角、toggle可能 | P0 | A |
-| C03 | NuiToggleButton | ツールのon/off、選択固定 | P0 | A |
-| C04 | NuiKeycap | ショートカット表示／押下入力の可視化 | P1 | A |
-| C05 | NuiSegmentedControl | 排他的な表示モードの切り替え | P0 | A |
-| C06 | NuiCheckbox | off / on / mixed | P0 | A |
-| C07 | NuiRadioGroup | 単一選択、グループ単位のフォーカス | P0 | A |
-| C08 | NuiSwitch | 即時に適用される設定のon/off | P0 | A |
-| C09 | NuiSlider | 連続／離散値、目盛り／値表示 | P0 | A |
-| C10 | NuiRangeSlider | 上下限の指定、2つのつまみ | P2 | A |
-| C11 | NuiRotaryKnob | ズーム・強度などの数値調整 | P1 | A |
-| C12 | NuiNumberStepper | 数値入力、増減、単位、上下限 | P0 | F |
-| C13 | NuiTextField | 一行入力、prefix/suffix、clear | P0 | F |
-| C14 | NuiTextArea | 複数行、伸縮、カウンター | P0 | F |
-| C15 | NuiSearchField | 検索、clear、ショートカット表示 | P0 | F |
-| C16 | NuiSelect | 固定候補から選択、ポップアップ | P0 | F |
-| C17 | NuiComboBox | 入力と候補選択、空／loading | P1 | F |
-| C18 | NuiShortcutRecorder | キー組み合わせの記録と競合表示 | P1 | F |
-| C19 | NuiFormField | ラベル、説明、必須、エラーの関連付け | P0 | F |
-| C20 | NuiTabs | content / document、閉じる、未保存表示 | P0 | A |
-| C21 | NuiNavigationRail | コンパクトな主要画面移動 | P1 | B |
-| C22 | NuiSidebarItem | 階層、選択、件数、補助操作 | P0 | B |
-| C23 | NuiBreadcrumb | 階層移動、長いパスの折り畳み | P1 | F |
-| C24 | NuiMenuBar | File/Edit/View等、OS向け差し替え口 | P1 | F |
-| C25 | NuiDropdownMenu | actions / checkbox / radio / submenu | P0 | F |
-| C26 | NuiContextMenu | 右クリック／Shift+F10、選択に対応 | P1 | F |
-| C27 | NuiCommandPalette | コマンド検索、分類、キー表示 | P1 | B |
-| C28 | NuiAppShell | メニュー、ナビ、本文、補助領域、status | P0 | F |
-| C29 | NuiPanel | header / content / footer、inset / raised | P0 | F |
-| C30 | NuiToolbar | 操作群、区切り、overflow | P0 | F |
-| C31 | NuiSplitView | リサイズ、最小幅、折り畳み | P1 | F |
-| C32 | NuiStatusBar | 保存・接続・処理状態、クリック可能項目 | P1 | B |
-| C33 | NuiListRow | 選択、補足、末尾操作、密な一覧 | P0 | F |
-| C34 | NuiTreeView | 展開、複数選択、キーボード探索 | P1 | B |
-| C35 | NuiDataTable | sort、選択、固定ヘッダー、仮想化 | P1 | F |
-| C36 | NuiBadge | 件数／状態、icon＋text | P0 | F |
-| C37 | NuiTooltip | hover／focus、ショートカット補足 | P0 | F |
-| C38 | NuiProgress | linear / circular、確定／不確定 | P0 | A |
-| C39 | NuiDotMatrix | 数字・短い状態、静的／遷移 | P1 | A |
-| C40 | NuiMeter | 信号、稼働、値の範囲、目盛り | P2 | A |
-| C41 | NuiToast | 完了／失敗／取り消し可能操作 | P0 | B |
-| C42 | NuiInlineAlert | エラー・注意・情報と回復操作 | P0 | F |
-| C43 | NuiDialog | 確認／フォーム／危険操作 | P0 | B |
-| C44 | NuiPopover | 補助設定、アンカーに追従 | P0 | F |
-| C45 | NuiEmptyState | 状況、説明、次の操作 | P0 | B |
-| C46 | NuiSkeleton | 読み込み時のレイアウト確保 | P1 | F |
-| C47 | NuiTaskStatus | idle / running / success / error / canceled | P1 | A |
-| C48 | NuiScrollArea | 常時／自動スクロールバー、大量データ | P0 | F |
+| C01 | DetentButton | primary / secondary / quiet / danger、loading | P0 | A |
+| C02 | DetentIconButton | tooltip付き、丸／角、toggle可能 | P0 | A |
+| C03 | DetentToggleButton | ツールのon/off、選択固定 | P0 | A |
+| C04 | DetentKeycap | ショートカット表示／押下入力の可視化 | P1 | A |
+| C05 | DetentSegmentedControl | 排他的な表示モードの切り替え | P0 | A |
+| C06 | DetentCheckbox | off / on / mixed | P0 | A |
+| C07 | DetentRadioGroup | 単一選択、グループ単位のフォーカス | P0 | A |
+| C08 | DetentSwitch | 即時に適用される設定のon/off | P0 | A |
+| C09 | DetentSlider | 連続／離散値、目盛り／値表示 | P0 | A |
+| C10 | DetentRangeSlider | 上下限の指定、2つのつまみ | P2 | A |
+| C11 | DetentRotaryKnob | ズーム・強度などの数値調整 | P1 | A |
+| C12 | DetentNumberStepper | 数値入力、増減、単位、上下限 | P0 | F |
+| C13 | DetentTextField | 一行入力、prefix/suffix、clear | P0 | F |
+| C14 | DetentTextArea | 複数行、伸縮、カウンター | P0 | F |
+| C15 | DetentSearchField | 検索、clear、ショートカット表示 | P0 | F |
+| C16 | DetentSelect | 固定候補から選択、ポップアップ | P0 | F |
+| C17 | DetentComboBox | 入力と候補選択、空／loading | P1 | F |
+| C18 | DetentShortcutRecorder | キー組み合わせの記録と競合表示 | P1 | F |
+| C19 | DetentFormField | ラベル、説明、必須、エラーの関連付け | P0 | F |
+| C20 | DetentTabs | content / document、閉じる、未保存表示 | P0 | A |
+| C21 | DetentNavigationRail | コンパクトな主要画面移動 | P1 | B |
+| C22 | DetentSidebarItem | 階層、選択、件数、補助操作 | P0 | B |
+| C23 | DetentBreadcrumb | 階層移動、長いパスの折り畳み | P1 | F |
+| C24 | DetentMenuBar | File/Edit/View等、OS向け差し替え口 | P1 | F |
+| C25 | DetentDropdownMenu | actions / checkbox / radio / submenu | P0 | F |
+| C26 | DetentContextMenu | 右クリック／Shift+F10、選択に対応 | P1 | F |
+| C27 | DetentCommandPalette | コマンド検索、分類、キー表示 | P1 | B |
+| C28 | DetentAppShell | メニュー、ナビ、本文、補助領域、status | P0 | F |
+| C29 | DetentPanel | header / content / footer、inset / raised | P0 | F |
+| C30 | DetentToolbar | 操作群、区切り、overflow | P0 | F |
+| C31 | DetentSplitView | リサイズ、最小幅、折り畳み | P1 | F |
+| C32 | DetentStatusBar | 保存・接続・処理状態、クリック可能項目 | P1 | B |
+| C33 | DetentListRow | 選択、補足、末尾操作、密な一覧 | P0 | F |
+| C34 | DetentTreeView | 展開、複数選択、キーボード探索 | P1 | B |
+| C35 | DetentDataTable | sort、選択、固定ヘッダー、仮想化 | P1 | F |
+| C36 | DetentBadge | 件数／状態、icon＋text | P0 | F |
+| C37 | DetentTooltip | hover／focus、ショートカット補足 | P0 | F |
+| C38 | DetentProgress | linear / circular、確定／不確定 | P0 | A |
+| C39 | DetentDotMatrix | 数字・短い状態、静的／遷移 | P1 | A |
+| C40 | DetentMeter | 信号、稼働、値の範囲、目盛り | P2 | A |
+| C41 | DetentToast | 完了／失敗／取り消し可能操作 | P0 | B |
+| C42 | DetentInlineAlert | エラー・注意・情報と回復操作 | P0 | F |
+| C43 | DetentDialog | 確認／フォーム／危険操作 | P0 | B |
+| C44 | DetentPopover | 補助設定、アンカーに追従 | P0 | F |
+| C45 | DetentEmptyState | 状況、説明、次の操作 | P0 | B |
+| C46 | DetentSkeleton | 読み込み時のレイアウト確保 | P1 | F |
+| C47 | DetentTaskStatus | idle / running / success / error / canceled | P1 | A |
+| C48 | DetentScrollArea | 常時／自動スクロールバー、大量データ | P0 | F |
 
 Theme、Typography、Icon、Divider、FocusRing、MotionPolicyは共通基盤とし、上記48部品を支える。業務固有のチャット、エディター、再生エンジン、ファイル管理は追加層で構成する。
 
@@ -245,15 +245,15 @@ Riveを積極的に使う対象は、ボタンのキー機構、スイッチ、�
 
 ## 8. テーマと公開APIの方針
 
-`NuiThemeData` は色・文字・間隔・密度・形・motion・skinを保持する。`NuiTheme` で配布し、各部品で必要な値だけ上書きできるようにする。
+`DetentThemeData` は色・文字・間隔・密度・形・motion・skinを保持する。`DetentTheme` で配布し、各部品で必要な値だけ上書きできるようにする。
 
 代表API案（実装確定ではない）:
 
 ```dart
-NuiButton(label: '保存', onPressed: save, variant: NuiButtonVariant.primary)
-NuiSwitch(value: autoSave, onChanged: setAutoSave)
-NuiRotaryKnob(value: zoom, min: 25, max: 200, onChanged: setZoom)
-NuiTaskStatus(state: taskState, progress: progress, label: '書き出し')
+DetentButton(label: '保存', onPressed: save, variant: DetentButtonVariant.primary)
+DetentSwitch(value: autoSave, onChanged: setAutoSave)
+DetentRotaryKnob(value: zoom, min: 25, max: 200, onChanged: setZoom)
+DetentTaskStatus(state: taskState, progress: progress, label: '書き出し')
 ```
 
 - 値を持つ部品はcontrolledを基本とし、初期値型APIを提供する場合も同時指定を禁止する。

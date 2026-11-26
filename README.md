@@ -1,7 +1,7 @@
 # Detent Design System
 
 Flutter デスクトップ向けの UI パッケージ。`design_system.pen` の51部品（C01–C51）を
-`Nui` 接頭辞の Widget として実装しています。デザイン版は0.4、実装版は0.8.0です。操作アニメーションとPerforationはFlutter、既存の処理状態アニメーションはRiveで実装しています。
+`Detent` 接頭辞の Widget として実装しています。デザイン版は0.4、実装版は0.8.0です。操作アニメーションとPerforationはFlutter、既存の処理状態アニメーションはRiveで実装しています。
 
 ## ギャラリー
 
@@ -65,13 +65,13 @@ Progress・ライブMeter・処理中のTaskStatus・Skeletonを、実際の `.r
 import 'package:flutter/widgets.dart';
 import 'package:detent_ui/detent_ui.dart';
 
-NuiApp(
-  home: NuiAppShell(
-    body: NuiPanel(
+DetentApp(
+  home: DetentAppShell(
+    body: DetentPanel(
       header: const Text('プロジェクト'),
-      child: NuiButton(
+      child: DetentButton(
         label: '保存',
-        variant: NuiButtonVariant.primary,
+        variant: DetentButtonVariant.primary,
         onPressed: save,
       ),
     ),
@@ -80,9 +80,9 @@ NuiApp(
 ```
 
 全コンポーネントは `package:flutter/widgets.dart` の基礎 Widget で構成しています。
-`NuiApp` も `WidgetsApp` を使用します。入力・メニュー・通知・ダイアログを含め、
+`DetentApp` も `WidgetsApp` を使用します。入力・メニュー・通知・ダイアログを含め、
 MaterialApp、Scaffold、Material、Theme の祖先は必要ありません。
-既存の `WidgetsApp` では、対象領域を `NuiTheme(data: data, child: ...)` で包んでください。
+既存の `WidgetsApp` では、対象領域を `DetentTheme(data: data, child: ...)` で包んでください。
 ポップアップやダイアログを使う場合は Navigator / Overlay が必要です（WidgetsApp の home / routes で用意されます）。
 
 ```dart
@@ -92,26 +92,26 @@ WidgetsApp(
     settings: settings,
     pageBuilder: (context, animation, secondaryAnimation) => builder(context),
   ),
-  home: NuiTheme(
-    data: const NuiThemeData(),
-    child: NuiBox(body: YourScreen()),
+  home: DetentTheme(
+    data: const DetentThemeData(),
+    child: DetentBox(body: YourScreen()),
   ),
 )
 ```
 
-テーマ切替は `NuiThemeMode`、範囲値は `NuiRangeValues` を使います。
-0.6 以前の `materialTheme` は削除しました。`NuiToast.show` の戻り値は `NuiToastHandle` で、
+テーマ切替は `DetentThemeMode`、範囲値は `DetentRangeValues` を使います。
+0.6 以前の `materialTheme` は削除しました。`DetentToast.show` の戻り値は `DetentToastHandle` で、
 `close()` で通知を閉じられます。値とイベントはアプリ側で管理します。
 
 ### Keycap の幅
 
 ```dart
 Row(children: const [
-  NuiKeycap(label: 'K'),                 // 1u（既定）
+  DetentKeycap(label: 'K'),                 // 1u（既定）
   SizedBox(width: 8),
-  NuiKeycap(label: 'Shift', units: 1.5),
+  DetentKeycap(label: 'Shift', units: 1.5),
   SizedBox(width: 8),
-  NuiKeycap(label: 'Enter', units: 2),
+  DetentKeycap(label: 'Enter', units: 2),
 ])
 ```
 
@@ -176,8 +176,8 @@ ATELIER-STUDIO側の既存UIの置き換えは行っていません。
 | TaskStatus | Rive。処理中／キャンセル中のドット波、完了アイコン。完了後のループなし |
 | Skeleton | Rive。読み込み中の掃引 |
 
-`NuiApp` / `NuiThemeData` は `riveEnabled: true` が既定です。
-`NuiApp(riveEnabled: false, home: ...)` で処理表示もFlutterの代替描画に切り替えます。
+`DetentApp` / `DetentThemeData` は `riveEnabled: true` が既定です。
+`DetentApp(riveEnabled: false, home: ...)` で処理表示もFlutterの代替描画に切り替えます。
 通常の操作部はこの設定によらずRiveの読み込み・コントローラー生成を行いません。
 
 Flutterは値・イベント・編集・Focus・Semanticsを管理します。操作の結果はアニメーションの終了を待たず通知されます。
@@ -189,15 +189,15 @@ Riveファイルは使用中共有し、controller / view model / bindingは各�
 進捗率とメーターは実データを保ち、演出で架空の値を生成しません。
 進捗未取得のTaskStatusは率を表示せずドットの波で活動を伝え、待機・完了後は静止します。
 
-独自の処理表示にも `NuiRiveArtwork` を利用できます。描画はIgnorePointer / ExcludeSemantics付きで、
+独自の処理表示にも `DetentRiveArtwork` を利用できます。描画はIgnorePointer / ExcludeSemantics付きで、
 ラベルはホスト側に用意してください。
 
 ```dart
 SizedBox(
   width: 32, height: 32,
-  child: NuiRiveArtwork(
+  child: DetentRiveArtwork(
     artboard: 'Spinner',
-    state: NuiSkinState(progress: .25, indeterminate: true),
+    state: DetentSkinState(progress: .25, indeterminate: true),
     fallback: SizedBox.shrink(),
   ),
 )
@@ -206,7 +206,7 @@ SizedBox(
 `progress` は0…1、`indeterminate` は処理中のループ、Progressの `taskState: 1` は実進捗の光です。
 `TaskGlyph` の `taskState` はidle=0 / running=1 / success=2 / error=3 / canceled=4 / canceling=5。
 メーターのバー本数を標準32以外に指定した場合は、指定本数のFlutter描画を保持します。
-0.7からの移行では、独自の `NuiRiveArtwork` に操作部のアートボード名を指定していた箇所を通常のWidgetへ変更してください。
+0.7からの移行では、独自の `DetentRiveArtwork` に操作部のアートボード名を指定していた箇所を通常のWidgetへ変更してください。
 
 `rive` runtimeは0.14.11に固定。Linuxの初回テスト前は `dart run rive_native:setup --platform linux` を実行します。
 
@@ -255,26 +255,26 @@ Rive の描画を再描画境界で分離し、画面外の代替進捗アニメ
 ## Signature Systems / Perforation
 
 同じ正円・ピッチ・奥行きを、素材、反応、情報表示で共有するサブシステムです。
-`NuiHole` / `NuiHoleGrid` / `NuiPerforationPattern` が共通Primitiveです。
+`DetentHole` / `DetentHoleGrid` / `DetentPerforationPattern` が共通Primitiveです。
 描画はCustomPainterへまとめ、穴ごとのWidget・Ticker・Semanticsは生成しません。
 
 ```dart
-NuiPerforationSurface(
-  arrangement: NuiPerforationArrangement.hexagonal,
-  coverage: NuiPerforationCoverage.edge,
+DetentPerforationSurface(
+  arrangement: DetentPerforationArrangement.hexagonal,
+  coverage: DetentPerforationCoverage.edge,
   child: const Text('System health'),
 );
 
-const NuiSpeakerMatrix.progress(value: .75, label: '書き出し');
-const NuiSpeakerMatrix.status(
-  status: NuiConnectionStatus.connected, label: '入力デバイス');
-const NuiSpeakerMatrix.level(levels: [.2, .5, .8, 1], label: '入力レベル');
-const NuiSpeakerMatrix.signal(strength: 4, label: '接続強度');
-const NuiSpeakerMatrix.loading(label: '処理中');
+const DetentSpeakerMatrix.progress(value: .75, label: '書き出し');
+const DetentSpeakerMatrix.status(
+  status: DetentConnectionStatus.connected, label: '入力デバイス');
+const DetentSpeakerMatrix.level(levels: [.2, .5, .8, 1], label: '入力レベル');
+const DetentSpeakerMatrix.signal(strength: 4, label: '接続強度');
+const DetentSpeakerMatrix.loading(label: '処理中');
 
-NuiResonanceGrid(
-  state: NuiResonanceState.listening,
-  interaction: NuiResonanceInteraction.audio,
+DetentResonanceGrid(
+  state: DetentResonanceState.listening,
+  interaction: DetentResonanceInteraction.audio,
   level: inputLevel, // ホストが渡す0〜1。マイク取得・権限要求は行わない。
 );
 ```

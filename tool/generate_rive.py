@@ -43,7 +43,7 @@ class Board:
         self.rest_id=uid()
         self.timeline(self.rest_id,'Rest',[])
         self.layer('Data binding',[(self.rest_id,None,None)])
-        MANIFEST.append({'component':'Nui'+name,'artboard':name,'stateMachine':'Detent','viewModel':name,
+        MANIFEST.append({'component':'Detent'+name,'artboard':name,'stateMachine':'Detent','viewModel':name,
             'properties':list(self.props),'fallback':'Flutter','source':'rive/detent/scene.rml'})
     def bind(self,node,key,prop,converter=None):
         attrs=dict(sourcePathIds=f'{self.vm}-{self.props[prop]}',propertyKey=key)

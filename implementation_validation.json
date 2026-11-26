@@ -61,7 +61,7 @@
   ],
   "widgetsAppValidation": {
     "materialImports": 0,
-    "host": "WidgetsApp + NuiTheme",
+    "host": "WidgetsApp + DetentTheme",
     "checks": [
       "keyboard Select skips disabled options and follows controlled value",
       "Select and ComboBox share field height and popup geometry",
@@ -145,7 +145,7 @@
     "processingRenderer": "Rive only for Progress, Meter, Skeleton, TaskStatus",
     "testsPassed": 42,
     "analyze": "No issues found",
-    "gallery": "4 themes, 200% text, 1024/1440/1920 widths; interactive control subtrees contain no NuiRiveArtwork",
+    "gallery": "4 themes, 200% text, 1024/1440/1920 widths; interactive control subtrees contain no DetentRiveArtwork",
     "renderedAnimationTest": "TaskStatus, Meter and Progress pixels change while active, keep progress .68, and stop changing when deactivated",
     "screenshotsRegenerated": true,
     "profileTiming": "Not remeasured; performance_validation.json contains labelled 0.7 historical observations"

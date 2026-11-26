@@ -7,8 +7,8 @@ import '../feedback/feedback.dart';
 import 'package:flutter/services.dart';
 import 'package:forui_lucide/forui_lucide.dart';
 
-class NuiListRow extends StatelessWidget {
-  const NuiListRow({
+class DetentListRow extends StatelessWidget {
+  const DetentListRow({
     super.key,
     required this.label,
     this.description,
@@ -23,18 +23,22 @@ class NuiListRow extends StatelessWidget {
   final bool selected;
   final VoidCallback? onPressed;
   @override
-  Widget build(BuildContext context) => NuiSurface(
+  Widget build(BuildContext context) => DetentSurface(
     color: selected
-        ? NuiTheme.of(context).surface
-        : NuiTheme.of(context).raised,
+        ? DetentTheme.of(context).surface
+        : DetentTheme.of(context).raised,
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(4),
-      side: BorderSide(color: selected ? NuiTheme.of(context).controlBorder : NuiTheme.of(context).border),
+      side: BorderSide(
+        color: selected
+            ? DetentTheme.of(context).controlBorder
+            : DetentTheme.of(context).border,
+      ),
     ),
-    child: NuiTile(
+    child: DetentTile(
       dense: true,
       selected: selected,
-      selectedColor: NuiTheme.of(context).ink,
+      selectedColor: DetentTheme.of(context).ink,
       leading: leading,
       trailing: trailing,
       title: Text(label),
@@ -42,8 +46,8 @@ class NuiListRow extends StatelessWidget {
           ? null
           : Text(
               description!,
-              style: NuiTheme.of(context).textTheme.bodySmall
-                  .copyWith(color: NuiTheme.of(context).muted),
+              style: DetentTheme.of(context).textTheme.bodySmall
+                  .copyWith(color: DetentTheme.of(context).muted),
             ),
       onTap: onPressed,
       contentPadding: const EdgeInsets.all(8),
@@ -52,8 +56,8 @@ class NuiListRow extends StatelessWidget {
 }
 
 @immutable
-class NuiTreeNode<T> {
-  const NuiTreeNode({
+class DetentTreeNode<T> {
+  const DetentTreeNode({
     required this.id,
     required this.label,
     this.children = const [],
@@ -61,12 +65,12 @@ class NuiTreeNode<T> {
   });
   final T id;
   final String label;
-  final List<NuiTreeNode<T>> children;
+  final List<DetentTreeNode<T>> children;
   final IconData? icon;
 }
 
-class NuiTreeView<T> extends StatefulWidget {
-  const NuiTreeView({
+class DetentTreeView<T> extends StatefulWidget {
+  const DetentTreeView({
     super.key,
     required this.nodes,
     required this.expanded,
@@ -75,15 +79,15 @@ class NuiTreeView<T> extends StatefulWidget {
     required this.onSelectionChanged,
     this.multiselect = false,
   });
-  final List<NuiTreeNode<T>> nodes;
+  final List<DetentTreeNode<T>> nodes;
   final Set<T> expanded, selected;
   final ValueChanged<Set<T>> onExpandedChanged, onSelectionChanged;
   final bool multiselect;
   @override
-  State<NuiTreeView<T>> createState() => _NuiTreeViewState<T>();
+  State<DetentTreeView<T>> createState() => _DetentTreeViewState<T>();
 }
 
-class _NuiTreeViewState<T> extends State<NuiTreeView<T>> {
+class _DetentTreeViewState<T> extends State<DetentTreeView<T>> {
   final Map<T, FocusNode> focus = {};
   final Map<T, GlobalKey> keys = {};
   @override
@@ -94,13 +98,13 @@ class _NuiTreeViewState<T> extends State<NuiTreeView<T>> {
     super.dispose();
   }
 
-  void toggle(NuiTreeNode<T> n, bool expand) {
+  void toggle(DetentTreeNode<T> n, bool expand) {
     final values = {...widget.expanded};
     expand ? values.add(n.id) : values.remove(n.id);
     widget.onExpandedChanged(values);
   }
 
-  void select(NuiTreeNode<T> n) {
+  void select(DetentTreeNode<T> n) {
     if (widget.multiselect &&
         (HardwareKeyboard.instance.isControlPressed ||
             HardwareKeyboard.instance.isMetaPressed)) {
@@ -114,8 +118,8 @@ class _NuiTreeViewState<T> extends State<NuiTreeView<T>> {
 
   @override
   Widget build(BuildContext context) {
-    final rows = <(NuiTreeNode<T>, int, T?)>[];
-    void visit(List<NuiTreeNode<T>> nodes, int depth, T? parent) {
+    final rows = <(DetentTreeNode<T>, int, T?)>[];
+    void visit(List<DetentTreeNode<T>> nodes, int depth, T? parent) {
       for (final n in nodes) {
         rows.add((n, depth, parent));
         if (widget.expanded.contains(n.id)) visit(n.children, depth + 1, n.id);
@@ -179,18 +183,18 @@ class _NuiTreeViewState<T> extends State<NuiTreeView<T>> {
                 decoration: BoxDecoration(
                   border: Border.all(
                     color: Focus.of(ctx).hasFocus
-                        ? NuiTheme.of(context).focus
-                        : NuiColors.transparent,
+                        ? DetentTheme.of(context).focus
+                        : DetentColors.transparent,
                     width: 2,
                   ),
                 ),
                 padding: EdgeInsets.only(left: depth * 16.0),
-                child: NuiTile(
+                child: DetentTile(
                   dense: true,
                   selected: widget.selected.contains(n.id),
                   leading: n.children.isEmpty
                       ? Icon(n.icon ?? FLucideIcons.file, size: 16)
-                      : NuiIconAction(
+                      : DetentIconAction(
                           tooltip: widget.expanded.contains(n.id)
                               ? '折り畳む'
                               : '展開',
@@ -198,7 +202,7 @@ class _NuiTreeViewState<T> extends State<NuiTreeView<T>> {
                             dimension: 16,
                             child: AnimatedRotation(
                               turns: widget.expanded.contains(n.id) ? .25 : 0,
-                              duration: NuiTheme.of(context)
+                              duration: DetentTheme.of(context)
                                   .duration(context, 120),
                               curve: const Cubic(.2, 0, .2, 1),
                               child: const Icon(
@@ -210,13 +214,13 @@ class _NuiTreeViewState<T> extends State<NuiTreeView<T>> {
                           onPressed: () =>
                               toggle(n, !widget.expanded.contains(n.id)),
                         ),
-                  selectedTileColor: NuiTheme.of(context).surface,
-                  selectedColor: NuiTheme.of(context).ink,
+                  selectedTileColor: DetentTheme.of(context).surface,
+                  selectedColor: DetentTheme.of(context).ink,
                   trailing: widget.selected.contains(n.id)
                       ? Icon(
                           FLucideIcons.check,
                           size: 16,
-                          color: NuiTheme.of(context).ink,
+                          color: DetentTheme.of(context).ink,
                         )
                       : null,
                   title: Text(n.label),
@@ -235,8 +239,8 @@ class _NuiTreeViewState<T> extends State<NuiTreeView<T>> {
 }
 
 @immutable
-class NuiTableColumn {
-  const NuiTableColumn({
+class DetentTableColumn {
+  const DetentTableColumn({
     required this.label,
     this.flex = 1,
     this.onSort,
@@ -249,8 +253,8 @@ class NuiTableColumn {
 }
 
 /// Fixed header and lazily built rows. Supply stable IDs when sort order changes.
-class NuiDataTable<T> extends StatelessWidget {
-  const NuiDataTable({
+class DetentDataTable<T> extends StatelessWidget {
+  const DetentDataTable({
     super.key,
     required this.columns,
     required this.rows,
@@ -263,7 +267,7 @@ class NuiDataTable<T> extends StatelessWidget {
     this.emptyLabel = '項目がありません',
     this.rowHeight = 48,
   });
-  final List<NuiTableColumn> columns;
+  final List<DetentTableColumn> columns;
   final List<T> rows;
   final Object Function(T) rowId;
   final List<Widget> Function(T) cells;
@@ -275,7 +279,7 @@ class NuiDataTable<T> extends StatelessWidget {
   final double rowHeight;
   @override
   Widget build(BuildContext context) {
-    final t = NuiTheme.of(context);
+    final t = DetentTheme.of(context);
     return Column(
       children: [
         Container(
@@ -292,7 +296,7 @@ class NuiDataTable<T> extends StatelessWidget {
                     label: c.ascending == null
                         ? c.label
                         : '${c.label} ${c.ascending! ? '昇順' : '降順'}',
-                    child: NuiPlainButton(
+                    child: DetentPlainButton(
                       onPressed: c.onSort,
                       child: Row(
                         children: [
@@ -312,7 +316,7 @@ class NuiDataTable<T> extends StatelessWidget {
             ],
           ),
         ),
-        if (loading) const NuiProgress(),
+        if (loading) const DetentProgress(),
         Expanded(
           child: error != null
               ? Center(
@@ -328,16 +332,18 @@ class NuiDataTable<T> extends StatelessWidget {
                       values.length == columns.length,
                       'A cell is required for each column.',
                     );
-                    return NuiSurface(
+                    return DetentSurface(
                       key: ValueKey(id),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(4),
-                        side: BorderSide(color: selected.contains(id) ? t.controlBorder : t.border),
+                        side: BorderSide(
+                          color: selected.contains(id)
+                              ? t.controlBorder
+                              : t.border,
+                        ),
                       ),
-                      color: selected.contains(id)
-                          ? t.surface
-                          : t.raised,
-                      child: NuiInk(
+                      color: selected.contains(id) ? t.surface : t.raised,
+                      child: DetentInk(
                         onTap: onSelectionChanged == null
                             ? null
                             : () => onSelectionChanged!({id}),
@@ -350,7 +356,7 @@ class NuiDataTable<T> extends StatelessWidget {
                                 if (onSelectionChanged != null)
                                   SizedBox(
                                     width: 48,
-                                    child: NuiCheckbox(
+                                    child: DetentCheckbox(
                                       value: selected.contains(id),
                                       onChanged: (checked) {
                                         final next = {...selected};

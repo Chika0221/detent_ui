@@ -71,9 +71,9 @@ class _GalleryBodyState extends State<GalleryBody> {
   int choice = 0;
   Set<String> expanded = {'root'}, selected = {'button'};
   Set<Object> rows = {};
-  NuiShortcut? shortcut;
+  DetentShortcut? shortcut;
   String tab = 'design', search = '';
-  NuiTaskState taskState = NuiTaskState.idle;
+  DetentTaskState taskState = DetentTaskState.idle;
   bool ascending = true;
   final name = TextEditingController(text: 'Atelier / 新しい作業');
   @override
@@ -83,50 +83,50 @@ class _GalleryBodyState extends State<GalleryBody> {
     super.dispose();
   }
 
-  List<NuiMenuItem> get menu => [
-    NuiMenuItem(
+  List<DetentMenuItem> get menu => [
+    DetentMenuItem(
       label: '新規ファイル',
       icon: FLucideIcons.plus,
       shortcut: 'Ctrl + N',
       onPressed: notify,
     ),
-    NuiMenuItem(
+    DetentMenuItem(
       label: '保存',
       icon: FLucideIcons.save,
       shortcut: 'Ctrl + S',
       onPressed: notify,
     ),
-    NuiMenuItem(
+    DetentMenuItem(
       label: '表示',
       children: [
-        NuiMenuItem(
+        DetentMenuItem(
           label: 'グリッド',
           checked: toggle,
           onPressed: () => setState(() => toggle = !toggle),
         ),
       ],
     ),
-    NuiMenuItem(label: '削除', danger: true, onPressed: dialog),
+    DetentMenuItem(label: '削除', danger: true, onPressed: dialog),
   ];
-  void notify() => NuiToast.show(
+  void notify() => DetentToast.show(
     context,
     message: '変更を保存しました',
     actionLabel: '元に戻す',
     onAction: () {},
   );
-  void dialog() => NuiDialog.show<void>(
+  void dialog() => DetentDialog.show<void>(
     context,
-    builder: (ctx) => NuiDialog(
+    builder: (ctx) => DetentDialog(
       title: '変更を保存しますか？',
       actions: [
-        NuiButton(
+        DetentButton(
           label: 'キャンセル',
           autofocus: true,
           onPressed: () => Navigator.pop(ctx),
         ),
-        NuiButton(
+        DetentButton(
           label: '保存',
-          variant: NuiButtonVariant.primary,
+          variant: DetentButtonVariant.primary,
           onPressed: () {
             Navigator.pop(ctx);
             notify();
@@ -138,10 +138,10 @@ class _GalleryBodyState extends State<GalleryBody> {
   );
   Widget card(int id, String label, Widget child, {double? height}) => SizedBox(
     width: 360,
-    child: NuiSurface(
+    child: DetentSurface(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10),
-        side: BorderSide(color: NuiTheme.of(context).border),
+        side: BorderSide(color: DetentTheme.of(context).border),
       ),
       child: Padding(
         padding: const EdgeInsets.all(16),
@@ -154,7 +154,7 @@ class _GalleryBodyState extends State<GalleryBody> {
                 Text(
                   'C${id.toString().padLeft(2, '0')}',
                   style: TextStyle(
-                    color: NuiTheme.of(context).muted,
+                    color: DetentTheme.of(context).muted,
                     fontSize: 12,
                   ),
                 ),
@@ -182,11 +182,11 @@ class _GalleryBodyState extends State<GalleryBody> {
   @override
   Widget build(BuildContext context) {
     final opts = [
-      const NuiOption(0, '一覧', icon: FLucideIcons.list),
-      const NuiOption(1, 'グリッド', icon: FLucideIcons.layoutGrid),
-      const NuiOption(2, '比較', icon: FLucideIcons.columns2),
+      const DetentOption(0, '一覧', icon: FLucideIcons.list),
+      const DetentOption(1, 'グリッド', icon: FLucideIcons.layoutGrid),
+      const DetentOption(2, '比較', icon: FLucideIcons.columns2),
     ];
-    final theme = NuiTheme.of(context);
+    final theme = DetentTheme.of(context);
     Widget group(List<Widget> children, {String? title}) => Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -233,19 +233,19 @@ class _GalleryBodyState extends State<GalleryBody> {
                 spacing: 8,
                 runSpacing: 8,
                 children: [
-                  NuiButton(
+                  DetentButton(
                     label: '保存',
                     icon: FLucideIcons.save,
-                    variant: NuiButtonVariant.primary,
+                    variant: DetentButtonVariant.primary,
                     onPressed: notify,
                   ),
-                  NuiButton(
+                  DetentButton(
                     label: '削除',
-                    variant: NuiButtonVariant.danger,
+                    variant: DetentButtonVariant.danger,
                     onPressed: dialog,
                   ),
-                  const NuiButton(label: '処理中', loading: true),
-                  const NuiButton(label: '無効'),
+                  const DetentButton(label: '処理中', loading: true),
+                  const DetentButton(label: '無効'),
                 ],
               ),
             ),
@@ -254,12 +254,12 @@ class _GalleryBodyState extends State<GalleryBody> {
               'IconButton',
               Row(
                 children: [
-                  NuiIconButton(
+                  DetentIconButton(
                     icon: FLucideIcons.plus,
                     tooltip: '新規作成',
                     onPressed: notify,
                   ),
-                  NuiIconButton(
+                  DetentIconButton(
                     icon: FLucideIcons.ellipsis,
                     tooltip: 'その他',
                     onPressed: notify,
@@ -270,7 +270,7 @@ class _GalleryBodyState extends State<GalleryBody> {
             card(
               3,
               'ToggleButton',
-              NuiToggleButton(
+              DetentToggleButton(
                 label: '太字',
                 icon: FLucideIcons.bold,
                 value: toggle,
@@ -284,10 +284,10 @@ class _GalleryBodyState extends State<GalleryBody> {
                 spacing: 8,
                 runSpacing: 8,
                 children: [
-                  NuiKeycap(label: 'Ctrl'),
-                  NuiKeycap(label: 'Shift', units: 1.5),
-                  NuiKeycap(label: 'K', pressed: true),
-                  NuiKeycap(label: 'Enter', units: 2),
+                  DetentKeycap(label: 'Ctrl'),
+                  DetentKeycap(label: 'Shift', units: 1.5),
+                  DetentKeycap(label: 'K', pressed: true),
+                  DetentKeycap(label: 'Enter', units: 2),
                 ],
               ),
             ),
@@ -296,7 +296,7 @@ class _GalleryBodyState extends State<GalleryBody> {
             card(
               5,
               'SegmentedControl',
-              NuiSegmentedControl(
+              DetentSegmentedControl(
                 options: opts,
                 value: choice,
                 onChanged: (v) => setState(() => choice = v),
@@ -305,7 +305,7 @@ class _GalleryBodyState extends State<GalleryBody> {
             card(
               6,
               'Checkbox',
-              NuiCheckbox(
+              DetentCheckbox(
                 value: check,
                 tristate: true,
                 label: 'すべて選択',
@@ -315,7 +315,7 @@ class _GalleryBodyState extends State<GalleryBody> {
             card(
               7,
               'RadioGroup',
-              NuiRadioGroup(
+              DetentRadioGroup(
                 options: opts,
                 value: choice,
                 onChanged: (v) => setState(() => choice = v),
@@ -324,7 +324,7 @@ class _GalleryBodyState extends State<GalleryBody> {
             card(
               8,
               'Switch',
-              NuiSwitch(
+              DetentSwitch(
                 value: toggle,
                 label: '自動保存',
                 onChanged: (v) => setState(() => toggle = v),
@@ -337,7 +337,7 @@ class _GalleryBodyState extends State<GalleryBody> {
               'Slider',
               Column(
                 children: [
-                  NuiSlider(
+                  DetentSlider(
                     value: value,
                     min: 0,
                     max: 100,
@@ -351,7 +351,7 @@ class _GalleryBodyState extends State<GalleryBody> {
             card(
               10,
               'RangeSlider',
-              NuiRangeSlider(
+              DetentRangeSlider(
                 values: range,
                 min: 0,
                 max: 100,
@@ -362,7 +362,7 @@ class _GalleryBodyState extends State<GalleryBody> {
               11,
               'RotaryKnob',
               Center(
-                child: NuiRotaryKnob(
+                child: DetentRotaryKnob(
                   value: value,
                   min: 0,
                   max: 100,
@@ -375,7 +375,7 @@ class _GalleryBodyState extends State<GalleryBody> {
             card(
               12,
               'NumberStepper',
-              NuiNumberStepper(
+              DetentNumberStepper(
                 value: value,
                 min: 0,
                 max: 100,
@@ -391,17 +391,17 @@ class _GalleryBodyState extends State<GalleryBody> {
             card(
               13,
               'TextField',
-              NuiTextField(controller: name, semanticLabel: 'プロジェクト名'),
+              DetentTextField(controller: name, semanticLabel: 'プロジェクト名'),
             ),
             card(
               14,
               'TextArea',
-              const NuiTextArea(hintText: '日本語の文章を入力できます', maxLength: 500),
+              const DetentTextArea(hintText: '日本語の文章を入力できます', maxLength: 500),
             ),
             card(
               15,
               'SearchField',
-              NuiSearchField(
+              DetentSearchField(
                 shortcut: 'Ctrl + K',
                 onChanged: (v) => setState(() => search = v),
               ),
@@ -411,7 +411,7 @@ class _GalleryBodyState extends State<GalleryBody> {
             card(
               16,
               'Select',
-              NuiSelect(
+              DetentSelect(
                 options: opts,
                 value: choice,
                 onChanged: (v) => setState(() => choice = v!),
@@ -420,7 +420,7 @@ class _GalleryBodyState extends State<GalleryBody> {
             card(
               17,
               'ComboBox',
-              NuiComboBox(
+              DetentComboBox(
                 options: opts,
                 onSelected: (v) => setState(() => choice = v),
               ),
@@ -428,7 +428,7 @@ class _GalleryBodyState extends State<GalleryBody> {
             card(
               18,
               'ShortcutRecorder',
-              NuiShortcutRecorder(
+              DetentShortcutRecorder(
                 value: shortcut,
                 onChanged: (v) => setState(() => shortcut = v),
               ),
@@ -436,11 +436,11 @@ class _GalleryBodyState extends State<GalleryBody> {
             card(
               19,
               'FormField',
-              const NuiFormField(
+              const DetentFormField(
                 label: '名前',
                 required: true,
                 error: '名前を入力してください',
-                child: NuiTextField(errorText: '必須項目です'),
+                child: DetentTextField(errorText: '必須項目です'),
               ),
             ),
           ], title: '選択・ショートカット・フォーム'),
@@ -450,10 +450,10 @@ class _GalleryBodyState extends State<GalleryBody> {
             card(
               20,
               'Tabs',
-              NuiTabs(
+              DetentTabs(
                 tabs: [
-                  NuiTab('design', 'デザイン.pen', dirty: true, onClose: notify),
-                  const NuiTab('spec', '仕様.md'),
+                  DetentTab('design', 'デザイン.pen', dirty: true, onClose: notify),
+                  const DetentTab('spec', '仕様.md'),
                 ],
                 value: tab,
                 onChanged: (v) => setState(() => tab = v),
@@ -464,7 +464,7 @@ class _GalleryBodyState extends State<GalleryBody> {
               'NavigationRail',
               Align(
                 alignment: Alignment.centerLeft,
-                child: NuiNavigationRail(
+                child: DetentNavigationRail(
                   options: opts,
                   value: choice,
                   onChanged: (v) => setState(() => choice = v),
@@ -474,7 +474,7 @@ class _GalleryBodyState extends State<GalleryBody> {
             card(
               22,
               'SidebarItem',
-              NuiSidebarItem(
+              DetentSidebarItem(
                 label: 'コンポーネント',
                 icon: FLucideIcons.layoutGrid,
                 selected: true,
@@ -485,11 +485,11 @@ class _GalleryBodyState extends State<GalleryBody> {
             card(
               23,
               'Breadcrumb',
-              NuiBreadcrumb(
+              DetentBreadcrumb(
                 items: [
-                  NuiBreadcrumbItem('ワークスペース', onPressed: notify),
-                  NuiBreadcrumbItem('UI', onPressed: notify),
-                  const NuiBreadcrumbItem('Controls'),
+                  DetentBreadcrumbItem('ワークスペース', onPressed: notify),
+                  DetentBreadcrumbItem('UI', onPressed: notify),
+                  const DetentBreadcrumbItem('Controls'),
                 ],
               ),
             ),
@@ -498,19 +498,23 @@ class _GalleryBodyState extends State<GalleryBody> {
               'MenuBar',
               SizedBox(
                 width: double.infinity,
-                child: NuiMenuBar(
+                child: DetentMenuBar(
                   menus: [
-                    NuiMenuItem(label: 'ファイル', children: menu),
-                    NuiMenuItem(label: '編集', children: menu),
+                    DetentMenuItem(label: 'ファイル', children: menu),
+                    DetentMenuItem(label: '編集', children: menu),
                   ],
                 ),
               ),
             ),
-            card(25, 'DropdownMenu', NuiDropdownMenu(label: '操作', items: menu)),
+            card(
+              25,
+              'DropdownMenu',
+              DetentDropdownMenu(label: '操作', items: menu),
+            ),
             card(
               26,
               'ContextMenu',
-              NuiContextMenu(
+              DetentContextMenu(
                 items: menu,
                 child: const Padding(
                   padding: EdgeInsets.all(24),
@@ -521,18 +525,18 @@ class _GalleryBodyState extends State<GalleryBody> {
             card(
               27,
               'CommandPalette',
-              NuiButton(
+              DetentButton(
                 label: 'コマンドを開く',
-                onPressed: () => NuiCommandPalette.show(
+                onPressed: () => DetentCommandPalette.show(
                   context,
                   commands: [
-                    NuiCommand(
+                    DetentCommand(
                       id: 'save',
                       label: '変更を保存',
                       shortcut: 'Ctrl + S',
                       onPressed: notify,
                     ),
-                    NuiCommand(
+                    DetentCommand(
                       id: 'settings',
                       label: '設定を開く',
                       group: 'アプリケーション',
@@ -549,17 +553,17 @@ class _GalleryBodyState extends State<GalleryBody> {
             card(
               28,
               'AppShell',
-              const NuiAppShell(
+              const DetentAppShell(
                 navigation: Center(child: Text('Navigation')),
                 body: Center(child: Text('Workspace')),
-                statusBar: NuiStatusBar(children: [Text('準備完了')]),
+                statusBar: DetentStatusBar(children: [Text('準備完了')]),
               ),
               height: 220,
             ),
             card(
               29,
               'Panel',
-              const NuiPanel(
+              const DetentPanel(
                 header: Text('表示設定'),
                 footer: Text('即時に反映されます'),
                 child: Text('構造を見せる、控えめな筐体。'),
@@ -568,21 +572,21 @@ class _GalleryBodyState extends State<GalleryBody> {
             card(
               30,
               'Toolbar',
-              NuiToolbar(
+              DetentToolbar(
                 children: [
-                  NuiButton(
+                  DetentButton(
                     label: '新規',
                     icon: FLucideIcons.plus,
                     onPressed: notify,
                   ),
-                  NuiDropdownMenu(label: '表示', items: menu),
+                  DetentDropdownMenu(label: '表示', items: menu),
                 ],
               ),
             ),
             card(
               31,
               'SplitView',
-              const NuiSplitView(
+              const DetentSplitView(
                 minLeading: 80,
                 minTrailing: 80,
                 initialExtent: 120,
@@ -594,7 +598,7 @@ class _GalleryBodyState extends State<GalleryBody> {
             card(
               32,
               'StatusBar',
-              const NuiStatusBar(
+              const DetentStatusBar(
                 children: [
                   Icon(FLucideIcons.circleCheck, size: 16),
                   SizedBox(width: 8),
@@ -607,7 +611,7 @@ class _GalleryBodyState extends State<GalleryBody> {
             card(
               33,
               'ListRow',
-              NuiListRow(
+              DetentListRow(
                 label: '新しいデザインの指針',
                 description: '部品ライブラリ',
                 selected: true,
@@ -618,14 +622,14 @@ class _GalleryBodyState extends State<GalleryBody> {
             card(
               34,
               'TreeView',
-              NuiTreeView<String>(
+              DetentTreeView<String>(
                 nodes: const [
-                  NuiTreeNode(
+                  DetentTreeNode(
                     id: 'root',
                     label: 'detent_ui',
                     children: [
-                      NuiTreeNode(id: 'button', label: 'Button'),
-                      NuiTreeNode(id: 'input', label: 'TextField'),
+                      DetentTreeNode(id: 'button', label: 'Button'),
+                      DetentTreeNode(id: 'input', label: 'TextField'),
                     ],
                   ),
                 ],
@@ -639,14 +643,14 @@ class _GalleryBodyState extends State<GalleryBody> {
             card(
               35,
               'DataTable',
-              NuiDataTable<String>(
+              DetentDataTable<String>(
                 columns: [
-                  NuiTableColumn(
+                  DetentTableColumn(
                     label: '名前',
                     ascending: ascending,
                     onSort: () => setState(() => ascending = !ascending),
                   ),
-                  const NuiTableColumn(label: '状態'),
+                  const DetentTableColumn(label: '状態'),
                 ],
                 rows: ascending
                     ? ['Button', 'TextField', 'Switch']
@@ -661,12 +665,12 @@ class _GalleryBodyState extends State<GalleryBody> {
             card(
               48,
               'ScrollArea',
-              NuiScrollArea(
+              DetentScrollArea(
                 alwaysVisible: true,
                 child: Column(
                   children: List.generate(
                     20,
-                    (i) => NuiListRow(label: '項目 ${i + 1}'),
+                    (i) => DetentListRow(label: '項目 ${i + 1}'),
                   ),
                 ),
               ),
@@ -682,18 +686,18 @@ class _GalleryBodyState extends State<GalleryBody> {
               const Wrap(
                 spacing: 8,
                 children: [
-                  NuiBadge(label: '保存済み', tone: NuiTone.success),
-                  NuiBadge(label: '要確認', tone: NuiTone.danger),
+                  DetentBadge(label: '保存済み', tone: DetentTone.success),
+                  DetentBadge(label: '要確認', tone: DetentTone.danger),
                 ],
               ),
             ),
             card(
               37,
               'Tooltip',
-              NuiTooltip(
+              DetentTooltip(
                 message: '保存',
                 shortcut: 'Ctrl + S',
-                child: NuiButton(label: 'ホバーして確認', onPressed: notify),
+                child: DetentButton(label: 'ホバーして確認', onPressed: notify),
               ),
             ),
             card(
@@ -701,9 +705,9 @@ class _GalleryBodyState extends State<GalleryBody> {
               'Progress',
               Column(
                 children: [
-                  NuiProgress(value: value / 100),
+                  DetentProgress(value: value / 100),
                   const SizedBox(height: 16),
-                  const NuiProgress(variant: NuiProgressVariant.circular),
+                  const DetentProgress(variant: DetentProgressVariant.circular),
                 ],
               ),
             ),
@@ -716,17 +720,17 @@ class _GalleryBodyState extends State<GalleryBody> {
                 alignment: Alignment.centerLeft,
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
-                  color: NuiTheme.of(context).display,
+                  color: DetentTheme.of(context).display,
                   borderRadius: BorderRadius.circular(9),
                 ),
-                child: NuiDotMatrix(text: '${value.round()}%'),
+                child: DetentDotMatrix(text: '${value.round()}%'),
               ),
             ),
-            card(40, 'Meter', NuiMeter(value: value)),
+            card(40, 'Meter', DetentMeter(value: value)),
             card(
               41,
               'Toast',
-              NuiToast(
+              DetentToast(
                 message: '変更を保存しました',
                 actionLabel: '元に戻す',
                 onAction: notify,
@@ -735,22 +739,26 @@ class _GalleryBodyState extends State<GalleryBody> {
             card(
               42,
               'InlineAlert',
-              NuiInlineAlert(
+              DetentInlineAlert(
                 title: '保存できませんでした',
                 message: '保存先を確認して再試行してください。',
-                action: NuiPlainButton(
+                action: DetentPlainButton(
                   onPressed: notify,
                   child: const Text('再試行'),
                 ),
               ),
             ),
-            card(43, 'Dialog', NuiButton(label: '確認ダイアログ', onPressed: dialog)),
+            card(
+              43,
+              'Dialog',
+              DetentButton(label: '確認ダイアログ', onPressed: dialog),
+            ),
             card(
               44,
               'Popover',
-              NuiPopover(
+              DetentPopover(
                 label: '表示設定',
-                child: NuiSwitch(
+                child: DetentSwitch(
                   value: toggle,
                   label: 'ドット表示',
                   onChanged: (v) => setState(() => toggle = v),
@@ -760,10 +768,10 @@ class _GalleryBodyState extends State<GalleryBody> {
             card(
               45,
               'EmptyState',
-              NuiEmptyState(
+              DetentEmptyState(
                 title: 'まだ項目がありません',
                 description: '最初の項目を作成します。',
-                action: NuiButton(
+                action: DetentButton(
                   label: '新規作成',
                   icon: FLucideIcons.plus,
                   onPressed: notify,
@@ -776,19 +784,19 @@ class _GalleryBodyState extends State<GalleryBody> {
               const Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  NuiSkeleton(width: 240),
+                  DetentSkeleton(width: 240),
                   SizedBox(height: 8),
-                  NuiSkeleton(width: 160),
+                  DetentSkeleton(width: 160),
                   SizedBox(height: 8),
-                  NuiSkeleton(width: 190),
+                  DetentSkeleton(width: 190),
                 ],
               ),
             ),
             card(
               47,
               'TaskStatus',
-              NuiTaskStatus(
-                state: NuiTaskState.running,
+              DetentTaskStatus(
+                state: DetentTaskState.running,
                 label: '書き出し',
                 progress: value / 100,
                 detail: '17 / 25 files',
@@ -804,7 +812,7 @@ class _GalleryBodyState extends State<GalleryBody> {
           const PerforationShowcase(),
         ], showTitle: false),
         section(_Section.motion, [
-          NuiPanel(
+          DetentPanel(
             header: const Text('操作と処理表示'),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -813,17 +821,17 @@ class _GalleryBodyState extends State<GalleryBody> {
                   'ボタン・スイッチ・ノブなどの操作はFlutterのアニメーションです。Riveは進捗・メーター・読み込み・タスク状態に使用し、上部のRive切替で表示を比較できます。',
                 ),
                 const SizedBox(height: 16),
-                NuiTaskStatus(
+                DetentTaskStatus(
                   state: taskState,
                   label: '状態プレビュー',
-                  progress: taskState == NuiTaskState.running
+                  progress: taskState == DetentTaskState.running
                       ? value / 100
                       : null,
                   detail: 'スライダーで実際の表示値を指定',
                   onCancel: () =>
-                      setState(() => taskState = NuiTaskState.canceled),
+                      setState(() => taskState = DetentTaskState.canceled),
                   onRetry: () =>
-                      setState(() => taskState = NuiTaskState.running),
+                      setState(() => taskState = DetentTaskState.running),
                 ),
                 const SizedBox(height: 8),
                 Wrap(
@@ -831,16 +839,16 @@ class _GalleryBodyState extends State<GalleryBody> {
                   runSpacing: 8,
                   children: [
                     for (final state in [
-                      NuiTaskState.idle,
-                      NuiTaskState.running,
-                      NuiTaskState.success,
-                      NuiTaskState.error,
+                      DetentTaskState.idle,
+                      DetentTaskState.running,
+                      DetentTaskState.success,
+                      DetentTaskState.error,
                     ])
-                      NuiButton(
+                      DetentButton(
                         label: switch (state) {
-                          NuiTaskState.idle => '待機',
-                          NuiTaskState.running => '処理中',
-                          NuiTaskState.success => '成功',
+                          DetentTaskState.idle => '待機',
+                          DetentTaskState.running => '処理中',
+                          DetentTaskState.success => '成功',
                           _ => '失敗',
                         },
                         selected: taskState == state,
@@ -863,13 +871,13 @@ class _GalleryBodyState extends State<GalleryBody> {
             ])
               SizedBox(
                 width: 240,
-                child: NuiPanel(
+                child: DetentPanel(
                   header: Text(artboard),
                   child: SizedBox(
                     height: 50,
-                    child: NuiRiveArtwork(
+                    child: DetentRiveArtwork(
                       artboard: artboard,
-                      state: NuiSkinState(
+                      state: DetentSkinState(
                         progress: value / 100,
                         indeterminate: true,
                         taskState: 1,
@@ -891,7 +899,7 @@ class _GalleryBodyState extends State<GalleryBody> {
             : constraints.maxWidth < 1280
             ? 24.0
             : 40.0;
-        final viewport = NuiScrollArea(
+        final viewport = DetentScrollArea(
           controller: _scroll,
           alwaysVisible: true,
           child: Align(
@@ -916,11 +924,11 @@ class _GalleryBodyState extends State<GalleryBody> {
                     horizontal: 16,
                     vertical: 8,
                   ),
-                  child: NuiDropdownMenu(
+                  child: DetentDropdownMenu(
                     label: _active.title,
                     items: [
                       for (final section in _Section.values)
-                        NuiMenuItem(
+                        DetentMenuItem(
                           label: section.title,
                           icon: section.icon,
                           checked: section == _active,
@@ -951,7 +959,7 @@ class _GalleryBodyState extends State<GalleryBody> {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       for (final section in _Section.values) ...[
-                        if (section == _Section.material) const NuiDivider(),
+                        if (section == _Section.material) const DetentDivider(),
                         WorkshopNavigationItem(
                           label: section.title,
                           icon: section.icon,

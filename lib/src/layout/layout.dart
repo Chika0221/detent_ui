@@ -4,8 +4,8 @@ import 'package:flutter/services.dart';
 
 import 'package:forui_lucide/forui_lucide.dart';
 
-class NuiAppShell extends StatelessWidget {
-  const NuiAppShell({
+class DetentAppShell extends StatelessWidget {
+  const DetentAppShell({
     super.key,
     required this.body,
     this.menu,
@@ -17,8 +17,8 @@ class NuiAppShell extends StatelessWidget {
   final Widget body;
   final Widget? menu, navigation, inspector, statusBar, toolbar;
   @override
-  Widget build(BuildContext context) => NuiBox(
-    backgroundColor: NuiTheme.of(context).canvas,
+  Widget build(BuildContext context) => DetentBox(
+    backgroundColor: DetentTheme.of(context).canvas,
     body: SafeArea(
       child: Column(
         children: [
@@ -42,13 +42,13 @@ class NuiAppShell extends StatelessWidget {
                       width: 40,
                       child: Align(
                         alignment: Alignment.topCenter,
-                        child: NuiIconAction(
+                        child: DetentIconAction(
                           tooltip: '補助パネルを開く',
                           icon: const Icon(
                             FLucideIcons.slidersHorizontal,
                             size: 16,
                           ),
-                          onPressed: () => showNuiDialog<void>(
+                          onPressed: () => showDetentDialog<void>(
                             context: context,
                             builder: (_) =>
                                 SizedBox(height: 440, child: inspector),
@@ -67,8 +67,8 @@ class NuiAppShell extends StatelessWidget {
   );
 }
 
-class NuiPanel extends StatelessWidget {
-  const NuiPanel({
+class DetentPanel extends StatelessWidget {
+  const DetentPanel({
     super.key,
     required this.child,
     this.header,
@@ -82,8 +82,8 @@ class NuiPanel extends StatelessWidget {
   final EdgeInsetsGeometry padding;
   @override
   Widget build(BuildContext context) {
-    final t = NuiTheme.of(context);
-    return NuiSurface(
+    final t = DetentTheme.of(context);
+    return DetentSurface(
       color: inset ? t.canvas : t.surface,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10),
@@ -95,9 +95,9 @@ class NuiPanel extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            if (header != null) ...[header!, const NuiDivider()],
+            if (header != null) ...[header!, const DetentDivider()],
             child,
-            if (footer != null) ...[const NuiDivider(), footer!],
+            if (footer != null) ...[const DetentDivider(), footer!],
           ],
         ),
       ),
@@ -105,8 +105,8 @@ class NuiPanel extends StatelessWidget {
   }
 }
 
-class NuiToolbar extends StatelessWidget {
-  const NuiToolbar({
+class DetentToolbar extends StatelessWidget {
+  const DetentToolbar({
     super.key,
     required this.children,
     this.overflow = const [],
@@ -117,8 +117,8 @@ class NuiToolbar extends StatelessWidget {
     width: double.infinity,
     padding: const EdgeInsets.all(8),
     decoration: BoxDecoration(
-      color: NuiTheme.of(context).raised,
-      border: Border(bottom: BorderSide(color: NuiTheme.of(context).border)),
+      color: DetentTheme.of(context).raised,
+      border: Border(bottom: BorderSide(color: DetentTheme.of(context).border)),
     ),
     child: Wrap(
       spacing: 8,
@@ -127,9 +127,9 @@ class NuiToolbar extends StatelessWidget {
       children: [
         ...children,
         if (overflow.isNotEmpty)
-          NuiPopupAnchor(
+          DetentPopupAnchor(
             menuChildren: overflow,
-            builder: (context, c, _) => NuiIconAction(
+            builder: (context, c, _) => DetentIconAction(
               tooltip: 'その他の操作',
               icon: const Icon(FLucideIcons.ellipsis, size: 16),
               onPressed: () => c.isOpen ? c.close() : c.open(),
@@ -140,8 +140,8 @@ class NuiToolbar extends StatelessWidget {
   );
 }
 
-class NuiSplitView extends StatefulWidget {
-  const NuiSplitView({
+class DetentSplitView extends StatefulWidget {
+  const DetentSplitView({
     super.key,
     required this.leading,
     required this.trailing,
@@ -158,10 +158,10 @@ class NuiSplitView extends StatefulWidget {
   final bool collapsed;
   final ValueChanged<bool>? onCollapsedChanged;
   @override
-  State<NuiSplitView> createState() => _NuiSplitViewState();
+  State<DetentSplitView> createState() => _DetentSplitViewState();
 }
 
-class _NuiSplitViewState extends State<NuiSplitView> {
+class _DetentSplitViewState extends State<DetentSplitView> {
   late double extent = widget.initialExtent;
   bool focused = false;
   void resize(double v, double max) {
@@ -257,8 +257,8 @@ class _NuiSplitViewState extends State<NuiSplitView> {
                   child: Container(
                     width: 8,
                     color: focused
-                        ? NuiTheme.of(context).focus
-                        : NuiTheme.of(context).border,
+                        ? DetentTheme.of(context).focus
+                        : DetentTheme.of(context).border,
                   ),
                 ),
               ),
@@ -271,13 +271,13 @@ class _NuiSplitViewState extends State<NuiSplitView> {
   );
 }
 
-class NuiStatusBar extends StatelessWidget {
-  const NuiStatusBar({super.key, required this.children});
+class DetentStatusBar extends StatelessWidget {
+  const DetentStatusBar({super.key, required this.children});
   final List<Widget> children;
   @override
   Widget build(BuildContext context) => Container(
     padding: const EdgeInsets.all(8),
-    color: NuiTheme.of(context).surface,
+    color: DetentTheme.of(context).surface,
     child: DefaultTextStyle.merge(
       style: const TextStyle(fontSize: 12),
       child: Row(children: children),
@@ -285,8 +285,8 @@ class NuiStatusBar extends StatelessWidget {
   );
 }
 
-class NuiScrollArea extends StatefulWidget {
-  const NuiScrollArea({
+class DetentScrollArea extends StatefulWidget {
+  const DetentScrollArea({
     super.key,
     required this.child,
     this.controller,
@@ -298,10 +298,10 @@ class NuiScrollArea extends StatefulWidget {
   final bool alwaysVisible;
   final Axis axis;
   @override
-  State<NuiScrollArea> createState() => _NuiScrollAreaState();
+  State<DetentScrollArea> createState() => _DetentScrollAreaState();
 }
 
-class _NuiScrollAreaState extends State<NuiScrollArea> {
+class _DetentScrollAreaState extends State<DetentScrollArea> {
   final own = ScrollController();
   @override
   void dispose() {

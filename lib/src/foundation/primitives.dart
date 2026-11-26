@@ -10,8 +10,8 @@ export 'package:flutter/widgets.dart';
 
 export 'theme.dart';
 
-class NuiSurface extends StatelessWidget {
-  const NuiSurface({
+class DetentSurface extends StatelessWidget {
+  const DetentSurface({
     super.key,
     this.color,
     this.shape,
@@ -27,7 +27,7 @@ class NuiSurface extends StatelessWidget {
   @override
   Widget build(BuildContext context) => DecoratedBox(
     decoration: ShapeDecoration(
-      color: color ?? NuiTheme.of(context).raised,
+      color: color ?? DetentTheme.of(context).raised,
       shape:
           shape ??
           RoundedRectangleBorder(
@@ -37,7 +37,7 @@ class NuiSurface extends StatelessWidget {
           ? null
           : [
               BoxShadow(
-                color: NuiColors.black.withValues(alpha: .15),
+                color: DetentColors.black.withValues(alpha: .15),
                 blurRadius: elevation * 3,
                 offset: Offset(0, elevation),
               ),
@@ -47,19 +47,19 @@ class NuiSurface extends StatelessWidget {
   );
 }
 
-class NuiBox extends StatelessWidget {
-  const NuiBox({super.key, required this.body, this.backgroundColor});
+class DetentBox extends StatelessWidget {
+  const DetentBox({super.key, required this.body, this.backgroundColor});
   final Widget body;
   final Color? backgroundColor;
   @override
   Widget build(BuildContext context) => ColoredBox(
-    color: backgroundColor ?? NuiTheme.of(context).canvas,
+    color: backgroundColor ?? DetentTheme.of(context).canvas,
     child: body,
   );
 }
 
-class NuiInk extends StatefulWidget {
-  const NuiInk({
+class DetentInk extends StatefulWidget {
+  const DetentInk({
     super.key,
     required this.child,
     this.onTap,
@@ -75,10 +75,10 @@ class NuiInk extends StatefulWidget {
   final bool autofocus, selected;
   final Color? color, hoverColor;
   @override
-  State<NuiInk> createState() => _NuiInkState();
+  State<DetentInk> createState() => _DetentInkState();
 }
 
-class _NuiInkState extends State<NuiInk> {
+class _DetentInkState extends State<DetentInk> {
   bool hover = false, focus = false;
   @override
   Widget build(BuildContext context) => Semantics(
@@ -112,10 +112,12 @@ class _NuiInkState extends State<NuiInk> {
         child: DecoratedBox(
           decoration: BoxDecoration(
             color: hover
-                ? widget.hoverColor ?? NuiTheme.of(context).surface
+                ? widget.hoverColor ?? DetentTheme.of(context).surface
                 : widget.color,
             border: Border.all(
-              color: focus ? NuiTheme.of(context).focus : NuiColors.transparent,
+              color: focus
+                  ? DetentTheme.of(context).focus
+                  : DetentColors.transparent,
               width: 2,
             ),
             borderRadius: BorderRadius.circular(4),
@@ -127,8 +129,8 @@ class _NuiInkState extends State<NuiInk> {
   );
 }
 
-class NuiPlainButton extends StatelessWidget {
-  const NuiPlainButton({
+class DetentPlainButton extends StatelessWidget {
+  const DetentPlainButton({
     super.key,
     required this.child,
     this.onPressed,
@@ -140,7 +142,7 @@ class NuiPlainButton extends StatelessWidget {
   final bool autofocus;
   final FocusNode? focusNode;
   @override
-  Widget build(BuildContext context) => NuiInk(
+  Widget build(BuildContext context) => DetentInk(
     onTap: onPressed,
     autofocus: autofocus,
     focusNode: focusNode,
@@ -148,8 +150,8 @@ class NuiPlainButton extends StatelessWidget {
   );
 }
 
-class NuiIconAction extends StatelessWidget {
-  const NuiIconAction({
+class DetentIconAction extends StatelessWidget {
+  const DetentIconAction({
     super.key,
     required this.icon,
     this.onPressed,
@@ -166,7 +168,7 @@ class NuiIconAction extends StatelessWidget {
   Widget build(BuildContext context) {
     final button = Semantics(
       label: tooltip,
-      child: NuiInk(
+      child: DetentInk(
         onTap: onPressed,
         child: ConstrainedBox(
           constraints: constraints,
@@ -174,12 +176,14 @@ class NuiIconAction extends StatelessWidget {
         ),
       ),
     );
-    return tooltip == null ? button : NuiHint(message: tooltip!, child: button);
+    return tooltip == null
+        ? button
+        : DetentHint(message: tooltip!, child: button);
   }
 }
 
-class NuiTile extends StatelessWidget {
-  const NuiTile({
+class DetentTile extends StatelessWidget {
+  const DetentTile({
     super.key,
     required this.title,
     this.subtitle,
@@ -206,14 +210,14 @@ class NuiTile extends StatelessWidget {
   final Color? tileColor, hoverColor, selectedTileColor, selectedColor;
   final ShapeBorder? shape;
   @override
-  Widget build(BuildContext context) => NuiInk(
+  Widget build(BuildContext context) => DetentInk(
     onTap: enabled ? onTap : null,
     selected: selected,
     color: selected ? selectedTileColor : tileColor,
     hoverColor: hoverColor,
     child: ConstrainedBox(
       constraints: BoxConstraints(
-        minHeight: minTileHeight ?? NuiTheme.of(context).controlHeight,
+        minHeight: minTileHeight ?? DetentTheme.of(context).controlHeight,
       ),
       child: Padding(
         padding: contentPadding,
@@ -238,13 +242,13 @@ class NuiTile extends StatelessWidget {
   );
 }
 
-class NuiPopupController {
-  _NuiPopupAnchorState? _anchor;
-  NuiPopupController get root => _anchor?.parent?.root ?? this;
+class DetentPopupController {
+  _DetentPopupAnchorState? _anchor;
+  DetentPopupController get root => _anchor?.parent?.root ?? this;
   bool get isOpen => _anchor?.portal.isShowing ?? false;
   void open({Offset? position}) => _anchor?.open(position);
   void close() => _anchor?.close();
-  static NuiPopupController? maybeOf(BuildContext context) =>
+  static DetentPopupController? maybeOf(BuildContext context) =>
       context.dependOnInheritedWidgetOfExactType<_PopupScope>()?.controller;
   void closeAll() {
     final parent = _anchor?.parent;
@@ -255,13 +259,13 @@ class NuiPopupController {
 
 class _PopupScope extends InheritedWidget {
   const _PopupScope({required this.controller, required super.child});
-  final NuiPopupController controller;
+  final DetentPopupController controller;
   @override
   bool updateShouldNotify(_PopupScope old) => old.controller != controller;
 }
 
-class NuiPopupAnchor extends StatefulWidget {
-  const NuiPopupAnchor({
+class DetentPopupAnchor extends StatefulWidget {
+  const DetentPopupAnchor({
     super.key,
     this.controller,
     this.childFocusNode,
@@ -275,10 +279,10 @@ class NuiPopupAnchor extends StatefulWidget {
     this.borderColor,
     this.radius = 8,
   });
-  final NuiPopupController? controller;
+  final DetentPopupController? controller;
   final FocusNode? childFocusNode;
   final List<Widget> menuChildren;
-  final Widget Function(BuildContext, NuiPopupController, Widget?) builder;
+  final Widget Function(BuildContext, DetentPopupController, Widget?) builder;
   final Offset alignmentOffset;
   final EdgeInsetsGeometry padding;
   final bool focusMenu;
@@ -286,17 +290,17 @@ class NuiPopupAnchor extends StatefulWidget {
   final double radius;
   final VoidCallback? onClose;
   @override
-  State<NuiPopupAnchor> createState() => _NuiPopupAnchorState();
+  State<DetentPopupAnchor> createState() => _DetentPopupAnchorState();
 }
 
-class _NuiPopupAnchorState extends State<NuiPopupAnchor> {
+class _DetentPopupAnchorState extends State<DetentPopupAnchor> {
   final portal = OverlayPortalController();
   final link = LayerLink();
   final anchor = GlobalKey();
   final menuFocus = FocusScopeNode();
-  late final own = NuiPopupController();
-  NuiPopupController get control => widget.controller ?? own;
-  NuiPopupController? parent;
+  late final own = DetentPopupController();
+  DetentPopupController get control => widget.controller ?? own;
+  DetentPopupController? parent;
   Offset? position;
   ScrollPosition? scroll;
   @override
@@ -306,7 +310,7 @@ class _NuiPopupAnchorState extends State<NuiPopupAnchor> {
   }
 
   @override
-  void didUpdateWidget(NuiPopupAnchor old) {
+  void didUpdateWidget(DetentPopupAnchor old) {
     super.didUpdateWidget(old);
     if (old.controller != widget.controller) {
       (old.controller ?? own)._anchor = null;
@@ -317,7 +321,7 @@ class _NuiPopupAnchorState extends State<NuiPopupAnchor> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    parent = NuiPopupController.maybeOf(context);
+    parent = DetentPopupController.maybeOf(context);
     final next = Scrollable.maybeOf(context)?.position;
     if (next != scroll) {
       scroll?.removeListener(close);
@@ -366,7 +370,7 @@ class _NuiPopupAnchorState extends State<NuiPopupAnchor> {
           final box = anchor.currentContext!.findRenderObject()! as RenderBox;
           final origin = box.localToGlobal(Offset.zero);
           final rect = origin & box.size;
-          final t = NuiTheme.of(context);
+          final t = DetentTheme.of(context);
           return Positioned.fill(
             child: CompositedTransformFollower(
               link: link,
@@ -404,9 +408,9 @@ class _NuiPopupAnchorState extends State<NuiPopupAnchor> {
                         }
                         return KeyEventResult.ignored;
                       },
-                      child: NuiTheme(
+                      child: DetentTheme(
                         data: t,
-                        child: NuiSurface(
+                        child: DetentSurface(
                           color: widget.surfaceColor ?? t.raised,
                           elevation: 0,
                           shape: RoundedRectangleBorder(
@@ -489,8 +493,8 @@ class _PopupLayout extends SingleChildLayoutDelegate {
       old.direction != direction;
 }
 
-class NuiHint extends StatefulWidget {
-  const NuiHint({
+class DetentHint extends StatefulWidget {
+  const DetentHint({
     super.key,
     required this.message,
     required this.child,
@@ -500,11 +504,11 @@ class NuiHint extends StatefulWidget {
   final Widget child;
   final bool excludeFromSemantics;
   @override
-  State<NuiHint> createState() => _NuiHintState();
+  State<DetentHint> createState() => _DetentHintState();
 }
 
-class _NuiHintState extends State<NuiHint> {
-  final controller = NuiPopupController();
+class _DetentHintState extends State<DetentHint> {
+  final controller = DetentPopupController();
   Timer? timer;
   void hide() {
     timer?.cancel();
@@ -518,17 +522,17 @@ class _NuiHintState extends State<NuiHint> {
   }
 
   @override
-  Widget build(BuildContext context) => NuiPopupAnchor(
+  Widget build(BuildContext context) => DetentPopupAnchor(
     controller: controller,
-    surfaceColor: NuiTheme.of(context).display,
-    borderColor: NuiColors.transparent,
+    surfaceColor: DetentTheme.of(context).display,
+    borderColor: DetentColors.transparent,
     radius: 5,
     padding: const EdgeInsets.all(8),
     menuChildren: [
       Text(
         widget.message,
-        style: NuiTheme.of(context).textTheme.bodySmall
-            .copyWith(color: NuiColors.white),
+        style: DetentTheme.of(context).textTheme.bodySmall
+            .copyWith(color: DetentColors.white),
       ),
     ],
     builder: (ctx, c, _) => Focus(
@@ -554,22 +558,22 @@ class _NuiHintState extends State<NuiHint> {
   );
 }
 
-Future<T?> showNuiDialog<T>({
+Future<T?> showDetentDialog<T>({
   required BuildContext context,
   required WidgetBuilder builder,
   bool barrierDismissible = false,
   bool dismissOnEscape = true,
 }) {
-  final data = NuiTheme.of(context);
-  Widget contents(BuildContext ctx) => NuiTheme(
+  final data = DetentTheme.of(context);
+  Widget contents(BuildContext ctx) => DetentTheme(
     data: data,
     child: Shortcuts(
       shortcuts: const {
-        SingleActivator(LogicalKeyboardKey.escape): NuiDismissIntent(),
+        SingleActivator(LogicalKeyboardKey.escape): DetentDismissIntent(),
       },
       child: Actions(
         actions: {
-          NuiDismissIntent: CallbackAction<NuiDismissIntent>(
+          DetentDismissIntent: CallbackAction<DetentDismissIntent>(
             onInvoke: (_) {
               if (dismissOnEscape) Navigator.pop(ctx);
               return null;
@@ -597,19 +601,19 @@ Future<T?> showNuiDialog<T>({
     RawDialogRoute<T>(
       barrierDismissible: barrierDismissible,
       barrierLabel: '閉じる',
-      barrierColor: NuiColors.black.withValues(alpha: .4),
+      barrierColor: DetentColors.black.withValues(alpha: .4),
       transitionDuration: data.duration(context, 140),
       pageBuilder: (ctx, _, _) => contents(ctx),
     ),
   );
 }
 
-class NuiDismissIntent extends Intent {
-  const NuiDismissIntent();
+class DetentDismissIntent extends Intent {
+  const DetentDismissIntent();
 }
 
-class NuiDialogFrame extends StatelessWidget {
-  const NuiDialogFrame({
+class DetentDialogFrame extends StatelessWidget {
+  const DetentDialogFrame({
     super.key,
     this.title,
     this.content,
@@ -621,10 +625,10 @@ class NuiDialogFrame extends StatelessWidget {
   @override
   Widget build(BuildContext context) => ConstrainedBox(
     constraints: const BoxConstraints(maxWidth: 456),
-    child: NuiSurface(
+    child: DetentSurface(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
-        side: BorderSide(color: NuiTheme.of(context).controlBorder),
+        side: BorderSide(color: DetentTheme.of(context).controlBorder),
       ),
       child: Padding(
         padding: const EdgeInsets.all(12),

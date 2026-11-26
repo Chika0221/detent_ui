@@ -2,21 +2,21 @@ import 'package:flutter/widgets.dart';
 
 import 'tokens.g.dart';
 
-abstract final class NuiColors {
+abstract final class DetentColors {
   static const transparent = Color(0x00000000),
       black = Color(0xFF000000),
       white = Color(0xFFFFFFFF);
 }
 
-enum NuiDensity { compact, standard, comfortable }
+enum DetentDensity { compact, standard, comfortable }
 
-enum NuiMotion { system, full, reduced }
+enum DetentMotion { system, full, reduced }
 
-enum NuiThemeMode { light, dark, system }
+enum DetentThemeMode { light, dark, system }
 
 @immutable
-class NuiTypography {
-  const NuiTypography(this.ink);
+class DetentTypography {
+  const DetentTypography(this.ink);
   final Color ink;
   TextStyle get bodyMedium => TextStyle(
     fontFamily: 'packages/detent_ui/Manrope',
@@ -25,36 +25,45 @@ class NuiTypography {
     height: 1.5,
     color: ink,
   );
-  TextStyle get title => bodyMedium.copyWith(fontSize: 24, fontWeight: FontWeight.w600, height: 1.3);
-  TextStyle get sectionTitle => bodyMedium.copyWith(fontSize: 16, fontWeight: FontWeight.w600);
-  TextStyle get readout => bodyMedium.copyWith(fontSize: 24, fontWeight: FontWeight.w500, fontFeatures: const [FontFeature.tabularFigures()]);
+  TextStyle get title => bodyMedium.copyWith(
+    fontSize: 24,
+    fontWeight: FontWeight.w600,
+    height: 1.3,
+  );
+  TextStyle get sectionTitle =>
+      bodyMedium.copyWith(fontSize: 16, fontWeight: FontWeight.w600);
+  TextStyle get readout => bodyMedium.copyWith(
+    fontSize: 24,
+    fontWeight: FontWeight.w500,
+    fontFeatures: const [FontFeature.tabularFigures()],
+  );
   TextStyle get bodySmall => bodyMedium.copyWith(fontSize: 12);
   TextStyle get labelLarge =>
       bodyMedium.copyWith(fontWeight: FontWeight.w500, height: 1.35);
 }
 
 @immutable
-class NuiThemeData {
-  const NuiThemeData({
+class DetentThemeData {
+  const DetentThemeData({
     this.brightness = Brightness.light,
     this.highContrast = false,
-    this.density = NuiDensity.standard,
-    this.motion = NuiMotion.system,
+    this.density = DetentDensity.standard,
+    this.motion = DetentMotion.system,
     this.riveEnabled = true,
   });
   final Brightness brightness;
   final bool highContrast, riveEnabled;
-  final NuiDensity density;
-  final NuiMotion motion;
+  final DetentDensity density;
+  final DetentMotion motion;
   bool get dark => brightness == Brightness.dark;
   double get controlHeight => switch (density) {
-    NuiDensity.compact => 32,
-    NuiDensity.standard => 40,
-    NuiDensity.comfortable => 44,
+    DetentDensity.compact => 32,
+    DetentDensity.standard => 40,
+    DetentDensity.comfortable => 44,
   };
-  NuiTypography get textTheme => NuiTypography(ink);
+  DetentTypography get textTheme => DetentTypography(ink);
   Color _color(String role) =>
-      nuiPalettes[highContrast
+      detentPalettes[highContrast
           ? (dark ? 'highDark' : 'highLight')
           : (dark ? 'dark' : 'light')]![role]!;
   Color get canvas => _color('bg.canvas');
@@ -76,17 +85,18 @@ class NuiThemeData {
   Color get danger => _color('status.danger');
   Color get success => _color('status.success');
   bool reduceMotion(BuildContext context) =>
-      motion == NuiMotion.reduced ||
-      (motion == NuiMotion.system && MediaQuery.disableAnimationsOf(context));
+      motion == DetentMotion.reduced ||
+      (motion == DetentMotion.system &&
+          MediaQuery.disableAnimationsOf(context));
   Duration duration(BuildContext context, [int milliseconds = 120]) =>
       Duration(milliseconds: reduceMotion(context) ? 0 : milliseconds);
-  NuiThemeData copyWith({
+  DetentThemeData copyWith({
     Brightness? brightness,
     bool? highContrast,
-    NuiDensity? density,
-    NuiMotion? motion,
+    DetentDensity? density,
+    DetentMotion? motion,
     bool? riveEnabled,
-  }) => NuiThemeData(
+  }) => DetentThemeData(
     brightness: brightness ?? this.brightness,
     highContrast: highContrast ?? this.highContrast,
     density: density ?? this.density,
@@ -95,8 +105,8 @@ class NuiThemeData {
   );
 }
 
-class NuiTheme extends InheritedTheme {
-  NuiTheme({super.key, required this.data, required Widget child})
+class DetentTheme extends InheritedTheme {
+  DetentTheme({super.key, required this.data, required Widget child})
     : super(
         child: DefaultTextStyle(
           style: data.textTheme.bodyMedium,
@@ -106,37 +116,37 @@ class NuiTheme extends InheritedTheme {
           ),
         ),
       );
-  final NuiThemeData data;
-  static NuiThemeData of(BuildContext context) =>
-      context.dependOnInheritedWidgetOfExactType<NuiTheme>()?.data ??
-      NuiThemeData(
+  final DetentThemeData data;
+  static DetentThemeData of(BuildContext context) =>
+      context.dependOnInheritedWidgetOfExactType<DetentTheme>()?.data ??
+      DetentThemeData(
         brightness:
             MediaQuery.maybeOf(context)?.platformBrightness ?? Brightness.light,
         highContrast: MediaQuery.maybeOf(context)?.highContrast ?? false,
       );
   @override
-  bool updateShouldNotify(NuiTheme oldWidget) => oldWidget.data != data;
+  bool updateShouldNotify(DetentTheme oldWidget) => oldWidget.data != data;
   @override
   Widget wrap(BuildContext context, Widget child) =>
-      NuiTheme(data: data, child: child);
+      DetentTheme(data: data, child: child);
 }
 
 /// Optional convenience host; every component also works in a plain WidgetsApp.
-class NuiApp extends StatelessWidget {
-  const NuiApp({
+class DetentApp extends StatelessWidget {
+  const DetentApp({
     super.key,
     required this.home,
-    this.themeMode = NuiThemeMode.system,
-    this.density = NuiDensity.standard,
-    this.motion = NuiMotion.system,
+    this.themeMode = DetentThemeMode.system,
+    this.density = DetentDensity.standard,
+    this.motion = DetentMotion.system,
     this.riveEnabled = true,
     this.highContrast,
     this.title = 'Detent',
   });
   final Widget home;
-  final NuiThemeMode themeMode;
-  final NuiDensity density;
-  final NuiMotion motion;
+  final DetentThemeMode themeMode;
+  final DetentDensity density;
+  final DetentMotion motion;
   final bool riveEnabled;
   final bool? highContrast;
   final String title;
@@ -152,12 +162,12 @@ class NuiApp extends StatelessWidget {
     ),
     builder: (context, child) {
       final brightness = switch (themeMode) {
-        NuiThemeMode.light => Brightness.light,
-        NuiThemeMode.dark => Brightness.dark,
-        NuiThemeMode.system => MediaQuery.platformBrightnessOf(context),
+        DetentThemeMode.light => Brightness.light,
+        DetentThemeMode.dark => Brightness.dark,
+        DetentThemeMode.system => MediaQuery.platformBrightnessOf(context),
       };
-      return NuiTheme(
-        data: NuiThemeData(
+      return DetentTheme(
+        data: DetentThemeData(
           brightness: brightness,
           highContrast: highContrast ?? MediaQuery.highContrastOf(context),
           density: density,
@@ -171,8 +181,8 @@ class NuiApp extends StatelessWidget {
   );
 }
 
-class NuiDivider extends StatelessWidget {
-  const NuiDivider({super.key, this.vertical = false});
+class DetentDivider extends StatelessWidget {
+  const DetentDivider({super.key, this.vertical = false});
   final bool vertical;
   @override
   Widget build(BuildContext context) => vertical
@@ -180,20 +190,20 @@ class NuiDivider extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 8),
           child: SizedBox(
             width: 1,
-            child: ColoredBox(color: NuiTheme.of(context).border),
+            child: ColoredBox(color: DetentTheme.of(context).border),
           ),
         )
       : Padding(
           padding: const EdgeInsets.symmetric(vertical: 8),
           child: SizedBox(
             height: 1,
-            child: ColoredBox(color: NuiTheme.of(context).border),
+            child: ColoredBox(color: DetentTheme.of(context).border),
           ),
         );
 }
 
-class NuiFocusRing extends StatelessWidget {
-  const NuiFocusRing({
+class DetentFocusRing extends StatelessWidget {
+  const DetentFocusRing({
     super.key,
     required this.child,
     required this.focused,
@@ -207,7 +217,9 @@ class NuiFocusRing extends StatelessWidget {
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(radius + 4),
       border: Border.all(
-        color: focused ? NuiTheme.of(context).focus : NuiColors.transparent,
+        color: focused
+            ? DetentTheme.of(context).focus
+            : DetentColors.transparent,
         width: 2,
       ),
     ),
@@ -215,87 +227,93 @@ class NuiFocusRing extends StatelessWidget {
   );
 }
 
-const nuiPalettes = <String, Map<String, Color>>{
+const detentPalettes = <String, Map<String, Color>>{
   'light': {
-    'bg.canvas': NuiTokens.semantic_light_color_bg_canvas,
-    'bg.chrome': NuiTokens.semantic_light_color_bg_chrome,
-    'selection.surface': NuiTokens.semantic_light_color_selection_surface,
-    'selection.foreground': NuiTokens.semantic_light_color_selection_foreground,
-    'bg.surface': NuiTokens.semantic_light_color_bg_surface,
-    'bg.raised': NuiTokens.semantic_light_color_bg_raised,
-    'bg.display': NuiTokens.semantic_light_color_bg_display,
-    'text.primary': NuiTokens.semantic_light_color_text_primary,
-    'text.secondary': NuiTokens.semantic_light_color_text_secondary,
-    'text.inverse': NuiTokens.semantic_light_color_text_inverse,
-    'border.subtle': NuiTokens.semantic_light_color_border_subtle,
-    'border.control': NuiTokens.semantic_light_color_border_control,
-    'action.primary': NuiTokens.semantic_light_color_action_primary,
-    'action.primaryHover': NuiTokens.semantic_light_color_action_primaryHover,
-    'action.onPrimary': NuiTokens.semantic_light_color_action_onPrimary,
-    'focus.ring': NuiTokens.semantic_light_color_focus_ring,
-    'status.danger': NuiTokens.semantic_light_color_status_danger,
-    'status.success': NuiTokens.semantic_light_color_status_success,
+    'bg.canvas': DetentTokens.semantic_light_color_bg_canvas,
+    'bg.chrome': DetentTokens.semantic_light_color_bg_chrome,
+    'selection.surface': DetentTokens.semantic_light_color_selection_surface,
+    'selection.foreground':
+        DetentTokens.semantic_light_color_selection_foreground,
+    'bg.surface': DetentTokens.semantic_light_color_bg_surface,
+    'bg.raised': DetentTokens.semantic_light_color_bg_raised,
+    'bg.display': DetentTokens.semantic_light_color_bg_display,
+    'text.primary': DetentTokens.semantic_light_color_text_primary,
+    'text.secondary': DetentTokens.semantic_light_color_text_secondary,
+    'text.inverse': DetentTokens.semantic_light_color_text_inverse,
+    'border.subtle': DetentTokens.semantic_light_color_border_subtle,
+    'border.control': DetentTokens.semantic_light_color_border_control,
+    'action.primary': DetentTokens.semantic_light_color_action_primary,
+    'action.primaryHover':
+        DetentTokens.semantic_light_color_action_primaryHover,
+    'action.onPrimary': DetentTokens.semantic_light_color_action_onPrimary,
+    'focus.ring': DetentTokens.semantic_light_color_focus_ring,
+    'status.danger': DetentTokens.semantic_light_color_status_danger,
+    'status.success': DetentTokens.semantic_light_color_status_success,
   },
   'dark': {
-    'bg.canvas': NuiTokens.semantic_dark_color_bg_canvas,
-    'bg.chrome': NuiTokens.semantic_dark_color_bg_chrome,
-    'selection.surface': NuiTokens.semantic_dark_color_selection_surface,
-    'selection.foreground': NuiTokens.semantic_dark_color_selection_foreground,
-    'bg.surface': NuiTokens.semantic_dark_color_bg_surface,
-    'bg.raised': NuiTokens.semantic_dark_color_bg_raised,
-    'bg.display': NuiTokens.semantic_dark_color_bg_display,
-    'text.primary': NuiTokens.semantic_dark_color_text_primary,
-    'text.secondary': NuiTokens.semantic_dark_color_text_secondary,
-    'text.inverse': NuiTokens.semantic_dark_color_text_inverse,
-    'border.subtle': NuiTokens.semantic_dark_color_border_subtle,
-    'border.control': NuiTokens.semantic_dark_color_border_control,
-    'action.primary': NuiTokens.semantic_dark_color_action_primary,
-    'action.primaryHover': NuiTokens.semantic_dark_color_action_primaryHover,
-    'action.onPrimary': NuiTokens.semantic_dark_color_action_onPrimary,
-    'focus.ring': NuiTokens.semantic_dark_color_focus_ring,
-    'status.danger': NuiTokens.semantic_dark_color_status_danger,
-    'status.success': NuiTokens.semantic_dark_color_status_success,
+    'bg.canvas': DetentTokens.semantic_dark_color_bg_canvas,
+    'bg.chrome': DetentTokens.semantic_dark_color_bg_chrome,
+    'selection.surface': DetentTokens.semantic_dark_color_selection_surface,
+    'selection.foreground':
+        DetentTokens.semantic_dark_color_selection_foreground,
+    'bg.surface': DetentTokens.semantic_dark_color_bg_surface,
+    'bg.raised': DetentTokens.semantic_dark_color_bg_raised,
+    'bg.display': DetentTokens.semantic_dark_color_bg_display,
+    'text.primary': DetentTokens.semantic_dark_color_text_primary,
+    'text.secondary': DetentTokens.semantic_dark_color_text_secondary,
+    'text.inverse': DetentTokens.semantic_dark_color_text_inverse,
+    'border.subtle': DetentTokens.semantic_dark_color_border_subtle,
+    'border.control': DetentTokens.semantic_dark_color_border_control,
+    'action.primary': DetentTokens.semantic_dark_color_action_primary,
+    'action.primaryHover': DetentTokens.semantic_dark_color_action_primaryHover,
+    'action.onPrimary': DetentTokens.semantic_dark_color_action_onPrimary,
+    'focus.ring': DetentTokens.semantic_dark_color_focus_ring,
+    'status.danger': DetentTokens.semantic_dark_color_status_danger,
+    'status.success': DetentTokens.semantic_dark_color_status_success,
   },
   'highLight': {
-    'bg.canvas': NuiTokens.semantic_highLight_color_bg_canvas,
-    'bg.chrome': NuiTokens.semantic_highLight_color_bg_chrome,
-    'selection.surface': NuiTokens.semantic_highLight_color_selection_surface,
-    'selection.foreground': NuiTokens.semantic_highLight_color_selection_foreground,
-    'bg.surface': NuiTokens.semantic_highLight_color_bg_surface,
-    'bg.raised': NuiTokens.semantic_highLight_color_bg_raised,
-    'bg.display': NuiTokens.semantic_highLight_color_bg_display,
-    'text.primary': NuiTokens.semantic_highLight_color_text_primary,
-    'text.secondary': NuiTokens.semantic_highLight_color_text_secondary,
-    'text.inverse': NuiTokens.semantic_highLight_color_text_inverse,
-    'border.subtle': NuiTokens.semantic_highLight_color_border_subtle,
-    'border.control': NuiTokens.semantic_highLight_color_border_control,
-    'action.primary': NuiTokens.semantic_highLight_color_action_primary,
+    'bg.canvas': DetentTokens.semantic_highLight_color_bg_canvas,
+    'bg.chrome': DetentTokens.semantic_highLight_color_bg_chrome,
+    'selection.surface':
+        DetentTokens.semantic_highLight_color_selection_surface,
+    'selection.foreground':
+        DetentTokens.semantic_highLight_color_selection_foreground,
+    'bg.surface': DetentTokens.semantic_highLight_color_bg_surface,
+    'bg.raised': DetentTokens.semantic_highLight_color_bg_raised,
+    'bg.display': DetentTokens.semantic_highLight_color_bg_display,
+    'text.primary': DetentTokens.semantic_highLight_color_text_primary,
+    'text.secondary': DetentTokens.semantic_highLight_color_text_secondary,
+    'text.inverse': DetentTokens.semantic_highLight_color_text_inverse,
+    'border.subtle': DetentTokens.semantic_highLight_color_border_subtle,
+    'border.control': DetentTokens.semantic_highLight_color_border_control,
+    'action.primary': DetentTokens.semantic_highLight_color_action_primary,
     'action.primaryHover':
-        NuiTokens.semantic_highLight_color_action_primaryHover,
-    'action.onPrimary': NuiTokens.semantic_highLight_color_action_onPrimary,
-    'focus.ring': NuiTokens.semantic_highLight_color_focus_ring,
-    'status.danger': NuiTokens.semantic_highLight_color_status_danger,
-    'status.success': NuiTokens.semantic_highLight_color_status_success,
+        DetentTokens.semantic_highLight_color_action_primaryHover,
+    'action.onPrimary': DetentTokens.semantic_highLight_color_action_onPrimary,
+    'focus.ring': DetentTokens.semantic_highLight_color_focus_ring,
+    'status.danger': DetentTokens.semantic_highLight_color_status_danger,
+    'status.success': DetentTokens.semantic_highLight_color_status_success,
   },
   'highDark': {
-    'bg.canvas': NuiTokens.semantic_highDark_color_bg_canvas,
-    'bg.chrome': NuiTokens.semantic_highDark_color_bg_chrome,
-    'selection.surface': NuiTokens.semantic_highDark_color_selection_surface,
-    'selection.foreground': NuiTokens.semantic_highDark_color_selection_foreground,
-    'bg.surface': NuiTokens.semantic_highDark_color_bg_surface,
-    'bg.raised': NuiTokens.semantic_highDark_color_bg_raised,
-    'bg.display': NuiTokens.semantic_highDark_color_bg_display,
-    'text.primary': NuiTokens.semantic_highDark_color_text_primary,
-    'text.secondary': NuiTokens.semantic_highDark_color_text_secondary,
-    'text.inverse': NuiTokens.semantic_highDark_color_text_inverse,
-    'border.subtle': NuiTokens.semantic_highDark_color_border_subtle,
-    'border.control': NuiTokens.semantic_highDark_color_border_control,
-    'action.primary': NuiTokens.semantic_highDark_color_action_primary,
+    'bg.canvas': DetentTokens.semantic_highDark_color_bg_canvas,
+    'bg.chrome': DetentTokens.semantic_highDark_color_bg_chrome,
+    'selection.surface': DetentTokens.semantic_highDark_color_selection_surface,
+    'selection.foreground':
+        DetentTokens.semantic_highDark_color_selection_foreground,
+    'bg.surface': DetentTokens.semantic_highDark_color_bg_surface,
+    'bg.raised': DetentTokens.semantic_highDark_color_bg_raised,
+    'bg.display': DetentTokens.semantic_highDark_color_bg_display,
+    'text.primary': DetentTokens.semantic_highDark_color_text_primary,
+    'text.secondary': DetentTokens.semantic_highDark_color_text_secondary,
+    'text.inverse': DetentTokens.semantic_highDark_color_text_inverse,
+    'border.subtle': DetentTokens.semantic_highDark_color_border_subtle,
+    'border.control': DetentTokens.semantic_highDark_color_border_control,
+    'action.primary': DetentTokens.semantic_highDark_color_action_primary,
     'action.primaryHover':
-        NuiTokens.semantic_highDark_color_action_primaryHover,
-    'action.onPrimary': NuiTokens.semantic_highDark_color_action_onPrimary,
-    'focus.ring': NuiTokens.semantic_highDark_color_focus_ring,
-    'status.danger': NuiTokens.semantic_highDark_color_status_danger,
-    'status.success': NuiTokens.semantic_highDark_color_status_success,
+        DetentTokens.semantic_highDark_color_action_primaryHover,
+    'action.onPrimary': DetentTokens.semantic_highDark_color_action_onPrimary,
+    'focus.ring': DetentTokens.semantic_highDark_color_focus_ring,
+    'status.danger': DetentTokens.semantic_highDark_color_status_danger,
+    'status.success': DetentTokens.semantic_highDark_color_status_success,
   },
 };

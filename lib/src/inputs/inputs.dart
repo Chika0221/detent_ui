@@ -6,8 +6,8 @@ import 'package:intl/intl.dart';
 
 import '../controls/controls.dart';
 
-class NuiTextField extends StatefulWidget {
-  const NuiTextField({
+class DetentTextField extends StatefulWidget {
+  const DetentTextField({
     super.key,
     this.controller,
     this.focusNode,
@@ -40,10 +40,10 @@ class NuiTextField extends StatefulWidget {
   final List<TextInputFormatter>? inputFormatters;
   final VoidCallback? onTap;
   @override
-  State<NuiTextField> createState() => _NuiTextFieldState();
+  State<DetentTextField> createState() => _DetentTextFieldState();
 }
 
-class _NuiTextFieldState extends State<NuiTextField>
+class _DetentTextFieldState extends State<DetentTextField>
     implements TextSelectionGestureDetectorBuilderDelegate {
   @override
   GlobalKey<EditableTextState> get editableTextKey => edit;
@@ -67,7 +67,7 @@ class _NuiTextFieldState extends State<NuiTextField>
 
   @override
   Widget build(BuildContext context) {
-    final w = widget, t = NuiTheme.of(context);
+    final w = widget, t = DetentTheme.of(context);
     return Semantics(
       label: w.semanticLabel,
       enabled: w.enabled,
@@ -182,7 +182,7 @@ class _NuiTextFieldState extends State<NuiTextField>
                                                       .contextMenuAnchors
                                                       .primaryAnchor,
                                             ),
-                                        child: NuiSurface(
+                                        child: DetentSurface(
                                           elevation: 4,
                                           child: Padding(
                                             padding: const EdgeInsets.all(8),
@@ -192,7 +192,7 @@ class _NuiTextFieldState extends State<NuiTextField>
                                                 for (final item
                                                     in state
                                                         .contextMenuButtonItems)
-                                                  NuiPlainButton(
+                                                  DetentPlainButton(
                                                     onPressed: item.onPressed,
                                                     child: Text(
                                                       item.label ??
@@ -258,8 +258,8 @@ class _NuiTextFieldState extends State<NuiTextField>
   }
 }
 
-class NuiTextArea extends StatelessWidget {
-  const NuiTextArea({
+class DetentTextArea extends StatelessWidget {
+  const DetentTextArea({
     super.key,
     this.controller,
     this.onChanged,
@@ -276,7 +276,7 @@ class NuiTextArea extends StatelessWidget {
   final int minLines, maxLines;
   final bool readOnly;
   @override
-  Widget build(BuildContext context) => NuiTextField(
+  Widget build(BuildContext context) => DetentTextField(
     controller: controller,
     onChanged: onChanged,
     hintText: hintText,
@@ -287,8 +287,8 @@ class NuiTextArea extends StatelessWidget {
   );
 }
 
-class NuiSearchField extends StatefulWidget {
-  const NuiSearchField({
+class DetentSearchField extends StatefulWidget {
+  const DetentSearchField({
     super.key,
     this.controller,
     this.onChanged,
@@ -301,10 +301,10 @@ class NuiSearchField extends StatefulWidget {
   final String hintText;
   final String? shortcut;
   @override
-  State<NuiSearchField> createState() => _NuiSearchFieldState();
+  State<DetentSearchField> createState() => _DetentSearchFieldState();
 }
 
-class _NuiSearchFieldState extends State<NuiSearchField> {
+class _DetentSearchFieldState extends State<DetentSearchField> {
   late TextEditingController _own;
   TextEditingController get c => widget.controller ?? _own;
   @override
@@ -323,7 +323,7 @@ class _NuiSearchFieldState extends State<NuiSearchField> {
   Widget build(BuildContext context) =>
       ValueListenableBuilder<TextEditingValue>(
         valueListenable: c,
-        builder: (context, value, _) => NuiTextField(
+        builder: (context, value, _) => DetentTextField(
           controller: c,
           onChanged: widget.onChanged,
           onSubmitted: widget.onSubmitted,
@@ -331,7 +331,7 @@ class _NuiSearchFieldState extends State<NuiSearchField> {
           semanticLabel: widget.hintText,
           prefix: const Icon(FLucideIcons.search),
           suffix: value.text.isNotEmpty
-              ? NuiIconAction(
+              ? DetentIconAction(
                   tooltip: '検索をクリア',
                   icon: const Icon(FLucideIcons.x),
                   onPressed: () {
@@ -352,20 +352,20 @@ class _NuiSearchFieldState extends State<NuiSearchField> {
       );
 }
 
-class NuiSelect<T> extends StatelessWidget {
-  const NuiSelect({
+class DetentSelect<T> extends StatelessWidget {
+  const DetentSelect({
     super.key,
     required this.options,
     this.value,
     this.onChanged,
     this.hintText,
   });
-  final List<NuiOption<T>> options;
+  final List<DetentOption<T>> options;
   final T? value;
   final ValueChanged<T?>? onChanged;
   final String? hintText;
   @override
-  Widget build(BuildContext context) => _NuiOptionPicker<T>(
+  Widget build(BuildContext context) => _DetentOptionPicker<T>(
     options: options,
     value: value,
     editable: false,
@@ -375,8 +375,8 @@ class NuiSelect<T> extends StatelessWidget {
   );
 }
 
-class NuiComboBox<T extends Object> extends StatelessWidget {
-  const NuiComboBox({
+class DetentComboBox<T extends Object> extends StatelessWidget {
+  const DetentComboBox({
     super.key,
     required this.options,
     this.onSelected,
@@ -385,13 +385,13 @@ class NuiComboBox<T extends Object> extends StatelessWidget {
     this.loading = false,
     this.hintText = '選択または入力',
   });
-  final List<NuiOption<T>> options;
+  final List<DetentOption<T>> options;
   final ValueChanged<T>? onSelected;
   final ValueChanged<String>? onChanged;
   final String initialText, hintText;
   final bool loading;
   @override
-  Widget build(BuildContext context) => _NuiOptionPicker<T>(
+  Widget build(BuildContext context) => _DetentOptionPicker<T>(
     options: options,
     editable: true,
     initialText: initialText,
@@ -404,8 +404,8 @@ class NuiComboBox<T extends Object> extends StatelessWidget {
 
 /// Both controls share their anchor, field decoration, list and row states.
 /// A Select has a host-owned value; a ComboBox retains native text editing.
-class _NuiOptionPicker<T> extends StatefulWidget {
-  const _NuiOptionPicker({
+class _DetentOptionPicker<T> extends StatefulWidget {
+  const _DetentOptionPicker({
     required this.options,
     required this.editable,
     required this.hintText,
@@ -416,26 +416,26 @@ class _NuiOptionPicker<T> extends StatefulWidget {
     this.initialText = '',
     this.loading = false,
   });
-  final List<NuiOption<T>> options;
+  final List<DetentOption<T>> options;
   final bool editable, enabled, loading;
   final T? value;
   final ValueChanged<T>? onPick;
   final ValueChanged<String>? onChanged;
   final String hintText, initialText;
   @override
-  State<_NuiOptionPicker<T>> createState() => _NuiOptionPickerState<T>();
+  State<_DetentOptionPicker<T>> createState() => _DetentOptionPickerState<T>();
 }
 
-class _NuiOptionPickerState<T> extends State<_NuiOptionPicker<T>> {
-  final menu = NuiPopupController(),
+class _DetentOptionPickerState<T> extends State<_DetentOptionPicker<T>> {
+  final menu = DetentPopupController(),
       focus = FocusNode(),
       scroll = ScrollController();
   late final text = TextEditingController(
     text: widget.editable ? widget.initialText : selected?.label ?? '',
   );
-  NuiOption<T>? picked;
+  DetentOption<T>? picked;
   int highlighted = -1;
-  NuiOption<T>? get selected {
+  DetentOption<T>? get selected {
     if (widget.editable) return picked?.label == text.text ? picked : null;
     for (final o in widget.options) {
       if (o.value == widget.value) return o;
@@ -443,7 +443,7 @@ class _NuiOptionPickerState<T> extends State<_NuiOptionPicker<T>> {
     return null;
   }
 
-  List<NuiOption<T>> get candidates => widget.loading
+  List<DetentOption<T>> get candidates => widget.loading
       ? []
       : widget.options
             .where(
@@ -463,7 +463,7 @@ class _NuiOptionPickerState<T> extends State<_NuiOptionPicker<T>> {
   }
 
   @override
-  void didUpdateWidget(_NuiOptionPicker<T> old) {
+  void didUpdateWidget(_DetentOptionPicker<T> old) {
     super.didUpdateWidget(old);
     if (!widget.editable) {
       final label = selected?.label ?? '';
@@ -491,7 +491,7 @@ class _NuiOptionPickerState<T> extends State<_NuiOptionPicker<T>> {
 
   double rowHeight(BuildContext context) {
     final scaled = MediaQuery.textScalerOf(context).scale(14) * 1.5 + 8;
-    final minimum = NuiTheme.of(context).controlHeight - 4;
+    final minimum = DetentTheme.of(context).controlHeight - 4;
     return scaled > minimum ? scaled : minimum;
   }
 
@@ -541,7 +541,7 @@ class _NuiOptionPickerState<T> extends State<_NuiOptionPicker<T>> {
     }
   }
 
-  void choose(NuiOption<T> option) {
+  void choose(DetentOption<T> option) {
     if (!widget.enabled || !option.enabled) return;
     if (widget.editable) {
       picked = option;
@@ -604,7 +604,7 @@ class _NuiOptionPickerState<T> extends State<_NuiOptionPicker<T>> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = NuiTheme.of(context), rows = candidates;
+    final theme = DetentTheme.of(context), rows = candidates;
     return LayoutBuilder(
       builder: (context, bounds) {
         final width = bounds.hasBoundedWidth ? bounds.maxWidth : 320.0;
@@ -612,7 +612,7 @@ class _NuiOptionPickerState<T> extends State<_NuiOptionPicker<T>> {
           canRequestFocus: false,
           skipTraversal: true,
           onKeyEvent: key,
-          child: NuiPopupAnchor(
+          child: DetentPopupAnchor(
             controller: menu,
             childFocusNode: focus,
             alignmentOffset: const Offset(0, 8),
@@ -658,7 +658,7 @@ class _NuiOptionPickerState<T> extends State<_NuiOptionPicker<T>> {
                                       }
                                     },
                                     child: ExcludeFocus(
-                                      child: NuiTile(
+                                      child: DetentTile(
                                         dense: true,
                                         enabled: option.enabled,
                                         selected: isSelected,
@@ -678,14 +678,14 @@ class _NuiOptionPickerState<T> extends State<_NuiOptionPicker<T>> {
                                             4,
                                           ),
                                         ),
-                                        title: NuiHint(
+                                        title: DetentHint(
                                           message: option.label,
                                           excludeFromSemantics: true,
                                           child: Text(
                                             option.label,
                                             maxLines: 1,
                                             overflow: TextOverflow.ellipsis,
-                                            style: NuiTheme.of(context)
+                                            style: DetentTheme.of(context)
                                                 .textTheme
                                                 .bodyMedium
                                                 .copyWith(
@@ -716,7 +716,7 @@ class _NuiOptionPickerState<T> extends State<_NuiOptionPicker<T>> {
                 ),
               ),
             ],
-            builder: (context, controller, _) => NuiTextField(
+            builder: (context, controller, _) => DetentTextField(
               controller: text,
               focusNode: focus,
               enabled: widget.enabled,
@@ -732,7 +732,7 @@ class _NuiOptionPickerState<T> extends State<_NuiOptionPicker<T>> {
                       widget.onChanged?.call(value);
                     }
                   : null,
-              suffix: NuiIconAction(
+              suffix: DetentIconAction(
                 tooltip: widget.loading ? '読み込み中' : '候補を表示',
                 padding: const EdgeInsets.all(4),
                 icon: Icon(
@@ -759,8 +759,8 @@ class _NuiOptionPickerState<T> extends State<_NuiOptionPicker<T>> {
   }
 }
 
-class NuiFormField extends StatelessWidget {
-  const NuiFormField({
+class DetentFormField extends StatelessWidget {
+  const DetentFormField({
     super.key,
     required this.label,
     required this.child,
@@ -790,7 +790,10 @@ class NuiFormField extends StatelessWidget {
             padding: const EdgeInsets.only(top: 8),
             child: Text(
               description!,
-              style: TextStyle(fontSize: 12, color: NuiTheme.of(context).muted),
+              style: TextStyle(
+                fontSize: 12,
+                color: DetentTheme.of(context).muted,
+              ),
             ),
           ),
         if (error != null)
@@ -800,7 +803,7 @@ class NuiFormField extends StatelessWidget {
               liveRegion: true,
               child: Text(
                 error!,
-                style: TextStyle(color: NuiTheme.of(context).danger),
+                style: TextStyle(color: DetentTheme.of(context).danger),
               ),
             ),
           ),
@@ -809,8 +812,8 @@ class NuiFormField extends StatelessWidget {
   );
 }
 
-class NuiNumberStepper extends StatefulWidget {
-  const NuiNumberStepper({
+class DetentNumberStepper extends StatefulWidget {
+  const DetentNumberStepper({
     super.key,
     required this.value,
     this.min = -double.infinity,
@@ -828,10 +831,10 @@ class NuiNumberStepper extends StatefulWidget {
   final String? locale;
   final int fractionDigits;
   @override
-  State<NuiNumberStepper> createState() => _NuiNumberStepperState();
+  State<DetentNumberStepper> createState() => _DetentNumberStepperState();
 }
 
-class _NuiNumberStepperState extends State<NuiNumberStepper> {
+class _DetentNumberStepperState extends State<DetentNumberStepper> {
   final c = TextEditingController();
   final focus = FocusNode();
   String? error;
@@ -867,7 +870,7 @@ class _NuiNumberStepperState extends State<NuiNumberStepper> {
   }
 
   @override
-  void didUpdateWidget(NuiNumberStepper old) {
+  void didUpdateWidget(DetentNumberStepper old) {
     super.didUpdateWidget(old);
     if (old.value != widget.value || old.locale != widget.locale) sync();
   }
@@ -883,7 +886,7 @@ class _NuiNumberStepperState extends State<NuiNumberStepper> {
   Widget build(BuildContext context) => Row(
     children: [
       Expanded(
-        child: NuiTextField(
+        child: DetentTextField(
           controller: c,
           focusNode: focus,
           enabled: widget.onChanged != null,
@@ -901,7 +904,7 @@ class _NuiNumberStepperState extends State<NuiNumberStepper> {
         ),
       ),
       const SizedBox(width: 8),
-      NuiIconButton(
+      DetentIconButton(
         icon: FLucideIcons.minus,
         tooltip: '${widget.label}を減らす',
         onPressed: widget.onChanged == null || widget.value <= widget.min
@@ -910,7 +913,7 @@ class _NuiNumberStepperState extends State<NuiNumberStepper> {
                 (widget.value - widget.step).clamp(widget.min, widget.max),
               ),
       ),
-      NuiIconButton(
+      DetentIconButton(
         icon: FLucideIcons.plus,
         tooltip: '${widget.label}を増やす',
         onPressed: widget.onChanged == null || widget.value >= widget.max
@@ -924,8 +927,8 @@ class _NuiNumberStepperState extends State<NuiNumberStepper> {
 }
 
 @immutable
-class NuiShortcut {
-  const NuiShortcut(
+class DetentShortcut {
+  const DetentShortcut(
     this.key, {
     this.control = false,
     this.meta = false,
@@ -950,21 +953,21 @@ class NuiShortcut {
   ].join(' + ');
 }
 
-class NuiShortcutRecorder extends StatefulWidget {
-  const NuiShortcutRecorder({
+class DetentShortcutRecorder extends StatefulWidget {
+  const DetentShortcutRecorder({
     super.key,
     this.value,
     this.onChanged,
     this.conflict,
   });
-  final NuiShortcut? value;
-  final ValueChanged<NuiShortcut>? onChanged;
+  final DetentShortcut? value;
+  final ValueChanged<DetentShortcut>? onChanged;
   final String? conflict;
   @override
-  State<NuiShortcutRecorder> createState() => _NuiShortcutRecorderState();
+  State<DetentShortcutRecorder> createState() => _DetentShortcutRecorderState();
 }
 
-class _NuiShortcutRecorderState extends State<NuiShortcutRecorder> {
+class _DetentShortcutRecorderState extends State<DetentShortcutRecorder> {
   bool recording = false;
   final focus = FocusNode();
   @override
@@ -999,7 +1002,7 @@ class _NuiShortcutRecorderState extends State<NuiShortcutRecorder> {
       }
       final hw = HardwareKeyboard.instance;
       widget.onChanged?.call(
-        NuiShortcut(
+        DetentShortcut(
           e.logicalKey,
           control: hw.isControlPressed,
           meta: hw.isMetaPressed,
@@ -1010,16 +1013,16 @@ class _NuiShortcutRecorderState extends State<NuiShortcutRecorder> {
       setState(() => recording = false);
       return KeyEventResult.handled;
     },
-    child: NuiFormField(
+    child: DetentFormField(
       label: 'ショートカット',
       error: widget.conflict,
-      child: NuiButton(
+      child: DetentButton(
         label: recording
             ? 'キーを押してください（Escで中止）'
             : widget.value?.label ?? '記録を開始',
         variant: recording
-            ? NuiButtonVariant.primary
-            : NuiButtonVariant.secondary,
+            ? DetentButtonVariant.primary
+            : DetentButtonVariant.secondary,
         onPressed: widget.onChanged == null
             ? null
             : () {

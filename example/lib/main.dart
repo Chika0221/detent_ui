@@ -13,9 +13,9 @@ class DetentGallery extends StatefulWidget {
 }
 
 class _DetentGalleryState extends State<DetentGallery> {
-  NuiThemeMode mode = NuiThemeMode.light;
+  DetentThemeMode mode = DetentThemeMode.light;
   bool high = false, reduced = false, riveEnabled = true;
-  NuiDensity density = NuiDensity.standard;
+  DetentDensity density = DetentDensity.standard;
   GalleryPerformanceProbe? _performanceProbe;
   @override
   void initState() {
@@ -32,49 +32,49 @@ class _DetentGalleryState extends State<DetentGallery> {
   }
 
   @override
-  Widget build(BuildContext context) => NuiApp(
+  Widget build(BuildContext context) => DetentApp(
     title: 'Detent / UI Workshop',
     themeMode: mode,
     density: density,
-    motion: reduced ? NuiMotion.reduced : NuiMotion.full,
+    motion: reduced ? DetentMotion.reduced : DetentMotion.full,
     highContrast: high,
     riveEnabled: riveEnabled,
     home: Builder(
-      builder: (context) => NuiAppShell(
-        toolbar: NuiToolbar(
+      builder: (context) => DetentAppShell(
+        toolbar: DetentToolbar(
           children: [
             const Text(
               'Detent UI',
               style: TextStyle(fontWeight: FontWeight.w600),
             ),
             const SizedBox(width: 24),
-            NuiToggleButton(
+            DetentToggleButton(
               label: 'Dark',
-              value: mode == NuiThemeMode.dark,
+              value: mode == DetentThemeMode.dark,
               onChanged: (v) => setState(
-                () => mode = v ? NuiThemeMode.dark : NuiThemeMode.light,
+                () => mode = v ? DetentThemeMode.dark : DetentThemeMode.light,
               ),
             ),
-            NuiToggleButton(
+            DetentToggleButton(
               label: 'High contrast',
               value: high,
               onChanged: (v) => setState(() => high = v),
             ),
-            NuiToggleButton(
+            DetentToggleButton(
               label: 'Reduced motion',
               value: reduced,
               onChanged: (v) => setState(() => reduced = v),
             ),
-            NuiToggleButton(
+            DetentToggleButton(
               label: 'Rive',
               value: riveEnabled,
               onChanged: (v) => setState(() => riveEnabled = v),
             ),
-            NuiDropdownMenu(
+            DetentDropdownMenu(
               label: density.name,
               items: [
-                for (final d in NuiDensity.values)
-                  NuiMenuItem(
+                for (final d in DetentDensity.values)
+                  DetentMenuItem(
                     label: d.name,
                     onPressed: () => setState(() => density = d),
                   ),
@@ -83,7 +83,7 @@ class _DetentGalleryState extends State<DetentGallery> {
           ],
         ),
         body: const GalleryBody(),
-        statusBar: const NuiStatusBar(
+        statusBar: const DetentStatusBar(
           children: [Text('Detent Design System'), Spacer(), Text('0.8')],
         ),
       ),

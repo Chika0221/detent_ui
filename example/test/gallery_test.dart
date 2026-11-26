@@ -38,27 +38,27 @@ void main() {
     addTearDown(t.view.resetDevicePixelRatio);
     for (final dark in [false, true]) {
       for (final high in [false, true]) {
-        final theme = NuiThemeData(
+        final theme = DetentThemeData(
           brightness: dark ? Brightness.dark : Brightness.light,
           highContrast: high,
-          motion: NuiMotion.reduced,
+          motion: DetentMotion.reduced,
         );
         await t.pumpWidget(
-          NuiApp(
+          DetentApp(
             home: MediaQuery(
               data: const MediaQueryData(
                 size: Size(1440, 1000),
                 textScaler: TextScaler.linear(2),
               ),
-              child: NuiTheme(
+              child: DetentTheme(
                 data: theme,
-                child: const NuiBox(body: GalleryBody()),
+                child: const DetentBox(body: GalleryBody()),
               ),
             ),
           ),
         );
         await t.pump(const Duration(milliseconds: 200));
-        expect(find.byType(NuiButton), findsWidgets);
+        expect(find.byType(DetentButton), findsWidgets);
         for (var i = 1; i <= 48; i++) {
           expect(find.text('C${i.toString().padLeft(2, '0')}'), findsOneWidget);
         }
@@ -89,34 +89,37 @@ void main() {
       // Interactive components must not allocate Rive graphics, even with
       // Rive enabled for processing feedback elsewhere in this gallery.
       for (final type in [
-        NuiIconButton,
-        NuiToggleButton,
-        NuiKeycap,
-        NuiCheckbox,
-        NuiSwitch,
-        NuiSlider,
-        NuiRangeSlider,
-        NuiRotaryKnob,
-        NuiSegmentedControl<int>,
-        NuiRadioGroup<int>,
-        NuiTabs<String>,
-        NuiTreeView<String>,
+        DetentIconButton,
+        DetentToggleButton,
+        DetentKeycap,
+        DetentCheckbox,
+        DetentSwitch,
+        DetentSlider,
+        DetentRangeSlider,
+        DetentRotaryKnob,
+        DetentSegmentedControl<int>,
+        DetentRadioGroup<int>,
+        DetentTabs<String>,
+        DetentTreeView<String>,
       ]) {
         final control = find.byType(type);
         expect(control, findsWidgets, reason: '$type is covered');
         expect(
-          find.descendant(of: control, matching: find.byType(NuiRiveArtwork)),
+          find.descendant(
+            of: control,
+            matching: find.byType(DetentRiveArtwork),
+          ),
           findsNothing,
           reason: '$type uses Flutter motion',
         );
       }
       if (width == 390) {
-        await t.tap(find.widgetWithText(NuiDropdownMenu, '操作部品'));
+        await t.tap(find.widgetWithText(DetentDropdownMenu, '操作部品'));
         await t.pump(const Duration(milliseconds: 300));
         await t.tap(find.text('素材ワークスペース'));
         await t.pump(const Duration(milliseconds: 300));
         expect(
-          find.widgetWithText(NuiDropdownMenu, '素材ワークスペース'),
+          find.widgetWithText(DetentDropdownMenu, '素材ワークスペース'),
           findsOneWidget,
         );
         expect(find.text('素材編集ワークスペース').hitTestable(), findsOneWidget);
@@ -151,7 +154,7 @@ void main() {
         await t.pump();
         await t.tap(
           find.descendant(
-            of: find.byType(NuiSelect<int>),
+            of: find.byType(DetentSelect<int>),
             matching: find.byType(EditableText),
           ),
         );
@@ -161,7 +164,7 @@ void main() {
         await t.pump();
         await t.tap(
           find.descendant(
-            of: find.byType(NuiComboBox<int>),
+            of: find.byType(DetentComboBox<int>),
             matching: find.byType(EditableText),
           ),
         );
@@ -172,7 +175,10 @@ void main() {
         await t.ensureVisible(find.text('C20'));
         await t.pump();
         await capture('navigation');
-        await t.drag(find.byType(NuiScrollArea).first, const Offset(0, 5000));
+        await t.drag(
+          find.byType(DetentScrollArea).first,
+          const Offset(0, 5000),
+        );
         await t.pump(const Duration(seconds: 1));
         await t.tap(find.text('Dark'));
         await t.pump();
