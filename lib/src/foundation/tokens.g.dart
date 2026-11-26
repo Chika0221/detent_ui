@@ -35,6 +35,13 @@ abstract final class DetentTokens {
   static const primitive_color_darkChrome = Color(0xFF202528);
   static const primitive_color_darkSelection = Color(0xFF56615B);
   static const primitive_color_darkKeyDepth = Color(0xFF59635E);
+  static const primitive_color_amber = Color(0xFF9A5300);
+  static const primitive_color_darkAmber = Color(0xFFE8A25C);
+  static const primitive_color_highAmber = Color(0xFF8F4F00);
+  static const primitive_color_highDarkAmber = Color(0xFFF0AA62);
+  static const primitive_color_blue = Color(0xFF2F5C86);
+  static const primitive_color_darkBlue = Color(0xFF8CB6DE);
+  static const primitive_color_highDarkBlue = Color(0xFF95BCE2);
   static const double primitive_space_s0 = 0.0;
   static const double primitive_space_s4 = 4.0;
   static const double primitive_space_s8 = 8.0;
@@ -50,6 +57,7 @@ abstract final class DetentTokens {
   static const double primitive_radius_panel = 10.0;
   static const double primitive_radius_shell = 14.0;
   static const double primitive_radius_pill = 999.0;
+  static const double primitive_radius_mark = 2.0;
   static const double primitive_stroke_hairline = 1.0;
   static const double primitive_stroke_focus = 2.0;
   static const double primitive_stroke_keyDepth = 2.0;
@@ -95,6 +103,9 @@ abstract final class DetentTokens {
   static const semantic_light_color_focus_ring = Color(0xFF5F6765);
   static const semantic_light_color_status_danger = Color(0xFFB83238);
   static const semantic_light_color_status_success = Color(0xFF2E6B50);
+  static const semantic_light_color_status_warning = Color(0xFF9A5300);
+  static const semantic_light_color_status_info = Color(0xFF2F5C86);
+  static const semantic_light_color_status_onDanger = Color(0xFFFFFFFF);
   static const semantic_light_color_selection_surface = Color(0xFFB5BDB8);
   static const semantic_light_color_selection_foreground = Color(0xFF202426);
   static const semantic_light_color_depth_key = Color(0xFFA5ADA8);
@@ -129,6 +140,9 @@ abstract final class DetentTokens {
   static const semantic_dark_color_focus_ring = Color(0xFFC4CBC7);
   static const semantic_dark_color_status_danger = Color(0xFFFF858A);
   static const semantic_dark_color_status_success = Color(0xFF8DD2AB);
+  static const semantic_dark_color_status_warning = Color(0xFFE8A25C);
+  static const semantic_dark_color_status_info = Color(0xFF8CB6DE);
+  static const semantic_dark_color_status_onDanger = Color(0xFF202426);
   static const semantic_dark_color_selection_surface = Color(0xFF56615B);
   static const semantic_dark_color_selection_foreground = Color(0xFFF2F4F1);
   static const semantic_dark_color_depth_key = Color(0xFF59635E);
@@ -163,6 +177,9 @@ abstract final class DetentTokens {
   static const semantic_highLight_color_focus_ring = Color(0xFF000000);
   static const semantic_highLight_color_status_danger = Color(0xFFB83238);
   static const semantic_highLight_color_status_success = Color(0xFF2E6B50);
+  static const semantic_highLight_color_status_warning = Color(0xFF8F4F00);
+  static const semantic_highLight_color_status_info = Color(0xFF2F5C86);
+  static const semantic_highLight_color_status_onDanger = Color(0xFFFFFFFF);
   static const semantic_highLight_color_selection_surface = Color(0xFF000000);
   static const semantic_highLight_color_selection_foreground = Color(
     0xFFFFFFFF,
@@ -200,6 +217,9 @@ abstract final class DetentTokens {
   static const semantic_highDark_color_focus_ring = Color(0xFFFFFFFF);
   static const semantic_highDark_color_status_danger = Color(0xFFFF858A);
   static const semantic_highDark_color_status_success = Color(0xFF8DD2AB);
+  static const semantic_highDark_color_status_warning = Color(0xFFF0AA62);
+  static const semantic_highDark_color_status_info = Color(0xFF95BCE2);
+  static const semantic_highDark_color_status_onDanger = Color(0xFF000000);
   static const semantic_highDark_color_selection_surface = Color(0xFFFFFFFF);
   static const semantic_highDark_color_selection_foreground = Color(0xFF000000);
   static const semantic_highDark_color_depth_key = Color(0xFFFFFFFF);

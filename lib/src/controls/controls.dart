@@ -80,7 +80,7 @@ class _DetentButtonState extends State<DetentButton> {
         : widget.variant == DetentButtonVariant.primary
         ? t.accentInk
         : widget.variant == DetentButtonVariant.danger
-        ? (t.dark ? DetentColors.black : DetentColors.white)
+        ? t.onDanger
         : t.ink;
     final curve = const Cubic(.2, 0, .2, 1);
     Widget face(Widget child) => AnimatedContainer(
@@ -101,7 +101,7 @@ class _DetentButtonState extends State<DetentButton> {
             child: DecoratedBox(
               decoration: BoxDecoration(
                 color: t.controlBorder,
-                borderRadius: BorderRadius.circular(6),
+                borderRadius: BorderRadius.circular(DetentRadius.control),
               ),
             ),
           ),
@@ -111,7 +111,7 @@ class _DetentButtonState extends State<DetentButton> {
             DecoratedBox(
               decoration: BoxDecoration(
                 color: bg,
-                borderRadius: BorderRadius.circular(6),
+                borderRadius: BorderRadius.circular(DetentRadius.control),
                 border: Border.all(
                   color: widget.variant == DetentButtonVariant.quiet
                       ? DetentColors.transparent
@@ -129,11 +129,16 @@ class _DetentButtonState extends State<DetentButton> {
         ConstrainedBox(
           constraints: BoxConstraints(minHeight: t.controlHeight, minWidth: 28),
           child: Padding(
-            padding: const EdgeInsets.all(8),
+            padding: EdgeInsets.symmetric(
+              horizontal: widget.label.isEmpty
+                  ? DetentSpace.gap
+                  : DetentSpace.controlInline,
+              vertical: DetentSpace.controlBlock,
+            ),
             child: IconTheme(
               data: IconThemeData(color: fg, size: 16),
               child: DefaultTextStyle(
-                style: DetentTheme.of(context).textTheme.labelLarge.copyWith(
+                style: DetentTheme.of(context).textTheme.control.copyWith(
                   color: fg,
                   fontWeight: widget.selected ? FontWeight.w600 : null,
                 ),
@@ -358,7 +363,9 @@ class DetentKeycap extends StatelessWidget {
                     child: DecoratedBox(
                       decoration: BoxDecoration(
                         color: t.controlBorder,
-                        borderRadius: BorderRadius.circular(6),
+                        borderRadius: BorderRadius.circular(
+                          DetentRadius.control,
+                        ),
                       ),
                     ),
                   ),
@@ -378,7 +385,9 @@ class DetentKeycap extends StatelessWidget {
                         decoration: BoxDecoration(
                           color: bg,
                           border: Border.all(color: t.controlBorder),
-                          borderRadius: BorderRadius.circular(6),
+                          borderRadius: BorderRadius.circular(
+                            DetentRadius.control,
+                          ),
                         ),
                       ),
                     ),
@@ -400,11 +409,10 @@ class DetentKeycap extends StatelessWidget {
                         label,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
+                        style: t.textTheme.caption.copyWith(
                           color: pressed
                               ? (t.dark ? t.display : t.inverse)
                               : t.ink,
-                          fontSize: 12,
                         ),
                       ),
                     ),
@@ -460,7 +468,7 @@ class _DetentSegmentedControlState<T> extends State<DetentSegmentedControl<T>> {
       decoration: BoxDecoration(
         color: t.surface,
         border: Border.all(color: t.controlBorder),
-        borderRadius: BorderRadius.circular(7),
+        borderRadius: BorderRadius.circular(DetentRadius.menu),
       ),
       child: Padding(
         padding: const EdgeInsets.all(8),
@@ -727,6 +735,13 @@ class _DetentRadioGroupState<T> extends State<DetentRadioGroup<T>> {
   }
 }
 
+/// An immediate on/off setting drawn as a chunky slide switch that shares
+/// the Slider's look: a dark recessed bed, an oversized raised knob, ruler
+/// ticks, and engraved ON / OFF.
+///
+/// [axis] defaults to [Axis.vertical] (up is on). [Axis.horizontal] lays the
+/// same switch on its side (right is on). Arrow keys along the axis set the
+/// value directly; Enter and Space toggle.
 class DetentSwitch extends StatelessWidget {
   const DetentSwitch({
     super.key,
@@ -734,39 +749,66 @@ class DetentSwitch extends StatelessWidget {
     this.onChanged,
     this.label,
     this.focusNode,
+    this.axis = Axis.vertical,
   });
   final bool value;
   final ValueChanged<bool>? onChanged;
   final String? label;
   final FocusNode? focusNode;
+  final Axis axis;
   @override
-  Widget build(BuildContext context) => Semantics(
-    toggled: value,
-    label: label,
-    enabled: onChanged != null,
-    child: DetentInk(
-      focusNode: focusNode,
-      onTap: onChanged == null ? null : () => onChanged!(!value),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          DetentControlSkin(
-            mechanism: 'Switch',
-            visualSize: const Size(48, 28),
-            state: DetentControlState(
-              selected: value,
-              enabled: onChanged != null,
-            ),
-            inputBuilder: (_, _) => const SizedBox(width: 56, height: 40),
+  Widget build(BuildContext context) {
+    final vertical = axis == Axis.vertical;
+    return Semantics(
+      toggled: value,
+      label: label,
+      enabled: onChanged != null,
+      child: Focus(
+        canRequestFocus: false,
+        skipTraversal: true,
+        onKeyEvent: (_, e) {
+          if (onChanged == null || e is KeyUpEvent) {
+            return KeyEventResult.ignored;
+          }
+          final key = e.logicalKey;
+          final on = vertical
+              ? LogicalKeyboardKey.arrowUp
+              : LogicalKeyboardKey.arrowRight;
+          final off = vertical
+              ? LogicalKeyboardKey.arrowDown
+              : LogicalKeyboardKey.arrowLeft;
+          if (key != on && key != off) return KeyEventResult.ignored;
+          final next = key == on;
+          if (next != value) onChanged!(next);
+          return KeyEventResult.handled;
+        },
+        child: DetentInk(
+          focusNode: focusNode,
+          onTap: onChanged == null ? null : () => onChanged!(!value),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              DetentControlSkin(
+                mechanism: vertical ? 'SwitchVertical' : 'Switch',
+                visualSize: vertical ? const Size(68, 56) : const Size(116, 44),
+                state: DetentControlState(
+                  selected: value,
+                  enabled: onChanged != null,
+                ),
+                inputBuilder: (_, _) => vertical
+                    ? const SizedBox(width: 72, height: 60)
+                    : const SizedBox(width: 120, height: 48),
+              ),
+              if (label != null) ...[
+                const SizedBox(width: 8),
+                Flexible(child: ExcludeSemantics(child: Text(label!))),
+              ],
+            ],
           ),
-          if (label != null) ...[
-            const SizedBox(width: 8),
-            Flexible(child: ExcludeSemantics(child: Text(label!))),
-          ],
-        ],
+        ),
       ),
-    ),
-  );
+    );
+  }
 }
 
 double? _adjustValue(
@@ -817,6 +859,8 @@ class DetentSlider extends StatefulWidget {
     this.divisions,
     this.onChanged,
     this.label,
+    this.axis = Axis.horizontal,
+    this.length = 160,
   }) : assert(min <= max),
        assert(value >= min && value <= max),
        assert(divisions == null || divisions > 0);
@@ -824,6 +868,12 @@ class DetentSlider extends StatefulWidget {
   final int? divisions;
   final ValueChanged<double>? onChanged;
   final String? label;
+
+  /// [Axis.vertical] draws a mixer-style fader with min at the bottom.
+  final Axis axis;
+
+  /// Height of a vertical slider. A horizontal slider fills its width.
+  final double length;
   @override
   State<DetentSlider> createState() => _DetentSliderState();
 }
@@ -874,7 +924,7 @@ class _DetentSliderState extends State<DetentSlider> {
         },
         child: DecoratedBox(
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(6),
+            borderRadius: BorderRadius.circular(DetentRadius.control),
             border: Border.all(
               width: 2,
               color: focus.hasFocus
@@ -884,31 +934,33 @@ class _DetentSliderState extends State<DetentSlider> {
           ),
           child: LayoutBuilder(
             builder: (ctx, c) {
+              final vertical = w.axis == Axis.vertical;
               void point(Offset p) {
                 focus.requestFocus();
-                change(
-                  w.min +
-                      ((p.dx - 24) / math.max(1, c.maxWidth - 48)).clamp(
-                            0.0,
-                            1.0,
-                          ) *
-                          (w.max - w.min),
-                );
+                final fraction = vertical
+                    ? 1 - (p.dy - 24) / math.max(1, w.length - 48)
+                    : (p.dx - 24) / math.max(1, c.maxWidth - 48);
+                change(w.min + fraction.clamp(0.0, 1.0) * (w.max - w.min));
               }
 
+              final enabled = w.onChanged != null;
               return GestureDetector(
                 behavior: HitTestBehavior.opaque,
-                onTapUp: w.onChanged == null
-                    ? null
-                    : (e) => point(e.localPosition),
-                onHorizontalDragStart: w.onChanged == null
-                    ? null
-                    : (e) => point(e.localPosition),
-                onHorizontalDragUpdate: w.onChanged == null
-                    ? null
-                    : (e) => point(e.localPosition),
+                onTapUp: enabled ? (e) => point(e.localPosition) : null,
+                onHorizontalDragStart: enabled && !vertical
+                    ? (e) => point(e.localPosition)
+                    : null,
+                onHorizontalDragUpdate: enabled && !vertical
+                    ? (e) => point(e.localPosition)
+                    : null,
+                onVerticalDragStart: enabled && vertical
+                    ? (e) => point(e.localPosition)
+                    : null,
+                onVerticalDragUpdate: enabled && vertical
+                    ? (e) => point(e.localPosition)
+                    : null,
                 child: DetentControlSkin(
-                  mechanism: 'Slider',
+                  mechanism: vertical ? 'SliderVertical' : 'Slider',
                   resize: true,
                   state: DetentControlState(
                     value: w.max == w.min
@@ -916,8 +968,9 @@ class _DetentSliderState extends State<DetentSlider> {
                         : (w.value - w.min) / (w.max - w.min),
                     enabled: w.onChanged != null,
                   ),
-                  inputBuilder: (_, _) =>
-                      const SizedBox(height: 64, width: double.infinity),
+                  inputBuilder: (_, _) => vertical
+                      ? SizedBox(width: 64, height: w.length)
+                      : const SizedBox(height: 64, width: double.infinity),
                 ),
               );
             },
@@ -937,6 +990,8 @@ class DetentRangeSlider extends StatefulWidget {
     this.divisions,
     this.onChanged,
     this.label,
+    this.axis = Axis.horizontal,
+    this.length = 160,
   }) : assert(min <= max),
        assert(divisions == null || divisions > 0);
   final DetentRangeValues values;
@@ -944,6 +999,13 @@ class DetentRangeSlider extends StatefulWidget {
   final int? divisions;
   final ValueChanged<DetentRangeValues>? onChanged;
   final String? label;
+
+  /// [Axis.vertical] draws a mixer-style fader with min at the bottom; the
+  /// upper and lower readouts sit beside it at the top and bottom.
+  final Axis axis;
+
+  /// Height of a vertical slider. A horizontal slider fills its width.
+  final double length;
   @override
   State<DetentRangeSlider> createState() => _DetentRangeSliderState();
 }
@@ -1010,69 +1072,100 @@ class _DetentRangeSliderState extends State<DetentRangeSlider> {
           focused: node.hasFocus,
           child: Text(
             '${first ? '下限' : '上限'} ${value.toStringAsFixed(1)}',
-            style: const TextStyle(fontSize: 12),
+            style: DetentTheme.of(context).textTheme.caption,
           ),
         ),
       );
     }
 
+    final vertical = w.axis == Axis.vertical;
+    final enabled = w.onChanged != null;
+    final track = LayoutBuilder(
+      builder: (ctx, c) {
+        double value(Offset p) {
+          final fraction = vertical
+              ? 1 - (p.dy - 24) / math.max(1, w.length - 48)
+              : (p.dx - 24) / math.max(1, c.maxWidth - 48);
+          return w.min + fraction.clamp(0.0, 1.0) * (w.max - w.min);
+        }
+
+        void begin(Offset p) {
+          final v = value(p);
+          start = (v - w.values.start).abs() <= (v - w.values.end).abs();
+          (start ? lower : upper).requestFocus();
+          change(v, start);
+        }
+
+        return GestureDetector(
+          behavior: HitTestBehavior.opaque,
+          onTapUp: enabled ? (e) => begin(e.localPosition) : null,
+          onHorizontalDragStart: enabled && !vertical
+              ? (e) => begin(e.localPosition)
+              : null,
+          onHorizontalDragUpdate: enabled && !vertical
+              ? (e) => change(value(e.localPosition), start)
+              : null,
+          onVerticalDragStart: enabled && vertical
+              ? (e) => begin(e.localPosition)
+              : null,
+          onVerticalDragUpdate: enabled && vertical
+              ? (e) => change(value(e.localPosition), start)
+              : null,
+          child: DetentControlSkin(
+            mechanism: vertical ? 'RangeSliderVertical' : 'RangeSlider',
+            resize: true,
+            state: DetentControlState(
+              value: w.max == w.min
+                  ? 0
+                  : (w.values.start - w.min) / (w.max - w.min),
+              secondaryValue: w.max == w.min
+                  ? 0
+                  : (w.values.end - w.min) / (w.max - w.min),
+              enabled: enabled,
+            ),
+            inputBuilder: (_, _) => vertical
+                ? SizedBox(width: 64, height: w.length)
+                : const SizedBox(height: 64, width: double.infinity),
+          ),
+        );
+      },
+    );
+
     return Semantics(
       label: w.label,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          LayoutBuilder(
-            builder: (ctx, c) {
-              double value(Offset p) =>
-                  w.min +
-                  ((p.dx - 24) / math.max(1, c.maxWidth - 48)).clamp(0.0, 1.0) *
-                      (w.max - w.min);
-              void begin(Offset p) {
-                final v = value(p);
-                start = (v - w.values.start).abs() <= (v - w.values.end).abs();
-                (start ? lower : upper).requestFocus();
-                change(v, start);
-              }
-
-              return GestureDetector(
-                behavior: HitTestBehavior.opaque,
-                onTapUp: w.onChanged == null
-                    ? null
-                    : (e) => begin(e.localPosition),
-                onHorizontalDragStart: w.onChanged == null
-                    ? null
-                    : (e) => begin(e.localPosition),
-                onHorizontalDragUpdate: w.onChanged == null
-                    ? null
-                    : (e) => change(value(e.localPosition), start),
-                child: DetentControlSkin(
-                  mechanism: 'RangeSlider',
-                  resize: true,
-                  state: DetentControlState(
-                    value: w.max == w.min
-                        ? 0
-                        : (w.values.start - w.min) / (w.max - w.min),
-                    secondaryValue: w.max == w.min
-                        ? 0
-                        : (w.values.end - w.min) / (w.max - w.min),
-                    enabled: w.onChanged != null,
+      child: vertical
+          ? Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                track,
+                const SizedBox(width: 8),
+                SizedBox(
+                  height: w.length,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [target(false), target(true)],
                   ),
-                  inputBuilder: (_, _) =>
-                      const SizedBox(height: 64, width: double.infinity),
                 ),
-              );
-            },
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [target(true), target(false)],
-          ),
-        ],
-      ),
+              ],
+            )
+          : Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                track,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [target(true), target(false)],
+                ),
+              ],
+            ),
     );
   }
 }
 
+/// A rotary value control drawn as an instrument: a 270° track that fills
+/// with ink up to the value like the Slider, ruler ticks, and a raised disc
+/// with a pointer. The value is shown below the knob.
 class DetentRotaryKnob extends StatefulWidget {
   const DetentRotaryKnob({
     super.key,
@@ -1168,33 +1261,27 @@ class _DetentRotaryKnobState extends State<DetentRotaryKnob> {
                   );
                   if (result != null && mounted) set(result);
                 },
-          child: DetentFocusRing(
-            focused: focused,
-            radius: w.size / 2,
-            child: SizedBox.square(
-              dimension: w.size,
-              child: Stack(
-                children: [
-                  Positioned.fill(
-                    child: AnimatedScale(
-                      scale: dragging ? .98 : 1,
-                      duration: t.duration(context, dragging ? 60 : 120),
-                      curve: const Cubic(.2, 0, .2, 1),
-                      child: CustomPaint(painter: _KnobPainter(t, fraction)),
-                    ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              DetentFocusRing(
+                focused: focused,
+                radius: w.size / 2,
+                child: SizedBox.square(
+                  dimension: w.size,
+                  child: AnimatedScale(
+                    scale: dragging ? .98 : 1,
+                    duration: t.duration(context, dragging ? 60 : 120),
+                    curve: const Cubic(.2, 0, .2, 1),
+                    child: CustomPaint(painter: _KnobPainter(t, fraction)),
                   ),
-                  Center(
-                    child: Text(
-                      w.valueLabel ?? w.value.toStringAsFixed(0),
-                      style: const TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ),
-                ],
+                ),
               ),
-            ),
+              Text(
+                w.valueLabel ?? w.value.toStringAsFixed(0),
+                style: t.textTheme.readout,
+              ),
+            ],
           ),
         ),
       ),
@@ -1206,34 +1293,52 @@ class _KnobPainter extends CustomPainter {
   _KnobPainter(this.t, this.fraction);
   final DetentThemeData t;
   final double fraction;
+  static const _start = math.pi * .75, _sweep = math.pi * 1.5;
+  static Offset _dir(double f) =>
+      Offset(math.cos(_start + f * _sweep), math.sin(_start + f * _sweep));
+
   @override
   void paint(Canvas c, Size s) {
     final center = s.center(Offset.zero), r = s.shortestSide / 2;
-    final p = Paint()
+    // The track: 5px like the Slider, ink up to the value.
+    final rect = Rect.fromCircle(center: center, radius: r - 5);
+    final track = Paint()
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 5
+      ..strokeCap = StrokeCap.round;
+    c.drawArc(rect, _start, _sweep, false, track..color = t.border);
+    if (fraction > 0) {
+      c.drawArc(rect, _start, _sweep * fraction, false, track..color = t.ink);
+    }
+    // Ruler ticks, every fifth one longer.
+    final line = Paint()
       ..color = t.controlBorder
       ..style = PaintingStyle.stroke
       ..strokeWidth = 1;
-    for (var i = 0; i <= 30; i++) {
-      final a = math.pi * .75 + i / 30 * math.pi * 1.5;
+    for (var i = 0; i <= 20; i++) {
+      final d = _dir(i / 20);
       c.drawLine(
-        center + Offset(math.cos(a), math.sin(a)) * (r - 2),
-        center + Offset(math.cos(a), math.sin(a)) * (r - 4),
-        p,
+        center + d * (r - 12),
+        center + d * (r - (i % 5 == 0 ? 18 : 15)),
+        line,
       );
     }
+    // The raised disc with its offset base and a short pointer at the rim.
+    final disc = r - 22;
     c.drawCircle(
-      center + const Offset(0, 2),
-      r - 10,
+      center + const Offset(1, 2),
+      disc,
       Paint()..color = t.controlBorder,
     );
-    c.drawCircle(center, r - 10, Paint()..color = t.raised);
-    c.drawCircle(center, r - 10, p);
-    c.drawCircle(center, r - 16, p..color = t.border);
-    final a = math.pi * .75 + fraction * math.pi * 1.5;
-    c.drawCircle(
-      center + Offset(math.cos(a), math.sin(a)) * (r - 13),
-      2.5,
-      Paint()..color = t.ink,
+    c.drawCircle(center, disc, Paint()..color = t.raised);
+    c.drawCircle(center, disc, line);
+    c.drawLine(
+      center + _dir(fraction) * (disc - 9),
+      center + _dir(fraction) * (disc - 2),
+      Paint()
+        ..color = t.ink
+        ..strokeWidth = 3
+        ..strokeCap = StrokeCap.round,
     );
   }
 

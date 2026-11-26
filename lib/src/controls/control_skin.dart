@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import '../foundation/primitives.dart';
 
 import 'package:flutter/gestures.dart' show kPrimaryButton;
@@ -58,7 +60,7 @@ class _DetentControlSkinState extends State<DetentControlSkin> {
         context,
         widget.mechanism == 'SegmentedControl'
             ? 220
-            : widget.mechanism == 'Switch'
+            : widget.mechanism.startsWith('Switch')
             ? 160
             : 120,
       ),
@@ -109,7 +111,11 @@ class _StaticControlPainter extends CustomPainter {
     this.theme, {
     this.selectionValue,
     this.press = 0,
+    this.capShadow = const Offset(1, 2),
   });
+
+  /// Offset of the slider cap's base, in the painter's own frame.
+  final Offset capShadow;
   final double? selectionValue;
   final double press;
   final String mechanism;
@@ -117,6 +123,23 @@ class _StaticControlPainter extends CustomPainter {
   final DetentThemeData theme;
   @override
   void paint(Canvas canvas, Size size) {
+    // A vertical slider is the horizontal fader turned a quarter: min at the
+    // bottom, ticks on the right, the cap wide and short like a mixer fader.
+    if (mechanism == 'SliderVertical' || mechanism == 'RangeSliderVertical') {
+      canvas.save();
+      canvas.translate(0, size.height);
+      canvas.rotate(-math.pi / 2);
+      _StaticControlPainter(
+        mechanism.replaceFirst('Vertical', ''),
+        state,
+        theme,
+        selectionValue: selectionValue,
+        press: press,
+        capShadow: const Offset(-2, 1),
+      ).paint(canvas, Size(size.height, size.width));
+      canvas.restore();
+      return;
+    }
     final p = Paint()..isAntiAlias = true;
     void box(Rect rect, Color color, double radius, {bool outline = false}) {
       p
@@ -143,22 +166,109 @@ class _StaticControlPainter extends CustomPainter {
     }
 
     final center = size.center(Offset.zero);
-    if (mechanism == 'Switch') {
+    if (mechanism == 'SwitchVertical' || mechanism == 'Switch') {
+      // A chunky slide switch in the Slider's language: a dark recessed bed,
+      // an oversized knob drawn like the Slider's raised cap with its offset
+      // base, and short ruler ticks at the two positions beside engraved
+      // ON / OFF.
+      // Vertical: up is on. Horizontal: right is on.
+      final vertical = mechanism == 'SwitchVertical';
       final amount = (selectionValue ?? 0).clamp(0.0, 1.0);
-      final track = Rect.fromCenter(center: center, width: 48, height: 26);
-      box(track, Color.lerp(theme.border, theme.display, amount)!, 13);
-      if (theme.dark) box(track, theme.controlBorder, 13, outline: true);
-      circle(
-        center + Offset(-11 + 22 * amount, 0),
-        10 * (1 - press * .05),
-        theme.dark
-            ? Color.lerp(
-                theme.highContrast ? theme.canvas : theme.inverse,
-                theme.inverse,
-                amount,
-              )!
-            : theme.raised,
+      const long = 48.0, short = 28.0, knobLong = 24.0, inset = 3.0;
+      TextPainter engraving(String text, bool active) => TextPainter(
+        text: TextSpan(
+          text: text,
+          style: theme.textTheme.label.copyWith(
+            color: active ? theme.ink : theme.muted,
+            fontWeight: active ? FontWeight.w700 : FontWeight.w500,
+            height: 1,
+          ),
+        ),
+        textDirection: TextDirection.ltr,
+      )..layout();
+      final on = engraving('ON', amount >= .5),
+          off = engraving('OFF', amount < .5);
+      final bed = vertical
+          ? Rect.fromCenter(
+              center: Offset(size.width - short / 2 - 1, center.dy - 1),
+              width: short,
+              height: long,
+            )
+          : Rect.fromCenter(
+              center: Offset(
+                (size.width - on.width + off.width) / 2,
+                center.dy - 1,
+              ),
+              width: long,
+              height: short,
+            );
+      box(bed, theme.highContrast ? theme.canvas : theme.display, 6);
+      box(bed, theme.controlBorder, 6, outline: true);
+      final travel = long - inset * 2 - knobLong;
+      final lift = 2 * press;
+      final knob = vertical
+          ? Rect.fromLTWH(
+              bed.left + inset,
+              bed.top + inset + travel * (1 - amount) + lift,
+              short - inset * 2,
+              knobLong - 2,
+            )
+          : Rect.fromLTWH(
+              bed.left + inset + travel * amount,
+              bed.top + inset + lift,
+              knobLong,
+              short - inset * 2 - 2,
+            );
+      box(knob.shift(Offset(1, 2 - lift)), theme.controlBorder, 4);
+      box(knob, theme.raised, 4);
+      box(knob, theme.controlBorder, 4, outline: true);
+      // One short mark on the knob, across the direction of travel.
+      p
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 2
+        ..strokeCap = StrokeCap.round
+        ..color = theme.controlBorder;
+      final c = knob.center;
+      canvas.drawLine(
+        vertical ? c - const Offset(5, 0) : c - const Offset(0, 5),
+        vertical ? c + const Offset(5, 0) : c + const Offset(0, 5),
+        p,
       );
+      // Ruler ticks at the two knob positions, outside the bed.
+      p
+        ..strokeWidth = 1
+        ..strokeCap = StrokeCap.butt;
+      final onAt = vertical
+          ? Offset(bed.left, bed.top + inset + knobLong / 2)
+          : Offset(bed.right - inset - knobLong / 2, bed.bottom);
+      final offAt = vertical
+          ? Offset(bed.left, bed.bottom - inset - knobLong / 2)
+          : Offset(bed.left + inset + knobLong / 2, bed.bottom);
+      for (final at in [onAt, offAt]) {
+        canvas.drawLine(
+          vertical ? at - const Offset(8, 0) : at + const Offset(0, 3),
+          vertical ? at - const Offset(3, 0) : at + const Offset(0, 8),
+          p,
+        );
+      }
+      if (vertical) {
+        on.paint(
+          canvas,
+          Offset(onAt.dx - 12 - on.width, onAt.dy - on.height / 2),
+        );
+        off.paint(
+          canvas,
+          Offset(offAt.dx - 12 - off.width, offAt.dy - off.height / 2),
+        );
+      } else {
+        off.paint(
+          canvas,
+          Offset(bed.left - 6 - off.width, bed.center.dy - off.height / 2),
+        );
+        on.paint(canvas, Offset(bed.right + 6, bed.center.dy - on.height / 2));
+      }
+      on.dispose();
+      off.dispose();
     } else if (mechanism == 'Checkbox') {
       final rect = Rect.fromCenter(center: center, width: 20, height: 20);
       final amount = (selectionValue ?? 0).clamp(0.0, 1.0);
@@ -232,7 +342,7 @@ class _StaticControlPainter extends CustomPainter {
           width: 18,
           height: 24 - press * 2,
         );
-        box(rect.shift(const Offset(1, 2)), theme.controlBorder, 4);
+        box(rect.shift(capShadow), theme.controlBorder, 4);
         box(rect, theme.raised, 4);
         box(rect, theme.controlBorder, 4, outline: true);
       }

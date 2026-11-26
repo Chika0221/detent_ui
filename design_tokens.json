@@ -384,6 +384,90 @@
           ],
           "alpha": 1
         }
+      },
+      "amber": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.6039215686274509,
+            0.3254901960784314,
+            0.0
+          ],
+          "alpha": 1
+        }
+      },
+      "darkAmber": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.9098039215686274,
+            0.6352941176470588,
+            0.3607843137254902
+          ],
+          "alpha": 1
+        }
+      },
+      "highAmber": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.5607843137254902,
+            0.30980392156862746,
+            0.0
+          ],
+          "alpha": 1
+        }
+      },
+      "highDarkAmber": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.9411764705882353,
+            0.6666666666666666,
+            0.3843137254901961
+          ],
+          "alpha": 1
+        }
+      },
+      "blue": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.1843137254901961,
+            0.3607843137254902,
+            0.5254901960784314
+          ],
+          "alpha": 1
+        }
+      },
+      "darkBlue": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.5490196078431373,
+            0.7137254901960784,
+            0.8705882352941177
+          ],
+          "alpha": 1
+        }
+      },
+      "highDarkBlue": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.5843137254901961,
+            0.7372549019607844,
+            0.8862745098039215
+          ],
+          "alpha": 1
+        }
       }
     },
     "space": {
@@ -491,6 +575,13 @@
         "$type": "dimension",
         "$value": {
           "value": 999,
+          "unit": "px"
+        }
+      },
+      "mark": {
+        "$type": "dimension",
+        "$value": {
+          "value": 2,
           "unit": "px"
         }
       }
@@ -767,6 +858,18 @@
           "success": {
             "$type": "color",
             "$value": "{primitive.color.green}"
+          },
+          "warning": {
+            "$type": "color",
+            "$value": "{primitive.color.amber}"
+          },
+          "info": {
+            "$type": "color",
+            "$value": "{primitive.color.blue}"
+          },
+          "onDanger": {
+            "$type": "color",
+            "$value": "{primitive.color.white}"
           }
         },
         "selection": {
@@ -978,6 +1081,18 @@
           "success": {
             "$type": "color",
             "$value": "{primitive.color.darkGreen}"
+          },
+          "warning": {
+            "$type": "color",
+            "$value": "{primitive.color.darkAmber}"
+          },
+          "info": {
+            "$type": "color",
+            "$value": "{primitive.color.darkBlue}"
+          },
+          "onDanger": {
+            "$type": "color",
+            "$value": "{primitive.color.ink}"
           }
         },
         "selection": {
@@ -1189,6 +1304,18 @@
           "success": {
             "$type": "color",
             "$value": "{primitive.color.green}"
+          },
+          "warning": {
+            "$type": "color",
+            "$value": "{primitive.color.highAmber}"
+          },
+          "info": {
+            "$type": "color",
+            "$value": "{primitive.color.blue}"
+          },
+          "onDanger": {
+            "$type": "color",
+            "$value": "{primitive.color.white}"
           }
         },
         "selection": {
@@ -1400,6 +1527,18 @@
           "success": {
             "$type": "color",
             "$value": "{primitive.color.darkGreen}"
+          },
+          "warning": {
+            "$type": "color",
+            "$value": "{primitive.color.highDarkAmber}"
+          },
+          "info": {
+            "$type": "color",
+            "$value": "{primitive.color.highDarkBlue}"
+          },
+          "onDanger": {
+            "$type": "color",
+            "$value": "{primitive.color.black}"
           }
         },
         "selection": {

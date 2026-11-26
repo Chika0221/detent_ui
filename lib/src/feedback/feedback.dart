@@ -14,7 +14,7 @@ Color detentToneColor(DetentThemeData t, DetentTone tone) => switch (tone) {
   DetentTone.neutral => t.muted,
   DetentTone.success => t.success,
   DetentTone.danger => t.danger,
-  DetentTone.warning => t.accent,
+  DetentTone.warning => t.warning,
 };
 
 class DetentBadge extends StatelessWidget {
@@ -35,7 +35,7 @@ class DetentBadge extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
       decoration: BoxDecoration(
         color: t.raised,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(DetentRadius.control),
         border: Border.all(color: t.border),
       ),
       child: Row(
@@ -54,7 +54,7 @@ class DetentBadge extends StatelessWidget {
               ),
             ),
           const SizedBox(width: 8),
-          Text(label, style: const TextStyle(fontSize: 12)),
+          Text(label, style: DetentTheme.of(context).textTheme.caption),
         ],
       ),
     );
@@ -145,7 +145,7 @@ class DetentProgress extends StatelessWidget {
           ? SizedBox(
               height: 7,
               child: ClipRRect(
-                borderRadius: BorderRadius.circular(3),
+                borderRadius: BorderRadius.circular(DetentRadius.mark),
                 child: artwork,
               ),
             )
@@ -301,8 +301,8 @@ class DetentMeter extends StatelessWidget {
             ),
             const SizedBox(height: 8),
             DefaultTextStyle(
-              style: DetentTheme.of(context).textTheme.bodySmall
-                  .copyWith(color: t.inverse, fontSize: 12),
+              style: DetentTheme.of(context).textTheme.caption
+                  .copyWith(color: t.inverse),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -343,7 +343,7 @@ class DetentInlineAlert extends StatelessWidget {
           color: t.highContrast
               ? t.raised
               : Color.alphaBlend(color.withValues(alpha: .05), t.raised),
-          borderRadius: BorderRadius.circular(6),
+          borderRadius: BorderRadius.circular(DetentRadius.control),
           border: Border.all(color: color),
         ),
         child: Row(
@@ -371,7 +371,7 @@ class DetentInlineAlert extends StatelessWidget {
                   Text(title, style: TextStyle(color: color)),
                   if (message != null) ...[
                     const SizedBox(height: 8),
-                    Text(message!, style: t.textTheme.bodySmall),
+                    Text(message!, style: t.textTheme.caption),
                   ],
                 ],
               ),
@@ -503,7 +503,7 @@ class _DetentToastState extends State<DetentToast> {
           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
           decoration: BoxDecoration(
             color: DetentTheme.of(context).raised,
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(DetentRadius.menu),
             border: Border.all(color: DetentTheme.of(context).controlBorder),
           ),
           child: Row(
@@ -530,7 +530,7 @@ class _DetentToastState extends State<DetentToast> {
                       onPressed: widget.onAction,
                       child: Text(
                         widget.actionLabel!,
-                        style: DetentTheme.of(context).textTheme.bodySmall,
+                        style: DetentTheme.of(context).textTheme.caption,
                       ),
                     ),
                   if (widget.onDismiss != null)
@@ -650,7 +650,7 @@ class DetentSkeleton extends StatelessWidget {
         fallback: DecoratedBox(
           decoration: BoxDecoration(
             color: DetentTheme.of(context).border,
-            borderRadius: BorderRadius.circular(2),
+            borderRadius: BorderRadius.circular(DetentRadius.mark),
           ),
         ),
       ),
@@ -686,7 +686,7 @@ class DetentTaskStatus extends StatelessWidget {
       DetentTaskState.success => '完了',
       DetentTaskState.error => '失敗',
     };
-    final foreground = DetentColors.white;
+    final foreground = DetentTheme.of(context).inverse;
     final running =
         state == DetentTaskState.running || state == DetentTaskState.canceling;
     final terminal =
@@ -713,10 +713,10 @@ class DetentTaskStatus extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
             decoration: BoxDecoration(
               color: t.display,
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(DetentRadius.panel),
             ),
             child: DefaultTextStyle(
-              style: t.textTheme.bodyMedium.copyWith(color: foreground),
+              style: t.textTheme.body.copyWith(color: foreground),
               child: Row(
                 children: [
                   SizedBox(
@@ -760,7 +760,7 @@ class DetentTaskStatus extends StatelessWidget {
                         const SizedBox(height: 8),
                         Text(
                           detail ?? status,
-                          style: t.textTheme.bodySmall.copyWith(
+                          style: t.textTheme.caption.copyWith(
                             color: const Color(0xFFADB6BC),
                           ),
                         ),
@@ -771,16 +771,12 @@ class DetentTaskStatus extends StatelessWidget {
                   if (progress != null)
                     Text(
                       '${(fraction * 100).round()}%',
-                      style: t.textTheme.bodyMedium.copyWith(
-                        color: foreground,
-                        fontSize: 20,
-                        fontWeight: FontWeight.w500,
-                      ),
+                      style: t.textTheme.readout.copyWith(color: foreground),
                     )
                   else
                     Text(
                       status,
-                      style: t.textTheme.bodySmall.copyWith(color: foreground),
+                      style: t.textTheme.caption.copyWith(color: foreground),
                     ),
                 ],
               ),

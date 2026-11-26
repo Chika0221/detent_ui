@@ -30,6 +30,9 @@ class DetentPalette {
     required this.success,
     required this.selectionSurface,
     required this.selectionForeground,
+    this.warning,
+    this.info,
+    this.onDanger,
   });
 
   /// Builds a palette from semantic role names such as `bg.canvas`.
@@ -56,6 +59,9 @@ class DetentPalette {
     success: roles['status.success']!,
     selectionSurface: roles['selection.surface']!,
     selectionForeground: roles['selection.foreground']!,
+    warning: roles['status.warning'],
+    info: roles['status.info'],
+    onDanger: roles['status.onDanger'],
   );
 
   /// The built-in Detent palette.
@@ -95,6 +101,10 @@ class DetentPalette {
       selectionSurface,
       selectionForeground;
 
+  /// Optional status roles. When null, the built-in Detent value for the
+  /// palette's brightness is used.
+  final Color? warning, info, onDanger;
+
   /// Looks up a color by semantic role name; null for unknown roles.
   Color? role(String role) => switch (role) {
     'bg.canvas' => canvas,
@@ -115,10 +125,13 @@ class DetentPalette {
     'status.success' => success,
     'selection.surface' => selectionSurface,
     'selection.foreground' => selectionForeground,
+    'status.warning' => warning,
+    'status.info' => info,
+    'status.onDanger' => onDanger,
     _ => null,
   };
 
-  List<Object> get _props => [
+  List<Object?> get _props => [
     brightness,
     canvas,
     chrome,
@@ -138,6 +151,9 @@ class DetentPalette {
     success,
     selectionSurface,
     selectionForeground,
+    warning,
+    info,
+    onDanger,
   ];
 
   @override

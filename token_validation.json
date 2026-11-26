@@ -1,5 +1,5 @@
 {
-  "tokens": 271,
+  "tokens": 360,
   "aliases": 138,
   "unresolvedAliases": 0,
   "cycles": 0,
@@ -256,6 +256,198 @@
       "mode": "highDark",
       "foreground": "status.danger",
       "background": "bg.raised",
+      "ratio": 8.974,
+      "minimum": 4.5,
+      "pass": true
+    },
+    {
+      "mode": "light",
+      "foreground": "status.warning",
+      "background": "bg.canvas",
+      "ratio": 5.234,
+      "minimum": 4.5,
+      "pass": true
+    },
+    {
+      "mode": "light",
+      "foreground": "status.warning",
+      "background": "bg.surface",
+      "ratio": 4.641,
+      "minimum": 4.5,
+      "pass": true
+    },
+    {
+      "mode": "light",
+      "foreground": "status.warning",
+      "background": "bg.raised",
+      "ratio": 5.564,
+      "minimum": 4.5,
+      "pass": true
+    },
+    {
+      "mode": "light",
+      "foreground": "status.info",
+      "background": "bg.canvas",
+      "ratio": 6.309,
+      "minimum": 4.5,
+      "pass": true
+    },
+    {
+      "mode": "light",
+      "foreground": "status.info",
+      "background": "bg.surface",
+      "ratio": 5.594,
+      "minimum": 4.5,
+      "pass": true
+    },
+    {
+      "mode": "light",
+      "foreground": "status.onDanger",
+      "background": "status.danger",
+      "ratio": 5.913,
+      "minimum": 4.5,
+      "pass": true
+    },
+    {
+      "mode": "dark",
+      "foreground": "status.warning",
+      "background": "bg.canvas",
+      "ratio": 8.347,
+      "minimum": 4.5,
+      "pass": true
+    },
+    {
+      "mode": "dark",
+      "foreground": "status.warning",
+      "background": "bg.surface",
+      "ratio": 6.974,
+      "minimum": 4.5,
+      "pass": true
+    },
+    {
+      "mode": "dark",
+      "foreground": "status.warning",
+      "background": "bg.raised",
+      "ratio": 5.341,
+      "minimum": 4.5,
+      "pass": true
+    },
+    {
+      "mode": "dark",
+      "foreground": "status.info",
+      "background": "bg.canvas",
+      "ratio": 8.439,
+      "minimum": 4.5,
+      "pass": true
+    },
+    {
+      "mode": "dark",
+      "foreground": "status.info",
+      "background": "bg.surface",
+      "ratio": 7.05,
+      "minimum": 4.5,
+      "pass": true
+    },
+    {
+      "mode": "dark",
+      "foreground": "status.onDanger",
+      "background": "status.danger",
+      "ratio": 6.688,
+      "minimum": 4.5,
+      "pass": true
+    },
+    {
+      "mode": "highLight",
+      "foreground": "status.warning",
+      "background": "bg.canvas",
+      "ratio": 6.39,
+      "minimum": 4.5,
+      "pass": true
+    },
+    {
+      "mode": "highLight",
+      "foreground": "status.warning",
+      "background": "bg.surface",
+      "ratio": 6.39,
+      "minimum": 4.5,
+      "pass": true
+    },
+    {
+      "mode": "highLight",
+      "foreground": "status.warning",
+      "background": "bg.raised",
+      "ratio": 6.39,
+      "minimum": 4.5,
+      "pass": true
+    },
+    {
+      "mode": "highLight",
+      "foreground": "status.info",
+      "background": "bg.canvas",
+      "ratio": 7.009,
+      "minimum": 4.5,
+      "pass": true
+    },
+    {
+      "mode": "highLight",
+      "foreground": "status.info",
+      "background": "bg.surface",
+      "ratio": 7.009,
+      "minimum": 4.5,
+      "pass": true
+    },
+    {
+      "mode": "highLight",
+      "foreground": "status.onDanger",
+      "background": "status.danger",
+      "ratio": 5.913,
+      "minimum": 4.5,
+      "pass": true
+    },
+    {
+      "mode": "highDark",
+      "foreground": "status.warning",
+      "background": "bg.canvas",
+      "ratio": 10.631,
+      "minimum": 4.5,
+      "pass": true
+    },
+    {
+      "mode": "highDark",
+      "foreground": "status.warning",
+      "background": "bg.surface",
+      "ratio": 10.631,
+      "minimum": 4.5,
+      "pass": true
+    },
+    {
+      "mode": "highDark",
+      "foreground": "status.warning",
+      "background": "bg.raised",
+      "ratio": 10.631,
+      "minimum": 4.5,
+      "pass": true
+    },
+    {
+      "mode": "highDark",
+      "foreground": "status.info",
+      "background": "bg.canvas",
+      "ratio": 10.569,
+      "minimum": 4.5,
+      "pass": true
+    },
+    {
+      "mode": "highDark",
+      "foreground": "status.info",
+      "background": "bg.surface",
+      "ratio": 10.569,
+      "minimum": 4.5,
+      "pass": true
+    },
+    {
+      "mode": "highDark",
+      "foreground": "status.onDanger",
+      "background": "status.danger",
       "ratio": 8.974,
       "minimum": 4.5,
       "pass": true

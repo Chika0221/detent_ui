@@ -272,7 +272,9 @@ class DetentPerforationSurface extends StatelessWidget {
     this.holeSize = DetentHoleSize.md,
     this.mask,
     this.padding = const EdgeInsets.all(32),
-    this.borderRadius = const BorderRadius.all(Radius.circular(10)),
+    this.borderRadius = const BorderRadius.all(
+      Radius.circular(DetentRadius.panel),
+    ),
   }) : assert(coverage != DetentPerforationCoverage.custom || mask != null);
 
   final Widget child;
@@ -337,7 +339,7 @@ class DetentPerforationSurface extends StatelessWidget {
               child: DecoratedBox(
                 decoration: BoxDecoration(
                   color: color,
-                  borderRadius: BorderRadius.circular(6),
+                  borderRadius: BorderRadius.circular(DetentRadius.control),
                 ),
                 child: Padding(padding: const EdgeInsets.all(16), child: child),
               ),
@@ -350,7 +352,7 @@ class DetentPerforationSurface extends StatelessWidget {
       result = DetentTheme(
         data: t.copyWith(brightness: Brightness.dark),
         child: DefaultTextStyle.merge(
-          style: t.textTheme.bodyMedium.copyWith(
+          style: t.textTheme.body.copyWith(
             color: t.copyWith(brightness: Brightness.dark).ink,
           ),
           child: result,
@@ -650,9 +652,9 @@ class DetentSpeakerMatrix extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(label, style: t.textTheme.bodySmall),
+            Text(label, style: t.textTheme.caption),
             const SizedBox(height: 4),
-            Text(description, style: t.textTheme.labelLarge),
+            Text(description, style: t.textTheme.control),
             const SizedBox(height: 12),
             _PerforationMotion(
               animate: loading,
