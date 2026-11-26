@@ -1,6 +1,9 @@
 import 'package:flutter/widgets.dart';
 
+import 'palette.dart';
 import 'tokens.g.dart';
+
+export 'palette.dart';
 
 abstract final class DetentColors {
   static const transparent = Color(0x00000000),
@@ -50,12 +53,16 @@ class DetentThemeData {
     this.density = DetentDensity.standard,
     this.motion = DetentMotion.system,
     this.riveEnabled = true,
+    this.palette,
   });
   final Brightness brightness;
   final bool highContrast, riveEnabled;
   final DetentDensity density;
   final DetentMotion motion;
-  bool get dark => brightness == Brightness.dark;
+
+  /// Replaces the built-in colors (and [brightness]) when set.
+  final DetentPalette? palette;
+  bool get dark => (palette?.brightness ?? brightness) == Brightness.dark;
   double get controlHeight => switch (density) {
     DetentDensity.compact => 32,
     DetentDensity.standard => 40,
@@ -63,6 +70,7 @@ class DetentThemeData {
   };
   DetentTypography get textTheme => DetentTypography(ink);
   Color _color(String role) =>
+      palette?.role(role) ??
       detentPalettes[highContrast
           ? (dark ? 'highDark' : 'highLight')
           : (dark ? 'dark' : 'light')]![role]!;
@@ -96,12 +104,14 @@ class DetentThemeData {
     DetentDensity? density,
     DetentMotion? motion,
     bool? riveEnabled,
+    DetentPalette? palette,
   }) => DetentThemeData(
     brightness: brightness ?? this.brightness,
     highContrast: highContrast ?? this.highContrast,
     density: density ?? this.density,
     motion: motion ?? this.motion,
     riveEnabled: riveEnabled ?? this.riveEnabled,
+    palette: palette ?? this.palette,
   );
 }
 
@@ -141,6 +151,7 @@ class DetentApp extends StatelessWidget {
     this.motion = DetentMotion.system,
     this.riveEnabled = true,
     this.highContrast,
+    this.palette,
     this.title = 'Detent',
   });
   final Widget home;
@@ -149,6 +160,10 @@ class DetentApp extends StatelessWidget {
   final DetentMotion motion;
   final bool riveEnabled;
   final bool? highContrast;
+
+  /// Custom colors, e.g. from `detent_ui_omarchy`. When set, its brightness
+  /// overrides [themeMode].
+  final DetentPalette? palette;
   final String title;
   @override
   Widget build(BuildContext context) => WidgetsApp(
@@ -161,11 +176,13 @@ class DetentApp extends StatelessWidget {
       transitionDuration: Duration.zero,
     ),
     builder: (context, child) {
-      final brightness = switch (themeMode) {
-        DetentThemeMode.light => Brightness.light,
-        DetentThemeMode.dark => Brightness.dark,
-        DetentThemeMode.system => MediaQuery.platformBrightnessOf(context),
-      };
+      final brightness =
+          palette?.brightness ??
+          switch (themeMode) {
+            DetentThemeMode.light => Brightness.light,
+            DetentThemeMode.dark => Brightness.dark,
+            DetentThemeMode.system => MediaQuery.platformBrightnessOf(context),
+          };
       return DetentTheme(
         data: DetentThemeData(
           brightness: brightness,
@@ -173,6 +190,7 @@ class DetentApp extends StatelessWidget {
           density: density,
           motion: motion,
           riveEnabled: riveEnabled,
+          palette: palette,
         ),
         child: child!,
       );
