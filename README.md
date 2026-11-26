@@ -138,6 +138,7 @@ Select はホストが値を管理する選択専用、ComboBox は文字入力�
 - 角丸と余白の定数 `DetentRadius`（mark 2 / control 6 / menu 8 / panel 10 / chassis 14）と `DetentSpace` を追加しました。
 - `DetentSwitch` は既定で縦のスライドスイッチになりました（上がON、横にON / OFFを刻印）。暗い溝に大きなつまみを置いたデフォルメした形で、つまみと目盛りはSliderと同じ描き方です。`axis: Axis.horizontal` で同じスライドスイッチを横に置けます（右がON、両端にOFF / ON）。矢印キーは向きに沿って値を直接設定します。
 - `DetentSlider` と `DetentRangeSlider` に `axis: Axis.vertical` と `length` を追加しました。RangeSliderの縦型は上限を上、下限を下に表示します。オーディオミキサーのフェーダーのように下が最小、目盛りは右側です。見た目は横型と同じつまみです。
+- `DetentRotaryKnob` の見た目を作り直しました。外周の弧がSliderと同じ太さで値まで濃く埋まり、目盛りと明るい円盤の指針で角度を示します。数値はつまみの下に表示します（つまみの真ん中ではなくなったため、高さが数値の行の分だけ増えます）。
 - ボタンと入力欄の左右paddingは12pxです。一覧・表・ツリー・サイドバーの行は行ごとの枠をなくし、選択には `selection.surface` を使います。
 
 ## 実装内容

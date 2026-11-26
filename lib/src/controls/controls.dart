@@ -1163,6 +1163,9 @@ class _DetentRangeSliderState extends State<DetentRangeSlider> {
   }
 }
 
+/// A rotary value control drawn as an instrument: a 270° track that fills
+/// with ink up to the value like the Slider, ruler ticks, and a raised disc
+/// with a pointer. The value is shown below the knob.
 class DetentRotaryKnob extends StatefulWidget {
   const DetentRotaryKnob({
     super.key,
@@ -1258,30 +1261,27 @@ class _DetentRotaryKnobState extends State<DetentRotaryKnob> {
                   );
                   if (result != null && mounted) set(result);
                 },
-          child: DetentFocusRing(
-            focused: focused,
-            radius: w.size / 2,
-            child: SizedBox.square(
-              dimension: w.size,
-              child: Stack(
-                children: [
-                  Positioned.fill(
-                    child: AnimatedScale(
-                      scale: dragging ? .98 : 1,
-                      duration: t.duration(context, dragging ? 60 : 120),
-                      curve: const Cubic(.2, 0, .2, 1),
-                      child: CustomPaint(painter: _KnobPainter(t, fraction)),
-                    ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              DetentFocusRing(
+                focused: focused,
+                radius: w.size / 2,
+                child: SizedBox.square(
+                  dimension: w.size,
+                  child: AnimatedScale(
+                    scale: dragging ? .98 : 1,
+                    duration: t.duration(context, dragging ? 60 : 120),
+                    curve: const Cubic(.2, 0, .2, 1),
+                    child: CustomPaint(painter: _KnobPainter(t, fraction)),
                   ),
-                  Center(
-                    child: Text(
-                      w.valueLabel ?? w.value.toStringAsFixed(0),
-                      style: DetentTheme.of(context).textTheme.readout,
-                    ),
-                  ),
-                ],
+                ),
               ),
-            ),
+              Text(
+                w.valueLabel ?? w.value.toStringAsFixed(0),
+                style: t.textTheme.readout,
+              ),
+            ],
           ),
         ),
       ),
@@ -1293,34 +1293,52 @@ class _KnobPainter extends CustomPainter {
   _KnobPainter(this.t, this.fraction);
   final DetentThemeData t;
   final double fraction;
+  static const _start = math.pi * .75, _sweep = math.pi * 1.5;
+  static Offset _dir(double f) =>
+      Offset(math.cos(_start + f * _sweep), math.sin(_start + f * _sweep));
+
   @override
   void paint(Canvas c, Size s) {
     final center = s.center(Offset.zero), r = s.shortestSide / 2;
-    final p = Paint()
+    // The track: 5px like the Slider, ink up to the value.
+    final rect = Rect.fromCircle(center: center, radius: r - 5);
+    final track = Paint()
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 5
+      ..strokeCap = StrokeCap.round;
+    c.drawArc(rect, _start, _sweep, false, track..color = t.border);
+    if (fraction > 0) {
+      c.drawArc(rect, _start, _sweep * fraction, false, track..color = t.ink);
+    }
+    // Ruler ticks, every fifth one longer.
+    final line = Paint()
       ..color = t.controlBorder
       ..style = PaintingStyle.stroke
       ..strokeWidth = 1;
-    for (var i = 0; i <= 30; i++) {
-      final a = math.pi * .75 + i / 30 * math.pi * 1.5;
+    for (var i = 0; i <= 20; i++) {
+      final d = _dir(i / 20);
       c.drawLine(
-        center + Offset(math.cos(a), math.sin(a)) * (r - 2),
-        center + Offset(math.cos(a), math.sin(a)) * (r - 4),
-        p,
+        center + d * (r - 12),
+        center + d * (r - (i % 5 == 0 ? 18 : 15)),
+        line,
       );
     }
+    // The raised disc with its offset base and a short pointer at the rim.
+    final disc = r - 22;
     c.drawCircle(
-      center + const Offset(0, 2),
-      r - 10,
+      center + const Offset(1, 2),
+      disc,
       Paint()..color = t.controlBorder,
     );
-    c.drawCircle(center, r - 10, Paint()..color = t.raised);
-    c.drawCircle(center, r - 10, p);
-    c.drawCircle(center, r - 16, p..color = t.border);
-    final a = math.pi * .75 + fraction * math.pi * 1.5;
-    c.drawCircle(
-      center + Offset(math.cos(a), math.sin(a)) * (r - 13),
-      2.5,
-      Paint()..color = t.ink,
+    c.drawCircle(center, disc, Paint()..color = t.raised);
+    c.drawCircle(center, disc, line);
+    c.drawLine(
+      center + _dir(fraction) * (disc - 9),
+      center + _dir(fraction) * (disc - 2),
+      Paint()
+        ..color = t.ink
+        ..strokeWidth = 3
+        ..strokeCap = StrokeCap.round,
     );
   }
 
