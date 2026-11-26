@@ -7,6 +7,8 @@ dependencies:
     sdk: flutter
   detent_ui:
     path: ../
+  detent_ui_omarchy:
+    path: ../packages/detent_ui_omarchy
 dev_dependencies:
   rive: 0.14.11
   flutter_lints: ^6.0.0
