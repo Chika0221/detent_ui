@@ -125,12 +125,12 @@ class _StaticControlPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     // A vertical slider is the horizontal fader turned a quarter: min at the
     // bottom, ticks on the right, the cap wide and short like a mixer fader.
-    if (mechanism == 'SliderVertical') {
+    if (mechanism == 'SliderVertical' || mechanism == 'RangeSliderVertical') {
       canvas.save();
       canvas.translate(0, size.height);
       canvas.rotate(-math.pi / 2);
       _StaticControlPainter(
-        'Slider',
+        mechanism.replaceFirst('Vertical', ''),
         state,
         theme,
         selectionValue: selectionValue,
@@ -166,27 +166,57 @@ class _StaticControlPainter extends CustomPainter {
     }
 
     final center = size.center(Offset.zero);
-    if (mechanism == 'SwitchVertical') {
+    if (mechanism == 'SwitchVertical' || mechanism == 'Switch') {
       // A slide switch: a dark recessed slot, a ridged knob with a 2px base
-      // like the keys, and engraved ON / OFF labels. Up is on.
+      // like the keys, and engraved ON / OFF labels. Vertical: up is on.
+      // Horizontal: right is on, OFF and ON engraved at either end.
+      final vertical = mechanism == 'SwitchVertical';
       final amount = (selectionValue ?? 0).clamp(0.0, 1.0);
-      const slotWidth = 22.0, slotHeight = 46.0, knobHeight = 20.0;
-      final slot = Rect.fromCenter(
-        center: Offset(size.width - slotWidth / 2 - 1, center.dy),
-        width: slotWidth,
-        height: slotHeight,
-      );
+      const slotLong = 46.0, slotShort = 22.0, knobLong = 20.0;
+      TextPainter engraving(String text, bool active) => TextPainter(
+        text: TextSpan(
+          text: text,
+          style: theme.textTheme.label.copyWith(
+            color: active ? theme.ink : theme.muted,
+            fontWeight: active ? FontWeight.w700 : FontWeight.w500,
+            height: 1,
+          ),
+        ),
+        textDirection: TextDirection.ltr,
+      )..layout();
+      final on = engraving('ON', amount >= .5),
+          off = engraving('OFF', amount < .5);
+      final slot = vertical
+          ? Rect.fromCenter(
+              center: Offset(size.width - slotShort / 2 - 1, center.dy),
+              width: slotShort,
+              height: slotLong,
+            )
+          : Rect.fromCenter(
+              center: Offset(
+                (size.width - on.width + off.width) / 2,
+                center.dy,
+              ),
+              width: slotLong,
+              height: slotShort,
+            );
       box(slot, theme.highContrast ? theme.canvas : theme.display, 4);
       box(slot, theme.controlBorder, 4, outline: true);
-      final travel = slotHeight - 6 - knobHeight;
-      final top = slot.top + 3 + travel * (1 - amount);
+      final travel = slotLong - 6 - knobLong;
       final depth = 2 * (1 - press);
-      final knob = Rect.fromLTWH(
-        slot.left + 3,
-        top + 2 - depth,
-        slotWidth - 6,
-        knobHeight - 2,
-      );
+      final knob = vertical
+          ? Rect.fromLTWH(
+              slot.left + 3,
+              slot.top + 3 + travel * (1 - amount) + 2 - depth,
+              slotShort - 6,
+              knobLong - 2,
+            )
+          : Rect.fromLTWH(
+              slot.left + 3 + travel * amount,
+              slot.top + 3 + 2 - depth,
+              knobLong,
+              slotShort - 8,
+            );
       box(knob.shift(Offset(0, depth)), theme.controlBorder, 3);
       box(knob, theme.raised, 3);
       box(knob, theme.controlBorder, 3, outline: true);
@@ -194,47 +224,47 @@ class _StaticControlPainter extends CustomPainter {
         ..style = PaintingStyle.stroke
         ..strokeWidth = 1
         ..color = theme.controlBorder;
-      for (final dy in [-3.0, 0.0, 3.0]) {
-        final y = knob.center.dy + dy;
-        canvas.drawLine(Offset(knob.left + 4, y), Offset(knob.right - 4, y), p);
+      for (final d in [-3.0, 0.0, 3.0]) {
+        if (vertical) {
+          final y = knob.center.dy + d;
+          canvas.drawLine(
+            Offset(knob.left + 4, y),
+            Offset(knob.right - 4, y),
+            p,
+          );
+        } else {
+          final x = knob.center.dx + d;
+          canvas.drawLine(
+            Offset(x, knob.top + 3),
+            Offset(x, knob.bottom - 3),
+            p,
+          );
+        }
       }
-      void engrave(String text, bool active, double y) {
-        final painter = TextPainter(
-          text: TextSpan(
-            text: text,
-            style: theme.textTheme.label.copyWith(
-              color: active ? theme.ink : theme.muted,
-              fontWeight: active ? FontWeight.w700 : FontWeight.w500,
-              height: 1,
-            ),
-          ),
-          textDirection: TextDirection.ltr,
-        )..layout();
-        painter.paint(
+      if (vertical) {
+        on.paint(
           canvas,
-          Offset(slot.left - 6 - painter.width, y - painter.height / 2),
+          Offset(
+            slot.left - 6 - on.width,
+            slot.top + 3 + knobLong / 2 - on.height / 2,
+          ),
         );
-        painter.dispose();
+        off.paint(
+          canvas,
+          Offset(
+            slot.left - 6 - off.width,
+            slot.bottom - 3 - knobLong / 2 - off.height / 2,
+          ),
+        );
+      } else {
+        off.paint(
+          canvas,
+          Offset(slot.left - 6 - off.width, center.dy - off.height / 2),
+        );
+        on.paint(canvas, Offset(slot.right + 6, center.dy - on.height / 2));
       }
-
-      engrave('ON', amount >= .5, slot.top + 3 + knobHeight / 2);
-      engrave('OFF', amount < .5, slot.bottom - 3 - knobHeight / 2);
-    } else if (mechanism == 'Switch') {
-      final amount = (selectionValue ?? 0).clamp(0.0, 1.0);
-      final track = Rect.fromCenter(center: center, width: 48, height: 26);
-      box(track, Color.lerp(theme.border, theme.display, amount)!, 13);
-      if (theme.dark) box(track, theme.controlBorder, 13, outline: true);
-      circle(
-        center + Offset(-11 + 22 * amount, 0),
-        10 * (1 - press * .05),
-        theme.dark
-            ? Color.lerp(
-                theme.highContrast ? theme.canvas : theme.inverse,
-                theme.inverse,
-                amount,
-              )!
-            : theme.raised,
-      );
+      on.dispose();
+      off.dispose();
     } else if (mechanism == 'Checkbox') {
       final rect = Rect.fromCenter(center: center, width: 20, height: 20);
       final amount = (selectionValue ?? 0).clamp(0.0, 1.0);

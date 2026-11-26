@@ -739,7 +739,7 @@ class _DetentRadioGroupState<T> extends State<DetentRadioGroup<T>> {
 ///
 /// [axis] defaults to [Axis.vertical]: a recessed slot with a ridged knob
 /// that slides up for on, engraved ON / OFF beside it. [Axis.horizontal]
-/// keeps the compact track for dense rows. Arrow keys along the axis set the
+/// lays the same switch on its side: right is on, OFF and ON at the ends. Arrow keys along the axis set the
 /// value directly; Enter and Space toggle.
 class DetentSwitch extends StatelessWidget {
   const DetentSwitch({
@@ -789,14 +789,14 @@ class DetentSwitch extends StatelessWidget {
             children: [
               DetentControlSkin(
                 mechanism: vertical ? 'SwitchVertical' : 'Switch',
-                visualSize: vertical ? const Size(56, 48) : const Size(48, 28),
+                visualSize: vertical ? const Size(56, 48) : const Size(112, 28),
                 state: DetentControlState(
                   selected: value,
                   enabled: onChanged != null,
                 ),
                 inputBuilder: (_, _) => vertical
                     ? const SizedBox(width: 60, height: 52)
-                    : const SizedBox(width: 56, height: 40),
+                    : const SizedBox(width: 116, height: 40),
               ),
               if (label != null) ...[
                 const SizedBox(width: 8),
@@ -989,6 +989,8 @@ class DetentRangeSlider extends StatefulWidget {
     this.divisions,
     this.onChanged,
     this.label,
+    this.axis = Axis.horizontal,
+    this.length = 160,
   }) : assert(min <= max),
        assert(divisions == null || divisions > 0);
   final DetentRangeValues values;
@@ -996,6 +998,13 @@ class DetentRangeSlider extends StatefulWidget {
   final int? divisions;
   final ValueChanged<DetentRangeValues>? onChanged;
   final String? label;
+
+  /// [Axis.vertical] draws a mixer-style fader with min at the bottom; the
+  /// upper and lower readouts sit beside it at the top and bottom.
+  final Axis axis;
+
+  /// Height of a vertical slider. A horizontal slider fills its width.
+  final double length;
   @override
   State<DetentRangeSlider> createState() => _DetentRangeSliderState();
 }
@@ -1068,59 +1077,87 @@ class _DetentRangeSliderState extends State<DetentRangeSlider> {
       );
     }
 
+    final vertical = w.axis == Axis.vertical;
+    final enabled = w.onChanged != null;
+    final track = LayoutBuilder(
+      builder: (ctx, c) {
+        double value(Offset p) {
+          final fraction = vertical
+              ? 1 - (p.dy - 24) / math.max(1, w.length - 48)
+              : (p.dx - 24) / math.max(1, c.maxWidth - 48);
+          return w.min + fraction.clamp(0.0, 1.0) * (w.max - w.min);
+        }
+
+        void begin(Offset p) {
+          final v = value(p);
+          start = (v - w.values.start).abs() <= (v - w.values.end).abs();
+          (start ? lower : upper).requestFocus();
+          change(v, start);
+        }
+
+        return GestureDetector(
+          behavior: HitTestBehavior.opaque,
+          onTapUp: enabled ? (e) => begin(e.localPosition) : null,
+          onHorizontalDragStart: enabled && !vertical
+              ? (e) => begin(e.localPosition)
+              : null,
+          onHorizontalDragUpdate: enabled && !vertical
+              ? (e) => change(value(e.localPosition), start)
+              : null,
+          onVerticalDragStart: enabled && vertical
+              ? (e) => begin(e.localPosition)
+              : null,
+          onVerticalDragUpdate: enabled && vertical
+              ? (e) => change(value(e.localPosition), start)
+              : null,
+          child: DetentControlSkin(
+            mechanism: vertical ? 'RangeSliderVertical' : 'RangeSlider',
+            resize: true,
+            state: DetentControlState(
+              value: w.max == w.min
+                  ? 0
+                  : (w.values.start - w.min) / (w.max - w.min),
+              secondaryValue: w.max == w.min
+                  ? 0
+                  : (w.values.end - w.min) / (w.max - w.min),
+              enabled: enabled,
+            ),
+            inputBuilder: (_, _) => vertical
+                ? SizedBox(width: 64, height: w.length)
+                : const SizedBox(height: 64, width: double.infinity),
+          ),
+        );
+      },
+    );
+
     return Semantics(
       label: w.label,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          LayoutBuilder(
-            builder: (ctx, c) {
-              double value(Offset p) =>
-                  w.min +
-                  ((p.dx - 24) / math.max(1, c.maxWidth - 48)).clamp(0.0, 1.0) *
-                      (w.max - w.min);
-              void begin(Offset p) {
-                final v = value(p);
-                start = (v - w.values.start).abs() <= (v - w.values.end).abs();
-                (start ? lower : upper).requestFocus();
-                change(v, start);
-              }
-
-              return GestureDetector(
-                behavior: HitTestBehavior.opaque,
-                onTapUp: w.onChanged == null
-                    ? null
-                    : (e) => begin(e.localPosition),
-                onHorizontalDragStart: w.onChanged == null
-                    ? null
-                    : (e) => begin(e.localPosition),
-                onHorizontalDragUpdate: w.onChanged == null
-                    ? null
-                    : (e) => change(value(e.localPosition), start),
-                child: DetentControlSkin(
-                  mechanism: 'RangeSlider',
-                  resize: true,
-                  state: DetentControlState(
-                    value: w.max == w.min
-                        ? 0
-                        : (w.values.start - w.min) / (w.max - w.min),
-                    secondaryValue: w.max == w.min
-                        ? 0
-                        : (w.values.end - w.min) / (w.max - w.min),
-                    enabled: w.onChanged != null,
+      child: vertical
+          ? Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                track,
+                const SizedBox(width: 8),
+                SizedBox(
+                  height: w.length,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [target(false), target(true)],
                   ),
-                  inputBuilder: (_, _) =>
-                      const SizedBox(height: 64, width: double.infinity),
                 ),
-              );
-            },
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [target(true), target(false)],
-          ),
-        ],
-      ),
+              ],
+            )
+          : Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                track,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [target(true), target(false)],
+                ),
+              ],
+            ),
     );
   }
 }

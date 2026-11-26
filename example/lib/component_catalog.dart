@@ -440,11 +440,26 @@ class _GalleryBodyState extends State<GalleryBody> {
             card(
               10,
               'RangeSlider',
-              DetentRangeSlider(
-                values: range,
-                min: 0,
-                max: 100,
-                onChanged: (v) => setState(() => range = v),
+              Column(
+                children: [
+                  DetentRangeSlider(
+                    values: range,
+                    min: 0,
+                    max: 100,
+                    onChanged: (v) => setState(() => range = v),
+                  ),
+                  const SizedBox(height: 16),
+                  // The same range on a vertical fader.
+                  DetentRangeSlider(
+                    values: range,
+                    min: 0,
+                    max: 100,
+                    axis: Axis.vertical,
+                    length: 144,
+                    label: '範囲（縦）',
+                    onChanged: (v) => setState(() => range = v),
+                  ),
+                ],
               ),
             ),
             card(

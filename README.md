@@ -136,8 +136,8 @@ Select はホストが値を管理する選択専用、ComboBox は文字入力�
 - 文字の役割を `DESIGN_SYSTEM.md` §5.2 に揃えました：`page`・`section`・`componentTitle`・`control`・`body`・`caption`・`label`・`readout`。旧名（`bodyMedium`・`bodySmall`・`labelLarge`・`sectionTitle`・`title`）は非推奨で、0.10 の後に削除します。
 - 状態色に `warning`・`info`・`onDanger` を追加しました。警告に主要操作の黄色を使わなくなりました。`DetentPalette` では省略でき、省略時は既定値を使います。
 - 角丸と余白の定数 `DetentRadius`（mark 2 / control 6 / menu 8 / panel 10 / chassis 14）と `DetentSpace` を追加しました。
-- `DetentSwitch` は既定で縦のスライドスイッチになりました（上がON、横にON / OFFを刻印）。`axis: Axis.horizontal` で従来の横型を使えます。矢印キーは向きに沿って値を直接設定します。
-- `DetentSlider` に `axis: Axis.vertical` と `length` を追加しました。オーディオミキサーのフェーダーのように下が最小、目盛りは右側です。見た目は横型と同じつまみです。
+- `DetentSwitch` は既定で縦のスライドスイッチになりました（上がON、横にON / OFFを刻印）。`axis: Axis.horizontal` で同じスライドスイッチを横に置けます（右がON、両端にOFF / ON）。矢印キーは向きに沿って値を直接設定します。
+- `DetentSlider` と `DetentRangeSlider` に `axis: Axis.vertical` と `length` を追加しました。RangeSliderの縦型は上限を上、下限を下に表示します。オーディオミキサーのフェーダーのように下が最小、目盛りは右側です。見た目は横型と同じつまみです。
 - ボタンと入力欄の左右paddingは12pxです。一覧・表・ツリー・サイドバーの行は行ごとの枠をなくし、選択には `selection.surface` を使います。
 
 ## 実装内容
