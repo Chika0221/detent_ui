@@ -735,6 +735,12 @@ class _DetentRadioGroupState<T> extends State<DetentRadioGroup<T>> {
   }
 }
 
+/// An immediate on/off setting drawn as a physical slide switch.
+///
+/// [axis] defaults to [Axis.vertical]: a recessed slot with a ridged knob
+/// that slides up for on, engraved ON / OFF beside it. [Axis.horizontal]
+/// keeps the compact track for dense rows. Arrow keys along the axis set the
+/// value directly; Enter and Space toggle.
 class DetentSwitch extends StatelessWidget {
   const DetentSwitch({
     super.key,
@@ -742,39 +748,66 @@ class DetentSwitch extends StatelessWidget {
     this.onChanged,
     this.label,
     this.focusNode,
+    this.axis = Axis.vertical,
   });
   final bool value;
   final ValueChanged<bool>? onChanged;
   final String? label;
   final FocusNode? focusNode;
+  final Axis axis;
   @override
-  Widget build(BuildContext context) => Semantics(
-    toggled: value,
-    label: label,
-    enabled: onChanged != null,
-    child: DetentInk(
-      focusNode: focusNode,
-      onTap: onChanged == null ? null : () => onChanged!(!value),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          DetentControlSkin(
-            mechanism: 'Switch',
-            visualSize: const Size(48, 28),
-            state: DetentControlState(
-              selected: value,
-              enabled: onChanged != null,
-            ),
-            inputBuilder: (_, _) => const SizedBox(width: 56, height: 40),
+  Widget build(BuildContext context) {
+    final vertical = axis == Axis.vertical;
+    return Semantics(
+      toggled: value,
+      label: label,
+      enabled: onChanged != null,
+      child: Focus(
+        canRequestFocus: false,
+        skipTraversal: true,
+        onKeyEvent: (_, e) {
+          if (onChanged == null || e is KeyUpEvent) {
+            return KeyEventResult.ignored;
+          }
+          final key = e.logicalKey;
+          final on = vertical
+              ? LogicalKeyboardKey.arrowUp
+              : LogicalKeyboardKey.arrowRight;
+          final off = vertical
+              ? LogicalKeyboardKey.arrowDown
+              : LogicalKeyboardKey.arrowLeft;
+          if (key != on && key != off) return KeyEventResult.ignored;
+          final next = key == on;
+          if (next != value) onChanged!(next);
+          return KeyEventResult.handled;
+        },
+        child: DetentInk(
+          focusNode: focusNode,
+          onTap: onChanged == null ? null : () => onChanged!(!value),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              DetentControlSkin(
+                mechanism: vertical ? 'SwitchVertical' : 'Switch',
+                visualSize: vertical ? const Size(56, 48) : const Size(48, 28),
+                state: DetentControlState(
+                  selected: value,
+                  enabled: onChanged != null,
+                ),
+                inputBuilder: (_, _) => vertical
+                    ? const SizedBox(width: 60, height: 52)
+                    : const SizedBox(width: 56, height: 40),
+              ),
+              if (label != null) ...[
+                const SizedBox(width: 8),
+                Flexible(child: ExcludeSemantics(child: Text(label!))),
+              ],
+            ],
           ),
-          if (label != null) ...[
-            const SizedBox(width: 8),
-            Flexible(child: ExcludeSemantics(child: Text(label!))),
-          ],
-        ],
+        ),
       ),
-    ),
-  );
+    );
+  }
 }
 
 double? _adjustValue(
@@ -825,6 +858,8 @@ class DetentSlider extends StatefulWidget {
     this.divisions,
     this.onChanged,
     this.label,
+    this.axis = Axis.horizontal,
+    this.length = 160,
   }) : assert(min <= max),
        assert(value >= min && value <= max),
        assert(divisions == null || divisions > 0);
@@ -832,6 +867,12 @@ class DetentSlider extends StatefulWidget {
   final int? divisions;
   final ValueChanged<double>? onChanged;
   final String? label;
+
+  /// [Axis.vertical] draws a mixer-style fader with min at the bottom.
+  final Axis axis;
+
+  /// Height of a vertical slider. A horizontal slider fills its width.
+  final double length;
   @override
   State<DetentSlider> createState() => _DetentSliderState();
 }
@@ -892,31 +933,33 @@ class _DetentSliderState extends State<DetentSlider> {
           ),
           child: LayoutBuilder(
             builder: (ctx, c) {
+              final vertical = w.axis == Axis.vertical;
               void point(Offset p) {
                 focus.requestFocus();
-                change(
-                  w.min +
-                      ((p.dx - 24) / math.max(1, c.maxWidth - 48)).clamp(
-                            0.0,
-                            1.0,
-                          ) *
-                          (w.max - w.min),
-                );
+                final fraction = vertical
+                    ? 1 - (p.dy - 24) / math.max(1, w.length - 48)
+                    : (p.dx - 24) / math.max(1, c.maxWidth - 48);
+                change(w.min + fraction.clamp(0.0, 1.0) * (w.max - w.min));
               }
 
+              final enabled = w.onChanged != null;
               return GestureDetector(
                 behavior: HitTestBehavior.opaque,
-                onTapUp: w.onChanged == null
-                    ? null
-                    : (e) => point(e.localPosition),
-                onHorizontalDragStart: w.onChanged == null
-                    ? null
-                    : (e) => point(e.localPosition),
-                onHorizontalDragUpdate: w.onChanged == null
-                    ? null
-                    : (e) => point(e.localPosition),
+                onTapUp: enabled ? (e) => point(e.localPosition) : null,
+                onHorizontalDragStart: enabled && !vertical
+                    ? (e) => point(e.localPosition)
+                    : null,
+                onHorizontalDragUpdate: enabled && !vertical
+                    ? (e) => point(e.localPosition)
+                    : null,
+                onVerticalDragStart: enabled && vertical
+                    ? (e) => point(e.localPosition)
+                    : null,
+                onVerticalDragUpdate: enabled && vertical
+                    ? (e) => point(e.localPosition)
+                    : null,
                 child: DetentControlSkin(
-                  mechanism: 'Slider',
+                  mechanism: vertical ? 'SliderVertical' : 'Slider',
                   resize: true,
                   state: DetentControlState(
                     value: w.max == w.min
@@ -924,8 +967,9 @@ class _DetentSliderState extends State<DetentSlider> {
                         : (w.value - w.min) / (w.max - w.min),
                     enabled: w.onChanged != null,
                   ),
-                  inputBuilder: (_, _) =>
-                      const SizedBox(height: 64, width: double.infinity),
+                  inputBuilder: (_, _) => vertical
+                      ? SizedBox(width: 64, height: w.length)
+                      : const SizedBox(height: 64, width: double.infinity),
                 ),
               );
             },

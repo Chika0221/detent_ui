@@ -384,10 +384,23 @@ class _GalleryBodyState extends State<GalleryBody> {
             card(
               8,
               'Switch',
-              DetentSwitch(
-                value: toggle,
-                label: '自動保存',
-                onChanged: (v) => setState(() => toggle = v),
+              Wrap(
+                spacing: 24,
+                runSpacing: 8,
+                crossAxisAlignment: WrapCrossAlignment.center,
+                children: [
+                  DetentSwitch(
+                    value: toggle,
+                    label: '自動保存',
+                    onChanged: (v) => setState(() => toggle = v),
+                  ),
+                  DetentSwitch(
+                    value: !toggle,
+                    axis: Axis.horizontal,
+                    label: '横向き',
+                    onChanged: (v) => setState(() => toggle = !v),
+                  ),
+                ],
               ),
             ),
           ], title: '切り替えと選択'),
@@ -405,6 +418,22 @@ class _GalleryBodyState extends State<GalleryBody> {
                     onChanged: (v) => setState(() => value = v),
                   ),
                   Text('${value.round()}%'),
+                  const SizedBox(height: 16),
+                  // The same value on a mixer-style vertical fader.
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      DetentSlider(
+                        value: value,
+                        min: 0,
+                        max: 100,
+                        axis: Axis.vertical,
+                        length: 144,
+                        label: '出力品質（縦）',
+                        onChanged: (v) => setState(() => value = v),
+                      ),
+                    ],
+                  ),
                 ],
               ),
             ),

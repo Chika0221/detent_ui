@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import '../foundation/primitives.dart';
 
 import 'package:flutter/gestures.dart' show kPrimaryButton;
@@ -58,7 +60,7 @@ class _DetentControlSkinState extends State<DetentControlSkin> {
         context,
         widget.mechanism == 'SegmentedControl'
             ? 220
-            : widget.mechanism == 'Switch'
+            : widget.mechanism.startsWith('Switch')
             ? 160
             : 120,
       ),
@@ -109,7 +111,11 @@ class _StaticControlPainter extends CustomPainter {
     this.theme, {
     this.selectionValue,
     this.press = 0,
+    this.capShadow = const Offset(1, 2),
   });
+
+  /// Offset of the slider cap's base, in the painter's own frame.
+  final Offset capShadow;
   final double? selectionValue;
   final double press;
   final String mechanism;
@@ -117,6 +123,23 @@ class _StaticControlPainter extends CustomPainter {
   final DetentThemeData theme;
   @override
   void paint(Canvas canvas, Size size) {
+    // A vertical slider is the horizontal fader turned a quarter: min at the
+    // bottom, ticks on the right, the cap wide and short like a mixer fader.
+    if (mechanism == 'SliderVertical') {
+      canvas.save();
+      canvas.translate(0, size.height);
+      canvas.rotate(-math.pi / 2);
+      _StaticControlPainter(
+        'Slider',
+        state,
+        theme,
+        selectionValue: selectionValue,
+        press: press,
+        capShadow: const Offset(-2, 1),
+      ).paint(canvas, Size(size.height, size.width));
+      canvas.restore();
+      return;
+    }
     final p = Paint()..isAntiAlias = true;
     void box(Rect rect, Color color, double radius, {bool outline = false}) {
       p
@@ -143,7 +166,60 @@ class _StaticControlPainter extends CustomPainter {
     }
 
     final center = size.center(Offset.zero);
-    if (mechanism == 'Switch') {
+    if (mechanism == 'SwitchVertical') {
+      // A slide switch: a dark recessed slot, a ridged knob with a 2px base
+      // like the keys, and engraved ON / OFF labels. Up is on.
+      final amount = (selectionValue ?? 0).clamp(0.0, 1.0);
+      const slotWidth = 22.0, slotHeight = 46.0, knobHeight = 20.0;
+      final slot = Rect.fromCenter(
+        center: Offset(size.width - slotWidth / 2 - 1, center.dy),
+        width: slotWidth,
+        height: slotHeight,
+      );
+      box(slot, theme.highContrast ? theme.canvas : theme.display, 4);
+      box(slot, theme.controlBorder, 4, outline: true);
+      final travel = slotHeight - 6 - knobHeight;
+      final top = slot.top + 3 + travel * (1 - amount);
+      final depth = 2 * (1 - press);
+      final knob = Rect.fromLTWH(
+        slot.left + 3,
+        top + 2 - depth,
+        slotWidth - 6,
+        knobHeight - 2,
+      );
+      box(knob.shift(Offset(0, depth)), theme.controlBorder, 3);
+      box(knob, theme.raised, 3);
+      box(knob, theme.controlBorder, 3, outline: true);
+      p
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 1
+        ..color = theme.controlBorder;
+      for (final dy in [-3.0, 0.0, 3.0]) {
+        final y = knob.center.dy + dy;
+        canvas.drawLine(Offset(knob.left + 4, y), Offset(knob.right - 4, y), p);
+      }
+      void engrave(String text, bool active, double y) {
+        final painter = TextPainter(
+          text: TextSpan(
+            text: text,
+            style: theme.textTheme.label.copyWith(
+              color: active ? theme.ink : theme.muted,
+              fontWeight: active ? FontWeight.w700 : FontWeight.w500,
+              height: 1,
+            ),
+          ),
+          textDirection: TextDirection.ltr,
+        )..layout();
+        painter.paint(
+          canvas,
+          Offset(slot.left - 6 - painter.width, y - painter.height / 2),
+        );
+        painter.dispose();
+      }
+
+      engrave('ON', amount >= .5, slot.top + 3 + knobHeight / 2);
+      engrave('OFF', amount < .5, slot.bottom - 3 - knobHeight / 2);
+    } else if (mechanism == 'Switch') {
       final amount = (selectionValue ?? 0).clamp(0.0, 1.0);
       final track = Rect.fromCenter(center: center, width: 48, height: 26);
       box(track, Color.lerp(theme.border, theme.display, amount)!, 13);
@@ -232,7 +308,7 @@ class _StaticControlPainter extends CustomPainter {
           width: 18,
           height: 24 - press * 2,
         );
-        box(rect.shift(const Offset(1, 2)), theme.controlBorder, 4);
+        box(rect.shift(capShadow), theme.controlBorder, 4);
         box(rect, theme.raised, 4);
         box(rect, theme.controlBorder, 4, outline: true);
       }
