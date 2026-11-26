@@ -281,7 +281,7 @@ void main() {
               DetentTabs(
                 tabs: const [
                   DetentTab(0, '仕様書.md', dirty: true),
-                  DetentTab(1, 'デザイン.pen'),
+                  DetentTab(1, 'デザイン.json'),
                 ],
                 value: 0,
                 onChanged: (_) {},

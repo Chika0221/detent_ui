@@ -9,7 +9,7 @@
 作成日: 2026-10-30 / 版: 0.4（デザインシステムへ拡張）
 
 
-本書は48部品の詳細仕様です。全体の判断基準・テーマ・トークン・画面パターン・運用は `DESIGN_SYSTEM.md`、値の正本は `design_tokens.json` を参照してください。見た目の正本はFlutter実装とギャラリーです。`design_system.pen` は旧デザインの記録で、更新しません。
+本書は48部品の詳細仕様です。全体の判断基準・テーマ・トークン・画面パターン・運用は `DESIGN_SYSTEM.md`、値の正本は `design_tokens.json` を参照してください。見た目の正本はFlutter実装とギャラリーです。
 
 ## 1. 目的と合意事項
 
@@ -17,7 +17,7 @@ Flutter製アプリケーション ATELIER-STUDIO で利用する、新しい独
 
 合意済みの要件は、Flutter、デスクトップ専用、新規UIパッケージ、Riveの積極的な活用、豪華さを目指さない表現、提示された機器・Rive作例・Nothingへの親和性である。それ以外の寸法、色、API名、対応OS、優先順位は、本書による初期提案とする。
 
-成果物は本書と `ui_design.pen`。`.pen` は編集可能な静的デザイン・状態見本であり、再生できる `.riv` やFlutter実装は含まない。本書を実装契約の出発点とする。
+本書を実装契約の出発点とする。
 
 ## 2. デザインコンセプト
 
@@ -297,24 +297,11 @@ test/
 4. **P2**: RangeSlider / Meterを利用用途に合わせて追加する。
 5. **統合**: ATELIER-STUDIOの小さい1画面から導入し、旧UIとの併存・段階移行を行う。全画面の一括置換は前提にしない。
 
-## 11. ui_design.pen の収録内容
-
-- Foundations: コンセプト、配色、文字、形、機器としての代表モジュール。
-- Controls: C01–C12。通常・押下・選択・フォーカス・無効などの状態比較。
-- Inputs: C13–C19。日本語、エラー、検索、候補、ショートカット。
-- Navigation: C20–C27。タブ、メニュー、コマンド、階層。
-- Workspace: C28–C35、C48。シェル、分割、一覧、ツリー、表の構成例。
-- Feedback: C36–C47。進捗、ドット、メーター、toast、dialog等。
-- Motion: 代表部品の開始／中間／終了、時間、reduced motion。
-- Dark: 同じトークン体系によるダーク画面の構成例。
-
-C番号付き48セットは状態比較用として保持する。単一状態の再利用シンボル24個と、テーマ・操作・モーション・画面パターンをDS00–DS07へ追加する。実行可能なRiveアニメーションは後工程で制作する。
-
-## 12. 未確定事項
+## 11. 未確定事項
 
 DS名はDetent Design System、パッケージ名はdetent_uiに確定。接頭辞の最終名称、Flutter／Riveの固定版、正式サポートOS、配布方法、ATELIER-STUDIOで最初に置き換える画面、Rive制作環境・ライセンス運用は実装開始時に確定する。黄色は初期案であり、Nothingの嗜好を踏まえた赤アクセントのテーマも後から独立して比較できる。
 
-## 13. 参照
+## 12. 参照
 
 - https://www.aulastar.com/mechanical-keyboard/1012.html
 - https://www.aulastar.com/uploads/allimg/20261023/1-261023153922K4.jpg
@@ -326,6 +313,5 @@ DS名はDetent Design System、パッケージ名はdetent_uiに確定。接頭�
 - https://rive.app/marketplace/11636-22271-riskoxide/
 - https://nothing.tech/
 - https://nothing.tech/products/headphone-1-pro
-- https://docs.pencil.dev/for-developers/the-pen-format
 
 参考はデザイン分析のために使用する。外部の画像・Riveアセット・ブランドフォントの再配布権を取得したことは意味しない。今回のデザインは外部画像を埋め込まず、独自のベクター部品で作成する。

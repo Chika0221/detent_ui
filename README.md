@@ -236,7 +236,7 @@ flutter test example/test/gallery_test.dart
 ギャラリーは4テーマと文字200%、幅1024 / 1440 / 1920を確認します。
 OS実機のIME・スクリーンリーダー・DPI・性能測定は別途必要で、Verified認定ではありません。
 
-設計の根拠: `DESIGN_SYSTEM.md`、`SPECIFICATION.md`、`design_tokens.json`、`component_registry.json`。`design_system.pen` は旧デザインの記録で、更新していません。
+設計の根拠: `DESIGN_SYSTEM.md`、`SPECIFICATION.md`、`design_tokens.json`、`component_registry.json`。
 
 ### 動きの負荷を確認する
 

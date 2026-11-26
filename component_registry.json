@@ -1,12 +1,11 @@
 {
   "version": "0.4",
-  "designSource": "Flutter implementation and example gallery; legacyPenNodeId points to the archived design_system.pen and is not updated",
+  "designSource": "Flutter implementation and example gallery",
   "scope": "51 WidgetsApp-compatible Flutter widgets; interactive motion uses Flutter; processing feedback uses 7 local Rive artboards; shared Select/ComboBox popup and keycap units; design v0.4; OS verification pending; Perforation signature subsystem C49–C51 uses shared Flutter canvas primitives",
   "reviewSets": [
     {
       "id": "C01",
       "name": "DetentButton",
-      "legacyPenNodeId": "n00219",
       "kind": "state_review_set",
       "designStatus": "draft_visual_checked",
       "implementationStatus": "implemented_initial",
@@ -20,7 +19,6 @@
     {
       "id": "C02",
       "name": "DetentIconButton",
-      "legacyPenNodeId": "n00247",
       "kind": "state_review_set",
       "designStatus": "draft_visual_checked",
       "implementationStatus": "implemented_initial",
@@ -34,7 +32,6 @@
     {
       "id": "C03",
       "name": "DetentToggleButton",
-      "legacyPenNodeId": "n00262",
       "kind": "state_review_set",
       "designStatus": "draft_visual_checked",
       "implementationStatus": "implemented_initial",
@@ -48,7 +45,6 @@
     {
       "id": "C04",
       "name": "DetentKeycap",
-      "legacyPenNodeId": "n00273",
       "kind": "state_review_set",
       "designStatus": "draft_visual_checked",
       "implementationStatus": "implemented_initial",
@@ -62,7 +58,6 @@
     {
       "id": "C05",
       "name": "DetentSegmentedControl",
-      "legacyPenNodeId": "n00288",
       "kind": "state_review_set",
       "designStatus": "draft_visual_checked",
       "implementationStatus": "implemented_initial",
@@ -76,7 +71,6 @@
     {
       "id": "C06",
       "name": "DetentCheckbox",
-      "legacyPenNodeId": "n00298",
       "kind": "state_review_set",
       "designStatus": "draft_visual_checked",
       "implementationStatus": "implemented_initial",
@@ -90,7 +84,6 @@
     {
       "id": "C07",
       "name": "DetentRadioGroup",
-      "legacyPenNodeId": "n00306",
       "kind": "state_review_set",
       "designStatus": "draft_visual_checked",
       "implementationStatus": "implemented_initial",
@@ -104,7 +97,6 @@
     {
       "id": "C08",
       "name": "DetentSwitch",
-      "legacyPenNodeId": "n00313",
       "kind": "state_review_set",
       "designStatus": "draft_visual_checked",
       "implementationStatus": "implemented_initial",
@@ -118,7 +110,6 @@
     {
       "id": "C09",
       "name": "DetentSlider",
-      "legacyPenNodeId": "n00321",
       "kind": "state_review_set",
       "designStatus": "draft_visual_checked",
       "implementationStatus": "implemented_initial",
@@ -132,7 +123,6 @@
     {
       "id": "C10",
       "name": "DetentRangeSlider",
-      "legacyPenNodeId": "n00350",
       "kind": "state_review_set",
       "designStatus": "draft_visual_checked",
       "implementationStatus": "implemented_initial",
@@ -146,7 +136,6 @@
     {
       "id": "C11",
       "name": "DetentRotaryKnob",
-      "legacyPenNodeId": "n00379",
       "kind": "state_review_set",
       "designStatus": "draft_visual_checked",
       "implementationStatus": "implemented_initial",
@@ -160,7 +149,6 @@
     {
       "id": "C12",
       "name": "DetentNumberStepper",
-      "legacyPenNodeId": "n00412",
       "kind": "state_review_set",
       "designStatus": "draft_visual_checked",
       "implementationStatus": "implemented_initial",
@@ -174,7 +162,6 @@
     {
       "id": "C13",
       "name": "DetentTextField",
-      "legacyPenNodeId": "n00434",
       "kind": "state_review_set",
       "designStatus": "draft_visual_checked",
       "implementationStatus": "implemented_initial",
@@ -188,7 +175,6 @@
     {
       "id": "C14",
       "name": "DetentTextArea",
-      "legacyPenNodeId": "n00440",
       "kind": "state_review_set",
       "designStatus": "draft_visual_checked",
       "implementationStatus": "implemented_initial",
@@ -202,7 +188,6 @@
     {
       "id": "C15",
       "name": "DetentSearchField",
-      "legacyPenNodeId": "n00445",
       "kind": "state_review_set",
       "designStatus": "draft_visual_checked",
       "implementationStatus": "implemented_initial",
@@ -216,7 +201,6 @@
     {
       "id": "C16",
       "name": "DetentSelect",
-      "legacyPenNodeId": "n00451",
       "kind": "state_review_set",
       "designStatus": "draft_visual_checked",
       "implementationStatus": "implemented_initial",
@@ -230,7 +214,6 @@
     {
       "id": "C17",
       "name": "DetentComboBox",
-      "legacyPenNodeId": "n00457",
       "kind": "state_review_set",
       "designStatus": "draft_visual_checked",
       "implementationStatus": "implemented_initial",
@@ -244,7 +227,6 @@
     {
       "id": "C18",
       "name": "DetentShortcutRecorder",
-      "legacyPenNodeId": "n00466",
       "kind": "state_review_set",
       "designStatus": "draft_visual_checked",
       "implementationStatus": "implemented_initial",
@@ -258,7 +240,6 @@
     {
       "id": "C19",
       "name": "DetentFormField",
-      "legacyPenNodeId": "n00474",
       "kind": "state_review_set",
       "designStatus": "draft_visual_checked",
       "implementationStatus": "implemented_initial",
@@ -272,7 +253,6 @@
     {
       "id": "C20",
       "name": "DetentTabs",
-      "legacyPenNodeId": "n00488",
       "kind": "state_review_set",
       "designStatus": "draft_visual_checked",
       "implementationStatus": "implemented_initial",
@@ -286,7 +266,6 @@
     {
       "id": "C21",
       "name": "DetentNavigationRail",
-      "legacyPenNodeId": "n00497",
       "kind": "state_review_set",
       "designStatus": "draft_visual_checked",
       "implementationStatus": "implemented_initial",
@@ -300,7 +279,6 @@
     {
       "id": "C22",
       "name": "DetentSidebarItem",
-      "legacyPenNodeId": "n00516",
       "kind": "state_review_set",
       "designStatus": "draft_visual_checked",
       "implementationStatus": "implemented_initial",
@@ -314,7 +292,6 @@
     {
       "id": "C23",
       "name": "DetentBreadcrumb",
-      "legacyPenNodeId": "n00523",
       "kind": "state_review_set",
       "designStatus": "draft_visual_checked",
       "implementationStatus": "implemented_initial",
@@ -328,7 +305,6 @@
     {
       "id": "C24",
       "name": "DetentMenuBar",
-      "legacyPenNodeId": "n00527",
       "kind": "state_review_set",
       "designStatus": "draft_visual_checked",
       "implementationStatus": "implemented_initial",
@@ -342,7 +318,6 @@
     {
       "id": "C25",
       "name": "DetentDropdownMenu",
-      "legacyPenNodeId": "n00531",
       "kind": "state_review_set",
       "designStatus": "draft_visual_checked",
       "implementationStatus": "implemented_initial",
@@ -356,7 +331,6 @@
     {
       "id": "C26",
       "name": "DetentContextMenu",
-      "legacyPenNodeId": "n00542",
       "kind": "state_review_set",
       "designStatus": "draft_visual_checked",
       "implementationStatus": "implemented_initial",
@@ -370,7 +344,6 @@
     {
       "id": "C27",
       "name": "DetentCommandPalette",
-      "legacyPenNodeId": "n00549",
       "kind": "state_review_set",
       "designStatus": "draft_visual_checked",
       "implementationStatus": "implemented_initial",
@@ -384,7 +357,6 @@
     {
       "id": "C28",
       "name": "DetentAppShell",
-      "legacyPenNodeId": "n00566",
       "kind": "state_review_set",
       "designStatus": "draft_visual_checked",
       "implementationStatus": "implemented_initial",
@@ -398,7 +370,6 @@
     {
       "id": "C34",
       "name": "DetentTreeView",
-      "legacyPenNodeId": "n00574",
       "kind": "state_review_set",
       "designStatus": "draft_visual_checked",
       "implementationStatus": "implemented_initial",
@@ -412,7 +383,6 @@
     {
       "id": "C31",
       "name": "DetentSplitView",
-      "legacyPenNodeId": "n00585",
       "kind": "state_review_set",
       "designStatus": "draft_visual_checked",
       "implementationStatus": "implemented_initial",
@@ -426,7 +396,6 @@
     {
       "id": "C30",
       "name": "DetentToolbar",
-      "legacyPenNodeId": "n00588",
       "kind": "state_review_set",
       "designStatus": "draft_visual_checked",
       "implementationStatus": "implemented_initial",
@@ -440,7 +409,6 @@
     {
       "id": "C29",
       "name": "DetentPanel",
-      "legacyPenNodeId": "n00598",
       "kind": "state_review_set",
       "designStatus": "draft_visual_checked",
       "implementationStatus": "implemented_initial",
@@ -454,7 +422,6 @@
     {
       "id": "C35",
       "name": "DetentDataTable",
-      "legacyPenNodeId": "n00638",
       "kind": "state_review_set",
       "designStatus": "draft_visual_checked",
       "implementationStatus": "implemented_initial",
@@ -468,7 +435,6 @@
     {
       "id": "C33",
       "name": "DetentListRow",
-      "legacyPenNodeId": "n00671",
       "kind": "state_review_set",
       "designStatus": "draft_visual_checked",
       "implementationStatus": "implemented_initial",
@@ -482,7 +448,6 @@
     {
       "id": "C48",
       "name": "DetentScrollArea",
-      "legacyPenNodeId": "n00676",
       "kind": "state_review_set",
       "designStatus": "draft_visual_checked",
       "implementationStatus": "implemented_initial",
@@ -496,7 +461,6 @@
     {
       "id": "C32",
       "name": "DetentStatusBar",
-      "legacyPenNodeId": "n00679",
       "kind": "state_review_set",
       "designStatus": "draft_visual_checked",
       "implementationStatus": "implemented_initial",
@@ -510,7 +474,6 @@
     {
       "id": "C36",
       "name": "DetentBadge",
-      "legacyPenNodeId": "n00694",
       "kind": "state_review_set",
       "designStatus": "draft_visual_checked",
       "implementationStatus": "implemented_initial",
@@ -524,7 +487,6 @@
     {
       "id": "C37",
       "name": "DetentTooltip",
-      "legacyPenNodeId": "n00703",
       "kind": "state_review_set",
       "designStatus": "draft_visual_checked",
       "implementationStatus": "implemented_initial",
@@ -538,7 +500,6 @@
     {
       "id": "C38",
       "name": "DetentProgress",
-      "legacyPenNodeId": "n00708",
       "kind": "state_review_set",
       "designStatus": "draft_visual_checked",
       "implementationStatus": "implemented_initial",
@@ -552,7 +513,6 @@
     {
       "id": "C39",
       "name": "DetentDotMatrix",
-      "legacyPenNodeId": "n00714",
       "kind": "state_review_set",
       "designStatus": "draft_visual_checked",
       "implementationStatus": "implemented_initial",
@@ -566,7 +526,6 @@
     {
       "id": "C40",
       "name": "DetentMeter",
-      "legacyPenNodeId": "n00765",
       "kind": "state_review_set",
       "designStatus": "draft_visual_checked",
       "implementationStatus": "implemented_initial",
@@ -580,7 +539,6 @@
     {
       "id": "C41",
       "name": "DetentToast",
-      "legacyPenNodeId": "n00807",
       "kind": "state_review_set",
       "designStatus": "draft_visual_checked",
       "implementationStatus": "implemented_initial",
@@ -594,7 +552,6 @@
     {
       "id": "C42",
       "name": "DetentInlineAlert",
-      "legacyPenNodeId": "n00814",
       "kind": "state_review_set",
       "designStatus": "draft_visual_checked",
       "implementationStatus": "implemented_initial",
@@ -608,7 +565,6 @@
     {
       "id": "C43",
       "name": "DetentDialog",
-      "legacyPenNodeId": "n00819",
       "kind": "state_review_set",
       "designStatus": "draft_visual_checked",
       "implementationStatus": "implemented_initial",
@@ -622,7 +578,6 @@
     {
       "id": "C44",
       "name": "DetentPopover",
-      "legacyPenNodeId": "n00832",
       "kind": "state_review_set",
       "designStatus": "draft_visual_checked",
       "implementationStatus": "implemented_initial",
@@ -636,7 +591,6 @@
     {
       "id": "C45",
       "name": "DetentEmptyState",
-      "legacyPenNodeId": "n00839",
       "kind": "state_review_set",
       "designStatus": "draft_visual_checked",
       "implementationStatus": "implemented_initial",
@@ -650,7 +604,6 @@
     {
       "id": "C46",
       "name": "DetentSkeleton",
-      "legacyPenNodeId": "n00847",
       "kind": "state_review_set",
       "designStatus": "draft_visual_checked",
       "implementationStatus": "implemented_initial",
@@ -664,7 +617,6 @@
     {
       "id": "C47",
       "name": "DetentTaskStatus",
-      "legacyPenNodeId": "n00852",
       "kind": "state_review_set",
       "designStatus": "draft_visual_checked",
       "implementationStatus": "implemented_initial",
@@ -678,7 +630,6 @@
     {
       "id": "C49",
       "name": "DetentPerforationSurface",
-      "legacyPenNodeId": "QqwtH",
       "kind": "state_review_set",
       "designStatus": "draft_visual_checked",
       "implementationStatus": "implemented_initial",
@@ -692,7 +643,6 @@
     {
       "id": "C50",
       "name": "DetentResonanceGrid",
-      "legacyPenNodeId": "TEKyH",
       "kind": "state_review_set",
       "designStatus": "draft_visual_checked",
       "implementationStatus": "implemented_initial",
@@ -706,7 +656,6 @@
     {
       "id": "C51",
       "name": "DetentSpeakerMatrix",
-      "legacyPenNodeId": "urCnP",
       "kind": "state_review_set",
       "designStatus": "draft_visual_checked",
       "implementationStatus": "implemented_initial",
@@ -722,7 +671,6 @@
     {
       "key": "bPrimary",
       "name": "DS/Button/Primary",
-      "legacyPenNodeId": "X076u8",
       "kind": "single_state_symbol",
       "designStatus": "draft_visual_checked",
       "implementationStatus": "not_started",
@@ -732,7 +680,6 @@
     {
       "key": "bSecondary",
       "name": "DS/Button/Secondary",
-      "legacyPenNodeId": "lvPEN",
       "kind": "single_state_symbol",
       "designStatus": "draft_visual_checked",
       "implementationStatus": "not_started",
@@ -742,7 +689,6 @@
     {
       "key": "bQuiet",
       "name": "DS/Button/Quiet",
-      "legacyPenNodeId": "LjvXM",
       "kind": "single_state_symbol",
       "designStatus": "draft_visual_checked",
       "implementationStatus": "not_started",
@@ -752,7 +698,6 @@
     {
       "key": "bDanger",
       "name": "DS/Button/Danger",
-      "legacyPenNodeId": "X8BOr",
       "kind": "single_state_symbol",
       "designStatus": "draft_visual_checked",
       "implementationStatus": "not_started",
@@ -762,7 +707,6 @@
     {
       "key": "bDisabled",
       "name": "DS/Button/Disabled",
-      "legacyPenNodeId": "hI6vY",
       "kind": "single_state_symbol",
       "designStatus": "draft_visual_checked",
       "implementationStatus": "not_started",
@@ -772,7 +716,6 @@
     {
       "key": "bIcon",
       "name": "DS/Button/Icon",
-      "legacyPenNodeId": "ewBvV",
       "kind": "single_state_symbol",
       "designStatus": "draft_visual_checked",
       "implementationStatus": "not_started",
@@ -782,7 +725,6 @@
     {
       "key": "fieldNormal",
       "name": "DS/Input/Default",
-      "legacyPenNodeId": "x9Tys",
       "kind": "single_state_symbol",
       "designStatus": "draft_visual_checked",
       "implementationStatus": "not_started",
@@ -792,7 +734,6 @@
     {
       "key": "fieldFocus",
       "name": "DS/Input/Focus",
-      "legacyPenNodeId": "Y5ZTCY",
       "kind": "single_state_symbol",
       "designStatus": "draft_visual_checked",
       "implementationStatus": "not_started",
@@ -802,7 +743,6 @@
     {
       "key": "fieldError",
       "name": "DS/Input/Error",
-      "legacyPenNodeId": "qzWzP",
       "kind": "single_state_symbol",
       "designStatus": "draft_visual_checked",
       "implementationStatus": "not_started",
@@ -812,7 +752,6 @@
     {
       "key": "fieldDisabled",
       "name": "DS/Input/Disabled",
-      "legacyPenNodeId": "JHQvb",
       "kind": "single_state_symbol",
       "designStatus": "draft_visual_checked",
       "implementationStatus": "not_started",
@@ -822,7 +761,6 @@
     {
       "key": "switchOff",
       "name": "DS/Switch/Off",
-      "legacyPenNodeId": "GlK0U",
       "kind": "single_state_symbol",
       "designStatus": "draft_visual_checked",
       "implementationStatus": "not_started",
@@ -832,7 +770,6 @@
     {
       "key": "switchOn",
       "name": "DS/Switch/On",
-      "legacyPenNodeId": "V2PRo",
       "kind": "single_state_symbol",
       "designStatus": "draft_visual_checked",
       "implementationStatus": "not_started",
@@ -842,7 +779,6 @@
     {
       "key": "checkOff",
       "name": "DS/Checkbox/Off",
-      "legacyPenNodeId": "yR1LK",
       "kind": "single_state_symbol",
       "designStatus": "draft_visual_checked",
       "implementationStatus": "not_started",
@@ -852,7 +788,6 @@
     {
       "key": "checkOn",
       "name": "DS/Checkbox/On",
-      "legacyPenNodeId": "xhxTc",
       "kind": "single_state_symbol",
       "designStatus": "draft_visual_checked",
       "implementationStatus": "not_started",
@@ -862,7 +797,6 @@
     {
       "key": "checkMixed",
       "name": "DS/Checkbox/Mixed",
-      "legacyPenNodeId": "cOlzO",
       "kind": "single_state_symbol",
       "designStatus": "draft_visual_checked",
       "implementationStatus": "not_started",
@@ -872,7 +806,6 @@
     {
       "key": "badgeSuccess",
       "name": "DS/Badge/Success",
-      "legacyPenNodeId": "fzr4a",
       "kind": "single_state_symbol",
       "designStatus": "draft_visual_checked",
       "implementationStatus": "not_started",
@@ -882,7 +815,6 @@
     {
       "key": "badgeError",
       "name": "DS/Badge/Error",
-      "legacyPenNodeId": "Loowc",
       "kind": "single_state_symbol",
       "designStatus": "draft_visual_checked",
       "implementationStatus": "not_started",
@@ -892,7 +824,6 @@
     {
       "key": "tabSelected",
       "name": "DS/Tab/Selected",
-      "legacyPenNodeId": "UGpa0",
       "kind": "single_state_symbol",
       "designStatus": "draft_visual_checked",
       "implementationStatus": "not_started",
@@ -902,7 +833,6 @@
     {
       "key": "navItem",
       "name": "DS/Navigation/Item",
-      "legacyPenNodeId": "vGOG6",
       "kind": "single_state_symbol",
       "designStatus": "draft_visual_checked",
       "implementationStatus": "not_started",
@@ -912,7 +842,6 @@
     {
       "key": "listRow",
       "name": "DS/List/Row",
-      "legacyPenNodeId": "Xg7kF",
       "kind": "single_state_symbol",
       "designStatus": "draft_visual_checked",
       "implementationStatus": "not_started",
@@ -922,7 +851,6 @@
     {
       "key": "alert",
       "name": "DS/Feedback/Inline alert",
-      "legacyPenNodeId": "r3prY3",
       "kind": "single_state_symbol",
       "designStatus": "draft_visual_checked",
       "implementationStatus": "not_started",
@@ -932,7 +860,6 @@
     {
       "key": "panel",
       "name": "DS/Surface/Panel",
-      "legacyPenNodeId": "t64Kt",
       "kind": "single_state_symbol",
       "designStatus": "draft_visual_checked",
       "implementationStatus": "not_started",
@@ -944,7 +871,6 @@
     {
       "key": "task",
       "name": "DS/Feedback/Task",
-      "legacyPenNodeId": "HiX8R",
       "kind": "single_state_symbol",
       "designStatus": "draft_visual_checked",
       "implementationStatus": "not_started",
@@ -954,7 +880,6 @@
     {
       "key": "tooltip",
       "name": "DS/Feedback/Tooltip",
-      "legacyPenNodeId": "uePhP",
       "kind": "single_state_symbol",
       "designStatus": "draft_visual_checked",
       "implementationStatus": "not_started",
@@ -965,7 +890,6 @@
   "patterns": [
     {
       "key": "settings",
-      "legacyPenNodeId": "EuQZb",
       "status": "design_draft",
       "implementationStatus": "not_started",
       "contracts": [
@@ -977,7 +901,6 @@
     },
     {
       "key": "master_detail",
-      "legacyPenNodeId": "a3MSS",
       "status": "design_draft",
       "implementationStatus": "not_started",
       "contracts": [
@@ -1000,7 +923,6 @@
   "validationCases": [
     {
       "key": "elevation_stack",
-      "legacyPenNodeId": "rnJIb",
       "states": [
         "rest",
         "pressed",

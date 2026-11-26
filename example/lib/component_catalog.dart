@@ -452,7 +452,12 @@ class _GalleryBodyState extends State<GalleryBody> {
               'Tabs',
               DetentTabs(
                 tabs: [
-                  DetentTab('design', 'デザイン.pen', dirty: true, onClose: notify),
+                  DetentTab(
+                    'design',
+                    'デザイン.json',
+                    dirty: true,
+                    onClose: notify,
+                  ),
                   const DetentTab('spec', '仕様.md'),
                 ],
                 value: tab,

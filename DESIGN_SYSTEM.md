@@ -1,6 +1,6 @@
 # Detent Design System
 
-> 運用変更（2026-11-26）: デザインの正本をコードへ移しました。値は `design_tokens.json`、見た目はFlutterギャラリー（`example/`）とそのスクリーンショットで確認します。`design_system.pen` は旧デザインの記録として保持し、更新しません。手順は §4 を参照してください。
+> 運用変更（2026-11-26）: デザインの正本をコードへ移しました。値は `design_tokens.json`、見た目はFlutterギャラリー（`example/`）とそのスクリーンショットで確認します。旧デザインファイル（`design_system.pen`）と、そこから書き出した画像・検証結果は削除しました。手順は §4 を参照してください。
 
 > 実装追記（0.8.0）: 操作部の描画とアニメーションをFlutterへ移行。RiveはProgress・Meter・Skeleton・TaskStatus専用の7アートボードに限定しました。以下の旧Rive分類は設計時の記録で、現在の使い分けはREADME.mdを参照してください。
 
@@ -43,7 +43,7 @@ Nothingの構造美、AULAの操作モジュール、提示されたRive作例�
 
 ## 4. トークンの構造と正本
 
-正本は `design_tokens.json`。`design_tokens.resolved.json` は参照を解決した確認用スナップショット。部品の見た目の正本はFlutter実装とギャラリー（`example/`）で、`design_system.pen` は2026-11時点の旧デザインの記録として更新しない。
+正本は `design_tokens.json`。`design_tokens.resolved.json` は参照を解決した確認用スナップショット。部品の見た目の正本はFlutter実装とギャラリー（`example/`）とする。
 
 ```text
 primitive.color.yellow
@@ -137,13 +137,13 @@ DS/Button/Primary → Settings / Task / Workspace
 
 ノブとスライダーは、底面・目盛り・つまみの実外形の和集合を取り、フォーカス領域を加える。将来blur shadowを追加するときも、操作面だけの寸法でclip・配置を決めない。装飾の影をhit test領域として扱うかは入力契約と分離する。
 
-DS08に、上の部品→厚み付きボタン→下の部品をgap 8pxで縦積みした確認用パターンを追加した。pen.dev実測で3状態とも子要素のy位置が8 / 56 / 114px、高さが40 / 50 / 40pxで一致することを確認した。Flutter実装での検証は別途必要である。
+DS08に、上の部品→厚み付きボタン→下の部品をgap 8pxで縦積みした確認用パターンを追加した。3状態とも子要素のy位置は8 / 56 / 114px、高さは40 / 50 / 40pxを想定する。Flutter実装での検証は別途必要である。
 
 ### 5.6 作業面と選択の統一（2026-11-05）
 
 Operateの画面では、筐体（bg.chrome）、作業面（bg.canvas）、操作面（bg.raised）の明度差で領域を分ける。選択はselection.surfaceとselection.foreground、キーの底面はdepth.keyを使い、黄色を装飾へ流用しない。ライト・ダーク・高コントラストの値は正本トークンで定義する。
 
-旧 `.pen` での対応（記録）は `ds.bg.chrome` → `semantic.<theme>.color.bg.chrome`、`ds.selection.surface / ink` → `color.selection.surface / foreground`、`ds.material.keyDepth` → `color.depth.key`、`ds.control.paddingX / Y` → `dimension.control.paddingInline / paddingBlock`。Penの追加色変数はmodeのlight / darkに対応する。高コントラストは正本に値を保持し、通常テーマの描画確認とは分けて扱う。
+高コントラストは正本に値を保持し、通常テーマの描画確認とは分けて扱う。
 
 選択面の濃さ（2026-11-26改訂）: 旧値（light `#DDE1DC` / dark `#414A46`）は操作面との比が1.27 / 1.26で、ToggleButtonやSegmentedControlの選択を面だけで見分けにくかった。light `#B5BDB8` / dark `#56615B`（操作面との比1.84 / 1.78、選択文字との比8.15 / 5.83）へ濃くし、選択中のラベルをsemibold（600）にして文字の強弱でも示す。暗いテーマでは明るい文字の4.5:1を保ったまま面だけで3:1を得られないため、面と文字の太さを併用する。下辺に位置マークを置く案は、書式トグルの下線と誤読されるため採用しなかった。
 
@@ -166,7 +166,7 @@ layerの数値はUI内の相対順序であり、OSウィンドウ順序では�
 
 ## 7. コンポーネントの契約
 
-既存48部品の用途・優先順位は `SPECIFICATION.md` を参照する。旧 `.pen` のC番号付きセットは記録として残し、比較・レビューはギャラリーのC番号付きカードで行う。追加した `DS/` 部品は単一状態の再利用シンボルとし、パターン画面ではrefを使って配置する。
+既存48部品の用途・優先順位は `SPECIFICATION.md` を参照する。比較・レビューはギャラリーのC番号付きカードで行う。
 
 各部品は、用途、使わない場面、variant、size、state、slot、入力、イベント、Focus、Semantics、motion、fallback、token binding、使用例、変更履歴を持つ。
 
@@ -215,7 +215,7 @@ Flutterが真の値・イベント・Focus・Semantics・文字編集を所有�
 
 easing.standardは[0.2, 0, 0.2, 1]。指に追従するノブやスライダーの入力値には遅延補間を加えない。非表示・最小化時のループを停止し、初期化失敗時は同寸法・同Semanticsの静的スキンへ切り替える。
 
-Rive manifestにはasset/artboard/viewmodel、型付き入出力、初期値、対応runtime、fallback、ライセンス、所有者、版を記録する。`.pen` のモーション板は制作指示であり、再生可能なRiveファイルではない。
+Rive manifestにはasset/artboard/viewmodel、型付き入出力、初期値、対応runtime、fallback、ライセンス、所有者、版を記録する。
 
 ## 10. 画面パターンとテンプレート
 
@@ -299,10 +299,8 @@ Draft → Design reviewed → Implemented → Verified → Deprecated。
 | design_tokens.resolved.json | 参照を解決した確認用の値 |
 | token_validation.json | aliasと代表色の計算結果 |
 | component_registry.json | 部品・patternの対応と成熟度 |
-| design_system.pen | 旧デザインの記録（更新しない） |
 | example/ / example/screenshots | 見た目の確認用ギャラリーとスクリーンショット |
 | tool/update_screenshots.sh | ギャラリーのスクリーンショット更新 |
-| design_system_overview.png | 追加したシステムボードの一覧 |
 
 次は、Theme・Focus・MotionPolicyの基盤とButton / TextField / Switchの実装を最小単位として検証する。その後、Settings formとMaster–detailへ広げる。大量の部品を先に実装し、最後にトークンへ寄せる順序を避ける。
 

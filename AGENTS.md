@@ -6,8 +6,7 @@ Flutter デスクトップ向け UI パッケージ（Detent Design System）。
 
 - 値の正本は `design_tokens.json`（DTCG 形式）。`lib/src/foundation/tokens.g.dart` と `design_tokens.resolved.json` は生成物なので直接編集しない。
 - 見た目の正本は Flutter 実装とギャラリー（`example/`）、確認はそのスクリーンショット（`example/screenshots/`）で行う。
-- `design_system.pen` は旧デザインの記録。更新しない。`component_registry.json` の `legacyPenNodeId` はその記録への参照。
-- Pen / pen.dev MCP はデザイン作業に使わない。
+- Pen（pen.dev）のデザインファイルは使わない（2026-11-26 に削除済み）。デザインファイルを新しく足さず、ギャラリーに画面作例を追加して確認する。
 
 ## 変更の手順
 
