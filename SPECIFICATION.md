@@ -1,5 +1,6 @@
 # detent_ui — デスクトップUIパッケージ仕様書
 
+> 実装追記（0.9.0）: 文字の役割・状態色（warning / info / onDanger）・角丸の定数をトークンへ揃え、部品の直書きを除きました。詳細はREADME.mdの「0.9.0 の変更点」を参照してください。
 > 実装追記（0.8.0）: 人が操作するUIの動きはFlutterで実装。RiveはProgress・Meter・Skeleton・TaskStatusの処理表示に限定し、実値を保った光・ドット波・掃引を使用します。以下の旧Rive分類は設計時の記録で、現行APIはREADME.mdを参照してください。
 
 

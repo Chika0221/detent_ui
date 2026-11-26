@@ -1,12 +1,13 @@
 # Detent Design System
 
 Flutter デスクトップ向けの UI パッケージ。51部品（C01–C51）を
-`Detent` 接頭辞の Widget として実装しています。デザイン版は0.4、実装版は0.8.0です。操作アニメーションとPerforationはFlutter、既存の処理状態アニメーションはRiveで実装しています。
+`Detent` 接頭辞の Widget として実装しています。デザイン版は0.4、実装版は0.9.0です。操作アニメーションとPerforationはFlutter、既存の処理状態アニメーションはRiveで実装しています。
 
 ## ギャラリー
 
 サイドバーから、用途別の部品カタログと操作できる画面作例に移動できます。
 選択中の行はグレーの面とチェックで示し、黄色は保存や確定などの主要操作に使います。
+ギャラリーは仕様書のような体裁です。番号付きの節を太い罫線で区切り、各部品は細い罫線の下に部品名とC番号を刻印風に並べます。厚みを持つのは操作できる部品だけです。
 以下はFlutterギャラリーのスクリーンショットです（1440×1000px）。
 
 ### ライト：基本の操作部品
@@ -129,6 +130,13 @@ Select はホストが値を管理する選択専用、ComboBox は文字入力�
 ![共通の候補面を使うSelect](example/screenshots/select.png)
 
 [ComboBoxの候補面](example/screenshots/combobox.png)・[Rive無効時の同寸描画](example/screenshots/static.png)も確認できます。
+
+## 0.9.0 の変更点
+
+- 文字の役割を `DESIGN_SYSTEM.md` §5.2 に揃えました：`page`・`section`・`componentTitle`・`control`・`body`・`caption`・`label`・`readout`。旧名（`bodyMedium`・`bodySmall`・`labelLarge`・`sectionTitle`・`title`）は非推奨で、0.10 の後に削除します。
+- 状態色に `warning`・`info`・`onDanger` を追加しました。警告に主要操作の黄色を使わなくなりました。`DetentPalette` では省略でき、省略時は既定値を使います。
+- 角丸と余白の定数 `DetentRadius`（mark 2 / control 6 / menu 8 / panel 10 / chassis 14）と `DetentSpace` を追加しました。
+- ボタンと入力欄の左右paddingは12pxです。一覧・表・ツリー・サイドバーの行は行ごとの枠をなくし、選択には `selection.surface` を使います。
 
 ## 実装内容
 

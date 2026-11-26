@@ -147,7 +147,7 @@ class _DetentGalleryState extends State<DetentGallery> {
             const Spacer(),
             Text(_omarchyStatus),
             const SizedBox(width: 16),
-            const Text('0.8'),
+            const Text('0.9'),
           ],
         ),
       ),
