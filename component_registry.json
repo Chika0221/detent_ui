@@ -40,7 +40,8 @@
       "rive": "A",
       "implementationSource": "lib/src/controls/controls.dart",
       "verificationStatus": "automated_tests_and_gallery; OS verification pending",
-      "motionRenderer": "flutter"
+      "motionRenderer": "flutter",
+      "selectionIndicator": "lamp (DESIGN_SYSTEM.md §5.10)"
     },
     {
       "id": "C04",
@@ -66,7 +67,8 @@
       "rive": "A",
       "implementationSource": "lib/src/controls/controls.dart",
       "verificationStatus": "automated_tests_and_gallery; OS verification pending",
-      "motionRenderer": "flutter"
+      "motionRenderer": "flutter",
+      "selectionIndicator": "lamp (DESIGN_SYSTEM.md §5.10)"
     },
     {
       "id": "C06",
@@ -209,7 +211,8 @@
       "rive": "F",
       "implementationSource": "lib/src/inputs/inputs.dart",
       "verificationStatus": "automated_tests_and_gallery; OS verification pending",
-      "motionRenderer": "flutter"
+      "motionRenderer": "flutter",
+      "selectionIndicator": "lamp (DESIGN_SYSTEM.md §5.10)"
     },
     {
       "id": "C17",
@@ -222,7 +225,8 @@
       "rive": "F",
       "implementationSource": "lib/src/inputs/inputs.dart",
       "verificationStatus": "automated_tests_and_gallery; OS verification pending",
-      "motionRenderer": "flutter"
+      "motionRenderer": "flutter",
+      "selectionIndicator": "lamp (DESIGN_SYSTEM.md §5.10)"
     },
     {
       "id": "C18",
@@ -261,7 +265,8 @@
       "rive": "A",
       "implementationSource": "lib/src/navigation/navigation.dart",
       "verificationStatus": "automated_tests_and_gallery; OS verification pending",
-      "motionRenderer": "flutter"
+      "motionRenderer": "flutter",
+      "selectionIndicator": "lamp (DESIGN_SYSTEM.md §5.10)"
     },
     {
       "id": "C21",
@@ -274,7 +279,8 @@
       "rive": "B",
       "implementationSource": "lib/src/navigation/navigation.dart",
       "verificationStatus": "automated_tests_and_gallery; OS verification pending",
-      "motionRenderer": "flutter"
+      "motionRenderer": "flutter",
+      "selectionIndicator": "lamp (DESIGN_SYSTEM.md §5.10)"
     },
     {
       "id": "C22",
@@ -287,7 +293,8 @@
       "rive": "B",
       "implementationSource": "lib/src/navigation/navigation.dart",
       "verificationStatus": "automated_tests_and_gallery; OS verification pending",
-      "motionRenderer": "flutter"
+      "motionRenderer": "flutter",
+      "selectionIndicator": "lamp (DESIGN_SYSTEM.md §5.10)"
     },
     {
       "id": "C23",
@@ -378,7 +385,8 @@
       "rive": "B",
       "implementationSource": "lib/src/data/data.dart",
       "verificationStatus": "automated_tests_and_gallery; OS verification pending",
-      "motionRenderer": "flutter"
+      "motionRenderer": "flutter",
+      "selectionIndicator": "lamp (DESIGN_SYSTEM.md §5.10)"
     },
     {
       "id": "C31",
@@ -430,7 +438,8 @@
       "rive": "F",
       "implementationSource": "lib/src/data/data.dart",
       "verificationStatus": "automated_tests_and_gallery; OS verification pending",
-      "motionRenderer": "flutter"
+      "motionRenderer": "flutter",
+      "selectionIndicator": "checkbox + semibold (DESIGN_SYSTEM.md §5.10)"
     },
     {
       "id": "C33",
@@ -443,7 +452,8 @@
       "rive": "F",
       "implementationSource": "lib/src/data/data.dart",
       "verificationStatus": "automated_tests_and_gallery; OS verification pending",
-      "motionRenderer": "flutter"
+      "motionRenderer": "flutter",
+      "selectionIndicator": "lamp (DESIGN_SYSTEM.md §5.10)"
     },
     {
       "id": "C48",
