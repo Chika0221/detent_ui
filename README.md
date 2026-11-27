@@ -1,6 +1,6 @@
 # Detent Design System
 
-Flutter デスクトップ向けの UI パッケージ。51部品（C01–C51）を
+Flutter デスクトップ向けの UI パッケージ。50部品（C01–C50）を
 `Detent` 接頭辞の Widget として実装しています。デザイン版は0.4、実装版は0.9.0です。操作アニメーションとPerforationはFlutter、既存の処理状態アニメーションはRiveで実装しています。
 
 ## ギャラリー
@@ -263,43 +263,47 @@ flutter run --profile -d web-server --web-port 48732 --dart-define=DETENT_PERF=t
 Rive の描画を再描画境界で分離し、画面外の代替進捗アニメーションも TickerMode で停止します。
 
 
-## Signature Systems / Perforation
+## Perforation（穴）
 
-同じ正円・ピッチ・奥行きを、素材、反応、情報表示で共有するサブシステムです。
-`DetentHole` / `DetentHoleGrid` / `DetentPerforationPattern` が共通Primitiveです。
-描画はCustomPainterへまとめ、穴ごとのWidget・Ticker・Semanticsは生成しません。
+穴は「物理的な開口」だけを表し、次の二つにしか使いません（判断の理由は `DESIGN_SYSTEM.md` §5.8）。
+
+| 役割 | 部品 | 置く所 |
+|---|---|---|
+| P1 Grip（掴む所） | `DetentGrip` (C49) | `DetentSplitView` の境界、並べ替えできる `DetentListRow` の行頭 |
+| P3 Mark（筐体の刻印） | `DetentChassisMark` (C50) | `DetentStatusBar` の右端。1ウィンドウに1つ |
 
 ```dart
-DetentPerforationSurface(
-  arrangement: DetentPerforationArrangement.hexagonal,
-  coverage: DetentPerforationCoverage.edge,
-  child: const Text('System health'),
+// P1: 並べ替えできる行。onMoveUp / onMoveDown を渡すと行頭に Grip が出る。
+// Grip を縦にドラッグするか、行にフォーカスして Alt+↑ / Alt+↓ で1行ずつ動く。
+DetentListRow(
+  label: track.name,
+  onMoveUp: i == 0 ? null : () => moveTrack(i, i - 1),
+  onMoveDown: i == last ? null : () => moveTrack(i, i + 1),
 );
 
-const DetentSpeakerMatrix.progress(value: .75, label: '書き出し');
-const DetentSpeakerMatrix.status(
-  status: DetentConnectionStatus.connected, label: '入力デバイス');
-const DetentSpeakerMatrix.level(levels: [.2, .5, .8, 1], label: '入力レベル');
-const DetentSpeakerMatrix.signal(strength: 4, label: '接続強度');
-const DetentSpeakerMatrix.loading(label: '処理中');
+// P1: SplitView の境界は Grip。ホバー・ドラッグ・フォーカス中に穴が文字色で埋まる。
+DetentSplitView(leading: browser, trailing: arrange);
 
-DetentResonanceGrid(
-  state: DetentResonanceState.listening,
-  interaction: DetentResonanceInteraction.audio,
-  level: inputLevel, // ホストが渡す0〜1。マイク取得・権限要求は行わない。
-);
+// P3: StatusBar は右端に Mark を出す。同じウィンドウの二つ目のバーだけ外す。
+const DetentStatusBar(children: [Text('すべて保存済み')]);
+const DetentStatusBar(showMark: false, children: [Text('検索結果 12件')]);
 ```
 
-- Holeサイズは2 / 3 / 4 / 6px。Densityの隙間はsparse 12 / normal 8 / dense 4px。ピッチは直径＋隙間です。
-- Square / Hexagonalを切り替えても正円を維持します。Patternは利用可能な面積から行列数を計算します。大きく見せるためにGridを引き伸ばさないでください。
-- Depthはflat / inset / deep、Surfaceはstandard / subtle / contrast / elevated / inset。Surfaceの子には16pxの模様のない安全域を設けます。
-- Coverageはfull / edge / corner / custom。Customには`mask`が必要です。Patternの`contentBounds`はローカル座標で指定し、周囲16pxも除外します。
-- Progressの値は0〜1、点灯数は`floor(value × rows × columns)`。horizontalは行優先、verticalは列優先です。Levelは各チャンネルの0〜1、Signalは`strength / maxStrength`を表示します。
-- Pointerは近傍2ピッチ、Radial / Notificationは最大3ピッチに反応します。`pulseId`を増やすと同じ通知を再発火できます。通知は一回で収束し、背景の無限ループには使いません。
-- Audioは入力値で行数を変えます。Listeningそのものから音声や架空の値は生成しません。
-- Matrixのラベル・値は可視テキストとSemanticsで提供します。穴自体は装飾として読み上げから除外します。色は既存テーマのaccent / success / dangerを再利用します。
-- Reduced Motionでは移動・連続点灯を停止します。非表示・バックグラウンド・TickerMode無効でも停止します。
-- 可変行列と局所反応に合わせ、PerforationはFlutterで実装しています。Rive設定は既存の処理表示に引き続き適用されます。
+- Grip は穴 2px・間隔 4px の2列（太さ8px）。普段は地の穴の色、操作中だけ `text.primary` で埋まる。黄色は使わない。`DetentGrip` は描画だけで、入力と Semantics は持ち主の部品が持つ。
+- 並べ替えは Grip のドラッグ（1行の高さごとに1つ動く）、Alt+↑↓、支援技術のカスタム操作（「上へ移動」「下へ移動」）の三通りで同じ操作になる。順序はホストが持つ。
+- Mark は 52×14px、穴 3px の六角配置。色・動き・Semantics を持たない。幅が足りないとき（狭いバー・大きな文字）は内容を優先して表示しない。
+- 進捗・レベル・接続状態・額縁・ポインタの飾りには穴を使わない。値は `DetentProgress` / `DetentMeter` / `DetentTaskStatus` で示す。
+- `DetentHoleGrid` / `DetentPerforationPattern` は Grip と Mark の描画用 Primitive。描画は CustomPainter 一枚にまとめ、穴ごとの Widget・Semantics は作らない。
 
-ギャラリー末尾のPerforationセクションではVariants・States、進捗4段階、Pointer・Audio・Notification、既存コンポーネントと組み合わせたワークスペースを操作できます。
+0.9.0 で `DetentPerforationSurface`・`DetentResonanceGrid`・`DetentSpeakerMatrix`・`DetentHole` と `DetentPerforationCoverage`・`DetentPerforationSpeed` を削除した。移行先は次のとおり。
+
+| 削除したもの | 移行先 |
+|---|---|
+| `DetentPerforationSurface` | `DetentPanel` か、罫線と余白（§5.7） |
+| `DetentSpeakerMatrix.progress` / `.loading` | `DetentProgress` / `DetentTaskStatus` |
+| `DetentSpeakerMatrix.level` / `.signal` | `DetentMeter` |
+| `DetentSpeakerMatrix.status` | `DetentBadge` か `DetentInlineAlert` |
+| `DetentResonanceGrid` | なし（値と関係のない反応は使わない） |
+
+ギャラリーの Perforation 節では、Grip の状態、SplitView・ListRow・StatusBar・AppShell への組み込み、使わない場面を確認できます。
 Token正本は`design_tokens.json`。`python3 tool/generate_tokens.py`でDartと確認用スナップショットを再生成します。見た目の確認は `tool/update_screenshots.sh` でギャラリーのスクリーンショットを撮り直して行います（変更前の画像は `build/screenshots/before/` に退避されます）。

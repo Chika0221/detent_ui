@@ -3,7 +3,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 
 import 'material_workspace.dart';
-import 'perforation_showcase.dart';
+import 'perforation_spec.dart';
 import 'workshop_navigation.dart';
 
 class GalleryBody extends StatefulWidget {
@@ -75,6 +75,7 @@ class _GalleryBodyState extends State<GalleryBody> {
   String tab = 'design', search = '';
   DetentTaskState taskState = DetentTaskState.idle;
   bool ascending = true;
+  final documents = ['新しいデザインの指針', 'トークンの整理', '部品の仕様'];
   final name = TextEditingController(text: 'Atelier / 新しい作業');
   @override
   void dispose() {
@@ -731,12 +732,36 @@ class _GalleryBodyState extends State<GalleryBody> {
             card(
               33,
               'ListRow',
-              DetentListRow(
-                label: '新しいデザインの指針',
-                description: '部品ライブラリ',
-                selected: true,
-                leading: const Icon(FLucideIcons.file),
-                onPressed: notify,
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  // Reorderable rows carry the P1 grip (DESIGN_SYSTEM.md §5.8).
+                  for (final (i, doc) in documents.indexed)
+                    DetentListRow(
+                      key: ValueKey(doc),
+                      label: doc,
+                      description: '部品ライブラリ',
+                      selected: i == 0,
+                      leading: const Icon(FLucideIcons.file),
+                      onPressed: notify,
+                      onMoveUp: i == 0
+                          ? null
+                          : () => setState(
+                              () => documents.insert(
+                                i - 1,
+                                documents.removeAt(i),
+                              ),
+                            ),
+                      onMoveDown: i == documents.length - 1
+                          ? null
+                          : () => setState(
+                              () => documents.insert(
+                                i + 1,
+                                documents.removeAt(i),
+                              ),
+                            ),
+                    ),
+                ],
               ),
             ),
             card(
@@ -928,9 +953,7 @@ class _GalleryBodyState extends State<GalleryBody> {
         section(_Section.material, [
           const MaterialWorkspace(),
         ], showTitle: false),
-        section(_Section.perforation, [
-          const PerforationShowcase(),
-        ], showTitle: false),
+        section(_Section.perforation, [const PerforationSpec()]),
         section(_Section.motion, [
           DetentPanel(
             header: const Text('操作と処理表示'),

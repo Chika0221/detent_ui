@@ -3,6 +3,7 @@ import 'package:flutter/semantics.dart';
 import '../foundation/primitives.dart';
 import '../controls/controls.dart';
 import '../feedback/feedback.dart';
+import '../perforation/perforation.dart';
 
 import 'package:flutter/services.dart';
 import 'package:forui_lucide/forui_lucide.dart';
@@ -16,38 +17,122 @@ class DetentListRow extends StatelessWidget {
     this.trailing,
     this.selected = false,
     this.onPressed,
+    this.onMoveUp,
+    this.onMoveDown,
   });
   final String label;
   final String? description;
   final Widget? leading, trailing;
   final bool selected;
   final VoidCallback? onPressed;
+
+  /// Reordering. When either is set the row shows a P1 grip at its start
+  /// (DESIGN_SYSTEM.md §5.8): drag it vertically one row at a time, or press
+  /// Alt+↑ / Alt+↓ while the row has focus. The host owns the order; pass
+  /// null at the ends of the list.
+  final VoidCallback? onMoveUp, onMoveDown;
+
+  bool get _reorderable => onMoveUp != null || onMoveDown != null;
+
   @override
-  Widget build(BuildContext context) => DetentSurface(
-    // Rows sit flat on their container; only the selection gets a surface,
-    // matching SidebarItem and TreeView (DESIGN_SYSTEM.md §5.6).
-    color: selected
-        ? DetentTheme.of(context).selectionSurface
-        : DetentColors.transparent,
-    borderRadius: BorderRadius.circular(DetentRadius.control),
-    child: DetentTile(
-      dense: true,
-      selected: selected,
-      selectedColor: DetentTheme.of(context).selectionForeground,
-      leading: leading,
-      trailing: trailing,
-      title: Text(label),
-      subtitle: description == null
-          ? null
-          : Text(
-              description!,
-              style: DetentTheme.of(context).textTheme.caption
-                  .copyWith(color: DetentTheme.of(context).muted),
-            ),
-      onTap: onPressed,
-      contentPadding: const EdgeInsets.all(8),
-    ),
-  );
+  Widget build(BuildContext context) {
+    final t = DetentTheme.of(context);
+    Widget row = DetentSurface(
+      // Rows sit flat on their container; only the selection gets a surface,
+      // matching SidebarItem and TreeView (DESIGN_SYSTEM.md §5.6).
+      color: selected ? t.selectionSurface : DetentColors.transparent,
+      borderRadius: BorderRadius.circular(DetentRadius.control),
+      child: DetentTile(
+        dense: true,
+        selected: selected,
+        selectedColor: t.selectionForeground,
+        leading: _reorderable
+            ? Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  _RowGrip(onMoveUp: onMoveUp, onMoveDown: onMoveDown),
+                  if (leading != null) ...[const SizedBox(width: 8), leading!],
+                ],
+              )
+            : leading,
+        trailing: trailing,
+        title: Text(label),
+        subtitle: description == null
+            ? null
+            : Text(
+                description!,
+                style: t.textTheme.caption.copyWith(color: t.muted),
+              ),
+        onTap: onPressed,
+        contentPadding: const EdgeInsets.all(8),
+      ),
+    );
+    if (_reorderable) {
+      row = Semantics(
+        customSemanticsActions: {
+          const CustomSemanticsAction(label: '上へ移動'): ?onMoveUp,
+          const CustomSemanticsAction(label: '下へ移動'): ?onMoveDown,
+        },
+        child: CallbackShortcuts(
+          bindings: {
+            const SingleActivator(LogicalKeyboardKey.arrowUp, alt: true):
+                ?onMoveUp,
+            const SingleActivator(LogicalKeyboardKey.arrowDown, alt: true):
+                ?onMoveDown,
+          },
+          child: row,
+        ),
+      );
+    }
+    return row;
+  }
+}
+
+/// The grip at the start of a reorderable row. A vertical drag moves the row
+/// one place each time it passes a row's height.
+class _RowGrip extends StatefulWidget {
+  const _RowGrip({this.onMoveUp, this.onMoveDown});
+  final VoidCallback? onMoveUp, onMoveDown;
+  @override
+  State<_RowGrip> createState() => _RowGripState();
+}
+
+class _RowGripState extends State<_RowGrip> {
+  bool hovered = false, dragging = false;
+  double travel = 0;
+
+  @override
+  Widget build(BuildContext context) {
+    final step = DetentTheme.of(context).controlHeight;
+    return MouseRegion(
+      cursor: dragging ? SystemMouseCursors.grabbing : SystemMouseCursors.grab,
+      onEnter: (_) => setState(() => hovered = true),
+      onExit: (_) => setState(() => hovered = false),
+      child: GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onVerticalDragStart: (_) => setState(() {
+          dragging = true;
+          travel = 0;
+        }),
+        onVerticalDragUpdate: (e) {
+          travel += e.delta.dy;
+          if (travel <= -step && widget.onMoveUp != null) {
+            travel += step;
+            widget.onMoveUp!();
+          } else if (travel >= step && widget.onMoveDown != null) {
+            travel -= step;
+            widget.onMoveDown!();
+          }
+        },
+        onVerticalDragEnd: (_) => setState(() => dragging = false),
+        onVerticalDragCancel: () => setState(() => dragging = false),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 6),
+          child: DetentGrip(length: 3, active: hovered || dragging),
+        ),
+      ),
+    );
+  }
 }
 
 @immutable

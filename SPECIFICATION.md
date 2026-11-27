@@ -128,9 +128,9 @@ Nothingからは、構造を見せる考え方、モノクロを中心とした�
 | C28 | DetentAppShell | メニュー、ナビ、本文、補助領域、status | P0 | F |
 | C29 | DetentPanel | header / content / footer、inset / raised | P0 | F |
 | C30 | DetentToolbar | 操作群、区切り、overflow | P0 | F |
-| C31 | DetentSplitView | リサイズ、最小幅、折り畳み | P1 | F |
-| C32 | DetentStatusBar | 保存・接続・処理状態、クリック可能項目 | P1 | B |
-| C33 | DetentListRow | 選択、補足、末尾操作、密な一覧 | P0 | F |
+| C31 | DetentSplitView | リサイズ、最小幅、折り畳み。境界はGrip（§5.8） | P1 | F |
+| C32 | DetentStatusBar | 保存・接続・処理状態、クリック可能項目。右端にChassisMark | P1 | B |
+| C33 | DetentListRow | 選択、補足、末尾操作、密な一覧、Gripでの並べ替え | P0 | F |
 | C34 | DetentTreeView | 展開、複数選択、キーボード探索 | P1 | B |
 | C35 | DetentDataTable | sort、選択、固定ヘッダー、仮想化 | P1 | F |
 | C36 | DetentBadge | 件数／状態、icon＋text | P0 | F |
@@ -146,6 +146,8 @@ Nothingからは、構造を見せる考え方、モノクロを中心とした�
 | C46 | DetentSkeleton | 読み込み時のレイアウト確保 | P1 | F |
 | C47 | DetentTaskStatus | idle / running / success / error / canceled | P1 | A |
 | C48 | DetentScrollArea | 常時／自動スクロールバー、大量データ | P0 | F |
+| C49 | DetentGrip | 境界・行を掴んで動かせる印（Perforation P1） | P1 | F |
+| C50 | DetentChassisMark | ウィンドウの筐体の刻印、1ウィンドウに1つ（Perforation P3） | P2 | F |
 
 Theme、Typography、Icon、Divider、FocusRing、MotionPolicyは共通基盤とし、上記48部品を支える。業務固有のチャット、エディター、再生エンジン、ファイル管理は追加層で構成する。
 

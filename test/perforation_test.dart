@@ -1,88 +1,32 @@
 import 'dart:ui' as ui;
 
 import 'package:detent_ui/detent_ui.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-Widget host(
-  Widget child, {
-  DetentThemeData theme = const DetentThemeData(
-    riveEnabled: false,
-    motion: DetentMotion.reduced,
-  ),
-  bool disableAnimations = false,
-}) => DetentApp(
-  riveEnabled: false,
-  home: MediaQuery(
-    data: MediaQueryData(
-      size: const Size(800, 600),
-      disableAnimations: disableAnimations,
-    ),
-    child: DetentTheme(
-      data: theme,
-      child: Center(child: child),
-    ),
-  ),
-);
+Widget host(Widget child, {DetentThemeMode mode = DetentThemeMode.light}) =>
+    DetentApp(
+      riveEnabled: false,
+      themeMode: mode,
+      motion: DetentMotion.reduced,
+      home: DetentBox(body: Center(child: child)),
+    );
 
-Future<List<int>> pixels(WidgetTester t, GlobalKey key) async {
+/// Colour of the pixel at [at] (local to the boundary).
+Future<Color> pixel(WidgetTester t, GlobalKey key, Offset at) async {
   await t.pump();
   return (await t.runAsync(() async {
     final render =
         key.currentContext!.findRenderObject()! as RenderRepaintBoundary;
     final image = await render.toImage(pixelRatio: 1);
     final bytes = await image.toByteData(format: ui.ImageByteFormat.rawRgba);
-    final result = bytes!.buffer.asUint8List().toList();
+    final i = (at.dy.floor() * image.width + at.dx.floor()) * 4;
+    final d = bytes!.buffer.asUint8List();
     image.dispose();
-    return result;
+    return Color.fromARGB(d[i + 3], d[i], d[i + 1], d[i + 2]);
   }))!;
-}
-
-Future<int> activeCount(
-  WidgetTester t,
-  double value, {
-  Axis axis = Axis.horizontal,
-}) async {
-  final key = GlobalKey();
-  await t.pumpWidget(
-    host(
-      RepaintBoundary(
-        key: key,
-        child: SizedBox(
-          width: 300,
-          height: 180,
-          child: DetentSpeakerMatrix.progress(
-            value: value,
-            label: 'Export',
-            orientation: axis,
-          ),
-        ),
-      ),
-    ),
-  );
-  await t.pump();
-  final paint = find.descendant(
-    of: find.byType(DetentSpeakerMatrix),
-    matching: find.byType(CustomPaint),
-  );
-  final origin = t.getTopLeft(paint) - t.getTopLeft(find.byKey(key));
-  final data = await pixels(t, key);
-  var active = 0;
-  for (var r = 0; r < 2; r++) {
-    for (var c = 0; c < 10; c++) {
-      final x = (origin.dx + 3 + c * 14).floor();
-      final y = (origin.dy + 3 + r * 14).floor();
-      final offset = (y * 300 + x) * 4;
-      if (data[offset] == 233 &&
-          data[offset + 1] == 207 &&
-          data[offset + 2] == 72) {
-        active++;
-      }
-    }
-  }
-  return active;
 }
 
 void main() {
@@ -118,352 +62,186 @@ void main() {
     );
   });
 
-  testWidgets('progress raster lights exactly 0, 5, 10, 15 and 20 holes', (
+  testWidgets('grip size follows the tokens and fills with ink when active', (
     t,
   ) async {
-    for (final v in [0.0, .25, .5, .75, 1.0]) {
-      expect(await activeCount(t, v), (v * 20).floor());
+    expect(DetentGrip.thickness, 8);
+    final colors = <bool, Color>{};
+    for (final active in [false, true]) {
+      final key = GlobalKey();
+      await t.pumpWidget(
+        host(
+          RepaintBoundary(
+            key: key,
+            child: DetentGrip(active: active),
+          ),
+        ),
+      );
+      expect(t.getSize(find.byType(DetentGrip)), const Size(8, 26));
+      colors[active] = await pixel(t, key, const Offset(1, 1));
     }
-    expect(await activeCount(t, .5, axis: Axis.vertical), 10);
+    // Light theme: the ink fill is darker than the resting hole colour.
+    expect(
+      colors[true]!.computeLuminance(),
+      lessThan(colors[false]!.computeLuminance()),
+    );
+    await t.pumpWidget(host(const DetentGrip(axis: Axis.horizontal)));
+    expect(t.getSize(find.byType(DetentGrip)), const Size(26, 8));
   });
 
-  testWidgets('one semantic node exposes values; decorative holes do not', (
-    t,
-  ) async {
+  testWidgets('chassis mark has a fixed size and no semantics', (t) async {
     final semantics = t.ensureSemantics();
-    await t.pumpWidget(
-      host(const DetentSpeakerMatrix.progress(value: .75, label: 'Export')),
-    );
-    expect(find.bySemanticsLabel('Export'), findsOneWidget);
+    await t.pumpWidget(host(const DetentChassisMark()));
+    expect(t.getSize(find.byType(DetentChassisMark)), const Size(52, 14));
     expect(
-      t.getSemantics(find.bySemanticsLabel('Export')),
-      matchesSemantics(
-        label: 'Export',
-        value: '75%',
-        hasEnabledState: true,
-        isEnabled: true,
+      find.descendant(
+        of: find.byType(DetentChassisMark),
+        matching: find.byType(ExcludeSemantics),
       ),
+      findsOneWidget,
     );
-    await t.pumpWidget(
-      host(const DetentSpeakerMatrix.loading(label: 'Import')),
-    );
-    expect(t.getSemantics(find.bySemanticsLabel('Import')).value, 'Processing');
     semantics.dispose();
   });
 
-  testWidgets('all types, surface recipes and themes render at large text', (
-    t,
-  ) async {
-    for (final brightness in Brightness.values) {
-      for (final high in [false, true]) {
-        final theme = DetentThemeData(
-          brightness: brightness,
-          highContrast: high,
-          motion: DetentMotion.reduced,
-        );
-        final samples = <Widget>[
-          for (final variant in DetentPerforationSurfaceVariant.values)
-            DetentPerforationSurface(
-              variant: variant,
-              child: const Text('Content'),
-            ),
-          for (final status in DetentConnectionStatus.values)
-            DetentSpeakerMatrix.status(status: status, label: 'Connection'),
-          const DetentSpeakerMatrix.level(
-            levels: [.2, .4, .8, 1],
-            label: 'Input',
-          ),
-          const DetentSpeakerMatrix.signal(strength: 4, label: 'Signal'),
-          const DetentSpeakerMatrix.loading(label: 'Loading'),
-          for (final state in DetentResonanceState.values)
-            DetentResonanceGrid(state: state, level: .6),
-        ];
-        for (final sample in samples) {
-          await t.pumpWidget(
-            host(
-              MediaQuery(
-                data: const MediaQueryData(
-                  size: Size(800, 600),
-                  textScaler: TextScaler.linear(2),
-                ),
-                child: SizedBox(width: 280, child: sample),
-              ),
-              theme: theme,
-            ),
-          );
-          await t.pump();
-          expect(
-            t.takeException(),
-            isNull,
-            reason: '$brightness/$high/${sample.runtimeType}',
-          );
-        }
-      }
-    }
-  });
-
-  testWidgets(
-    'pattern adapts to tiny and unbounded constraints without scaling holes',
-    (t) async {
-      final centers = <Offset>[];
-      for (final size in [const Size(1, 1), const Size(180, 100)]) {
-        await t.pumpWidget(
-          host(
-            SizedBox.fromSize(
-              size: size,
-              child: DetentPerforationPattern(
-                coverage: DetentPerforationCoverage.custom,
-                arrangement: DetentPerforationArrangement.hexagonal,
-                mask: (r, c, center) {
-                  centers.add(center);
-                  return true;
-                },
-              ),
-            ),
-          ),
-        );
-        await t.pump();
-        expect(t.takeException(), isNull);
-      }
-      expect(centers.length, greaterThan(30));
-      await t.pumpWidget(host(const DetentPerforationPattern()));
-      expect(t.takeException(), isNull);
-    },
-  );
-
-  testWidgets(
-    'pointer response changes pixels; disabled grids ignore the pointer',
-    (t) async {
-      final key = GlobalKey();
-      final mouse = await t.createGesture(kind: PointerDeviceKind.mouse);
-      await mouse.addPointer(location: Offset.zero);
-      addTearDown(mouse.removePointer);
-      for (final state in [
-        DetentResonanceState.idle,
-        DetentResonanceState.disabled,
-      ]) {
-        await t.pumpWidget(
-          host(
-            RepaintBoundary(
-              key: key,
-              child: DetentResonanceGrid(
-                state: state,
-                interaction: DetentResonanceInteraction.pointer,
-              ),
-            ),
-          ),
-        );
-        final before = await pixels(t, key);
-        await mouse.moveTo(t.getCenter(find.byType(DetentResonanceGrid)));
-        await t.pump();
-        final after = await pixels(t, key);
-        if (state == DetentResonanceState.disabled) {
-          expect(after, before);
-        } else {
-          expect(after, isNot(before));
-        }
-        await mouse.moveTo(Offset.zero);
-        await t.pump();
-      }
-    },
-  );
-
-  testWidgets('audio levels reflect external values without capturing input', (
-    t,
-  ) async {
-    final key = GlobalKey();
-    Widget audio(double level) => host(
-      RepaintBoundary(
-        key: key,
-        child: DetentResonanceGrid(
-          state: DetentResonanceState.listening,
-          interaction: DetentResonanceInteraction.audio,
-          level: level,
-        ),
-      ),
-    );
-    await t.pumpWidget(audio(.1));
-    final low = await pixels(t, key);
-    await t.pumpWidget(audio(.9));
-    final high = await pixels(t, key);
-    expect(high, isNot(low));
-    expect(t.binding.transientCallbackCount, 0);
-  });
-
-  testWidgets('notification is finite and can be retriggered', (t) async {
-    Widget pulse(int id) => host(
-      DetentResonanceGrid(state: DetentResonanceState.pulse, pulseId: id),
-      theme: const DetentThemeData(motion: DetentMotion.full),
-    );
-    await t.pumpWidget(pulse(0));
-    await t.pump(const Duration(milliseconds: 90));
-    expect(t.binding.transientCallbackCount, greaterThan(0));
-    await t.pump(const Duration(milliseconds: 400));
-    expect(t.binding.transientCallbackCount, 0);
-    await t.pumpWidget(pulse(1));
-    await t.pump(const Duration(milliseconds: 20));
-    expect(t.binding.transientCallbackCount, greaterThan(0));
-    await t.pumpWidget(const SizedBox());
-    await t.pump();
-    expect(t.binding.transientCallbackCount, 0);
-  });
-
-  testWidgets('loading respects system/reduced motion and TickerMode', (
-    t,
-  ) async {
-    for (final motion in DetentMotion.values) {
-      await t.pumpWidget(
-        host(
-          const DetentSpeakerMatrix.loading(label: 'Processing'),
-          disableAnimations: true,
-          theme: DetentThemeData(motion: motion),
-        ),
-      );
-      await t.pump();
-      await t.pump(const Duration(milliseconds: 40));
-      expect(
-        t.binding.transientCallbackCount,
-        motion == DetentMotion.full ? greaterThan(0) : 0,
-      );
-    }
+  testWidgets('status bar shows exactly one mark at its right end', (t) async {
     await t.pumpWidget(
       host(
-        const TickerMode(
-          enabled: false,
-          child: DetentSpeakerMatrix.loading(label: 'Processing'),
+        const SizedBox(
+          width: 600,
+          child: DetentStatusBar(
+            children: [Text('Ready'), Spacer(), Text('0.9')],
+          ),
         ),
-        theme: const DetentThemeData(motion: DetentMotion.full),
       ),
     );
-    await t.pump();
-    expect(t.binding.transientCallbackCount, 0);
-    await t.pumpWidget(const SizedBox());
+    expect(find.byType(DetentChassisMark), findsOneWidget);
+    final bar = t.getRect(find.byType(DetentStatusBar));
+    final mark = t.getRect(find.byType(DetentChassisMark));
+    expect(bar.right - mark.right, 8);
+    expect(
+      t.getRect(find.text('0.9')).right,
+      lessThanOrEqualTo(mark.left - 16),
+    );
+
+    await t.pumpWidget(
+      host(
+        const SizedBox(
+          width: 600,
+          child: DetentStatusBar(showMark: false, children: [Text('Ready')]),
+        ),
+      ),
+    );
+    expect(find.byType(DetentChassisMark), findsNothing);
   });
 
-  testWidgets('offscreen and background loading stop and resume', (t) async {
-    final scroll = ScrollController();
-    addTearDown(scroll.dispose);
+  testWidgets('split view handle is a grip that lights on hover and drags', (
+    t,
+  ) async {
+    double? extent;
     await t.pumpWidget(
       host(
         SizedBox(
+          width: 800,
           height: 300,
-          child: SingleChildScrollView(
-            controller: scroll,
-            child: const Column(
+          child: DetentSplitView(
+            leading: const SizedBox.expand(),
+            trailing: const SizedBox.expand(),
+            onExtentChanged: (v) => extent = v,
+          ),
+        ),
+      ),
+    );
+    final grip = find.byType(DetentGrip);
+    expect(grip, findsOneWidget);
+    expect(t.widget<DetentGrip>(grip).active, isFalse);
+
+    final mouse = await t.createGesture(kind: ui.PointerDeviceKind.mouse);
+    await mouse.addPointer(location: Offset.zero);
+    addTearDown(mouse.removePointer);
+    await mouse.moveTo(t.getCenter(grip));
+    await t.pump();
+    expect(t.widget<DetentGrip>(grip).active, isTrue);
+
+    await t.drag(grip, const Offset(40, 0));
+    await t.pump();
+    expect(extent, greaterThan(240));
+  });
+
+  testWidgets('list row reorders by grip drag and Alt+arrow keys', (t) async {
+    final items = ['A', 'B', 'C'];
+    await t.pumpWidget(
+      host(
+        StatefulBuilder(
+          builder: (context, setState) => SizedBox(
+            width: 300,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
               children: [
-                SizedBox(height: 800),
-                DetentSpeakerMatrix.loading(label: 'Processing'),
-                SizedBox(height: 400),
+                for (final (i, item) in items.indexed)
+                  DetentListRow(
+                    key: ValueKey(item),
+                    label: item,
+                    onPressed: () {},
+                    onMoveUp: i == 0
+                        ? null
+                        : () => setState(() {
+                            items.insert(i - 1, items.removeAt(i));
+                          }),
+                    onMoveDown: i == items.length - 1
+                        ? null
+                        : () => setState(() {
+                            items.insert(i + 1, items.removeAt(i));
+                          }),
+                  ),
               ],
             ),
           ),
         ),
-        theme: const DetentThemeData(motion: DetentMotion.full),
       ),
     );
+    expect(find.byType(DetentGrip), findsNWidgets(3));
+
+    final gripA = find.descendant(
+      of: find.byKey(const ValueKey('A')),
+      matching: find.byType(DetentGrip),
+    );
+    // Past the touch slop plus one 40px row.
+    await t.drag(gripA, const Offset(0, 72));
     await t.pump();
-    expect(t.binding.transientCallbackCount, 0);
-    scroll.jumpTo(700);
+    expect(items, ['B', 'A', 'C']);
+
+    Focus.of(t.element(find.text('C'))).requestFocus();
     await t.pump();
+    await t.sendKeyDownEvent(LogicalKeyboardKey.altLeft);
+    await t.sendKeyEvent(LogicalKeyboardKey.arrowUp);
+    await t.sendKeyUpEvent(LogicalKeyboardKey.altLeft);
     await t.pump();
-    expect(t.binding.transientCallbackCount, greaterThan(0));
-    t.binding.handleAppLifecycleStateChanged(AppLifecycleState.paused);
-    await t.pump();
-    expect(t.binding.transientCallbackCount, 0);
-    t.binding.handleAppLifecycleStateChanged(AppLifecycleState.resumed);
-    await t.pump();
-    expect(t.binding.transientCallbackCount, greaterThan(0));
-    scroll.jumpTo(0);
-    await t.pump();
-    await t.pump();
-    expect(t.binding.transientCallbackCount, 0);
-    await t.pumpWidget(const SizedBox());
+    expect(items, ['B', 'C', 'A']);
   });
-  testWidgets(
-    'nested scroll view visibility observes outer and inner positions',
-    (t) async {
-      final outer = ScrollController(), inner = ScrollController();
-      addTearDown(outer.dispose);
-      addTearDown(inner.dispose);
+
+  testWidgets('grip, mark and rows render in dark mode at large text', (
+    t,
+  ) async {
+    for (final mode in DetentThemeMode.values) {
       await t.pumpWidget(
-        host(
-          SizedBox(
-            height: 300,
-            child: SingleChildScrollView(
-              controller: outer,
+        MediaQuery(
+          data: const MediaQueryData(textScaler: TextScaler.linear(2)),
+          child: host(
+            SizedBox(
+              width: 500,
               child: Column(
+                mainAxisSize: MainAxisSize.min,
                 children: [
-                  const SizedBox(height: 600),
-                  SizedBox(
-                    height: 180,
-                    child: SingleChildScrollView(
-                      controller: inner,
-                      child: const Column(
-                        children: [
-                          DetentSpeakerMatrix.loading(
-                            label: 'Nested processing',
-                          ),
-                          SizedBox(height: 500),
-                        ],
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 600),
+                  DetentListRow(label: '長い日本語の項目名', onMoveDown: () {}),
+                  const DetentStatusBar(children: [Text('準備完了')]),
                 ],
               ),
             ),
+            mode: mode,
           ),
-          theme: const DetentThemeData(motion: DetentMotion.full),
         ),
       );
-      await t.pump();
-      expect(t.binding.transientCallbackCount, 0);
-      outer.jumpTo(550);
-      await t.pump();
-      await t.pump();
-      expect(t.binding.transientCallbackCount, greaterThan(0));
-      inner.jumpTo(200);
-      await t.pump();
-      await t.pump();
-      expect(t.binding.transientCallbackCount, 0);
-      inner.jumpTo(0);
-      await t.pump();
-      await t.pump();
-      expect(t.binding.transientCallbackCount, greaterThan(0));
-      outer.jumpTo(0);
-      await t.pump();
-      await t.pump();
-      expect(t.binding.transientCallbackCount, 0);
-      await t.pumpWidget(const SizedBox());
-    },
-  );
-
-  testWidgets('content safety mask excludes holes and its 16px clearance', (
-    t,
-  ) async {
-    final centers = <Offset>[];
-    const content = Rect.fromLTWH(32, 32, 50, 30);
-    await t.pumpWidget(
-      host(
-        SizedBox(
-          width: 160,
-          height: 100,
-          child: DetentPerforationPattern(
-            coverage: DetentPerforationCoverage.custom,
-            contentBounds: content,
-            mask: (r, c, center) {
-              centers.add(center);
-              return true;
-            },
-          ),
-        ),
-      ),
-    );
-    await t.pump();
-    expect(centers, isNotEmpty);
-    expect(
-      centers.every((point) => !content.inflate(18).contains(point)),
-      true,
-    );
+      expect(t.takeException(), isNull, reason: mode.name);
+    }
   });
 }
