@@ -667,6 +667,7 @@ class _DetentOptionPickerState<T> extends State<_DetentOptionPicker<T>> {
                                     child: ExcludeFocus(
                                       child: DetentTile(
                                         dense: true,
+                                        lamp: true,
                                         enabled: option.enabled,
                                         selected: isSelected,
                                         contentPadding:
@@ -676,10 +677,6 @@ class _DetentOptionPickerState<T> extends State<_DetentOptionPicker<T>> {
                                         tileColor: highlighted == i
                                             ? theme.surface
                                             : theme.raised,
-                                        selectedTileColor: highlighted == i
-                                            ? theme.surface
-                                            : theme.raised,
-                                        selectedColor: theme.ink,
                                         shape: RoundedRectangleBorder(
                                           borderRadius: BorderRadius.circular(
                                             4,

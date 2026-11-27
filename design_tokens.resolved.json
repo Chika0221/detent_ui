@@ -3361,5 +3361,26 @@
       "value": 14,
       "unit": "px"
     }
+  },
+  "selection.lamp.size": {
+    "$type": "dimension",
+    "$value": {
+      "value": 6,
+      "unit": "px"
+    }
+  },
+  "selection.lamp.gap": {
+    "$type": "dimension",
+    "$value": {
+      "value": 8,
+      "unit": "px"
+    }
+  },
+  "selection.lamp.stroke": {
+    "$type": "dimension",
+    "$value": {
+      "value": 1,
+      "unit": "px"
+    }
   }
 }

@@ -19,6 +19,47 @@ Widget host(Widget child) => WidgetsApp(
   ),
 );
 void main() {
+  testWidgets('selectable items carry a lamp; plain actions do not', (t) async {
+    await t.pumpWidget(
+      host(
+        Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            DetentSidebarItem(label: '入力', selected: true, onPressed: () {}),
+            DetentSidebarItem(label: '作業領域', onPressed: () {}),
+            DetentToggleButton(label: '太字', value: true, onChanged: (_) {}),
+            DetentIconButton(
+              icon: FLucideIcons.plus,
+              tooltip: 'Add',
+              onPressed: () {},
+            ),
+          ],
+        ),
+      ),
+    );
+    bool? litIn(Finder of) {
+      final lamps = find.descendant(
+        of: of,
+        matching: find.byType(DetentSelectionLamp),
+      );
+      return lamps.evaluate().isEmpty
+          ? null
+          : t.widget<DetentSelectionLamp>(lamps).lit;
+    }
+
+    expect(litIn(find.widgetWithText(DetentSidebarItem, '入力')), isTrue);
+    expect(litIn(find.widgetWithText(DetentSidebarItem, '作業領域')), isFalse);
+    expect(litIn(find.byType(DetentToggleButton)), isTrue);
+    expect(litIn(find.byType(DetentIconButton)), isNull);
+    // The selection paints no surface: the chosen row's text is semibold ink.
+    final label = t.widget<RichText>(
+      find.descendant(
+        of: find.widgetWithText(DetentSidebarItem, '入力'),
+        matching: find.byType(RichText),
+      ),
+    );
+    expect(label.text.style?.fontWeight, FontWeight.w600);
+  });
   test('library imports no UI kit from the framework', () {
     for (final f
         in Directory('lib')
@@ -243,11 +284,6 @@ void main() {
                 values: const DetentRangeValues(.25, .8),
                 onChanged: (_) {},
               ),
-              DetentSegmentedControl(
-                options: const [DetentOption(0, '一覧'), DetentOption(1, '比較')],
-                value: 0,
-                onChanged: (_) {},
-              ),
             ],
           ),
         ),
@@ -255,7 +291,6 @@ void main() {
       for (final component in [
         find.byType(DetentSlider),
         find.byType(DetentRangeSlider),
-        find.byType(DetentSegmentedControl<int>),
       ]) {
         final painter = find
             .descendant(of: component, matching: find.byType(CustomPaint))
@@ -266,7 +301,7 @@ void main() {
     },
   );
   testWidgets(
-    'icon is centred on the operation face and tabs match pen geometry',
+    'icon is centred on the operation face and tabs mark the open tab',
     (t) async {
       await t.pumpWidget(
         host(
@@ -301,16 +336,16 @@ void main() {
       expect(t.getSize(button), const Size(50, 50));
       expect(t.getCenter(icon).dx, closeTo(t.getCenter(button).dx, .01));
       expect(t.getCenter(icon).dy, closeTo(t.getCenter(button).dy - 1, .01));
-      final selectedSurface = find
-          .byWidgetPredicate(
-            (w) =>
-                w is Container &&
-                w.decoration is BoxDecoration &&
-                (w.decoration! as BoxDecoration).borderRadius ==
-                    BorderRadius.circular(DetentRadius.control),
+      // Tabs mark the open tab with a lamp, not a raised surface (§5.10).
+      final lamps = t
+          .widgetList<DetentSelectionLamp>(
+            find.descendant(
+              of: find.byType(DetentTabs<int>),
+              matching: find.byType(DetentSelectionLamp),
+            ),
           )
-          .first;
-      expect(t.getSize(selectedSurface).width, 230);
+          .map((l) => l.lit);
+      expect(lamps, [true, false]);
       expect(t.getSize(find.byType(DetentTaskStatus)).height, 82);
       expect(find.text('68%'), findsOneWidget);
       expect(find.byType(DetentProgress), findsNothing);

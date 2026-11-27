@@ -37,35 +37,47 @@ class DetentListRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final t = DetentTheme.of(context);
-    Widget row = DetentSurface(
-      // Rows sit flat on their container; only the selection gets a surface,
-      // matching SidebarItem and TreeView (DESIGN_SYSTEM.md §5.6).
-      color: selected ? t.selectionSurface : DetentColors.transparent,
-      borderRadius: BorderRadius.circular(DetentRadius.control),
-      child: DetentTile(
-        dense: true,
-        selected: selected,
-        selectedColor: t.selectionForeground,
-        leading: _reorderable
-            ? Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  _RowGrip(onMoveUp: onMoveUp, onMoveDown: onMoveDown),
-                  if (leading != null) ...[const SizedBox(width: 8), leading!],
+    // The lamp marks the chosen row; the row itself stays flat
+    // (DESIGN_SYSTEM.md §5.10). Rows that cannot be chosen (no onPressed)
+    // carry no lamp. A reorderable row keeps its grip at the very start, so
+    // the lamp follows the grip instead of leading the tile.
+    final selectable = onPressed != null || selected;
+    Widget row = DetentTile(
+      dense: true,
+      lamp: selectable && !_reorderable,
+      selected: selected,
+      selectedTileColor: DetentColors.transparent,
+      leading: _reorderable
+          ? Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                _RowGrip(onMoveUp: onMoveUp, onMoveDown: onMoveDown),
+                if (selectable) ...[
+                  const SizedBox(width: 4),
+                  DetentSelectionLamp(lit: selected),
                 ],
-              )
-            : leading,
-        trailing: trailing,
-        title: Text(label),
-        subtitle: description == null
-            ? null
-            : Text(
-                description!,
-                style: t.textTheme.caption.copyWith(color: t.muted),
-              ),
-        onTap: onPressed,
-        contentPadding: const EdgeInsets.all(8),
+                if (leading != null) ...[
+                  const SizedBox(width: DetentTokens.selection_lamp_gap),
+                  leading!,
+                ],
+              ],
+            )
+          : leading,
+      trailing: trailing,
+      title: Text(
+        label,
+        style: _reorderable && selected
+            ? const TextStyle(fontWeight: FontWeight.w600)
+            : null,
       ),
+      subtitle: description == null
+          ? null
+          : Text(
+              description!,
+              style: t.textTheme.caption.copyWith(color: t.muted),
+            ),
+      onTap: onPressed,
+      contentPadding: const EdgeInsets.all(8),
     );
     if (_reorderable) {
       row = Semantics(
@@ -271,6 +283,7 @@ class _DetentTreeViewState<T> extends State<DetentTreeView<T>> {
                 padding: EdgeInsets.only(left: depth * 16.0),
                 child: DetentTile(
                   dense: true,
+                  lamp: true,
                   selected: widget.selected.contains(n.id),
                   leading: n.children.isEmpty
                       ? Icon(n.icon ?? FLucideIcons.file, size: 16)
@@ -294,15 +307,6 @@ class _DetentTreeViewState<T> extends State<DetentTreeView<T>> {
                           onPressed: () =>
                               toggle(n, !widget.expanded.contains(n.id)),
                         ),
-                  selectedTileColor: DetentTheme.of(context).surface,
-                  selectedColor: DetentTheme.of(context).ink,
-                  trailing: widget.selected.contains(n.id)
-                      ? Icon(
-                          FLucideIcons.check,
-                          size: 16,
-                          color: DetentTheme.of(context).ink,
-                        )
-                      : null,
                   title: Text(n.label),
                   onTap: () {
                     request(n.id);
@@ -418,9 +422,6 @@ class DetentDataTable<T> extends StatelessWidget {
                     return DecoratedBox(
                       key: ValueKey(id),
                       decoration: BoxDecoration(
-                        color: selected.contains(id)
-                            ? t.selectionSurface
-                            : null,
                         border: Border(bottom: BorderSide(color: t.border)),
                       ),
                       child: DetentInk(
@@ -451,10 +452,13 @@ class DetentDataTable<T> extends StatelessWidget {
                                   Expanded(
                                     flex: columns[j].flex,
                                     child: DefaultTextStyle.merge(
+                                      // The checkbox column carries the
+                                      // selection; the row only adds weight.
                                       style: TextStyle(
-                                        color: selected.contains(id)
-                                            ? t.selectionForeground
-                                            : t.ink,
+                                        color: t.ink,
+                                        fontWeight: selected.contains(id)
+                                            ? FontWeight.w600
+                                            : null,
                                       ),
                                       child: values[j],
                                     ),

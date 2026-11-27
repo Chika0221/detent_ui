@@ -6,7 +6,7 @@ Flutter デスクトップ向けの UI パッケージ。50部品（C01–C50）
 ## ギャラリー
 
 サイドバーから、用途別の部品カタログと操作できる画面作例に移動できます。
-選択中の行はグレーの面とチェックで示し、黄色は保存や確定などの主要操作に使います。
+選択は項目の先頭の小さな表示灯（点いた墨色の丸）で示し、黄色は保存や確定などの主要操作に使います。
 ギャラリーは仕様書のような体裁です。番号付きの節を太い罫線で区切り、各部品は細い罫線の下に部品名とC番号を刻印風に並べます。厚みを持つのは操作できる部品だけです。
 以下はFlutterギャラリーのスクリーンショットです（1440×1000px）。
 
@@ -53,10 +53,6 @@ Progress・ライブMeter・処理中のTaskStatus・Skeletonを、実際の `.r
 メーターと進捗の値は固定し、処理中の光・ドット・掃引だけを動かしています。
 
 ![Riveによる進捗・メーター・タスク・Skeletonのアニメーション](example/screenshots/rive-motion.gif)
-
-凹んだ溝の刻み目から刻み目へ、浮いたキーが滑る SegmentedControl。実際の Widget を撮影し、途中で方向を反転させています。
-
-![選択キーのスライドと途中反転](example/screenshots/segment-slide.gif)
 
 ![IconButton・Tabs・TaskStatus の形と配置](example/screenshots/component-detail.png)
 
@@ -139,12 +135,21 @@ Select はホストが値を管理する選択専用、ComboBox は文字入力�
 - `DetentSwitch` は既定で縦のスライドスイッチになりました（上がON、横にON / OFFを刻印）。暗い溝に大きなつまみを置いたデフォルメした形で、つまみと目盛りはSliderと同じ描き方です。`axis: Axis.horizontal` で同じスライドスイッチを横に置けます（右がON、両端にOFF / ON）。矢印キーは向きに沿って値を直接設定します。
 - `DetentSlider` と `DetentRangeSlider` に `axis: Axis.vertical` と `length` を追加しました。RangeSliderの縦型は上限を上、下限を下に表示します。オーディオミキサーのフェーダーのように下が最小、目盛りは右側です。見た目は横型と同じつまみです。
 - `DetentRotaryKnob` の見た目を作り直しました。外周の弧がSliderと同じ太さで値まで濃く埋まり、目盛りと明るい円盤の指針で角度を示します。数値はつまみの下に表示します（つまみの真ん中ではなくなったため、高さが数値の行の分だけ増えます）。
-- ボタンと入力欄の左右paddingは12pxです。一覧・表・ツリー・サイドバーの行は行ごとの枠をなくし、選択には `selection.surface` を使います。
+- ボタンと入力欄の左右paddingは12pxです。一覧・表・ツリー・サイドバーの行は行ごとの枠をなくしました。
+- 選択の表し方を表示灯（`DetentSelectionLamp`）に統一しました（`DESIGN_SYSTEM.md` §5.10）。選べる項目の先頭に直径6pxの灯を置き、選んだ項目だけ `text.primary` で点け、文字を semibold にします。選択に面（`selection.surface`）を塗らず、移動先に `›` や `✓` を付けません。
+  - 対象: SidebarItem・ListRow・TreeView・NavigationRail・Tabs・SegmentedControl・ToggleButton・Select / ComboBox の候補。`DetentTile(lamp: true)` で独自の行にも付けられます。
+  - `DetentButton.selected` / `DetentIconButton.selected` は `bool?` になりました。`null`（既定）は通常のボタン、`true` / `false` は灯付きの切り替えです。選択中に面が沈んだままになる表現はやめました。
+  - SegmentedControl は溝とスライドキー（§5.9）をやめ、板の上に灯付きの選択肢を並べる形にしました。
+  - NavigationRail はアイコンの下にラベルを表示します（幅76px）。
+  - Tabs の未保存の印は ` •` から ` *` に変わりました（灯と見分けるため）。
+  - TreeView の選択行の `✓`、DataTable の選択行の面をなくしました。DataTable はチェックボックスと文字の太さで選択を示します。
+  - CommandPalette の強調中のコマンドは選択ではなく一時的な強調なので、面のままです。
+  - Checkbox・RadioGroup・Switch とメニューのチェック項目は値そのものを示す部品なので、灯を付けません。
 
 ## 実装内容
 
 - 全48 Widget: controls / inputs / navigation / layout / data / feedback。
-- 正本JSONから生成した271トークン。4色テーマ、3密度、OSに追従するreduced motion。
+- 正本JSONから生成した364トークン。4色テーマ、3密度、OSに追従するreduced motion。
 - Manrope、IBM Plex Sans JP（400 / 500 / 600）をライセンスと共に同梱。
 - Lucide 16px。`forui_lucide` はアイコン資産だけを供給し、ForuiのUI部品には依存しません。
 - ボタンの配置領域は標準50px（操作面40＋底面2＋上下フォーカス余白8）。
@@ -179,7 +184,7 @@ ATELIER-STUDIO側の既存UIの置き換えは行っていません。
 |---|---|
 | Button / IconButton / ToggleButton / Keycap | Flutter。押下60ms・復帰120ms、hover色の遷移 |
 | Checkbox / RadioGroup / Switch | Flutter。選択120–160ms、スイッチのつまみ移動と途中反転 |
-| SegmentedControl / Tabs | Flutter。選択キーの220msスライド・途中反転・押し込み、下線の遷移 |
+| SegmentedControl / Tabs / 選択できる行 | Flutter。表示灯の点灯・消灯120ms |
 | Slider / RangeSlider / RotaryKnob | Flutter。実値へ即時追従、操作中のつまみの反応 |
 | TreeView / DotMatrix / InlineAlert / EmptyState | Flutter。展開矢印の回転、数字・状態の切り替え |
 | Progress / Button loading | Rive。実進捗の光、不明時の流れる帯・回転弧。ボタンの操作面はFlutter |

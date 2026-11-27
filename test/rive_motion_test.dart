@@ -137,7 +137,7 @@ void main() {
     },
   );
   testWidgets(
-    'Flutter segment slide follows and reverses from its current position',
+    'segmented control lights the lamp of the chosen option without Rive',
     (t) async {
       var value = 0;
       await t.pumpWidget(
@@ -161,30 +161,14 @@ void main() {
           ),
         ),
       );
-      double position() =>
-          ((t
-                          .widget<CustomPaint>(
-                            find.descendant(
-                              of: find.byType(DetentSegmentedControl<int>),
-                              matching: find.byType(CustomPaint),
-                            ),
-                          )
-                          .painter
-                      as dynamic)
-                  .selectionValue
-              as double);
+      List<bool> lamps() => t
+          .widgetList<DetentSelectionLamp>(find.byType(DetentSelectionLamp))
+          .map((l) => l.lit)
+          .toList();
+      expect(lamps(), [true, false]);
       await t.tap(find.text('比較'));
-      await t.pump();
-      await t.pump(const Duration(milliseconds: 50));
-      final mid = position();
-      expect(mid, greaterThan(0));
-      expect(mid, lessThan(1));
-      await t.tap(find.text('一覧'));
-      await t.pump();
-      await t.pump(const Duration(milliseconds: 40));
-      expect(position(), lessThan(mid));
       await t.pumpAndSettle();
-      expect(position(), 0);
+      expect(lamps(), [false, true]);
       expect(find.byType(DetentRiveArtwork), findsNothing);
     },
   );

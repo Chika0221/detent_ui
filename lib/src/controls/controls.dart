@@ -18,7 +18,7 @@ class DetentButton extends StatefulWidget {
     this.icon,
     this.variant = DetentButtonVariant.secondary,
     this.loading = false,
-    this.selected = false,
+    this.selected,
     this.focusNode,
     this.autofocus = false,
     this.semanticLabel,
@@ -28,8 +28,11 @@ class DetentButton extends StatefulWidget {
   final IconData? icon;
   final DetentButtonVariant variant;
 
-  /// A latched, neutral selection; independent of the primary action variant.
-  final bool selected;
+  /// Makes the button one of a selectable set (toggle, option): it shows a
+  /// [DetentSelectionLamp] before its content, lit when true, and a semibold
+  /// label. The face keeps its variant colors and does not latch down
+  /// (DESIGN_SYSTEM.md §5.10). Null means a plain action button.
+  final bool? selected;
   final bool loading;
   final FocusNode? focusNode;
   final bool autofocus;
@@ -66,18 +69,15 @@ class _DetentButtonState extends State<DetentButton> {
   @override
   Widget build(BuildContext context) {
     final t = DetentTheme.of(context);
-    final bg = widget.selected
-        ? t.selectionSurface
-        : switch (widget.variant) {
-            DetentButtonVariant.primary => hovered ? t.accentHover : t.accent,
-            DetentButtonVariant.danger => t.danger,
-            DetentButtonVariant.quiet =>
-              hovered ? t.surface : DetentColors.transparent,
-            DetentButtonVariant.secondary => hovered ? t.surface : t.raised,
-          };
-    final fg = widget.selected
-        ? t.selectionForeground
-        : widget.variant == DetentButtonVariant.primary
+    final lit = widget.selected == true;
+    final bg = switch (widget.variant) {
+      DetentButtonVariant.primary => hovered ? t.accentHover : t.accent,
+      DetentButtonVariant.danger => t.danger,
+      DetentButtonVariant.quiet =>
+        hovered ? t.surface : DetentColors.transparent,
+      DetentButtonVariant.secondary => hovered ? t.surface : t.raised,
+    };
+    final fg = widget.variant == DetentButtonVariant.primary
         ? t.accentInk
         : widget.variant == DetentButtonVariant.danger
         ? t.onDanger
@@ -86,11 +86,7 @@ class _DetentButtonState extends State<DetentButton> {
     Widget face(Widget child) => AnimatedContainer(
       duration: t.duration(context, pressed ? 60 : 120),
       curve: curve,
-      transform: Matrix4.translationValues(
-        0,
-        pressed || widget.selected ? 2 : 0,
-        0,
-      ),
+      transform: Matrix4.translationValues(0, pressed ? 2 : 0, 0),
       child: child,
     );
     final fallback = Stack(
@@ -140,12 +136,20 @@ class _DetentButtonState extends State<DetentButton> {
               child: DefaultTextStyle(
                 style: DetentTheme.of(context).textTheme.control.copyWith(
                   color: fg,
-                  fontWeight: widget.selected ? FontWeight.w600 : null,
+                  fontWeight: lit ? FontWeight.w600 : null,
                 ),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
+                    if (widget.selected != null) ...[
+                      DetentSelectionLamp(lit: lit),
+                      SizedBox(
+                        width: widget.label.isEmpty
+                            ? 6
+                            : DetentTokens.selection_lamp_gap,
+                      ),
+                    ],
                     if (widget.icon != null) Icon(widget.icon),
                     if (widget.icon != null && widget.label.isNotEmpty)
                       const SizedBox(width: 8),
@@ -277,13 +281,16 @@ class DetentIconButton extends StatelessWidget {
     required this.icon,
     required this.tooltip,
     this.onPressed,
-    this.selected = false,
+    this.selected,
     this.focusNode,
   });
   final IconData icon;
   final String tooltip;
   final VoidCallback? onPressed;
-  final bool selected;
+
+  /// See [DetentButton.selected]: non-null turns the button into a toggle
+  /// with a lamp; null keeps a plain icon action.
+  final bool? selected;
   final FocusNode? focusNode;
   @override
   Widget build(BuildContext context) => DetentHint(
@@ -470,96 +477,103 @@ class _DetentSegmentedControlState<T> extends State<DetentSegmentedControl<T>> {
         : o.value == w.value
         ? t.ink
         : t.muted;
-    // The groove, notches and sliding key are all painted by the skin; there
-    // is no separate outer frame.
-    return DetentControlSkin(
-      mechanism: 'SegmentedControl',
-      resize: true,
-      state: DetentControlState(
-        value: w.options.length < 2
-            ? 0
-            : w.options.indexWhere((o) => o.value == w.value) /
-                  (w.options.length - 1),
-        selectionCount: w.options.length.toDouble(),
-        enabled: w.onChanged != null,
-      ),
-      inputBuilder: (context, painted) => LayoutBuilder(
-        builder: (ctx, c) {
-          final children = [
-            for (final o in w.options)
-              Focus(
-                canRequestFocus: false,
-                skipTraversal: true,
-                onKeyEvent: (_, e) {
-                  if (e is KeyUpEvent || w.onChanged == null) {
-                    return KeyEventResult.ignored;
-                  }
-                  final k = e.logicalKey;
-                  if (k != LogicalKeyboardKey.arrowLeft &&
-                      k != LogicalKeyboardKey.arrowRight) {
-                    return KeyEventResult.ignored;
-                  }
-                  final enabled = w.options.where((o) => o.enabled).toList();
-                  if (enabled.isEmpty) return KeyEventResult.handled;
-                  final index =
-                      (enabled.indexOf(o) +
-                          (k == LogicalKeyboardKey.arrowRight ? 1 : -1)) %
-                      enabled.length;
-                  nodes[enabled[index].value]?.requestFocus();
-                  w.onChanged!(enabled[index].value);
-                  return KeyEventResult.handled;
-                },
-                child: DetentInk(
-                  focusNode: nodes.putIfAbsent(o.value, FocusNode.new),
-                  selected: o.value == w.value,
-                  hoverColor: t.controlBorder.withValues(alpha: .08),
-                  onTap: w.onChanged == null || !o.enabled
-                      ? null
-                      : () => w.onChanged!(o.value),
-                  child: ConstrainedBox(
-                    constraints: BoxConstraints(minHeight: t.controlHeight + 4),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          if (o.icon != null) ...[
-                            Icon(o.icon, size: 16, color: labelColor(o)),
-                            const SizedBox(width: 8),
-                          ],
-                          Flexible(
-                            child: Text(
-                              o.label,
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontWeight: o.value == w.value
-                                    ? FontWeight.w600
-                                    : null,
-                                color: labelColor(o),
-                              ),
-                            ),
-                          ),
-                        ],
+    // A flat plate of options; the lamp marks the chosen one
+    // (DESIGN_SYSTEM.md §5.10). Nothing slides or latches.
+    final children = [
+      for (final o in w.options)
+        Focus(
+          canRequestFocus: false,
+          skipTraversal: true,
+          onKeyEvent: (_, e) {
+            if (e is KeyUpEvent || w.onChanged == null) {
+              return KeyEventResult.ignored;
+            }
+            final k = e.logicalKey;
+            if (k != LogicalKeyboardKey.arrowLeft &&
+                k != LogicalKeyboardKey.arrowRight) {
+              return KeyEventResult.ignored;
+            }
+            final enabled = w.options.where((o) => o.enabled).toList();
+            if (enabled.isEmpty) return KeyEventResult.handled;
+            final index =
+                (enabled.indexOf(o) +
+                    (k == LogicalKeyboardKey.arrowRight ? 1 : -1)) %
+                enabled.length;
+            nodes[enabled[index].value]?.requestFocus();
+            w.onChanged!(enabled[index].value);
+            return KeyEventResult.handled;
+          },
+          child: DetentInk(
+            focusNode: nodes.putIfAbsent(o.value, FocusNode.new),
+            selected: o.value == w.value,
+            hoverColor: t.raised,
+            onTap: w.onChanged == null || !o.enabled
+                ? null
+                : () => w.onChanged!(o.value),
+            child: ConstrainedBox(
+              constraints: BoxConstraints(minHeight: t.controlHeight - 2),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    DetentSelectionLamp(
+                      lit: o.value == w.value,
+                      enabled: w.onChanged != null && o.enabled,
+                    ),
+                    const SizedBox(width: DetentTokens.selection_lamp_gap),
+                    if (o.icon != null) ...[
+                      Icon(o.icon, size: 16, color: labelColor(o)),
+                      const SizedBox(width: 8),
+                    ],
+                    Flexible(
+                      child: Text(
+                        o.label,
+                        textAlign: TextAlign.center,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          fontWeight: o.value == w.value
+                              ? FontWeight.w600
+                              : null,
+                          color: labelColor(o),
+                        ),
                       ),
                     ),
-                  ),
+                  ],
                 ),
               ),
-          ];
-          return c.hasBoundedWidth
-              ? Row(
-                  children: [
-                    for (final child in children) Expanded(child: child),
-                  ],
-                )
-              : IntrinsicWidth(
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: children,
+            ),
+          ),
+        ),
+    ];
+    return Opacity(
+      opacity: w.onChanged == null ? .45 : 1,
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          color: t.surface,
+          borderRadius: BorderRadius.circular(DetentRadius.menu),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(3),
+          child: LayoutBuilder(
+            builder: (ctx, c) => c.hasBoundedWidth
+                ? Row(
+                    spacing: 2,
+                    children: [
+                      for (final child in children) Expanded(child: child),
+                    ],
+                  )
+                : IntrinsicWidth(
+                    child: Row(
+                      spacing: 2,
+                      mainAxisSize: MainAxisSize.min,
+                      children: children,
+                    ),
                   ),
-                );
-        },
+          ),
+        ),
       ),
     );
   }

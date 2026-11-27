@@ -21,6 +21,7 @@ export 'src/foundation/primitives.dart'
         DetentPlainButton,
         DetentIconAction,
         DetentTile,
+        DetentSelectionLamp,
         DetentPopupAnchor,
         DetentPopupController;
 

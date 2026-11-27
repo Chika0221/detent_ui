@@ -379,4 +379,7 @@ abstract final class DetentTokens {
   static const double perforation_mark_gap = 4.0;
   static const double perforation_mark_width = 52.0;
   static const double perforation_mark_height = 14.0;
+  static const double selection_lamp_size = 6.0;
+  static const double selection_lamp_gap = 8.0;
+  static const double selection_lamp_stroke = 1.0;
 }
