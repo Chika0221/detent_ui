@@ -1,7 +1,7 @@
 {
   "version": "0.4",
   "designSource": "Flutter implementation and example gallery",
-  "scope": "51 WidgetsApp-compatible Flutter widgets; interactive motion uses Flutter; processing feedback uses 7 local Rive artboards; shared Select/ComboBox popup and keycap units; design v0.4; OS verification pending; Perforation signature subsystem C49–C51 uses shared Flutter canvas primitives",
+  "scope": "50 WidgetsApp-compatible Flutter widgets; interactive motion uses Flutter; processing feedback uses 7 local Rive artboards; shared Select/ComboBox popup and keycap units; design v0.4; OS verification pending; Perforation limited to C49 Grip (SplitView, ListRow reorder) and C50 ChassisMark (StatusBar), drawn with shared Flutter canvas primitives",
   "reviewSets": [
     {
       "id": "C01",
@@ -629,12 +629,12 @@
     },
     {
       "id": "C49",
-      "name": "DetentPerforationSurface",
+      "name": "DetentGrip",
+      "widget": "DetentGrip",
+      "priority": "P1",
       "kind": "state_review_set",
       "designStatus": "draft_visual_checked",
       "implementationStatus": "implemented_initial",
-      "widget": "DetentPerforationSurface",
-      "priority": "P1",
       "rive": "none",
       "implementationSource": "lib/src/perforation/perforation.dart",
       "verificationStatus": "automated_tests_and_gallery; OS verification pending",
@@ -642,25 +642,12 @@
     },
     {
       "id": "C50",
-      "name": "DetentResonanceGrid",
+      "name": "DetentChassisMark",
+      "widget": "DetentChassisMark",
+      "priority": "P2",
       "kind": "state_review_set",
       "designStatus": "draft_visual_checked",
       "implementationStatus": "implemented_initial",
-      "widget": "DetentResonanceGrid",
-      "priority": "P1",
-      "rive": "none",
-      "implementationSource": "lib/src/perforation/perforation.dart",
-      "verificationStatus": "automated_tests_and_gallery; OS verification pending",
-      "motionRenderer": "flutter"
-    },
-    {
-      "id": "C51",
-      "name": "DetentSpeakerMatrix",
-      "kind": "state_review_set",
-      "designStatus": "draft_visual_checked",
-      "implementationStatus": "implemented_initial",
-      "widget": "DetentSpeakerMatrix",
-      "priority": "P1",
       "rive": "none",
       "implementationSource": "lib/src/perforation/perforation.dart",
       "verificationStatus": "automated_tests_and_gallery; OS verification pending",
