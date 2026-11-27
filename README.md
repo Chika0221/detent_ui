@@ -54,9 +54,9 @@ Progress・ライブMeter・処理中のTaskStatus・Skeletonを、実際の `.r
 
 ![Riveによる進捗・メーター・タスク・Skeletonのアニメーション](example/screenshots/rive-motion.gif)
 
-選択面・輪郭・底面をまとめて動かす SegmentedControl。実際の Widget を撮影し、途中で方向を反転させています。
+凹んだ溝の刻み目から刻み目へ、浮いたキーが滑る SegmentedControl。実際の Widget を撮影し、途中で方向を反転させています。
 
-![選択面のスライドと途中反転](example/screenshots/segment-slide.gif)
+![選択キーのスライドと途中反転](example/screenshots/segment-slide.gif)
 
 ![IconButton・Tabs・TaskStatus の形と配置](example/screenshots/component-detail.png)
 
@@ -179,7 +179,7 @@ ATELIER-STUDIO側の既存UIの置き換えは行っていません。
 |---|---|
 | Button / IconButton / ToggleButton / Keycap | Flutter。押下60ms・復帰120ms、hover色の遷移 |
 | Checkbox / RadioGroup / Switch | Flutter。選択120–160ms、スイッチのつまみ移動と途中反転 |
-| SegmentedControl / Tabs | Flutter。選択面の220msスライド・途中反転、下線の遷移 |
+| SegmentedControl / Tabs | Flutter。選択キーの220msスライド・途中反転・押し込み、下線の遷移 |
 | Slider / RangeSlider / RotaryKnob | Flutter。実値へ即時追従、操作中のつまみの反応 |
 | TreeView / DotMatrix / InlineAlert / EmptyState | Flutter。展開矢印の回転、数字・状態の切り替え |
 | Progress / Button loading | Rive。実進捗の光、不明時の流れる帯・回転弧。ボタンの操作面はFlutter |
