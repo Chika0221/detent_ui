@@ -38,12 +38,19 @@ class OmarchyThemeLocation {
   String get colorsFile => '$currentDirectory/theme/colors.toml';
   String get nameFile => '$currentDirectory/theme.name';
 
+  /// Omarchy's light-mode marker, used when `colors.toml` has no `mode`.
+  String get lightModeFile => '$currentDirectory/theme/light.mode';
+
   /// Reads the theme, or returns null when `colors.toml` is missing.
   Future<OmarchyTheme?> read() async {
     final colors = File(colorsFile);
     if (!await colors.exists()) return null;
     final source = await colors.readAsString();
-    return OmarchyTheme.parse(source, name: await _readName());
+    return OmarchyTheme.parse(
+      source,
+      name: await _readName(),
+      lightModeFile: await File(lightModeFile).exists(),
+    );
   }
 
   Future<String?> _readName() async {
