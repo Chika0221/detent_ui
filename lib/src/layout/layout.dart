@@ -1,4 +1,9 @@
+import 'dart:math' as math;
+
+import 'package:flutter/rendering.dart';
+
 import '../foundation/primitives.dart';
+import '../perforation/perforation.dart';
 
 import 'package:flutter/services.dart';
 
@@ -163,7 +168,10 @@ class DetentSplitView extends StatefulWidget {
 
 class _DetentSplitViewState extends State<DetentSplitView> {
   late double extent = widget.initialExtent;
-  bool focused = false;
+  bool focused = false, hovered = false, dragging = false;
+
+  /// Handle width: the P1 grip plus 2px on each side for the focus edge.
+  static final double _handle = DetentGrip.thickness + 4;
   void resize(double v, double max) {
     setState(() => extent = v.clamp(widget.minLeading, max));
     widget.onExtentChanged?.call(extent);
@@ -180,7 +188,7 @@ class _DetentSplitViewState extends State<DetentSplitView> {
           ],
         );
       }
-      final max = (c.maxWidth - widget.minTrailing - 8).clamp(
+      final max = (c.maxWidth - widget.minTrailing - _handle).clamp(
         0.0,
         double.infinity,
       );
@@ -188,12 +196,12 @@ class _DetentSplitViewState extends State<DetentSplitView> {
         return SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           child: SizedBox(
-            width: widget.minLeading + widget.minTrailing + 8,
+            width: widget.minLeading + widget.minTrailing + _handle,
             height: c.hasBoundedHeight ? c.maxHeight : null,
             child: Row(
               children: [
                 SizedBox(width: widget.minLeading, child: widget.leading),
-                const SizedBox(width: 8),
+                SizedBox(width: _handle),
                 SizedBox(width: widget.minTrailing, child: widget.trailing),
               ],
             ),
@@ -246,19 +254,43 @@ class _DetentSplitViewState extends State<DetentSplitView> {
               },
               child: MouseRegion(
                 cursor: SystemMouseCursors.resizeColumn,
+                onEnter: (_) => setState(() => hovered = true),
+                onExit: (_) => setState(() => hovered = false),
                 child: GestureDetector(
                   behavior: HitTestBehavior.opaque,
+                  onHorizontalDragStart: widget.collapsed
+                      ? null
+                      : (_) => setState(() => dragging = true),
+                  onHorizontalDragEnd: (_) => setState(() => dragging = false),
+                  onHorizontalDragCancel: () =>
+                      setState(() => dragging = false),
                   onHorizontalDragUpdate: widget.collapsed
                       ? null
                       : (e) => resize(extent + e.delta.dx, max),
                   onDoubleTap: widget.onCollapsedChanged == null
                       ? null
                       : () => widget.onCollapsedChanged!(!widget.collapsed),
+                  // P1 Grip (DESIGN_SYSTEM.md §5.8): the holes fill while
+                  // the boundary is hovered, dragged or focused; focus also
+                  // draws 2px edges in the focus colour.
                   child: Container(
-                    width: 8,
-                    color: focused
-                        ? DetentTheme.of(context).focus
-                        : DetentTheme.of(context).border,
+                    width: _handle,
+                    decoration: BoxDecoration(
+                      color: DetentTheme.of(context).chrome,
+                      border: Border.symmetric(
+                        vertical: BorderSide(
+                          color: focused
+                              ? DetentTheme.of(context).focus
+                              : DetentTheme.of(context).border,
+                          width: focused ? 2 : 1,
+                        ),
+                      ),
+                    ),
+                    alignment: Alignment.center,
+                    child: DetentGrip(
+                      active: hovered || dragging || focused,
+                      enabled: !widget.collapsed,
+                    ),
                   ),
                 ),
               ),
@@ -272,17 +304,154 @@ class _DetentSplitViewState extends State<DetentSplitView> {
 }
 
 class DetentStatusBar extends StatelessWidget {
-  const DetentStatusBar({super.key, required this.children});
+  const DetentStatusBar({
+    super.key,
+    required this.children,
+    this.showMark = true,
+  });
   final List<Widget> children;
+
+  /// Shows the P3 chassis mark at the right end (DESIGN_SYSTEM.md §5.8).
+  /// Keep it on for the window's status bar; turn it off only for a second
+  /// status bar in the same window, so each window has exactly one mark.
+  final bool showMark;
   @override
   Widget build(BuildContext context) => Container(
     padding: const EdgeInsets.all(8),
     color: DetentTheme.of(context).surface,
     child: DefaultTextStyle.merge(
       style: DetentTheme.of(context).textTheme.caption,
-      child: Row(children: children),
+      child: showMark
+          ? _MarkedBar(
+              content: Row(children: children),
+              mark: const DetentChassisMark(),
+            )
+          : Row(children: children),
     ),
   );
+}
+
+/// Lays out the status bar content and keeps the chassis mark at the right
+/// end. The content always wins: when its natural width (Spacers count as
+/// zero) leaves no room for the mark — a narrow bar or large text — the mark
+/// is not shown, so text is never pushed out.
+class _MarkedBar extends MultiChildRenderObjectWidget {
+  _MarkedBar({required Widget content, required Widget mark})
+    : super(children: [content, mark]);
+
+  @override
+  RenderObject createRenderObject(BuildContext context) => _RenderMarkedBar();
+}
+
+class _MarkedBarParentData extends ContainerBoxParentData<RenderBox> {}
+
+class _RenderMarkedBar extends RenderBox
+    with
+        ContainerRenderObjectMixin<RenderBox, _MarkedBarParentData>,
+        RenderBoxContainerDefaultsMixin<RenderBox, _MarkedBarParentData> {
+  static const _gap = 16.0;
+  bool _showMark = true;
+
+  @override
+  void setupParentData(RenderBox child) {
+    if (child.parentData is! _MarkedBarParentData) {
+      child.parentData = _MarkedBarParentData();
+    }
+  }
+
+  RenderBox get _content => firstChild!;
+  RenderBox get _mark => lastChild!;
+
+  @override
+  double computeMinIntrinsicWidth(double height) =>
+      _content.getMinIntrinsicWidth(height);
+  @override
+  double computeMaxIntrinsicWidth(double height) =>
+      _content.getMaxIntrinsicWidth(height) +
+      _gap +
+      _mark.getMaxIntrinsicWidth(height);
+  @override
+  double computeMinIntrinsicHeight(double width) => math.max(
+    _content.getMinIntrinsicHeight(width),
+    _mark.getMinIntrinsicHeight(width),
+  );
+  @override
+  double computeMaxIntrinsicHeight(double width) => math.max(
+    _content.getMaxIntrinsicHeight(width),
+    _mark.getMaxIntrinsicHeight(width),
+  );
+
+  @override
+  Size computeDryLayout(BoxConstraints constraints) {
+    final layout = _plan(constraints, dry: true);
+    return layout.size;
+  }
+
+  ({Size size, double contentWidth, Size mark}) _plan(
+    BoxConstraints constraints, {
+    required bool dry,
+  }) {
+    final width = constraints.hasBoundedWidth
+        ? constraints.maxWidth
+        : _content.getMaxIntrinsicWidth(double.infinity);
+    final mark = dry
+        ? _mark.getDryLayout(const BoxConstraints())
+        : (_mark..layout(const BoxConstraints(), parentUsesSize: true)).size;
+    final natural = _content.getMaxIntrinsicWidth(double.infinity);
+    final show = width - natural >= mark.width + _gap;
+    final contentWidth = show ? width - mark.width - _gap : width;
+    final childConstraints = BoxConstraints.tightFor(width: contentWidth)
+        .enforce(constraints.loosen());
+    final content = dry
+        ? _content.getDryLayout(childConstraints)
+        : (_content..layout(childConstraints, parentUsesSize: true)).size;
+    if (!dry) _showMark = show;
+    final height = math.max(content.height, show ? mark.height : 0.0);
+    return (
+      size: constraints.constrain(Size(width, height)),
+      contentWidth: contentWidth,
+      mark: mark,
+    );
+  }
+
+  @override
+  void performLayout() {
+    final layout = _plan(constraints, dry: false);
+    size = layout.size;
+    (_content.parentData! as _MarkedBarParentData).offset = Offset(
+      0,
+      (size.height - _content.size.height) / 2,
+    );
+    (_mark.parentData! as _MarkedBarParentData).offset = Offset(
+      size.width - layout.mark.width,
+      (size.height - layout.mark.height) / 2,
+    );
+  }
+
+  @override
+  void paint(PaintingContext context, Offset offset) {
+    context.paintChild(
+      _content,
+      (_content.parentData! as _MarkedBarParentData).offset + offset,
+    );
+    if (_showMark) {
+      context.paintChild(
+        _mark,
+        (_mark.parentData! as _MarkedBarParentData).offset + offset,
+      );
+    }
+  }
+
+  @override
+  bool hitTestChildren(BoxHitTestResult result, {required Offset position}) {
+    final data = _content.parentData! as _MarkedBarParentData;
+    return result.addWithPaintOffset(
+      offset: data.offset,
+      position: position,
+      hitTest: (result, transformed) =>
+          _content.hitTest(result, position: transformed),
+    );
+  }
 }
 
 class DetentScrollArea extends StatefulWidget {

@@ -45,7 +45,7 @@ void main() {
       await loader.load();
     }
   });
-  testWidgets('all 48 component cards render across themes and large text', (
+  testWidgets('all 50 component cards render across themes and large text', (
     t,
   ) async {
     t.view.devicePixelRatio = 1;
@@ -75,7 +75,7 @@ void main() {
         );
         await t.pump(const Duration(milliseconds: 200));
         expect(find.byType(DetentButton), findsWidgets);
-        for (var i = 1; i <= 48; i++) {
+        for (var i = 1; i <= 50; i++) {
           expect(find.text('C${i.toString().padLeft(2, '0')}'), findsOneWidget);
         }
         expect(

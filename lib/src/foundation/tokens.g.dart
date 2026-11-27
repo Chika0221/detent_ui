@@ -365,17 +365,18 @@ abstract final class DetentTokens {
   static const double perforation_depth_flat = 0.0;
   static const double perforation_depth_inset = 1.0;
   static const double perforation_depth_deep = 2.0;
-  static const double perforation_motion_fast = 90.0;
-  static const double perforation_motion_normal = 160.0;
-  static const double perforation_motion_slow = 220.0;
-  static const double perforation_motion_stagger = 18.0;
-  static const double perforation_motion_radius = 3.0;
-  static const double perforation_motion_intensity = 0.24;
-  static const perforation_motion_easing = <double>[0.2, 0.0, 0.0, 1.0];
   static const perforation_color_light_default = Color(0xFF59615D);
-  static const perforation_color_light_active = Color(0xFFE9CF48);
+  static const perforation_color_light_active = Color(0xFF202426);
   static const perforation_color_light_rim = Color(0xFF707974);
   static const perforation_color_dark_default = Color(0xFF090B0C);
-  static const perforation_color_dark_active = Color(0xFFE9CF48);
+  static const perforation_color_dark_active = Color(0xFFF2F4F1);
   static const perforation_color_dark_rim = Color(0xFF8A959A);
+  static const double perforation_grip_hole = 2.0;
+  static const double perforation_grip_gap = 4.0;
+  static const double perforation_grip_rows = 5.0;
+  static const double perforation_grip_columns = 2.0;
+  static const double perforation_mark_hole = 3.0;
+  static const double perforation_mark_gap = 4.0;
+  static const double perforation_mark_width = 52.0;
+  static const double perforation_mark_height = 14.0;
 }
