@@ -5,10 +5,12 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter/services.dart';
 
 import 'theme.dart';
+import 'tokens.g.dart';
 
 export 'package:flutter/widgets.dart';
 
 export 'theme.dart';
+export 'tokens.g.dart';
 
 class DetentSurface extends StatelessWidget {
   const DetentSurface({
@@ -184,6 +186,43 @@ class DetentIconAction extends StatelessWidget {
   }
 }
 
+/// The selection lamp (DESIGN_SYSTEM.md §5.10). Every selectable item in a
+/// set carries one: lit in `text.primary` when chosen, an unlit
+/// `border.control` ring otherwise. It is never yellow (principle 3) and
+/// stays the same size in every state so the layout never shifts.
+class DetentSelectionLamp extends StatelessWidget {
+  const DetentSelectionLamp({
+    super.key,
+    required this.lit,
+    this.enabled = true,
+  });
+  final bool lit, enabled;
+  @override
+  Widget build(BuildContext context) {
+    final t = DetentTheme.of(context);
+    final ring = lit ? t.ink : t.controlBorder;
+    return ExcludeSemantics(
+      child: Opacity(
+        opacity: enabled ? 1 : .5,
+        child: AnimatedContainer(
+          duration: t.duration(context, 120),
+          curve: const Cubic(.2, 0, .2, 1),
+          width: DetentTokens.selection_lamp_size,
+          height: DetentTokens.selection_lamp_size,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: lit ? t.ink : DetentColors.transparent,
+            border: Border.all(
+              color: ring,
+              width: DetentTokens.selection_lamp_stroke,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
 class DetentTile extends StatelessWidget {
   const DetentTile({
     super.key,
@@ -202,11 +241,21 @@ class DetentTile extends StatelessWidget {
     this.selectedTileColor,
     this.selectedColor,
     this.shape,
+    this.lamp = false,
   });
   final Widget title;
   final Widget? subtitle, leading, trailing;
   final VoidCallback? onTap;
   final bool dense, selected, enabled;
+
+  /// Marks the tile as one of a selectable set: it shows a
+  /// [DetentSelectionLamp] at its start (after [contentPadding], so tree
+  /// indentation stays intact) and a semibold title when [selected]. The
+  /// selection paints no surface.
+  ///
+  /// Without it, [selected] is a transient highlight (e.g. the active command
+  /// in a palette) filled with [selectedTileColor] or `bg.surface`.
+  final bool lamp;
   final EdgeInsetsGeometry contentPadding;
   final double? minTileHeight;
   final Color? tileColor, hoverColor, selectedTileColor, selectedColor;
@@ -215,8 +264,8 @@ class DetentTile extends StatelessWidget {
   Widget build(BuildContext context) => DetentInk(
     onTap: enabled ? onTap : null,
     selected: selected,
-    color: selected
-        ? selectedTileColor ?? DetentTheme.of(context).selectionSurface
+    color: selected && !lamp
+        ? selectedTileColor ?? DetentTheme.of(context).surface
         : tileColor,
     hoverColor: hoverColor,
     child: ConstrainedBox(
@@ -227,14 +276,18 @@ class DetentTile extends StatelessWidget {
         padding: contentPadding,
         child: Row(
           children: [
+            if (lamp) ...[
+              DetentSelectionLamp(lit: selected, enabled: enabled),
+              const SizedBox(width: DetentTokens.selection_lamp_gap),
+            ],
             if (leading != null) ...[leading!, const SizedBox(width: 8)],
             Expanded(
               child: DefaultTextStyle.merge(
                 style: TextStyle(
                   color: selected
-                      ? selectedColor ??
-                            DetentTheme.of(context).selectionForeground
+                      ? selectedColor ?? DetentTheme.of(context).ink
                       : null,
+                  fontWeight: selected && lamp ? FontWeight.w600 : null,
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,

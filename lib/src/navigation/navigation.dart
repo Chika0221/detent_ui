@@ -52,7 +52,7 @@ class _DetentTabsState<T> extends State<DetentTabs<T>> {
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: Row(
-          spacing: 14,
+          spacing: 4,
           children: [
             for (final tab in widget.tabs)
               Focus(
@@ -80,39 +80,60 @@ class _DetentTabsState<T> extends State<DetentTabs<T>> {
                 },
                 child: Semantics(
                   selected: widget.value == tab.value,
-                  child: _DetentAnimatedTab(
+                  // A tab is a destination: the lamp marks the open one and
+                  // the shared bottom rule is the only frame (§5.10).
+                  child: DetentInk(
+                    focusNode: nodes.putIfAbsent(tab.value, FocusNode.new),
                     selected: widget.value == tab.value,
-                    child: DetentInk(
-                      focusNode: nodes.putIfAbsent(tab.value, FocusNode.new),
-                      onTap: widget.onChanged == null
-                          ? null
-                          : () => widget.onChanged!(tab.value),
-                      child: ConstrainedBox(
-                        constraints: BoxConstraints(
-                          minHeight: DetentTheme.of(context).controlHeight + 4,
-                          minWidth: 228,
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 15),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Text('${tab.label}${tab.dirty ? ' •' : ''}'),
-                              if (tab.onClose != null) ...[
-                                const SizedBox(width: 8),
-                                DetentIconAction(
-                                  icon: const Icon(FLucideIcons.x, size: 16),
-                                  tooltip: '${tab.label}を閉じる',
-                                  padding: const EdgeInsets.all(2),
-                                  constraints: const BoxConstraints(
-                                    minWidth: 24,
-                                    minHeight: 24,
-                                  ),
-                                  onPressed: tab.onClose,
+                    onTap: widget.onChanged == null
+                        ? null
+                        : () => widget.onChanged!(tab.value),
+                    child: ConstrainedBox(
+                      constraints: BoxConstraints(
+                        minHeight: DetentTheme.of(context).controlHeight + 4,
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 12),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            DetentSelectionLamp(
+                              lit: widget.value == tab.value,
+                              enabled: widget.onChanged != null,
+                            ),
+                            const SizedBox(
+                              width: DetentTokens.selection_lamp_gap,
+                            ),
+                            // Unsaved is an asterisk, so it never reads
+                            // as a second lamp.
+                            Text(
+                              '${tab.label}${tab.dirty ? ' *' : ''}',
+                              semanticsLabel: tab.dirty
+                                  ? '${tab.label}（未保存）'
+                                  : null,
+                              style: TextStyle(
+                                fontWeight: widget.value == tab.value
+                                    ? FontWeight.w600
+                                    : null,
+                                color: widget.value == tab.value
+                                    ? DetentTheme.of(context).ink
+                                    : DetentTheme.of(context).muted,
+                              ),
+                            ),
+                            if (tab.onClose != null) ...[
+                              const SizedBox(width: 8),
+                              DetentIconAction(
+                                icon: const Icon(FLucideIcons.x, size: 16),
+                                tooltip: '${tab.label}を閉じる',
+                                padding: const EdgeInsets.all(2),
+                                constraints: const BoxConstraints(
+                                  minWidth: 24,
+                                  minHeight: 24,
                                 ),
-                              ],
+                                onPressed: tab.onClose,
+                              ),
                             ],
-                          ),
+                          ],
                         ),
                       ),
                     ),
@@ -126,54 +147,6 @@ class _DetentTabsState<T> extends State<DetentTabs<T>> {
   }
 }
 
-class _DetentAnimatedTab extends StatelessWidget {
-  const _DetentAnimatedTab({required this.selected, required this.child});
-  final bool selected;
-  final Widget child;
-  @override
-  Widget build(BuildContext context) => Stack(
-    children: [
-      Container(
-        margin: const EdgeInsets.only(bottom: 3),
-        decoration: BoxDecoration(
-          color: selected ? DetentTheme.of(context).raised : null,
-          borderRadius: BorderRadius.circular(DetentRadius.control),
-          boxShadow: selected && !DetentTheme.of(context).highContrast
-              ? [
-                  BoxShadow(
-                    color: DetentTheme.of(context).controlBorder,
-                    offset: const Offset(0, 2),
-                  ),
-                ]
-              : null,
-          border: Border.all(
-            color: selected
-                ? DetentTheme.of(context).controlBorder
-                : DetentColors.transparent,
-          ),
-        ),
-        child: child,
-      ),
-      Positioned(
-        left: 12,
-        right: 12,
-        bottom: 7,
-        height: 3,
-        child: AnimatedContainer(
-          duration: DetentTheme.of(context).duration(context, 160),
-          curve: const Cubic(.2, 0, .2, 1),
-          decoration: BoxDecoration(
-            color: selected
-                ? DetentTheme.of(context).ink
-                : DetentColors.transparent,
-            borderRadius: BorderRadius.circular(DetentRadius.mark),
-          ),
-        ),
-      ),
-    ],
-  );
-}
-
 class DetentNavigationRail<T> extends StatelessWidget {
   const DetentNavigationRail({
     super.key,
@@ -185,27 +158,74 @@ class DetentNavigationRail<T> extends StatelessWidget {
   final T value;
   final ValueChanged<T>? onChanged;
   @override
-  Widget build(BuildContext context) => Container(
-    color: DetentTheme.of(context).surface,
-    padding: const EdgeInsets.all(8),
-    child: Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        for (final o in options)
-          Padding(
-            padding: const EdgeInsets.only(bottom: 8),
-            child: DetentIconButton(
-              icon: o.icon ?? FLucideIcons.circle,
-              tooltip: o.label,
+  Widget build(BuildContext context) {
+    final t = DetentTheme.of(context);
+    // Flat destinations with a visible label under each icon; the lamp at the
+    // left marks the current one (DESIGN_SYSTEM.md §5.10).
+    return Container(
+      color: t.surface,
+      padding: const EdgeInsets.all(4),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        spacing: 4,
+        children: [
+          for (final o in options)
+            Semantics(
               selected: value == o.value,
-              onPressed: onChanged == null || !o.enabled
-                  ? null
-                  : () => onChanged!(o.value),
+              label: o.label,
+              excludeSemantics: true,
+              child: DetentInk(
+                selected: value == o.value,
+                onTap: onChanged == null || !o.enabled
+                    ? null
+                    : () => onChanged!(o.value),
+                child: SizedBox(
+                  width: 76,
+                  height: t.controlHeight + 16,
+                  child: Row(
+                    children: [
+                      const SizedBox(width: 6),
+                      DetentSelectionLamp(
+                        lit: value == o.value,
+                        enabled: onChanged != null && o.enabled,
+                      ),
+                      Expanded(
+                        child: Opacity(
+                          opacity: o.enabled ? 1 : .45,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                o.icon ?? FLucideIcons.circle,
+                                size: 16,
+                                color: value == o.value ? t.ink : t.muted,
+                              ),
+                              const SizedBox(height: 2),
+                              Text(
+                                o.label,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: t.textTheme.caption.copyWith(
+                                  color: value == o.value ? t.ink : t.muted,
+                                  fontWeight: value == o.value
+                                      ? FontWeight.w600
+                                      : null,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 6),
+                    ],
+                  ),
+                ),
+              ),
             ),
-          ),
-      ],
-    ),
-  );
+        ],
+      ),
+    );
+  }
 }
 
 class DetentSidebarItem extends StatelessWidget {
@@ -229,26 +249,25 @@ class DetentSidebarItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final t = DetentTheme.of(context);
-    return DetentSurface(
-      color: selected ? t.selectionSurface : DetentColors.transparent,
-      child: DetentTile(
-        dense: true,
-        contentPadding: EdgeInsets.only(left: 8 + depth * 16, right: 8),
-        minTileHeight: t.controlHeight,
-        selected: selected,
-        selectedColor: t.selectionForeground,
-        leading: icon == null ? null : Icon(icon, size: 16),
-        title: Text(label),
-        trailing:
-            trailing ??
-            (count == null
-                ? null
-                : Text(
-                    '$count',
-                    style: t.textTheme.caption.copyWith(color: t.muted),
-                  )),
-        onTap: onPressed,
-      ),
+    // The lamp alone marks the current destination; no surface, no chevron
+    // or check (DESIGN_SYSTEM.md §5.10).
+    return DetentTile(
+      dense: true,
+      lamp: true,
+      contentPadding: EdgeInsets.only(left: 8 + depth * 16, right: 8),
+      minTileHeight: t.controlHeight,
+      selected: selected,
+      leading: icon == null ? null : Icon(icon, size: 16),
+      title: Text(label),
+      trailing:
+          trailing ??
+          (count == null
+              ? null
+              : Text(
+                  '$count',
+                  style: t.textTheme.caption.copyWith(color: t.muted),
+                )),
+      onTap: onPressed,
     );
   }
 }
@@ -635,8 +654,9 @@ class _DetentCommandPaletteState extends State<DetentCommandPalette> {
                       itemBuilder: (context, i) {
                         final c = results[i];
                         return DetentTile(
+                          // The active command is a keyboard highlight,
+                          // not a selection, so it keeps a surface and no lamp.
                           selected: i == selected,
-                          selectedTileColor: DetentTheme.of(context).surface,
                           leading: c.icon == null ? null : Icon(c.icon),
                           title: Text(c.label),
                           subtitle: c.group.isEmpty ? null : Text(c.group),
