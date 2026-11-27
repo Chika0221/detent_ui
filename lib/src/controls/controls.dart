@@ -464,117 +464,102 @@ class _DetentSegmentedControlState<T> extends State<DetentSegmentedControl<T>> {
   @override
   Widget build(BuildContext context) {
     final w = widget, t = DetentTheme.of(context);
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        color: t.surface,
-        border: Border.all(color: t.controlBorder),
-        borderRadius: BorderRadius.circular(DetentRadius.menu),
+    // Only the chosen label is full ink; a disabled option fades further.
+    Color labelColor(DetentOption<T> o) => !o.enabled
+        ? t.muted.withValues(alpha: .5)
+        : o.value == w.value
+        ? t.ink
+        : t.muted;
+    // The groove, notches and sliding key are all painted by the skin; there
+    // is no separate outer frame.
+    return DetentControlSkin(
+      mechanism: 'SegmentedControl',
+      resize: true,
+      state: DetentControlState(
+        value: w.options.length < 2
+            ? 0
+            : w.options.indexWhere((o) => o.value == w.value) /
+                  (w.options.length - 1),
+        selectionCount: w.options.length.toDouble(),
+        enabled: w.onChanged != null,
       ),
-      child: Padding(
-        padding: const EdgeInsets.all(8),
-        child: DetentControlSkin(
-          mechanism: 'SegmentedControl',
-          resize: true,
-          state: DetentControlState(
-            value: w.options.length < 2
-                ? 0
-                : w.options.indexWhere((o) => o.value == w.value) /
-                      (w.options.length - 1),
-            selectionCount: w.options.length.toDouble(),
-            enabled: w.onChanged != null,
-          ),
-          inputBuilder: (context, painted) => LayoutBuilder(
-            builder: (ctx, c) {
-              final children = [
-                for (final o in w.options)
-                  Focus(
-                    canRequestFocus: false,
-                    skipTraversal: true,
-                    onKeyEvent: (_, e) {
-                      if (e is KeyUpEvent || w.onChanged == null) {
-                        return KeyEventResult.ignored;
-                      }
-                      final k = e.logicalKey;
-                      if (k != LogicalKeyboardKey.arrowLeft &&
-                          k != LogicalKeyboardKey.arrowRight) {
-                        return KeyEventResult.ignored;
-                      }
-                      final enabled = w.options
-                          .where((o) => o.enabled)
-                          .toList();
-                      if (enabled.isEmpty) return KeyEventResult.handled;
-                      final index =
-                          (enabled.indexOf(o) +
-                              (k == LogicalKeyboardKey.arrowRight ? 1 : -1)) %
-                          enabled.length;
-                      nodes[enabled[index].value]?.requestFocus();
-                      w.onChanged!(enabled[index].value);
-                      return KeyEventResult.handled;
-                    },
-                    child: DetentInk(
-                      focusNode: nodes.putIfAbsent(o.value, FocusNode.new),
-                      selected: o.value == w.value,
-                      onTap: w.onChanged == null || !o.enabled
-                          ? null
-                          : () => w.onChanged!(o.value),
-                      child: ConstrainedBox(
-                        constraints: BoxConstraints(
-                          minHeight: t.controlHeight + 10,
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(8),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              if (o.icon != null) ...[
-                                Icon(
-                                  o.icon,
-                                  size: 16,
-                                  color: o.value == w.value
-                                      ? t.selectionForeground
-                                      : t.ink,
-                                ),
-                                const SizedBox(width: 8),
-                              ],
-                              Flexible(
-                                child: Text(
-                                  o.label,
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    fontWeight: o.value == w.value
-                                        ? FontWeight.w600
-                                        : null,
-                                    color: !o.enabled
-                                        ? t.muted
-                                        : o.value == w.value
-                                        ? t.selectionForeground
-                                        : t.ink,
-                                  ),
-                                ),
+      inputBuilder: (context, painted) => LayoutBuilder(
+        builder: (ctx, c) {
+          final children = [
+            for (final o in w.options)
+              Focus(
+                canRequestFocus: false,
+                skipTraversal: true,
+                onKeyEvent: (_, e) {
+                  if (e is KeyUpEvent || w.onChanged == null) {
+                    return KeyEventResult.ignored;
+                  }
+                  final k = e.logicalKey;
+                  if (k != LogicalKeyboardKey.arrowLeft &&
+                      k != LogicalKeyboardKey.arrowRight) {
+                    return KeyEventResult.ignored;
+                  }
+                  final enabled = w.options.where((o) => o.enabled).toList();
+                  if (enabled.isEmpty) return KeyEventResult.handled;
+                  final index =
+                      (enabled.indexOf(o) +
+                          (k == LogicalKeyboardKey.arrowRight ? 1 : -1)) %
+                      enabled.length;
+                  nodes[enabled[index].value]?.requestFocus();
+                  w.onChanged!(enabled[index].value);
+                  return KeyEventResult.handled;
+                },
+                child: DetentInk(
+                  focusNode: nodes.putIfAbsent(o.value, FocusNode.new),
+                  selected: o.value == w.value,
+                  hoverColor: t.controlBorder.withValues(alpha: .08),
+                  onTap: w.onChanged == null || !o.enabled
+                      ? null
+                      : () => w.onChanged!(o.value),
+                  child: ConstrainedBox(
+                    constraints: BoxConstraints(minHeight: t.controlHeight + 4),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          if (o.icon != null) ...[
+                            Icon(o.icon, size: 16, color: labelColor(o)),
+                            const SizedBox(width: 8),
+                          ],
+                          Flexible(
+                            child: Text(
+                              o.label,
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontWeight: o.value == w.value
+                                    ? FontWeight.w600
+                                    : null,
+                                color: labelColor(o),
                               ),
-                            ],
+                            ),
                           ),
-                        ),
+                        ],
                       ),
                     ),
                   ),
-              ];
-              return c.hasBoundedWidth
-                  ? Row(
-                      children: [
-                        for (final child in children) Expanded(child: child),
-                      ],
-                    )
-                  : IntrinsicWidth(
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: children,
-                      ),
-                    );
-            },
-          ),
-        ),
+                ),
+              ),
+          ];
+          return c.hasBoundedWidth
+              ? Row(
+                  children: [
+                    for (final child in children) Expanded(child: child),
+                  ],
+                )
+              : IntrinsicWidth(
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: children,
+                  ),
+                );
+        },
       ),
     );
   }

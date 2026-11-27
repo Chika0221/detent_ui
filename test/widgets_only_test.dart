@@ -261,7 +261,7 @@ void main() {
             .descendant(of: component, matching: find.byType(CustomPaint))
             .first;
         expect(t.getSize(painter).width, greaterThan(400));
-        expect(t.getSize(painter).height, greaterThanOrEqualTo(50));
+        expect(t.getSize(painter).height, greaterThanOrEqualTo(44));
       }
     },
   );

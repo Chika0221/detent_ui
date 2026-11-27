@@ -152,6 +152,14 @@ class _StaticControlPainter extends CustomPainter {
       );
     }
 
+    void line(Offset from, Offset to, Color color) {
+      p
+        ..color = color
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 1;
+      canvas.drawLine(from, to, p);
+    }
+
     void circle(
       Offset center,
       double radius,
@@ -295,19 +303,62 @@ class _StaticControlPainter extends CustomPainter {
       circle(center, 10, theme.controlBorder, outline: true);
       circle(center, 5 * (selectionValue ?? 0).clamp(0.0, 1.0), theme.ink);
     } else if (mechanism == 'SegmentedControl') {
-      box(Offset.zero & size, theme.surface, 6);
-      final width = size.width / state.selectionCount.clamp(1, double.infinity);
+      // A recessed groove with detent notches between the options; the
+      // selection is a raised key in the Slider cap's language (offset base,
+      // grip lines) that slides from notch to notch and sinks when pressed.
+      final count = state.selectionCount.clamp(1, double.infinity).toInt();
+      final bed = (Offset.zero & size).deflate(.5);
+      // Light keeps the plain surface so the quiet labels hold 4.5:1; dark
+      // can afford a deeper tint. An inner top shadow carries the recess.
+      box(
+        bed,
+        theme.dark
+            ? Color.lerp(theme.surface, theme.controlBorder, .25)!
+            : theme.surface,
+        7,
+      );
+      canvas.save();
+      canvas.clipRRect(RRect.fromRectAndRadius(bed, const Radius.circular(7)));
+      p
+        ..color = theme.controlBorder.withValues(alpha: .35)
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 2;
+      canvas.drawRRect(
+        RRect.fromRectAndRadius(
+          bed.translate(0, 2).inflate(1),
+          const Radius.circular(8),
+        ),
+        p,
+      );
+      canvas.restore();
+      final width = size.width / count;
+      for (var i = 1; i < count; i++) {
+        final x = width * i;
+        line(Offset(x, 6), Offset(x, 12), theme.controlBorder);
+        line(
+          Offset(x, size.height - 12),
+          Offset(x, size.height - 6),
+          theme.controlBorder,
+        );
+      }
+      box(bed, theme.controlBorder, 7, outline: true);
       final x =
           (selectionValue ?? state.value).clamp(0.0, 1.0) *
           (size.width - width);
-      box(
-        Rect.fromLTWH(x + 4, 6, width - 8, size.height - 10),
-        theme.controlBorder,
-        6,
-      );
-      final face = Rect.fromLTWH(x + 4, 4, width - 8, size.height - 10);
-      box(face, theme.selectionSurface, 6);
-      box(face, theme.controlBorder, 6, outline: true);
+      final lift = 1.5 * press;
+      final key = Rect.fromLTWH(x + 5, 4 + lift, width - 10, size.height - 10);
+      box(key.shift(Offset(0, 2 - lift)), theme.controlBorder, 5);
+      box(key, theme.raised, 5);
+      box(key, theme.controlBorder, 5, outline: true);
+      if (key.width > 48) {
+        for (final dx in [8.0, 11.0, key.width - 11, key.width - 8]) {
+          line(
+            Offset(key.left + dx, key.top + 10),
+            Offset(key.left + dx, key.bottom - 10),
+            theme.controlBorder.withValues(alpha: .6),
+          );
+        }
+      }
     } else if (mechanism == 'Slider' || mechanism == 'RangeSlider') {
       final left = 24.0, right = size.width - 24;
       p
