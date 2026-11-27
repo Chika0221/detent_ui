@@ -28,7 +28,7 @@ void main() {
             ))
             .load();
       }
-      final boundary = GlobalKey(), segment = GlobalKey();
+      final boundary = GlobalKey();
       var value = 0;
       Widget row(String label, Widget child) => Padding(
         padding: const EdgeInsets.only(bottom: 16),
@@ -90,25 +90,22 @@ void main() {
                         ),
                         row(
                           'SegmentedControl',
-                          RepaintBoundary(
-                            key: segment,
-                            child: DetentSegmentedControl(
-                              options: const [
-                                DetentOption(0, '一覧', icon: FLucideIcons.list),
-                                DetentOption(
-                                  1,
-                                  'グリッド',
-                                  icon: FLucideIcons.layoutGrid,
-                                ),
-                                DetentOption(
-                                  2,
-                                  '比較',
-                                  icon: FLucideIcons.columns2,
-                                ),
-                              ],
-                              value: value,
-                              onChanged: (v) => set(() => value = v),
-                            ),
+                          DetentSegmentedControl(
+                            options: const [
+                              DetentOption(0, '一覧', icon: FLucideIcons.list),
+                              DetentOption(
+                                1,
+                                'グリッド',
+                                icon: FLucideIcons.layoutGrid,
+                              ),
+                              DetentOption(
+                                2,
+                                '比較',
+                                icon: FLucideIcons.columns2,
+                              ),
+                            ],
+                            value: value,
+                            onChanged: (v) => set(() => value = v),
                           ),
                         ),
                       ],
@@ -144,27 +141,14 @@ void main() {
 
       await t.pump(const Duration(milliseconds: 300));
       await capture(boundary, '/tmp/detent-component-detail.png');
-      for (var i = 0; i < 60; i++) {
-        if ([6, 18, 30].contains(i)) {
-          await t.tap(
-            find.descendant(
-              of: find.byType(DetentSegmentedControl<int>),
-              matching: find.text(
-                i == 6
-                    ? '比較'
-                    : i == 18
-                    ? '一覧'
-                    : 'グリッド',
-              ),
-            ),
-          );
-        }
-        await t.pump(const Duration(milliseconds: 16));
-        await capture(
-          segment,
-          '/tmp/detent-slide-${i.toString().padLeft(2, '0')}.png',
-        );
-      }
+      // Choosing an option moves the lit lamp; nothing slides (§5.10).
+      await t.tap(
+        find.descendant(
+          of: find.byType(DetentSegmentedControl<int>),
+          matching: find.text('グリッド'),
+        ),
+      );
+      await t.pump();
       expect(value, 1);
       expect(t.takeException(), isNull);
       await t.pumpWidget(const SizedBox());

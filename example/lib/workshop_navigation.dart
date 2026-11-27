@@ -1,6 +1,9 @@
 import 'package:detent_ui/detent_ui.dart';
 import 'package:flutter/widgets.dart';
 
+/// The gallery's own navigation row. Like every selectable item it marks the
+/// current section with the selection lamp only: no surface, chevron or check
+/// (DESIGN_SYSTEM.md §5.10).
 class WorkshopNavigationItem extends StatelessWidget {
   const WorkshopNavigationItem({
     super.key,
@@ -20,31 +23,20 @@ class WorkshopNavigationItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = DetentTheme.of(context);
-    final foreground = selected ? theme.selectionForeground : theme.ink;
-    return IconTheme.merge(
-      data: IconThemeData(color: foreground),
-      child: DetentTile(
-        leading: Icon(icon),
-        title: Text(label),
-        subtitle: description == null
-            ? null
-            : Text(
-                description!,
-                style: theme.textTheme.caption.copyWith(
-                  color: selected ? foreground : theme.muted,
-                ),
-              ),
-        trailing: Icon(
-          selected ? FLucideIcons.check : FLucideIcons.chevronRight,
-        ),
-        selected: selected,
-        selectedTileColor: theme.selectionSurface,
-        hoverColor: selected ? theme.selectionSurface : theme.surface,
-        selectedColor: foreground,
-        minTileHeight: theme.controlHeight + 8,
-        contentPadding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
-        onTap: onPressed,
-      ),
+    return DetentTile(
+      lamp: true,
+      leading: Icon(icon),
+      title: Text(label),
+      subtitle: description == null
+          ? null
+          : Text(
+              description!,
+              style: theme.textTheme.caption.copyWith(color: theme.muted),
+            ),
+      selected: selected,
+      minTileHeight: theme.controlHeight + 8,
+      contentPadding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+      onTap: onPressed,
     );
   }
 }
