@@ -2354,5 +2354,31 @@
         }
       }
     }
+  },
+  "selection": {
+    "$description": "選択の表示灯（DESIGN_SYSTEM.md §5.10）。点灯は text.primary、消灯は border.control の輪郭。",
+    "lamp": {
+      "size": {
+        "$type": "dimension",
+        "$value": {
+          "value": 6,
+          "unit": "px"
+        }
+      },
+      "gap": {
+        "$type": "dimension",
+        "$value": {
+          "value": 8,
+          "unit": "px"
+        }
+      },
+      "stroke": {
+        "$type": "dimension",
+        "$value": {
+          "value": 1,
+          "unit": "px"
+        }
+      }
+    }
   }
 }
