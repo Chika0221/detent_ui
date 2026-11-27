@@ -32,6 +32,36 @@ bright_green = "#343d41"
 background = "#ffffff"
 ''';
 
+// Current Omarchy schema with semantic shades (flexoki-light).
+const _flexoki = '''
+mode = "light"
+accent = "#205EA6"
+selection = "#CECDC3"
+muted = "#B7B5AC"
+background = "#FFFCF0"
+dark_background = "#f2efe4"
+darker_background = "#e5e2d8"
+lighter_background = "#E6E4D9"
+foreground = "#100F0F"
+dark_foreground = "#878580"
+light_foreground = "#403E3C"
+bright_foreground = "#100F0F"
+red = "#D14D41"
+yellow = "#D0A215"
+green = "#879A39"
+blue = "#205EA6"
+''';
+
+// Pre-semantic theme with short and ANSI names only.
+const _legacy = '''
+bg = "#282828"
+fg = "#ebdbb2"
+color1 = "#cc241d"
+color2 = "#98971a"
+color4 = "#458588"
+color8 = "#928374"
+''';
+
 void main() {
   test('parses colors.toml values and hex formats', () {
     final theme = OmarchyTheme.parse(_latte);
@@ -70,6 +100,67 @@ void main() {
       contrastRatio(palette.muted, palette.canvas),
       greaterThanOrEqualTo(4.5),
     );
+  });
+
+  test('uses the semantic keys other Omarchy apps use', () {
+    final palette = OmarchyTheme.parse(_flexoki).toPalette();
+    expect(palette.canvas, const Color(0xFFFFFCF0));
+    expect(palette.chrome, const Color(0xFFF2EFE4)); // dark_background
+    expect(palette.surface, const Color(0xFFE6E4D9)); // lighter_background
+    expect(palette.border, const Color(0xFFB7B5AC)); // muted
+    expect(palette.selectionSurface, const Color(0xFFCECDC3)); // selection
+    expect(palette.selectionForeground, const Color(0xFF100F0F));
+    // Text on accent fills is the background, as in Omarchy templates.
+    expect(palette.accentInk, const Color(0xFFFFFCF0));
+    expect(palette.warning, isNotNull);
+    expect(palette.info, isNotNull);
+    // Secondary text starts from dark_foreground and is darkened until legible.
+    expect(
+      contrastRatio(palette.muted, palette.canvas),
+      greaterThanOrEqualTo(4.5),
+    );
+    expect(
+      HSLColor.fromColor(palette.muted).hue,
+      closeTo(HSLColor.fromColor(const Color(0xFF878580)).hue, 15),
+    );
+  });
+
+  test('resolves legacy themes like omarchy-theme-color', () {
+    final theme = OmarchyTheme.parse(_legacy);
+    expect(theme.color('background'), const Color(0xFF282828));
+    expect(theme.color('red'), const Color(0xFFCC241D));
+    expect(theme.resolved['muted'], '#928374');
+    expect(theme.resolved['dark_background'], '#1e1e1e');
+    expect(theme.resolved['bright_red'], '#d6504a');
+    final palette = theme.toPalette();
+    expect(palette.brightness, Brightness.dark);
+    expect(palette.ink, const Color(0xFFEBDBB2));
+    // Gruvbox red is too dark on its canvas; it is lightened, not replaced.
+    expect(
+      contrastRatio(palette.danger, palette.canvas),
+      greaterThanOrEqualTo(3),
+    );
+    expect(
+      HSLColor.fromColor(palette.danger).hue,
+      closeTo(HSLColor.fromColor(const Color(0xFFCC241D)).hue, 2),
+    );
+  });
+
+  test('resolves mode with Omarchy precedence', () {
+    Brightness mode(String toml, {bool lightModeFile = false}) =>
+        OmarchyTheme.parse(toml, lightModeFile: lightModeFile).brightness;
+    expect(
+      mode('theme_type = "light"\nbackground = "#000000"'),
+      Brightness.light,
+    );
+    expect(
+      mode('background = "#202020"', lightModeFile: true),
+      Brightness.light,
+    );
+    // RGB sum above 382 counts as light even below 0.5 relative luminance.
+    expect(mode('background = "#8a8a8a"'), Brightness.light);
+    expect(mode('background = "#7f7f7f"'), Brightness.dark);
+    expect(mode('mode = "dark"\nbackground = "#ffffff"'), Brightness.dark);
   });
 
   test('falls back when status colors are not recognisable', () {
